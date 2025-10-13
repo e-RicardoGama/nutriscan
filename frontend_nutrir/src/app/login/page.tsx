@@ -1,19 +1,21 @@
-// frontend_nutri/src/app/login/page.tsx - VERSÃO CORRIGIDA E FINAL
+// frontend_nutri/src/app/login/page.tsx - VERSÃO INTEGRADA COM AuthContext
 
 "use client";
 
 import { useState } from 'react';
-import api from '../../services/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
+import { useAuth } from '../../context/AuthContext'; // ✅ 1. IMPORTAMOS o useAuth
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  
+  const { login } = useAuth(); // ✅ 2. OBTEMOS a função de login do nosso contexto
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,40 +23,39 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // ✅ CORREÇÃO: Converte os dados para o formato de formulário
-      const formData = new URLSearchParams();
-      formData.append('username', email);
-      formData.append('password', password);
-
-      // A chamada agora envia os dados no formato correto
-      const response = await api.post('/auth/login', formData, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
-
-      const { access_token } = response.data;
-      localStorage.setItem('authToken', access_token);
+      await login(email, password);
       
-      console.log('✅ Login bem-sucedido!');
-      router.push('/'); 
+      console.log('✅ Login bem-sucedido via AuthContext!');
+      router.push('/');
 
-    } catch (err) {
-      const error = err as AxiosError<{ detail?: string }>;
-      console.error('❌ Falha no login:', error);
+    } catch (err) { // ✅ REMOVIDO o ": any"
+      console.error('❌ Falha no login:', err);
       
-      // ✅ Mensagem mais específica
-      const errorMessage = error.response?.data?.detail || 'E-mail ou senha incorretos.';
+      let errorMessage = 'Ocorreu um erro inesperado.'; // Mensagem padrão
+
+      // ✅ ADICIONADO: Verificamos se o erro é uma instância de AxiosError
+      // Esta é a forma mais segura de tratar erros de API com Axios
+      if (err instanceof AxiosError) {
+        // Agora o TypeScript sabe que 'err' tem a propriedade 'response'
+        errorMessage = err.response?.data?.detail || 'E-mail ou senha incorretos.';
+      } else if (err instanceof Error) {
+        // Se for um erro genérico, podemos usar sua mensagem
+        errorMessage = err.message;
+      }
+      
       setError(errorMessage);
+
     } finally {
-    setLoading(false);  // ✅ Finaliza loading
+      setLoading(false);
     }
   };
-
 
   return (
     <main className="flex justify-center items-center min-h-screen font-sans bg-gray-100 p-4">
       <div className="container mx-auto max-w-md bg-white shadow-2xl rounded-2xl p-8">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-4 text-center">Login</h1>
         <form onSubmit={handleLogin}>
+          {/* O restante do seu formulário JSX continua exatamente o mesmo */}
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
             <input

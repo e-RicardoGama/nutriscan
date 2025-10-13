@@ -12,7 +12,12 @@ from app.schemas.vision_alimentos import AlimentoPublic, AnaliseCompletaResponse
 from app.services import refeicao_service
 from app.vision import analisar_imagem_do_prato_detalhado, obter_nutrientes_do_gemini, escanear_prato_extrair_alimentos
 
-router = APIRouter(prefix="/api", tags=["vision", "alimentos"])
+#router = APIRouter(prefix="/api", tags=["vision", "alimentos"])
+
+router = APIRouter(
+    prefix="/refeicoes", 
+    tags=["Refeições e Análise de Visão"]
+)
 
 @router.get("/alimentos/buscar-por-nome", response_model=AlimentoPublic, summary="Busca a melhor correspondência para um nome de alimento")
 def buscar_alimento_especifico(nome: str, db: Session = Depends(get_db)):
@@ -46,7 +51,7 @@ def buscar_alimentos(q: str, db: Session = Depends(get_db)):
     return resultados
 
 # ADICIONADO `response_model` PARA GARANTIR A VALIDAÇÃO CORRETA DA RESPOSTA
-@router.post("/refeicoes/analisar-imagem-detalhado", 
+@router.post("/analisar-imagem-detalhado", 
              response_model=AnaliseCompletaResponse, 
              summary="Analisa imagem detalhadamente")
 async def analisar_imagem_detalhada(file: UploadFile = File(...)):
@@ -63,7 +68,7 @@ async def analisar_imagem_detalhada(file: UploadFile = File(...)):
         print(f"Erro no endpoint: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erro interno no servidor: {str(e)}")
 
-@router.post("/refeicoes/scan-rapido")
+@router.post("/scan-rapido")
 async def scan_rapido(imagem: UploadFile = File(...)):
     if not imagem.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem")
