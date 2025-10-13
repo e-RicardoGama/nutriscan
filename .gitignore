@@ -179,3 +179,36 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Arquivo de segredos - NUNCA FAÇA COMMIT DELE!
+.env
+.env.*
+
+# Dependências do Node.js
+node_modules/
+
+# Arquivos de build e cache do Next.js/React
+.next/
+build/
+dist/
+.vercel/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente Virtual do Python
+.venv
+venv
+env
+*.pyc
+__pycache__/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de editores de código
+.vscode/
+.idea/
