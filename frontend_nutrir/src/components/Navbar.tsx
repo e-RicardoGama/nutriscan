@@ -42,7 +42,7 @@ export default function Navbar({ onLogout }: NavbarProps) {
   return (
     <nav className="sticky top-0 z-50 bg-transparent">
       {/* ✅ CORREÇÃO APLICADA AQUI: Adicionado padding para criar as "margens" */}
-      <div className="w-full px-4 md:px-4 py-4">
+      <div className="w-full px- md:px-8 py-1">
         {/* Card padrão do app */}
         <div className="w-full bg-white shadow-md rounded-lg border-l-4 border-green-500">
           <div className="p-4 md:p-6">
