@@ -48,49 +48,59 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
 
 def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
     """
-    Retorna análise detalhada em formato JSON estruturado.
+    Retorna análise detalhada em formato JSON estruturado
     """
     model = genai.GenerativeModel('models/gemini-2.5-flash')
-    
-    prompt_detalhado = """
-    Você é um nutricionista especialista. Analise a foto e forneça um relatório em JSON EXATAMENTE com esta estrutura:
 
-    {
-        "detalhes_prato": {
-            "alimentos": [
-                {
-                    "nome": "nome do alimento",
-                    "quantidade_gramas": 150,
-                    "metodo_preparo": "descrição do método"
-                }
-            ]
-        },
-        "analise_nutricional": {
-            "calorias_totais": 500,
-            "macronutrientes": {
-                "proteinas_g": 30,
-                "carboidratos_g": 45,
-                "gorduras_g": 20
-            },
-            "vitaminas_minerais": ["Vitamina A", "Vitamina C"]
-        },
-        "recomendacoes": {
-            "pontos_positivos": ["ponto 1", "ponto 2"],
-            "sugestoes_balanceamento": ["sugestão 1", "sugestão 2"],
-            "alternativas_saudaveis": ["alternativa 1", "alternativa 2"]
-        }
-    }
+    prompt_detalhado = """Você é um nutricionista especialista. Analise esta foto de comida e forneça um relatório estruturado em JSON com as seguintes seções:
 
-    Forneça APENAS o JSON, sem markdown ou texto adicional.
-    """
-    
+{
+  "detalhes_prato": {
+    "alimentos": [
+      {
+        "nome": "string",
+        "quantidade_gramas": "number",
+        "metodo_preparo": "string"
+      }
+    ]
+  },
+  "analise_nutricional": {
+    "calorias_totais": "number",
+    "macronutrientes": {
+      "proteinas_g": "number",
+      "carboidratos_g": "number",
+      "gorduras_g": "number"
+    },
+    "vitaminas_minerais": ["string"]
+  },
+  "recomendacoes": {
+    "pontos_positivos": ["string"],
+    "sugestoes_balanceamento": ["string"],
+    "alternativas_saudaveis": ["string"]
+  }
+}
+
+Forneça APENAS o JSON, sem texto adicional."""
+
     try:
-        logger.info("Enviando imagem para análise detalhada com o Gemini...")
+        logger.info("-> Enviando imagem para análise detalhada com o Gemini 2.5 Flash...")
         img = Image.open(BytesIO(conteudo_imagem))
+        
         response = model.generate_content([prompt_detalhado, img])
-        return extrair_json_da_resposta(response.text)
+        
+        # 🔍 DEBUG: Log da resposta bruta
+        logger.info(f"Resposta bruta do Gemini: {response.text}")
+        
+        # Usa a nova função auxiliar para extrair JSON
+        resultado = extrair_json_da_resposta(response.text)
+        
+        # 🔍 DEBUG: Log do resultado processado
+        logger.info(f"Resultado processado: {resultado}")
+        
+        return resultado
+        
     except Exception as e:
-        logger.error(f"Falha na comunicação com a API do Gemini: {e}")
+        logger.error(f"ERRO: Falha na comunicação com a API do Gemini: {e}")
         return {"erro": "Desculpe, não foi possível analisar a imagem no momento."}
 
 # ======================================================================
