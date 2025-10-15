@@ -4,6 +4,7 @@ steps:
   # Ele usa o Dockerfile que criamos no passo anterior.
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA', '.']
+    dir: 'backend' # Linha adicionada para especificar o diretório correto
 
   # Etapa 2: Envia a imagem construída para o Artifact Registry do Google.
   # É como se fosse um "Docker Hub" privado para o seu projeto.
@@ -19,11 +20,9 @@ steps:
       - 'deploy'
       - 'nutriscan-backend' # Este será o nome do seu serviço no Cloud Run.
       - '--image=gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA'
-      - '--region=us-central1' # IMPORTANTE: Escolha a região mais próxima de você ou de seus usuários. ex: southamerica-east1 (São Paulo)
+      - '--region=southamerica-east1' # Mudei para a região de São Paulo
       - '--platform=managed'
-      - '--allow-unauthenticated' # Permite que qualquer pessoa acesse a API. Se for privada, remova esta linha.
-      # A linha mágica: conecta o segredo que criamos à sua aplicação como uma variável de ambiente.
-      # Seu código Python agora pode ler a variável 'DATABASE_URL' para se conectar ao banco.
+      - '--allow-unauthenticated'
       - '--set-secrets=DATABASE_URL=NEON_DB_CONNECTION_STRING:latest'
       - '--quiet'
 
