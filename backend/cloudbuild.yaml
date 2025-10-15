@@ -23,7 +23,7 @@ steps:
       - '--region=southamerica-east1' # Mudei para a região de São Paulo
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--set-secrets=DATABASE_URL=NEON_DB_CONNECTION_STRING:latest'
+      - '--set-secrets=DATABASE_URL=DATABASE_URL:latest'
       - '--quiet'
 
 # Opções para a build
