@@ -2,15 +2,14 @@ steps:
   # Etapa 1: Instala as dependências do Node.js
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
-    dir: 'frontend' # Adicionado para garantir que rode na pasta certa
+    dir: 'frontend'
 
-  # Etapa 2: Executa o comando de build (que agora também exporta para a pasta 'out')
+  # Etapa 2: Executa o comando de build
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
-    dir: 'frontend' # Adicionado para garantir que rode na pasta certa
+    dir: 'frontend'
 
   # Etapa 3: Faz o deploy para o Firebase Hosting
-  # Usamos um 'passo' especial que já tem as ferramentas do firebase instaladas
   - name: 'gcr.io/firebase/firebase'
     args:
       - 'deploy'
@@ -20,12 +19,14 @@ steps:
       - '$PROJECT_ID'
       - '--non-interactive'
       - '--token'
-      - '$$FIREBASE_TOKEN' # Usa o token que pegamos do Secret Manager
-    secretEnv: ['FIREBASE_TOKEN'] # Informa que esta etapa precisa da variável de segredo
+      - '$$FIREBASE_TOKEN'
+    secretEnv: ['FIREBASE_TOKEN']
 
-# AQUI ESTÁ A MÁGICA:
-# Disponibiliza o segredo para ser usado durante o build.
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/FIREBASE_TOKEN/versions/latest
-      env: 'FIREBASE_TOKEN' # Mapeia o segredo para uma variável de ambiente chamada FIREBASE_TOKEN
+      env: 'FIREBASE_TOKEN'
+
+# Opções para a build (SEÇÃO ADICIONADA)
+options:
+  logging: CLOUD_LOGGING_ONLY
