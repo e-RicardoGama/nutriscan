@@ -1,5 +1,5 @@
 steps:
-  # Etapa 1: Instala as dependências usando uma imagem do Node.js v18 (LTS)
+  # Etapa 1: Instala as dependências usando uma imagem do Node.js v18
   - name: 'node:18'
     entrypoint: 'npm'
     args: ['install']
@@ -11,9 +11,11 @@ steps:
     args: ['run', 'build']
     dir: 'frontend'
 
-  # Etapa 3: Faz o deploy para o Firebase Hosting
-  - name: 'us-central1-docker.pkg.dev/firebase-hosting-producers/firebase'
+  # ETAPA 3 (ATUALIZADA): Instala e executa o Firebase Tools diretamente
+  - name: 'node:18'
+    entrypoint: 'npx' # Usamos npx para executar o pacote sem instalar globalmente
     args:
+      - 'firebase-tools' # O pacote a ser executado
       - 'deploy'
       - '--only'
       - 'hosting'
@@ -23,6 +25,7 @@ steps:
       - '--token'
       - '$$FIREBASE_TOKEN'
     secretEnv: ['FIREBASE_TOKEN']
+    dir: 'frontend' # Garante que o comando rode na pasta com o firebase.json
 
 availableSecrets:
   secretManager:
