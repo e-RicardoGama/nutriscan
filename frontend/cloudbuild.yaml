@@ -11,8 +11,8 @@ steps:
     args: ['run', 'build']
     dir: 'frontend'
 
-  # Etapa 3: Faz o deploy para o Firebase Hosting (esta etapa não muda)
-  - name: 'gcr.io/firebase/firebase'
+  # Etapa 3: Faz o deploy para o Firebase Hosting
+  - name: 'us-central1-docker.pkg.dev/firebase-hosting-producers/firebase'
     args:
       - 'deploy'
       - '--only'
