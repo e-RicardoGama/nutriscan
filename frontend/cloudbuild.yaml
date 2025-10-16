@@ -1,36 +1,35 @@
 steps:
-  # Etapa 1: Instala as dependências usando uma imagem do Node.js v18
+  # Etapa 1: Instala dependências (sem mudança)
   - name: 'node:18'
     entrypoint: 'npm'
     args: ['install']
     dir: 'frontend'
 
-  # Etapa 2: Executa o build usando a mesma imagem do Node.js v18
+  # Etapa 2: Build do Next.js (sem mudança)
   - name: 'node:18'
     entrypoint: 'npm'
     args: ['run', 'build']
     dir: 'frontend'
 
-  # ETAPA 3 (ATUALIZADA): Instala e executa o Firebase Tools diretamente
-  - name: 'node:18'
-    entrypoint: 'npx' # Usamos npx para executar o pacote sem instalar globalmente
+  # NOVA ETAPA 3: Baixa a chave secreta e a salva em um arquivo
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
-      - 'firebase-tools' # O pacote a ser executado
-      - 'deploy'
-      - '--only'
-      - 'hosting'
-      - '--project'
-      - '$PROJECT_ID'
-      - '--non-interactive'
-      - '--token'
-      - '$$FIREBASE_TOKEN'
-    secretEnv: ['FIREBASE_TOKEN']
-    dir: 'frontend' # Garante que o comando rode na pasta com o firebase.json
+      - '-c'
+      - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > key.json'
+    dir: 'frontend'
 
-availableSecrets:
-  secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/FIREBASE_TOKEN/versions/latest
-      env: 'FIREBASE_TOKEN'
+  # ETAPA 4 ATUALIZADA: Faz o deploy usando a chave, não o token
+  - name: 'node:18'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        export GOOGLE_APPLICATION_CREDENTIALS=key.json && \
+        npx firebase-tools deploy --only hosting --project $PROJECT_ID --non-interactive
+    dir: 'frontend'
 
+# NÃO PRECISAMOS MAIS DO TOKEN ANTIGO
+# As permissões da conta de serviço já dão acesso a este novo segredo.
 options:
   logging: CLOUD_LOGGING_ONLY
