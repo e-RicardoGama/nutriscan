@@ -40,5 +40,28 @@ export const getAccessToken = (): string | null => {
   return accessToken;
 };
 
+// ✅ ADICIONE interceptors para debug
+api.interceptors.request.use(
+  (config) => {
+    console.log('🔄 Fazendo requisição para:', config.url);
+    return config;
+  },
+  (error) => {
+    console.error('❌ Erro na requisição:', error);
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    console.log('✅ Resposta recebida:', response.status);
+    return response;
+  },
+  (error) => {
+    console.error('❌ Erro na resposta:', error.response?.data || error.message);
+    return Promise.reject(error);
+  }
+);
+
 
 export default api;

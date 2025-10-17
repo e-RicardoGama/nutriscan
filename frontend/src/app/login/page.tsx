@@ -5,7 +5,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { AxiosError } from 'axios';
 import { useAuth } from '../../context/AuthContext'; // ✅ 1. IMPORTAMOS o useAuth
 
 export default function LoginPage() {
@@ -17,34 +16,36 @@ export default function LoginPage() {
   
   const { login } = useAuth(); // ✅ 2. OBTEMOS a função de login do nosso contexto
 
+  // ✅ ADICIONE headers explícitos na requisição de login
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      await login(email, password);
+      // Teste simples de CORS primeiro
+      const testResponse = await fetch('https://nutriscan-backend-925272362555.southamerica-east1.run.app/health', {
+        method: 'GET',
+        mode: 'cors',
+      });
       
-      console.log('✅ Login bem-sucedido via AuthContext!');
+      if (!testResponse.ok) {
+        throw new Error('Problema de CORS na API');
+      }
+
+      // Se o teste passar, faz o login
+      await login(email, password);
+      console.log('✅ Login bem-sucedido!');
       router.push('/');
 
-    } catch (err) { // ✅ REMOVIDO o ": any"
+    } catch (err) {
       console.error('❌ Falha no login:', err);
       
-      let errorMessage = 'Ocorreu um erro inesperado.'; // Mensagem padrão
-
-      // ✅ ADICIONADO: Verificamos se o erro é uma instância de AxiosError
-      // Esta é a forma mais segura de tratar erros de API com Axios
-      if (err instanceof AxiosError) {
-        // Agora o TypeScript sabe que 'err' tem a propriedade 'response'
-        errorMessage = err.response?.data?.detail || 'E-mail ou senha incorretos.';
-      } else if (err instanceof Error) {
-        // Se for um erro genérico, podemos usar sua mensagem
-        errorMessage = err.message;
+      if (err instanceof Error && err.message.includes('CORS')) {
+        setError('Problema de configuração na API. Tente novamente mais tarde.');
+      } else {
+        setError('E-mail ou senha incorretos.');
       }
-      
-      setError(errorMessage);
-
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-# main.py
+# main.py - CONFIGURAÇÃO CORS CORRIGIDA
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -16,31 +16,29 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Permite TODAS as origens para garantir que o CORS não seja o problema.
-origins = ["*"]
+# ✅ CONFIGURAÇÃO CORS CORRIGIDA
+origins = [
+    "https://gen-lang-client-0450724380.web.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 
-# CONFIGURAÇÃO CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins,  # ✅ Específico em vez de "*"
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 app.include_router(vision_router)
 app.include_router(auth_router)
 app.include_router(usuarios_router)
 app.include_router(conversoes_router)
 
-
-# ✅ MUDANÇA PARA VERIFICAÇÃO
 @app.get("/")
 def read_root():
-    # Adicionamos uma versão para sabermos que o deploy funcionou.
-    return {"status": "API AppNutri está no ar!", "version": "2.0-CORS-FIXED"}
-
+    return {"status": "API AppNutri está no ar!", "version": "3.0-CORS-FIXED"}
 
 @app.get("/health")
 def health_check():
