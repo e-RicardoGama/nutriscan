@@ -1,32 +1,28 @@
-# Estas são as etapas que o Cloud Build executará, em ordem.
 steps:
-  # Etapa 1: Constrói a imagem do contêiner.
-  # Ele usa o Dockerfile que criamos no passo anterior.
+  # Etapa 1: Constrói a imagem do contêiner
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA', '.']
-    dir: 'backend' # Linha adicionada para especificar o diretório correto
+    dir: 'backend'
 
-  # Etapa 2: Envia a imagem construída para o Artifact Registry do Google.
-  # É como se fosse um "Docker Hub" privado para o seu projeto.
+  # Etapa 2: Envia a imagem para o registro de contêineres do Google
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA']
 
-  # Etapa 3: Implanta a imagem no Cloud Run.
-  # Esta é a etapa que realmente publica sua aplicação.
+  # Etapa 3: Faz o deploy no Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       - 'run'
       - 'deploy'
-      - 'nutriscan-backend' # Este será o nome do seu serviço no Cloud Run.
+      - 'nutriscan-backend'
       - '--image=gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA'
-      - '--region=southamerica-east1' # Mudei para a região de São Paulo
+      - '--region=southamerica-east1'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--set-secrets=DATABASE_URL=DATABASE_URL:latest'
+      - '--set-secrets=DATABASE_URL=NEON_DB_CONNECTION_STRING:latest'
+      # ✅ ADICIONADO: Define a chave secreta para o JWT
+      - '--set-env-vars=SECRET_KEY=c94a01fa5a52c4308234259d6cf653baa1078c6223b93175a784181ae9642d2f'
       - '--quiet'
 
-# Opções para a build
 options:
-  # Isso define o nível de permissão que o robô do Cloud Build terá.
   logging: CLOUD_LOGGING_ONLY
