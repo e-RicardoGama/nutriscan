@@ -5,13 +5,14 @@ steps:
     args: ['install']
     dir: 'frontend'
 
-  # Etapa 2: Build do Next.js COM A VARIÁVEL DE AMBIENTE DE PRODUÇÃO
+  # Etapa 2: Build do Next.js (FORÇANDO A VARIÁVEL DE AMBIENTE)
   - name: 'node:18'
-    entrypoint: 'npm'
-    args: ['run', 'build']
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        NEXT_PUBLIC_API_URL="https://nutriscan-backend-925272362555.southamerica-east1.run.app" npm run build
     dir: 'frontend'
-    env:
-      - 'NEXT_PUBLIC_API_URL=https://nutriscan-backend-925272362555.southamerica-east1.run.app'
 
   # Etapa 3: Baixa a chave secreta e a salva em um arquivo
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -33,3 +34,4 @@ steps:
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
