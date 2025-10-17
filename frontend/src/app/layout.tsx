@@ -9,7 +9,7 @@ import { AuthProvider } from '../context/AuthContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "NutriScan",
+  title: "Nutri",
   description: "Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial.",
 };
 

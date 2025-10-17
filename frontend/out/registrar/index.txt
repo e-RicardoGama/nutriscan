@@ -15,5 +15,5 @@ f:"$Sreact.suspense"
 7:"$0:f:0:1:2:children:2:children:1:props:children:0:props:params"
 d:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
 9:null
-b:{"metadata":[["$","title","0",{"children":"NutriScan"}],["$","meta","1",{"name":"description","content":"Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial."}]],"error":null,"digest":"$undefined"}
+b:{"metadata":[["$","title","0",{"children":"Nutri"}],["$","meta","1",{"name":"description","content":"Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial."}]],"error":null,"digest":"$undefined"}
 10:"$b:metadata"
