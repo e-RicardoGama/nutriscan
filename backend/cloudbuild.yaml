@@ -19,10 +19,11 @@ steps:
       - '--region=southamerica-east1'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--set-secrets=DATABASE_URL=NEON_DB_CONNECTION_STRING:latest'
-      # ✅ ADICIONADO: Define a chave secreta para o JWT
+      # ✅ CORREÇÃO: Altere o nome do segredo para o nome correto que está no Secret Manager
+      - '--set-secrets=DATABASE_URL=DATABASE_URL:latest' # Exemplo: se o seu segredo se chama DATABASE_URL
       - '--set-env-vars=SECRET_KEY=c94a01fa5a52c4308234259d6cf653baa1078c6223b93175a784181ae9642d2f'
       - '--quiet'
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
