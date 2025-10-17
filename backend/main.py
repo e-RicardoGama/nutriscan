@@ -16,14 +16,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ✅ CORRIGIDO: LISTA COMPLETA DE ORIGENS PERMITIDAS
-# Adicionamos as URLs do seu site no Firebase.
-origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "https://gen-lang-client-0450724380.web.app",
-    "https://gen-lang-client-0450724380.firebaseapp.com",
-]
+# ✅ CORREÇÃO "CANHÃO": Permite TODAS as origens para depuração.
+# Isso garante que o problema não é um erro de digitação na URL.
+origins = ["*"]
 
 # CONFIGURAÇÃO CORS
 app.add_middleware(
