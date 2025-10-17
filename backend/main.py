@@ -20,6 +20,8 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "http://localhost:8000",
+    "https://gen-lang-client-0450724380.web.app", 
+    "https://gen-lang-client-0450724380.firebaseapp.com"
 ]
 
 # CONFIGURAÇÃO CORS

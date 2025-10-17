@@ -5,13 +5,16 @@ steps:
     args: ['install']
     dir: 'frontend'
 
-  # Etapa 2: Build do Next.js (sem mudança)
+  # Etapa 2: Build do Next.js (COM A VARIÁVEL DE AMBIENTE)
   - name: 'node:18'
     entrypoint: 'npm'
     args: ['run', 'build']
     dir: 'frontend'
+    # Adiciona a URL da API de produção durante o build
+    env:
+      - 'NEXT_PUBLIC_API_URL=https://nutriscan-backend-925272362555.southamerica-east1.run.app'
 
-  # NOVA ETAPA 3: Baixa a chave secreta e a salva em um arquivo
+  # Etapa 3: Baixa a chave secreta e a salva em um arquivo (sem mudança)
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
@@ -19,7 +22,7 @@ steps:
       - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > key.json'
     dir: 'frontend'
 
-  # ETAPA 4 ATUALIZADA: Faz o deploy usando a chave, não o token
+  # Etapa 4: Faz o deploy usando a chave (sem mudança)
   - name: 'node:18'
     entrypoint: 'bash'
     args:
@@ -29,7 +32,6 @@ steps:
         npx firebase-tools deploy --only hosting --project $PROJECT_ID --non-interactive
     dir: 'frontend'
 
-# NÃO PRECISAMOS MAIS DO TOKEN ANTIGO
 # As permissões da conta de serviço já dão acesso a este novo segredo.
 options:
   logging: CLOUD_LOGGING_ONLY
