@@ -16,12 +16,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# LISTA COMPLETA DE ORIGENS PERMITIDAS
+# ✅ CORRIGIDO: LISTA COMPLETA DE ORIGENS PERMITIDAS
+# Adicionamos as URLs do seu site no Firebase.
 origins = [
     "http://localhost:3000",
     "http://localhost:8000",
-    "https://gen-lang-client-0450724380.web.app", 
-    "https://gen-lang-client-0450724380.firebaseapp.com"
+    "https://gen-lang-client-0450724380.web.app",
+    "https://gen-lang-client-0450724380.firebaseapp.com",
 ]
 
 # CONFIGURAÇÃO CORS

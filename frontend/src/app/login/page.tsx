@@ -1,4 +1,4 @@
-// frontend_nutri/src/app/login/page.tsx - VERSÃO INTEGRADA COM AuthContext
+// frontend/src/app/login/page.tsx - VERSÃO INTEGRADA COM AuthContext
 
 "use client";
 
