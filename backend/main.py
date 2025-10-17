@@ -16,8 +16,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# ✅ CORREÇÃO "CANHÃO": Permite TODAS as origens para depuração.
-# Isso garante que o problema não é um erro de digitação na URL.
+# Permite TODAS as origens para garantir que o CORS não seja o problema.
 origins = ["*"]
 
 # CONFIGURAÇÃO CORS
@@ -36,9 +35,12 @@ app.include_router(usuarios_router)
 app.include_router(conversoes_router)
 
 
+# ✅ MUDANÇA PARA VERIFICAÇÃO
 @app.get("/")
 def read_root():
-    return {"status": "API AppNutri está no ar!"}
+    # Adicionamos uma versão para sabermos que o deploy funcionou.
+    return {"status": "API AppNutri está no ar!", "version": "2.0-CORS-FIXED"}
+
 
 @app.get("/health")
 def health_check():
