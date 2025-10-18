@@ -53,10 +53,11 @@ export default function Navbar({ onLogout }: NavbarProps) {
                 onClick={() => router.push("/")}
               >
                 <Image
-                  src="/imagens/alimentacao.png"
+                  src="/imagens/alimentacao.png?1"  // Adiciona cache busting
                   alt="Logo Pratos Saudáveis"
                   width={30}
                   height={30}
+                  priority={true}  // ← Adicione esta linha
                   className="object-contain"
                 />
                 <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
