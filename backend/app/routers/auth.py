@@ -17,8 +17,11 @@ router = APIRouter(
     tags=["Autenticação"]
 )
 
+# ✅ CORREÇÃO: Remover 'async' pois operações no banco são síncronas
+def get_user_by_email(email: str, db: Session):
+    return db.query(Usuario).filter(Usuario.email == email).first()
 
-# ✅ ROTA DE REGISTRO (ESTAVA FALTANDO)
+# ✅ ROTA DE REGISTRO (CORRETA)
 @router.post("/registrar", response_model=UserPublic) 
 def registrar_usuario(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(Usuario).filter(Usuario.email == user.email).first()
@@ -29,7 +32,6 @@ def registrar_usuario(user: UserCreate, db: Session = Depends(get_db)):
         )
     
     # O modelo 'Usuario' precisa ter o campo 'nome', que é obrigatório
-    # Adicionamos um nome padrão extraído do email.
     nome_padrao = user.email.split('@')[0]
     
     hashed_password = security.gerar_hash_senha(user.password)
@@ -45,22 +47,32 @@ def registrar_usuario(user: UserCreate, db: Session = Depends(get_db)):
     
     return novo_usuario
 
-
-# ✅ ROTA DE LOGIN (JÁ EXISTENTE, MAS RENOMEADA PARA /login)
+# ✅ ROTA DE LOGIN (CORRIGIDA E COMPLETA)
 @router.post("/login", response_model=Token)
 def login_para_access_token(
-    form_data: OAuth2PasswordRequestForm = Depends(), 
-    db: Session = Depends(get_db)
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)  # ✅ CORREÇÃO: Adicionar dependência do banco
 ):
-    user = db.query(Usuario).filter(Usuario.email == form_data.username).first()
+    # Validar comprimento da senha antes da verificação
+    if len(form_data.password.encode('utf-8')) > 72:
+        raise HTTPException(
+            status_code=400,
+            detail="Senha muito longa. Use no máximo 72 caracteres."
+        )
     
+    # ✅ CORREÇÃO: Passar o db para a função
+    user = get_user_by_email(form_data.username, db)
     if not user or not security.verificar_senha(form_data.password, user.senha_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="E-mail ou senha incorretos",
+            detail="Credenciais incorretas",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
+    # ✅ ADICIONAR: Criar token de acesso (implemente conforme sua lógica)
     access_token = security.criar_access_token(data={"sub": user.email})
     
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }

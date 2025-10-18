@@ -1,13 +1,24 @@
-# app/security.py
+# app/security.py - VERSÃO HÍBRIDA CORRIGIDA
 import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional
+import logging
 
-from passlib.context import CryptContext
+import bcrypt  # ✅ ADICIONAR IMPORT
 from jose import JWTError, jwt
 from dotenv import load_dotenv
 
+# Complementos de autenticação
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.models.usuario import Usuario
+
 load_dotenv()
+
+# Configurar logger
+logger = logging.getLogger(__name__)
 
 # --- CONFIGURAÇÕES (do .env) ---
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -17,16 +28,46 @@ if not SECRET_KEY:
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
-# --- Passlib (bcrypt) ---
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+# --- BCRYPT DIRETO (SUBSTITUI O PASSLIB) ---
 def gerar_hash_senha(senha: str) -> str:
-    return pwd_context.hash(senha)
+    """
+    Gera hash da senha usando bcrypt diretamente
+    """
+    try:
+        # Truncar se necessário (limite do bcrypt: 72 bytes)
+        if len(senha.encode('utf-8')) > 72:
+            senha = senha.encode('utf-8')[:72].decode('utf-8', 'ignore')
+        
+        # Gerar salt e hash
+        salt = bcrypt.gensalt()
+        hashed_bytes = bcrypt.hashpw(senha.encode('utf-8'), salt)
+        
+        # Converter para string para armazenamento
+        return hashed_bytes.decode('utf-8')
+    except Exception as e:
+        logger.error(f"Erro ao gerar hash de senha: {e}")
+        raise
 
 def verificar_senha(senha_plana: str, senha_hash: str) -> bool:
-    return pwd_context.verify(senha_plana, senha_hash)
+    """
+    Verifica se a senha plana corresponde ao hash armazenado
+    """
+    try:
+        # Se a senha for muito longa, truncar para 72 bytes
+        if len(senha_plana.encode('utf-8')) > 72:
+            senha_plana = senha_plana.encode('utf-8')[:72].decode('utf-8', 'ignore')
+        
+        # Converter string hash para bytes se necessário
+        if isinstance(senha_hash, str):
+            senha_hash = senha_hash.encode('utf-8')
+        
+        # Usar bcrypt diretamente
+        return bcrypt.checkpw(senha_plana.encode('utf-8'), senha_hash)
+    except Exception as e:
+        logger.error(f"Erro ao verificar senha: {e}")
+        return False
 
-# --- JWT helpers ---
+# --- JWT helpers (MANTIDOS) ---
 def criar_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """
     Cria um token JWT contendo os dados passados em 'data' e o exp como timestamp inteiro.
@@ -49,13 +90,7 @@ def decodificar_token(token: str) -> dict:
     except JWTError as e:
         raise e
 
-# complemento em security.py ou em outro arquivo auth_utils.py
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models.usuario import Usuario
-
+# --- Autenticação OAuth2 (MANTIDOS) ---
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> Usuario:
