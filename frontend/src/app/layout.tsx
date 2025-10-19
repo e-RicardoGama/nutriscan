@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-// 1. Importe o seu AuthProvider
+// Importações corrigidas
 import { AuthProvider } from '../context/AuthContext';
+import { ErrorBoundary } from '../components/ErrorBoundary';
+import ServiceWorkerCleanup from '../components/ServiceWorkerCleanup';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,22 +13,22 @@ export const metadata: Metadata = {
   title: "Nutri",
   description: "Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial.",
   icons: {
-    icon: '/imagens/alimentacao.png', // ✅ Favicon adicionado
-    shortcut: '/imagens/alimentacao.png',
-    apple: '/imagens/alimentacao.png', // Para dispositivos Apple
+    icon: '/imagens/alimentacao.png',
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>
-        {/* 2. Envolva toda a aplicação com o AuthProvider */}
-        <AuthProvider>{children}</AuthProvider>
+      <body className={inter.className}> {/* ✅ Agora 'inter' está sendo usado */}
+        <ServiceWorkerCleanup />
+        <ErrorBoundary>
+          <AuthProvider>{children}</AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
