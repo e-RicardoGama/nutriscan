@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Nutri",
   description: "Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial.",
   icons: {
-    icon: '/imagens/alimentacao.png',
+    icon: '/imagens/alimentacao.jpg',
   },
 };
 
