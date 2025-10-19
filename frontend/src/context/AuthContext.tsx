@@ -72,6 +72,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     setUsuario(null);
   }, []);
 
+  useEffect(() => {
+    console.log('🔐 AuthContext - Estado atual:', {
+      usuario,
+      carregando,
+      url: window.location.href
+    });
+  }, [usuario, carregando]);
+
   return (
     <Ctx.Provider value={{ usuario, carregando, login, logout, setUsuario }}>
       {children}

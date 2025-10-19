@@ -5,6 +5,7 @@ import './globals.css';
 import { AuthProvider } from '../context/AuthContext';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import ServiceWorkerCleanup from '../components/ServiceWorkerCleanup';
+import DebugParams from '../components/DebugParams';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,26 +17,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Script de limpeza agressivo
-const cleanupScript = `
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(regs => {
-    console.log('Removendo', regs.length, 'Service Workers...');
-    regs.forEach(reg => reg.unregister().then(() => {
-      console.log('Service Worker removido');
-      if (window.location.search.includes('bypass-sw')) {
-        window.history.replaceState(null, '', window.location.pathname);
-      }
-    }));
-  });
-  
-  if ('caches' in window) {
-    caches.keys().then(names => {
-      names.forEach(name => caches.delete(name));
-    });
-  }
-}
-`;
 
 export default function RootLayout({
   children,
@@ -44,11 +25,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <head>
-        {/* Script de limpeza executado imediatamente */}
-        <script dangerouslySetInnerHTML={{ __html: cleanupScript }} />
-      </head>
       <body className={inter.className}>
+        <DebugParams /> {/* ✅ Adicione esta linha */}
         <ServiceWorkerCleanup />
         <ErrorBoundary>
           <AuthProvider>{children}</AuthProvider>
