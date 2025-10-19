@@ -6,6 +6,7 @@ import { AuthProvider } from '../context/AuthContext';
 import ErrorBoundary from '../components/ErrorBoundary';
 import ServiceWorkerCleanup from '../components/ServiceWorkerCleanup';
 import DebugParams from '../components/DebugParams';
+import { Suspense } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,19 +18,22 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
-      <body className={inter.className}>
-        <DebugParams /> {/* ✅ Adicione esta linha */}
-        <ServiceWorkerCleanup />
+    <html lang="pt-BR">
+      <body>
         <ErrorBoundary>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <Suspense fallback={<div>Carregando...</div>}>
+              {children}
+            </Suspense>
+            <ServiceWorkerCleanup />
+            <DebugParams />
+          </AuthProvider>
         </ErrorBoundary>
       </body>
     </html>
