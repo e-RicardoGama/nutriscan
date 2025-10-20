@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        <Suspense fallback={<div>Carregando...</div>}>
+        <Suspense fallback={<div>Carregando...</div>}> 
           <AuthProvider>
             {children}
           </AuthProvider>
