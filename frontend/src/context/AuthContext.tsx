@@ -1,8 +1,9 @@
-// src/context/AuthContext.tsx - VERSÃO CORRIGIDA
+// src/context/AuthContext.tsx - VERSÃO AJUSTADA
 
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { AxiosError } from "axios"; // 1. IMPORTADO O AXIOSERROR
 import api, { setAccessToken, getAccessToken } from "../services/api";
 import type { Usuario } from "../types/usuario";
 
@@ -33,9 +34,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     } catch (error) {
       console.error('❌ Erro ao buscar usuário:', error);
       
+      // 2. ADICIONADA A VERIFICAÇÃO DE TIPO
       // Se for erro 401 (Unauthorized), limpa o token
-      if (error.response?.status === 401) {
-        setAccessToken(null);
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          setAccessToken(null);
+        }
       }
       
       setUsuario(null);
@@ -44,7 +48,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     }
   }, []);
 
-  // ✅ CORREÇÃO: Inicializa com token salvo (se houver) - SEM fetchMe nas dependências
+  // Inicializa com token salvo (se houver)
   useEffect(() => {
     console.log('🎯 AuthProvider montado');
     const token = getAccessToken();
@@ -61,7 +65,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     return () => {
       console.log('🧹 AuthProvider desmontado');
     };
-  }, [fetchMe]); // ← Array vazio de dependências
+  }, [fetchMe]); // <-- Incluído fetchMe (como explicamos anteriormente)
 
   // Faz login via form-urlencoded: username/password (exigido pelo OAuth2PasswordRequestForm)
   const login = useCallback(async (email: string, senha: string) => {
@@ -98,7 +102,8 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     console.log('🔐 AuthContext - Estado atual:', {
       usuario: usuario ? { nome: usuario.nome, email: usuario.email } : null,
       carregando,
-      url: window.location.href
+      // Removido 'window.location.href' para segurança em logs de produção
+      // e para evitar erros de build (embora 'use client' deva proteger)
     });
   }, [usuario, carregando]);
 
