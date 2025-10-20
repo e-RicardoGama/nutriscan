@@ -1,13 +1,12 @@
-// src/context/AuthContext.tsx - VERSÃO AJUSTADA
+// src/context/AuthContext.tsx - VERSÃO CORRIGIDA
 
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { AxiosError } from "axios"; // 1. IMPORTADO O AXIOSERROR
+import { AxiosError } from "axios";
 import api, { setAccessToken, getAccessToken } from "../services/api";
 import type { Usuario } from "../types/usuario";
 
-// A resposta de /usuarios/me deve bater com seu schema UsuarioOut
 type MeResponse = Usuario;
 
 type AuthCtx = {
@@ -20,26 +19,25 @@ type AuthCtx = {
 
 const Ctx = createContext<AuthCtx | null>(null);
 
+// Constante para controle de logs
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [carregando, setCarregando] = useState<boolean>(true);
 
-  // Busca o perfil do usuário autenticado
+  // fetchMe otimizado
   const fetchMe = useCallback(async () => {
     try {
-      console.log('🔄 Buscando dados do usuário...');
+      if (IS_DEVELOPMENT) console.log('🔄 Buscando dados do usuário...');
       const { data } = await api.get<MeResponse>("/usuarios/me");
-      console.log('✅ Dados do usuário recebidos:', data);
+      if (IS_DEVELOPMENT) console.log('✅ Dados do usuário recebidos:', data);
       setUsuario(data);
     } catch (error) {
       console.error('❌ Erro ao buscar usuário:', error);
       
-      // 2. ADICIONADA A VERIFICAÇÃO DE TIPO
-      // Se for erro 401 (Unauthorized), limpa o token
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 401) {
-          setAccessToken(null);
-        }
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        setAccessToken(null);
       }
       
       setUsuario(null);
@@ -48,26 +46,22 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     }
   }, []);
 
-  // Inicializa com token salvo (se houver)
+  // Efeito de inicialização
   useEffect(() => {
-    console.log('🎯 AuthProvider montado');
+    if (IS_DEVELOPMENT) console.log('🎯 AuthProvider montado');
     const token = getAccessToken();
-    console.log('🔐 Token encontrado:', !!token);
+    if (IS_DEVELOPMENT) console.log('🔐 Token encontrado:', !!token);
     
     if (token) {
-      console.log('🔄 Iniciando fetchMe...');
+      if (IS_DEVELOPMENT) console.log('🔄 Iniciando fetchMe...');
       fetchMe();
     } else {
-      console.log('🚫 Sem token, pulando fetchMe');
+      if (IS_DEVELOPMENT) console.log('🚫 Sem token, pulando fetchMe');
       setCarregando(false);
     }
-    
-    return () => {
-      console.log('🧹 AuthProvider desmontado');
-    };
-  }, [fetchMe]); // <-- Incluído fetchMe (como explicamos anteriormente)
+  }, [fetchMe]);
 
-  // Faz login via form-urlencoded: username/password (exigido pelo OAuth2PasswordRequestForm)
+  // Login
   const login = useCallback(async (email: string, senha: string) => {
     setCarregando(true);
     try {
@@ -75,17 +69,25 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       body.set("username", email);
       body.set("password", senha);
 
-      console.log('🔐 Tentando login...');
-      const { data } = await api.post<{ access_token: string; token_type: string }>("auth/login", body.toString(), {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
+      if (IS_DEVELOPMENT) console.log('🔐 Tentando login...');
+      const { data } = await api.post<{ access_token: string; token_type: string }>(
+        "auth/login", 
+        body.toString(), 
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
 
-      console.log('✅ Login bem-sucedido, token recebido');
+      if (IS_DEVELOPMENT) console.log('✅ Login bem-sucedido, token recebido');
       setAccessToken(data.access_token);
       await fetchMe();
     } catch (err) {
       console.error('❌ Erro no login:', err);
-      // Opcional: lançar para a UI exibir mensagem
+      
+      if (err instanceof AxiosError && err.response?.status === 401) {
+        setAccessToken(null);
+      }
+      
       throw err;
     } finally {
       setCarregando(false);
@@ -93,18 +95,19 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   }, [fetchMe]);
 
   const logout = useCallback(() => {
-    console.log('🚪 Fazendo logout...');
+    if (IS_DEVELOPMENT) console.log('🚪 Fazendo logout...');
     setAccessToken(null);
     setUsuario(null);
   }, []);
 
+  // Log de estado (apenas desenvolvimento)
   useEffect(() => {
-    console.log('🔐 AuthContext - Estado atual:', {
-      usuario: usuario ? { nome: usuario.nome, email: usuario.email } : null,
-      carregando,
-      // Removido 'window.location.href' para segurança em logs de produção
-      // e para evitar erros de build (embora 'use client' deva proteger)
-    });
+    if (IS_DEVELOPMENT) {
+      console.log('🔐 AuthContext - Estado atual:', {
+        usuario: usuario ? { nome: usuario.nome, email: usuario.email } : null,
+        carregando
+      });
+    }
   }, [usuario, carregando]);
 
   return (

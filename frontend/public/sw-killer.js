@@ -1,24 +1,19 @@
-// Este ficheiro deve estar em /public/sw-killer.js
+// Localização: /public/sw-killer.js
+// VERSÃO 2.1 (Ajustada para o linter)
 
-self.addEventListener('install', (e) => {
+// O 'install' não usa o evento 'e', por isso removemo-lo
+self.addEventListener('install', () => {
   // Pula a espera e força este novo SW a ativar-se imediatamente
   self.skipWaiting();
 });
 
+// O 'activate' USA o evento (e.waitUntil), por isso mantemos o '(e)'
 self.addEventListener('activate', (e) => {
-  // 1. Reivindica o controlo de todas as páginas abertas
+  // Quando ativado, apenas desregistra a si mesmo e ao zumbi.
   e.waitUntil(
     self.clients.claim().then(() => {
-      // 2. DESREGISTA-SE a si mesmo e a qualquer outro SW neste escopo
+      console.log('SW "Assassino" ativado. A desregistar tudo...');
       return self.registration.unregister();
-    }).then(() => {
-      // 3. Obtém todas as páginas controladas
-      return self.clients.matchAll({ type: 'window' });
-    }).then(clients => {
-      // 4. Força um reload em todas elas para que funcionem sem SW
-      clients.forEach(client => {
-        client.navigate(client.url);
-      });
     })
   );
 });

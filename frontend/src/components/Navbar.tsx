@@ -53,7 +53,7 @@ export default function Navbar({ onLogout }: NavbarProps) {
                 onClick={() => router.push("/")}
               >
                 <Image
-                  src="/imagens/alimentacao.jpg?1"
+                  src="/imagens/logo.jpg"
                   alt="Logo Pratos Saudáveis"
                   width={30}
                   height={30}
