@@ -28,6 +28,24 @@ export default function RootLayout({
             {children}
           </AuthProvider>
         </Suspense>
+
+        {/* SCRIPT PARA REMOVER SERVICE WORKERS "ZUMBIS"
+          Este script regista o "sw-killer.js" que criámos na pasta /public.
+          A sua única função é desregistar qualquer SW antigo associado
+          a este domínio e depois auto-destruir-se.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw-killer.js')
+                  .then(reg => console.log('SW "Assassino" registado, a limpar...'))
+                  .catch(err => console.error('Falha ao registar SW "Assassino":', err));
+              }
+            `,
+          }}
+        />
+        
       </body>
     </html>
   );
