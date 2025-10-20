@@ -1,11 +1,8 @@
-// layout.tsx - VERSÃO COM SCRIPT DE LIMPEZA
+// layout.tsx - VERSÃO SIMPLIFICADA
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '../context/AuthContext';
-import ErrorBoundary from '../components/ErrorBoundary';
-import ServiceWorkerCleanup from '../components/ServiceWorkerCleanup';
-import DebugParams from '../components/DebugParams';
 import { Suspense } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -25,16 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>
-        <ErrorBoundary>
+      <body className={inter.className}>
+        <Suspense fallback={<div>Carregando...</div>}>
           <AuthProvider>
-            <Suspense fallback={<div>Carregando...</div>}>
-              {children}
-            </Suspense>
-            <ServiceWorkerCleanup />
-            <DebugParams />
+            {children}
           </AuthProvider>
-        </ErrorBoundary>
+        </Suspense>
       </body>
     </html>
   );
