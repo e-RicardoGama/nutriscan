@@ -1,4 +1,4 @@
-// src/context/AuthContext.tsx
+// src/context/AuthContext.tsx - VERSÃO CORRIGIDA
 
 "use client";
 
@@ -26,24 +26,42 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   // Busca o perfil do usuário autenticado
   const fetchMe = useCallback(async () => {
     try {
+      console.log('🔄 Buscando dados do usuário...');
       const { data } = await api.get<MeResponse>("/usuarios/me");
+      console.log('✅ Dados do usuário recebidos:', data);
       setUsuario(data);
-    } catch {
+    } catch (error) {
+      console.error('❌ Erro ao buscar usuário:', error);
+      
+      // Se for erro 401 (Unauthorized), limpa o token
+      if (error.response?.status === 401) {
+        setAccessToken(null);
+      }
+      
       setUsuario(null);
     } finally {
       setCarregando(false);
     }
   }, []);
 
-  // Inicializa com token salvo (se houver)
+  // ✅ CORREÇÃO: Inicializa com token salvo (se houver) - SEM fetchMe nas dependências
   useEffect(() => {
+    console.log('🎯 AuthProvider montado');
     const token = getAccessToken();
+    console.log('🔐 Token encontrado:', !!token);
+    
     if (token) {
+      console.log('🔄 Iniciando fetchMe...');
       fetchMe();
     } else {
+      console.log('🚫 Sem token, pulando fetchMe');
       setCarregando(false);
     }
-  }, [fetchMe]);
+    
+    return () => {
+      console.log('🧹 AuthProvider desmontado');
+    };
+  }, [fetchMe]); // ← Array vazio de dependências
 
   // Faz login via form-urlencoded: username/password (exigido pelo OAuth2PasswordRequestForm)
   const login = useCallback(async (email: string, senha: string) => {
@@ -53,13 +71,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       body.set("username", email);
       body.set("password", senha);
 
+      console.log('🔐 Tentando login...');
       const { data } = await api.post<{ access_token: string; token_type: string }>("auth/login", body.toString(), {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
+      console.log('✅ Login bem-sucedido, token recebido');
       setAccessToken(data.access_token);
       await fetchMe();
     } catch (err) {
+      console.error('❌ Erro no login:', err);
       // Opcional: lançar para a UI exibir mensagem
       throw err;
     } finally {
@@ -68,13 +89,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   }, [fetchMe]);
 
   const logout = useCallback(() => {
+    console.log('🚪 Fazendo logout...');
     setAccessToken(null);
     setUsuario(null);
   }, []);
 
   useEffect(() => {
     console.log('🔐 AuthContext - Estado atual:', {
-      usuario,
+      usuario: usuario ? { nome: usuario.nome, email: usuario.email } : null,
       carregando,
       url: window.location.href
     });
