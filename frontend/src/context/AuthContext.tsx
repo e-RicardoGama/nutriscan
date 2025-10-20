@@ -94,3 +94,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default Ctx;
