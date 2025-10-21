@@ -1,4 +1,4 @@
-// layout.tsx - VERSÃO SIMPLIFICADA
+// layout.tsx - VERSÃO CORRIGIDA
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -15,6 +15,38 @@ export const metadata: Metadata = {
   },
 };
 
+// Componente cliente para lidar com Service Worker
+function ServiceWorkerCleanup() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          if (typeof window !== 'undefined') {
+            // Remove service workers
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                registrations.forEach(function(registration) {
+                  registration.unregister();
+                  console.log('Service Worker unregistered');
+                });
+              });
+            }
+            
+            // Limpa caches
+            if ('caches' in window) {
+              caches.keys().then(function(cacheNames) {
+                cacheNames.forEach(function(cacheName) {
+                  caches.delete(cacheName);
+                });
+              });
+            }
+          }
+        `
+      }}
+    />
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -22,13 +54,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <ServiceWorkerCleanup />
+      </head>
       <body className={inter.className}>
         <Suspense fallback={<div>Carregando...</div>}> 
           <AuthProvider>
             {children}
           </AuthProvider>
         </Suspense>
-        
       </body>
     </html>
   );
