@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '../context/AuthContext';
 import { Suspense } from 'react';
+import ServiceWorkerClient from '../ServiceWorkerClient';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -58,8 +59,9 @@ export default function RootLayout({
         <ServiceWorkerCleanup />
       </head>
       <body className={inter.className}>
-        <Suspense fallback={<div>Carregando...</div>}> 
+        <Suspense fallback={<div>Carregando...</div>}>
           <AuthProvider>
+            <ServiceWorkerClient />
             {children}
           </AuthProvider>
         </Suspense>
