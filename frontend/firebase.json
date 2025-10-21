@@ -1,12 +1,8 @@
 {
   "hosting": {
-    "site": "gen-lang-client-0450724380",
-    "public": "out",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "public": ".next",
+    "cleanUrls": true,
+    "trailingSlash": false,
     "rewrites": [
       {
         "source": "**",
