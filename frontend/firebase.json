@@ -1,12 +1,23 @@
 {
   "hosting": {
-    "public": ".next",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "rewrites": [
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "southamerica-east1"
+    },
+    "headers": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/sw-debug.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
       }
     ]
   }
