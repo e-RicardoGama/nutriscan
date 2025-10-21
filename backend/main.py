@@ -44,3 +44,12 @@ def read_root():
 def health_check():
     return {"status": "healthy", "message": "API funcionando normalmente"}
 
+from fastapi import Request
+
+@app.middleware("http")
+async def log_bypass_sw(request: Request, call_next):
+    if 'bypass-sw' in request.query_params or 'bypass' in request.query_params:
+        print("[BACKEND-DEBUG] bypass flag in request:", request.url)
+    return await call_next(request)
+
+
