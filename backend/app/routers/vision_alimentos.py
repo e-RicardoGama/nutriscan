@@ -145,3 +145,5 @@ async def analisar_lista_detalhada(
             status_code=500, 
             detail=f"Erro interno ao processar a análise da lista: {str(e)}" 
         )
+    
+    
