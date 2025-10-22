@@ -70,3 +70,37 @@ class AlimentoNaoReconhecido(BaseModel):
 class AnaliseSimplesResponse(BaseModel):
     reconhecidos: List[AlimentoReconhecido]
     nao_reconhecidos: List[AlimentoNaoReconhecido]
+
+
+class AlimentoPayload(BaseModel):
+    nome: str
+    quantidade_gramas: float # Ou int
+
+class AnaliseListaPayload(BaseModel):
+    alimentos: List[AlimentoPayload]
+
+class AlimentoDetalhadoResponse(BaseModel):
+    nome: str
+    quantidade_gramas: float
+    metodo_preparo: str = "N/A" # Default se não puder determinar
+
+class MacronutrientesResponse(BaseModel):
+    proteinas_g: float
+    carboidratos_g: float
+    gorduras_g: float
+
+class AnaliseNutricionalResponse(BaseModel):
+    calorias_totais: float
+    macronutrientes: MacronutrientesResponse
+    vitaminas_minerais: List[str] = []
+
+class RecomendacoesResponse(BaseModel):
+    pontos_positivos: List[str] = []
+    sugestoes_balanceamento: List[str] = []
+    alternativas_saudaveis: List[str] = []
+
+class AnaliseCompletaListaResponse(BaseModel):
+    detalhes_prato: dict # Ajuste conforme necessário
+    analise_nutricional: AnaliseNutricionalResponse
+    recomendacoes: RecomendacoesResponse
+    timestamp: str | None = None

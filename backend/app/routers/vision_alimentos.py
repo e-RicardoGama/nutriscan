@@ -8,7 +8,7 @@ from datetime import datetime
 from app.database import get_db
 from app.models.alimentos import Alimento
 # Importe o schema correto para o response_model
-from app.schemas.vision_alimentos import AlimentoPublic, AnaliseCompletaResponse
+from app.schemas.vision_alimentos import AlimentoPublic, AnaliseCompletaResponse,AnaliseCompletaListaResponse, AnaliseListaPayload,AlimentoDetalhadoResponse,AnaliseNutricionalResponse,MacronutrientesResponse,RecomendacoesResponse
 from app.services import refeicao_service
 from app.vision import analisar_imagem_do_prato_detalhado, obter_nutrientes_do_gemini, escanear_prato_extrair_alimentos
 
@@ -90,3 +90,58 @@ async def scan_rapido(imagem: UploadFile = File(...)):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro no scan: {str(e)}")
+    
+@router.post(
+    "/analisar-lista-detalhada", 
+    response_model=AnaliseCompletaListaResponse # Define o modelo de resposta
+)
+async def analisar_lista_detalhada(
+    payload: AnaliseListaPayload,
+    # current_user: Usuario = Depends(get_current_user) # Se precisar de autenticação
+):
+    """
+    Recebe uma lista de alimentos (nome, gramas) e retorna a análise nutricional detalhada.
+    """
+    print(f"Recebido payload para /analisar-lista-detalhada: {payload.alimentos}") # Log para depuração
+
+    if not payload.alimentos:
+        raise HTTPException(status_code=400, detail="A lista de alimentos não pode estar vazia.")
+
+    try:
+        # --- SUA LÓGICA PRINCIPAL AQUI ---
+        # 1. Chame sua função/serviço que calcula os nutrientes a partir da lista
+        #    Exemplo: 
+        #    resultado_analise = await calcula_nutrientes_e_recomendacoes(payload.alimentos)
+        
+        # --- DADOS DE EXEMPLO (SUBSTITUA PELA SUA LÓGICA REAL) ---
+        # Simula o cálculo e formatação da resposta
+        total_calorias_simulado = sum(a.quantidade_gramas * 1.5 for a in payload.alimentos) # Exemplo simples
+        resultado_analise = AnaliseCompletaListaResponse(
+            detalhes_prato={"alimentos": [
+                AlimentoDetalhadoResponse(nome=a.nome, quantidade_gramas=a.quantidade_gramas) for a in payload.alimentos
+            ]},
+            analise_nutricional=AnaliseNutricionalResponse(
+                calorias_totais=total_calorias_simulado,
+                macronutrientes=MacronutrientesResponse(proteinas_g=total_calorias_simulado/8, carboidratos_g=total_calorias_simulado/5, gorduras_g=total_calorias_simulado/15),
+                vitaminas_minerais=["Exemplo Vit A", "Exemplo Ferro"]
+            ),
+            recomendacoes=RecomendacoesResponse(
+                pontos_positivos=["Exemplo: Bom teor de proteína."],
+                sugestoes_balanceamento=["Exemplo: Adicionar mais vegetais."],
+                alternativas_saudaveis=[]
+            ),
+            timestamp="2025-10-22T..." # Opcional
+        )
+        # --- FIM DOS DADOS DE EXEMPLO ---
+
+        print(f"Retornando análise: {resultado_analise}") # Log para depuração
+        return resultado_analise
+
+    except Exception as e:
+        # Log detalhado do erro no servidor
+        print(f"❌ Erro inesperado em /analisar-lista-detalhada: {e}") 
+        # Mensagem de erro clara para o frontend
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Erro interno ao processar a análise da lista: {str(e)}" 
+        )
