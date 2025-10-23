@@ -8,7 +8,7 @@ from datetime import datetime
 from app.database import get_db
 from app.models.alimentos import Alimento
 # Importe o schema correto para o response_model
-from app.schemas.vision_alimentos import AlimentoPublic, AnaliseCompletaResponse,AnaliseCompletaListaResponse, AnaliseListaPayload,AlimentoDetalhadoResponse,AnaliseNutricionalResponse,MacronutrientesResponse,RecomendacoesResponse
+from app.schemas.vision_alimentos import AlimentoPublic, AnaliseCompletaResponse, AnaliseListaPayload,AlimentoDetalhadoResponse,AnaliseNutricionalResponse,MacronutrientesResponse,RecomendacoesResponse
 from app.services import refeicao_service
 from app.vision import analisar_imagem_do_prato_detalhado, obter_nutrientes_do_gemini, escanear_prato_extrair_alimentos
 
@@ -93,7 +93,7 @@ async def scan_rapido(imagem: UploadFile = File(...)):
     
 @router.post(
     "/analisar-lista-detalhada", 
-    response_model=AnaliseCompletaListaResponse # Define o modelo de resposta
+    response_model=AnaliseCompletaResponse # Define o modelo de resposta
 )
 async def analisar_lista_detalhada(
     payload: AnaliseListaPayload,
@@ -116,7 +116,7 @@ async def analisar_lista_detalhada(
         # --- DADOS DE EXEMPLO (SUBSTITUA PELA SUA LÓGICA REAL) ---
         # Simula o cálculo e formatação da resposta
         total_calorias_simulado = sum(a.quantidade_gramas * 1.5 for a in payload.alimentos) # Exemplo simples
-        resultado_analise = AnaliseCompletaListaResponse(
+        resultado_analise = AnaliseCompletaResponse(
             detalhes_prato={"alimentos": [
                 AlimentoDetalhadoResponse(nome=a.nome, quantidade_gramas=a.quantidade_gramas) for a in payload.alimentos
             ]},

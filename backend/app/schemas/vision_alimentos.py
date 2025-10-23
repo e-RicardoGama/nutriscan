@@ -89,18 +89,7 @@ class MacronutrientesResponse(BaseModel):
     carboidratos_g: float
     gorduras_g: float
 
-class AnaliseNutricionalResponse(BaseModel):
-    calorias_totais: float
-    macronutrientes: MacronutrientesResponse
-    vitaminas_minerais: List[str] = []
-
 class RecomendacoesResponse(BaseModel):
     pontos_positivos: List[str] = []
     sugestoes_balanceamento: List[str] = []
     alternativas_saudaveis: List[str] = []
-
-class AnaliseCompletaListaResponse(BaseModel):
-    detalhes_prato: dict # Ajuste conforme necessário
-    analise_nutricional: AnaliseNutricionalResponse
-    recomendacoes: RecomendacoesResponse
-    timestamp: str | None = None

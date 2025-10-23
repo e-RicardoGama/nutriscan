@@ -5,13 +5,14 @@ steps:
     args: ['install']
     dir: 'frontend'
 
-  # Etapa 2: Build do Next.js (FORÇANDO A VARIÁVEL DE AMBIENTE)
+  # Etapa 2: Build do Next.js (COM A SINTAXE CORRETA)
   - name: 'node:18'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        NEXT_PUBLIC_API_URL="https://nutriscan-backend-925272362555.southamerica-east1.run.app" npm run build
+        export NEXT_PUBLIC_API_URL="https://nutriscan-backend-925272362555.southamerica-east1.run.app"
+        npm run build
     dir: 'frontend'
 
   # Etapa 3: Baixa a chave secreta e a salva em um arquivo
@@ -29,7 +30,7 @@ steps:
       - '-c'
       - |
         export GOOGLE_APPLICATION_CREDENTIALS=key.json && \
-        npx firebase-tools experiments:enable webframeworks && \ # <--- ESTA É A NOVA LINHA
+        npx firebase-tools experiments:enable webframeworks && \
         npx firebase-tools deploy --only hosting --project $PROJECT_ID --non-interactive
     dir: 'frontend'
 
