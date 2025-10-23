@@ -1,4 +1,4 @@
-# app/routers/vision_alimentos.py
+# app/routers/vision_alimentos.py - VERSÃO CORRIGIDA (Fluxo Scan -> Lista -> Análise IA)
 
 from fastapi import APIRouter, Depends, HTTPException, File, UploadFile
 from sqlalchemy.orm import Session
@@ -7,12 +7,22 @@ from datetime import datetime
 
 from app.database import get_db
 from app.models.alimentos import Alimento
-# Importe o schema correto para o response_model
-from app.schemas.vision_alimentos import AlimentoPublic, AnaliseCompletaResponse, AnaliseListaPayload,AlimentoDetalhadoResponse,AnaliseNutricionalResponse,MacronutrientesResponse,RecomendacoesResponse
 from app.services import refeicao_service
-from app.vision import analisar_imagem_do_prato_detalhado, obter_nutrientes_do_gemini, escanear_prato_extrair_alimentos
 
-#router = APIRouter(prefix="/api", tags=["vision", "alimentos"])
+# Schemas necessários para este router
+from app.schemas.vision_alimentos_ import (
+    AlimentoPublic, 
+    AnaliseCompletaResponse, # Usado como response_model
+    AnaliseListaPayload      # Usado como payload de entrada
+)
+
+# Funções da IA que este router utiliza
+from app.vision import (
+    analisar_imagem_do_prato_detalhado, 
+    obter_nutrientes_do_gemini, 
+    escanear_prato_extrair_alimentos,
+    gerar_analise_detalhada_da_lista  # <-- Função chave para este fluxo
+)
 
 router = APIRouter(
     prefix="/refeicoes", 
@@ -50,24 +60,24 @@ def buscar_alimentos(q: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Nenhum alimento encontrado.")
     return resultados
 
-# ADICIONADO `response_model` PARA GARANTIR A VALIDAÇÃO CORRETA DA RESPOSTA
+# Este endpoint continua como estava, chamando a análise direto da imagem
 @router.post("/analisar-imagem-detalhado", 
-             response_model=AnaliseCompletaResponse, 
-             summary="Analisa imagem detalhadamente")
+              response_model=AnaliseCompletaResponse, 
+              summary="Analisa imagem detalhadamente")
 async def analisar_imagem_detalhada(file: UploadFile = File(...)):
     try:
         conteudo_imagem = await file.read()
         resultado = analisar_imagem_do_prato_detalhado(conteudo_imagem)
         if isinstance(resultado, dict) and "erro" in resultado:
             raise HTTPException(status_code=500, detail=resultado["erro"])
-        # FastAPI validará o dicionário 'resultado' contra o schema 'AnaliseCompletaResponse'
         return resultado
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Erro no endpoint: {str(e)}")
+        print(f"Erro no endpoint /analisar-imagem-detalhado: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erro interno no servidor: {str(e)}")
 
+# Este endpoint continua como estava, para o Scan Rápido
 @router.post("/scan-rapido")
 async def scan_rapido(imagem: UploadFile = File(...)):
     if not imagem.content_type.startswith('image/'):
@@ -89,61 +99,63 @@ async def scan_rapido(imagem: UploadFile = File(...)):
     except HTTPException:
         raise
     except Exception as e:
+        print(f"Erro no endpoint /scan-rapido: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Erro no scan: {str(e)}")
     
+# ✅ ENDPOINT CORRIGIDO PARA O FLUXO DESEJADO (Scan -> Lista Editada -> Análise IA)
 @router.post(
     "/analisar-lista-detalhada", 
-    response_model=AnaliseCompletaResponse # Define o modelo de resposta
+    response_model=AnaliseCompletaResponse # Garante que a resposta da IA tenha o formato esperado
 )
 async def analisar_lista_detalhada(
     payload: AnaliseListaPayload,
-    # current_user: Usuario = Depends(get_current_user) # Se precisar de autenticação
 ):
     """
-    Recebe uma lista de alimentos (nome, gramas) e retorna a análise nutricional detalhada.
+    Recebe uma lista de alimentos (nome, gramas), chama a IA para gerar a 
+    análise nutricional detalhada completa (incluindo vitaminas e recomendações) 
+    e retorna o resultado.
     """
-    print(f"Recebido payload para /analisar-lista-detalhada: {payload.alimentos}") # Log para depuração
+    print(f"Recebido payload para /analisar-lista-detalhada: {payload.alimentos}") 
 
     if not payload.alimentos:
         raise HTTPException(status_code=400, detail="A lista de alimentos não pode estar vazia.")
 
     try:
-        # --- SUA LÓGICA PRINCIPAL AQUI ---
-        # 1. Chame sua função/serviço que calcula os nutrientes a partir da lista
-        #    Exemplo: 
-        #    resultado_analise = await calcula_nutrientes_e_recomendacoes(payload.alimentos)
+        # --- LÓGICA CORRIGIDA ---
+        # 1. Converte o payload Pydantic para um dicionário Python
+        #    Use .model_dump() para Pydantic V2+ ou .dict() para V1
+        try:
+             payload_dict = payload.model_dump() 
+        except AttributeError:
+             payload_dict = payload.dict() # Fallback para Pydantic V1
+
+        # 2. Chama a função da IA que processa a lista e pede a análise completa
+        resultado_analise = gerar_analise_detalhada_da_lista(payload_dict)
         
-        # --- DADOS DE EXEMPLO (SUBSTITUA PELA SUA LÓGICA REAL) ---
-        # Simula o cálculo e formatação da resposta
-        total_calorias_simulado = sum(a.quantidade_gramas * 1.5 for a in payload.alimentos) # Exemplo simples
-        resultado_analise = AnaliseCompletaResponse(
-            detalhes_prato={"alimentos": [
-                AlimentoDetalhadoResponse(nome=a.nome, quantidade_gramas=a.quantidade_gramas) for a in payload.alimentos
-            ]},
-            analise_nutricional=AnaliseNutricionalResponse(
-                calorias_totais=total_calorias_simulado,
-                macronutrientes=MacronutrientesResponse(proteinas_g=total_calorias_simulado/8, carboidratos_g=total_calorias_simulado/5, gorduras_g=total_calorias_simulado/15),
-                vitaminas_minerais=["Exemplo Vit A", "Exemplo Ferro"]
-            ),
-            recomendacoes=RecomendacoesResponse(
-                pontos_positivos=["Exemplo: Bom teor de proteína."],
-                sugestoes_balanceamento=["Exemplo: Adicionar mais vegetais."],
-                alternativas_saudaveis=[]
-            ),
-            timestamp="2025-10-22T..." # Opcional
-        )
-        # --- FIM DOS DADOS DE EXEMPLO ---
-
-        print(f"Retornando análise: {resultado_analise}") # Log para depuração
+        # 3. Verifica se a IA retornou um erro interno
+        if isinstance(resultado_analise, dict) and "erro" in resultado_analise:
+            # Não lança exceção se for apenas um erro de parseamento JSON, 
+            # pois o response_model vai pegar isso. Lança para erros da API Gemini.
+            if "JSON" not in resultado_analise["erro"]:
+                 raise HTTPException(status_code=500, detail=resultado_analise["erro"])
+            # Se for erro de JSON, deixa o Pydantic validar e retornar 422 se necessário
+        
+        # 4. Retorna o dicionário JSON. O FastAPI/Pydantic vai validar
+        #    automaticamente contra o 'response_model=AnaliseCompletaResponse'.
+        #    Se a IA não retornar o formato EXATO, o Pydantic gerará um erro 422.
+        print(f"Retornando análise da IA: {resultado_analise}") 
         return resultado_analise
+        # --- FIM DA LÓGICA CORRIGIDA ---
 
+    except HTTPException:
+        # Repassa exceções HTTP que já foram tratadas (como o erro 400)
+        raise
     except Exception as e:
-        # Log detalhado do erro no servidor
+        # Captura qualquer outro erro inesperado
         print(f"❌ Erro inesperado em /analisar-lista-detalhada: {e}") 
-        # Mensagem de erro clara para o frontend
+        import traceback
+        traceback.print_exc() # Imprime o stack trace completo no log do servidor
         raise HTTPException(
             status_code=500, 
             detail=f"Erro interno ao processar a análise da lista: {str(e)}" 
         )
-    
-    

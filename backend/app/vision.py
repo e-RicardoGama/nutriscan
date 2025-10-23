@@ -166,3 +166,82 @@ def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
     except Exception as e:
         logger.error(f"Erro no scan: {e}")
         return {"erro": f"Falha no scan: {str(e)}"}
+    
+
+#
+# ADICIONE ESTA NOVA FUNÇÃO AO SEU ARQUIVO app/vision.py
+#
+def gerar_analise_detalhada_da_lista(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Recebe uma lista de alimentos (nome, gramas) e usa a IA para gerar 
+    a análise nutricional completa, vitaminas e recomendações.
+    """
+    model = genai.GenerativeModel('models/gemini-2.5-flash')
+
+    # 1. Formatar a lista de alimentos para o prompt
+    try:
+        alimentos_formatados = "\n".join([
+            f"- {alimento['nome']} ({alimento['quantidade_gramas']}g)" 
+            for alimento in payload.get('alimentos', [])
+        ])
+        if not alimentos_formatados:
+            return {"erro": "Lista de alimentos vazia no payload."}
+    except Exception as e:
+        logger.error(f"Erro ao formatar payload: {e}")
+        return {"erro": "Payload de alimentos mal formatado."}
+
+    # 2. Criar o prompt detalhado, pedindo o JSON completo
+    prompt_detalhado = f"""
+Você é um nutricionista especialista. Analise esta lista de alimentos de uma refeição e forneça um relatório estruturado em JSON com as seguintes seções:
+
+LISTA DE ALIMENTOS:
+{alimentos_formatados}
+
+JSON DE RESPOSTA (obrigatório):
+{{
+  "detalhes_prato": {{
+    "alimentos": [
+      {{
+        "nome": "string (nome do alimento da lista)",
+        "quantidade_gramas": "number (quantidade da lista)",
+        "metodo_preparo": "string (ex: Cozido, Frito, Salteado, etc.)"
+      }}
+    ]
+  }},
+  "analise_nutricional": {{
+    "calorias_totais": "number (total da refeição)",
+    "macronutrientes": {{
+      "proteinas_g": "number (total)",
+      "carboidratos_g": "number (total)",
+      "gorduras_g": "number (total)"
+    }},
+    "vitaminas_minerais": ["string (lista de vitaminas e minerais relevantes)"]
+  }},
+  "recomendacoes": {{
+    "pontos_positivos": ["string (lista de pontos positivos)"],
+    "sugestoes_balanceamento": ["string (lista de sugestões)"],
+    "alternativas_saudaveis": ["string (lista de alternativas)"]
+  }}
+}}
+
+Forneça APENAS o JSON, sem texto adicional. Use os alimentos e quantidades da lista fornecida.
+"""
+
+    # 3. Chamar a API e retornar o JSON
+    try:
+        logger.info(f"-> Enviando lista de alimentos para análise detalhada do Gemini...")
+        response = model.generate_content(prompt_detalhado)
+        
+        # 🔍 DEBUG: Log da resposta bruta
+        logger.info(f"Resposta bruta do Gemini (análise de lista): {response.text}")
+        
+        resultado = extrair_json_da_resposta(response.text)
+        
+        # 🔍 DEBUG: Log do resultado processado
+        logger.info(f"Resultado processado (análise de lista): {resultado}")
+        
+        return resultado
+        
+    except Exception as e:
+        logger.error(f"ERRO: Falha na comunicação com a API do Gemini (análise de lista): {e}")
+        return {"erro": "Desculpe, não foi possível analisar a lista de alimentos no momento."}
