@@ -17,10 +17,8 @@ from app.schemas.vision_alimentos_ import (
 
 # Funções da IA que este router utiliza
 from app.vision import (
-    analisar_imagem_do_prato_detalhado, 
-    obter_nutrientes_do_gemini, 
+    analisar_imagem_do_prato_detalhado,  
     escanear_prato_extrair_alimentos,
-    gerar_analise_detalhada_da_lista  # <-- Função chave para este fluxo
 )
 
 router = APIRouter(

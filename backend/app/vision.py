@@ -128,3 +128,26 @@ def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
         return {"erro": "Falha ao analisar imagem."}
 # ======================================================================
 
+def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
+    """
+    Modalidade SCAN: Extração rápida e estruturada de alimentos.
+    """
+    try:
+        if not conteudo_imagem:
+            return {"erro": "Imagem vazia ou inválida"}
+        
+        model = genai.GenerativeModel('models/gemini-2.5-flash')
+        prompt_scan = """SCAN RÁPIDO. Retorne APENAS JSON com a estrutura: {"alimentos_extraidos": [{"nome", "categoria", "quantidade_estimada_g", "confianca", "calorias_estimadas"}], "resumo_nutricional": {"total_calorias", "total_proteinas_g", "total_carboidratos_g", "total_gorduras_g"}, "alertas": []}"""
+        logger.info("Processando SCAN para extração rápida...")
+        img = Image.open(BytesIO(conteudo_imagem))
+        
+        response = model.generate_content([prompt_scan, img], generation_config=genai.types.GenerationConfig(temperature=0.1))
+        
+        if not response.text:
+            return {"erro": "Resposta vazia da API"}
+            
+        return extrair_json_da_resposta(response.text)
+    except Exception as e:
+        logger.error(f"Erro no scan: {e}")
+        return {"erro": f"Falha no scan: {str(e)}"}
+    
