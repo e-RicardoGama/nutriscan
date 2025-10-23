@@ -187,6 +187,7 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
                                 <tr>
                                     <th className="py-3 px-4 text-left text-xs font-semibold uppercase text-blue-700">Alimento</th>
                                     <th className="py-3 px-4 text-right text-xs font-semibold uppercase text-blue-700">Quantidade (g)</th>
+                                    <th className="py-3 px-4 text-right text-xs font-semibold uppercase text-green-700">Calorias</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">

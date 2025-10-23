@@ -22,16 +22,16 @@ steps:
       - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > key.json'
     dir: 'frontend'
 
-  # Etapa 4: Faz o deploy usando a chave
+  # Etapa 4: Ativa o experimento e faz o deploy usando a chave
   - name: 'node:18'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
         export GOOGLE_APPLICATION_CREDENTIALS=key.json && \
+        npx firebase-tools experiments:enable webframeworks && \ # <--- ESTA É A NOVA LINHA
         npx firebase-tools deploy --only hosting --project $PROJECT_ID --non-interactive
     dir: 'frontend'
 
 options:
   logging: CLOUD_LOGGING_ONLY
-
