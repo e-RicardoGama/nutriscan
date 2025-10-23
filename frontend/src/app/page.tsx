@@ -187,7 +187,6 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
                                 <tr>
                                     <th className="py-3 px-4 text-left text-xs font-semibold uppercase text-blue-700">Alimento</th>
                                     <th className="py-3 px-4 text-right text-xs font-semibold uppercase text-blue-700">Quantidade (g)</th>
-                                    <th className="py-3 px-4 text-left text-xs font-semibold uppercase text-blue-700">Preparo</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
@@ -195,7 +194,6 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
                                     <tr key={index} className="hover:bg-gray-50">
                                         <td className="py-3 px-4 text-sm font-medium text-gray-900">{alimento.nome}</td>
                                         <td className="py-3 px-4 text-sm text-gray-500 text-right">{alimento.quantidade_gramas}</td>
-                                        <td className="py-3 px-4 text-sm text-gray-500">{alimento.metodo_preparo}</td>
                                     </tr>
                                 ))}
                             </tbody>
