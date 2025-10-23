@@ -65,31 +65,3 @@ class AlimentoReconhecido(BaseModel):
 class AlimentoNaoReconhecido(BaseModel):
     nome_sugerido_ia: str
     quantidade_estimada_g: int
-
-# RENOMEADO PARA NÃO CAUSAR CONFLITO
-class AnaliseSimplesResponse(BaseModel):
-    reconhecidos: List[AlimentoReconhecido]
-    nao_reconhecidos: List[AlimentoNaoReconhecido]
-
-
-class AlimentoPayload(BaseModel):
-    nome: str
-    quantidade_gramas: float # Ou int
-
-class AnaliseListaPayload(BaseModel):
-    alimentos: List[AlimentoPayload]
-
-class AlimentoDetalhadoResponse(BaseModel):
-    nome: str
-    quantidade_gramas: float
-    metodo_preparo: str = "N/A" # Default se não puder determinar
-
-class MacronutrientesResponse(BaseModel):
-    proteinas_g: float
-    carboidratos_g: float
-    gorduras_g: float
-
-class RecomendacoesResponse(BaseModel):
-    pontos_positivos: List[str] = []
-    sugestoes_balanceamento: List[str] = []
-    alternativas_saudaveis: List[str] = []
