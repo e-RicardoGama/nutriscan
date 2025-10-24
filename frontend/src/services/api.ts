@@ -1,37 +1,29 @@
 import axios from 'axios';
 
-// 1. Lê a URL da API da variável de ambiente que configuramos
-//    - Em desenvolvimento (local), será 'http://127.0.0.1:8000'
-//    - Em produção (Firebase), será 'https://nutriscan-backend-...'
+// 1. Lê a URL da API da variável de ambiente
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-// 2. Cria a instância do Axios com a URL correta
+// 2. Cria a instância do Axios
 const api = axios.create({
   baseURL: baseURL,
 });
 
-// --- Funções para gerenciar o token JWT ---
-
+// --- Funções para gerenciar o token JWT (Seu código) ---
 let accessToken: string | null = null;
 
 export const setAccessToken = (token: string | null) => {
   accessToken = token;
   if (token) {
-    // Adiciona o token a todos os cabeçalhos de requisições futuras
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    // Opcional: Salvar no localStorage para persistir o login
     localStorage.setItem('accessToken', token);
   } else {
-    // Remove o token dos cabeçalhos
     delete api.defaults.headers.common['Authorization'];
-    // Opcional: Remover do localStorage
     localStorage.removeItem('accessToken');
   }
 };
 
 export const getAccessToken = (): string | null => {
   if (!accessToken) {
-    // Tenta carregar do localStorage se a página foi recarregada
     accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -40,7 +32,7 @@ export const getAccessToken = (): string | null => {
   return accessToken;
 };
 
-// ✅ ADICIONE interceptors para debug
+// --- Interceptors (Seu código) ---
 api.interceptors.request.use(
   (config) => {
     console.log('🔄 Fazendo requisição para:', config.url);
@@ -51,17 +43,77 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+// ... (seu interceptor de response) ...
 
-api.interceptors.response.use(
-  (response) => {
-    console.log('✅ Resposta recebida:', response.status);
-    return response;
-  },
-  (error) => {
-    console.error('❌ Erro na resposta:', error.response?.data || error.message);
-    return Promise.reject(error);
-  }
-);
+// ==================================================================
+// ✅ INÍCIO DA ADIÇÃO: Funções de Ação da API (COM CORREÇÃO)
+// ==================================================================
 
+// --- Interfaces de Tipos ---
+// (Já tínhamos estas)
+interface Nutrients {
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+}
+interface ApiItem {
+  id: string;
+  name: string;
+  nutrients: Nutrients;
+}
 
+// (Faltava esta no api.ts, ela estava no componente)
+interface MealItem extends ApiItem {
+  category: string;
+}
+
+// ✅ NOVA INTERFACE: Esta é a correção para o erro 'any'
+// Ela define exatamente a estrutura do objeto mealData
+interface MealPayload {
+  items: MealItem[];
+  totals: Nutrients;
+}
+
+/**
+ * Envia uma foto para a API para análise.
+ * @param {File} photo - O arquivo da imagem
+ */
+export const takeAndAnalyzePhoto = async (photo: File): Promise<ApiItem> => {
+  const formData = new FormData();
+  formData.append('file', photo); 
+
+  console.log("Enviando foto para /analyze-photo...");
+  
+  const response = await api.post('/analyze-photo', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  // Agora o TypeScript sabe que a resposta DEVE ser um ApiItem
+  return response.data; 
+};
+
+/**
+ * Salva a refeição completa no banco de dados.
+ * @param {MealPayload} mealData - O objeto { items: [...], totals: {...} }
+ */
+// ✅ CORREÇÃO: Trocamos 'any' por 'MealPayload'
+export const saveMealToDatabase = async (mealData: MealPayload) => {
+  console.log("Salvando refeição no DB via /meals...");
+  
+  // Agora o TypeScript sabe exatamente o que é mealData
+  const response = await api.post('/meals', mealData);
+  
+  // Você também pode tipar a resposta se souber o que ela retorna
+  // ex: const response = await api.post<SaveResponse>('/meals', mealData);
+  return response.data;
+};
+
+// ==================================================================
+// FIM DA ADIÇÃO
+// ==================================================================
+
+// Exporta a instância 'api' como default
 export default api;

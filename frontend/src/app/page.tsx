@@ -99,9 +99,9 @@ const ScanResults = ({
                             <thead className="bg-gray-50">
                                 <tr>
                                     <th className="py-3 px-4 text-left text-xs font-semibold uppercase text-green-700">Alimento</th>
+                                    <th className="py-3 px-4 text-center text-xs font-semibold uppercase text-green-700">Ações</th>
                                     <th className="py-3 px-4 text-right text-xs font-semibold uppercase text-green-700">Calorias</th>
                                     <th className="py-3 px-4 text-center text-xs font-semibold uppercase text-green-700">Confiança</th>
-                                    <th className="py-3 px-4 text-center text-xs font-semibold uppercase text-green-700">Ações</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
@@ -110,12 +110,6 @@ const ScanResults = ({
                                         <td className="py-3 px-4 text-sm font-medium text-gray-900">
                                             {alimento.nome}
                                             <span className="block text-xs text-gray-500">{alimento.quantidade_estimada_g}g ({alimento.categoria})</span>
-                                        </td>
-                                        <td className="py-3 px-4 text-sm text-gray-500 text-right">{alimento.calorias_estimadas}</td>
-                                        <td className="py-3 px-4 text-center">
-                                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${confiancaStyles[alimento.confianca] || confiancaStyles.baixa}`}>
-                                                {alimento.confianca}
-                                            </span>
                                         </td>
                                         <td className="py-3 px-4 text-center">
                                             <div className="flex justify-center items-center space-x-2">
@@ -142,6 +136,14 @@ const ScanResults = ({
                                                 </button>
                                             </div>
                                         </td>
+                                        
+                                        <td className="py-3 px-4 text-sm text-gray-500 text-right">{alimento.calorias_estimadas}</td>
+                                        <td className="py-3 px-4 text-center">
+                                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${confiancaStyles[alimento.confianca] || confiancaStyles.baixa}`}>
+                                                {alimento.confianca}
+                                            </span>
+                                        </td>
+                                        
                                     </tr>
                                 ))}
                             </tbody>
