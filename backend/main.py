@@ -19,7 +19,7 @@ app = FastAPI(
 # ✅ CONFIGURAÇÃO CORS CORRIGIDA
 origins = [
     "https://gen-lang-client-0450724380.web.app",
-    "https://nutri.api.br",
+    "https://www.nutri.api.br",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
