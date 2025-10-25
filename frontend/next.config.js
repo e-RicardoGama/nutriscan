@@ -18,6 +18,9 @@ const nextConfig = {
     // mesmo que seu projeto tenha erros de ESLint.
     ignoreDuringBuilds: true,
   },
+  images: {
+    unoptimized: true  // ← LINHA CRÍTICA
+  }
 }
 
 module.exports = nextConfig
