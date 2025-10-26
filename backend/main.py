@@ -20,6 +20,7 @@ app = FastAPI(
 origins = [
     "https://gen-lang-client-0450724380.web.app",
     "https://www.nutri.api.br",
+    "https://nutri.api.br",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
