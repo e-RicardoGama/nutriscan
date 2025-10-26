@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // 1. Lê a URL da API da variável de ambiente
-const baseURL = process.env.NEXT_PUBLIC_API_URL;
+// const baseURL = process.env.NEXT_PUBLIC_API_URL;
+const baseURL = 'https://nutriscan-backend-925272362555.southamerica-east1.run.app';
 
 // 2. Cria a instância do Axios
 const api = axios.create({
