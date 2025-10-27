@@ -15,6 +15,15 @@ class Usuario(Base):
     # ✅ Adicionado o campo 'is_active'
     is_active = Column(Boolean, default=True)
 
+    # --- 👇 ADICIONE ESTAS LINHAS ---
+    # Este relacionamento cria o "par" que falta para o 'back_populates'
+    # da classe RefeicaoSalva
+    refeicoes_salvas = relationship(
+        "RefeicaoSalva", 
+        back_populates="owner", 
+        cascade="all, delete-orphan"
+    )
+
 class DadosUsuario(Base):
     __tablename__ = "dados_usuarios"
 
