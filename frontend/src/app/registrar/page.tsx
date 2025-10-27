@@ -1,15 +1,18 @@
-// arquivo: src/app/registrar/page.tsx
+// arquivo: src/app/registrar/page.tsx - VERSÃO ATUALIZADA
 
 "use client";
 
 import { useState, Suspense } from 'react';
-import api from '../../services/api'; // Nosso helper de API
+import api from '../../services/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
+import PasswordInput from '../../components/PasswordInput'; // Importando o componente
 
 // Componente principal que pode usar hooks
 function RegisterContent() {
+  const [nome, setNome] = useState('');
+  const [apelido, setApelido] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,8 +31,13 @@ function RegisterContent() {
     }
 
     try {
-      // Usando nosso helper 'api' para chamar o endpoint de registro
-      await api.post('/auth/registrar', { email, password });
+      // Atualizando para incluir nome e apelido
+      await api.post('/auth/registrar', { 
+        nome, 
+        apelido, 
+        email, 
+        password 
+      });
 
       setSuccess('Usuário registrado com sucesso! Redirecionando para o login...');
       
@@ -60,6 +68,32 @@ function RegisterContent() {
       <div className="container mx-auto max-w-md bg-white shadow-2xl rounded-2xl p-8">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-4 text-center">Criar Conta</h1>
         <form onSubmit={handleRegister}>
+          {/* Novo campo: Nome */}
+          <div className="mb-4">
+            <label htmlFor="nome" className="block text-gray-700 font-bold mb-2">Nome Completo</label>
+            <input
+              type="text"
+              id="nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
+          {/* Novo campo: Apelido */}
+          <div className="mb-4">
+            <label htmlFor="apelido" className="block text-gray-700 font-bold mb-2">Como gostaria de ser chamado</label>
+            <input
+              type="text"
+              id="apelido"
+              value={apelido}
+              onChange={(e) => setApelido(e.target.value)}
+              required
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
             <input
@@ -71,28 +105,24 @@ function RegisterContent() {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="password"  className="block text-gray-700 font-bold mb-2">Senha</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="confirmPassword"  className="block text-gray-700 font-bold mb-2">Confirmar Senha</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </div>
+          
+          {/* Campo de senha com olhinho */}
+          <PasswordInput
+            id="password"
+            label="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          {/* Campo de confirmar senha com olhinho */}
+          <PasswordInput
+            id="confirmPassword"
+            label="Confirmar Senha"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
           
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {success && <p className="text-green-500 text-center mb-4">{success}</p>}

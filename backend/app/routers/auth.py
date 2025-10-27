@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 # Importações dos seus schemas
 from app.schemas.login import UserPublic, UserCreate, Token
+from app.schemas.registro import UserRegister, UserResponse
 
 # Importações do banco, modelos e segurança
 from app.database import get_db
@@ -21,23 +22,21 @@ router = APIRouter(
 def get_user_by_email(email: str, db: Session):
     return db.query(Usuario).filter(Usuario.email == email).first()
 
+
 # ✅ ROTA DE REGISTRO (CORRETA)
-@router.post("/registrar", response_model=UserPublic) 
-def registrar_usuario(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(Usuario).filter(Usuario.email == user.email).first()
+@router.post("/registrar", response_model=UserResponse)
+def registrar(usuario: UserRegister, db: Session = Depends(get_db)):
+    # Verificar se usuário já existe
+    db_user = db.query(Usuario).filter(Usuario.email == usuario.email).first()
     if db_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="E-mail já registrado."
-        )
+        raise HTTPException(status_code=400, detail="Email já registrado")
     
-    # O modelo 'Usuario' precisa ter o campo 'nome', que é obrigatório
-    nome_padrao = user.email.split('@')[0]
-    
-    hashed_password = security.gerar_hash_senha(user.password)
+    # ✅ CORREÇÃO: Usar ambos os campos
+    hashed_password = security.gerar_hash_senha(usuario.password)
     novo_usuario = Usuario(
-        nome=nome_padrao, 
-        email=user.email, 
+        nome=usuario.nome,        # ✅ Usar o nome do formulário
+        apelido=usuario.apelido,  # ✅ Adicionar o apelido
+        email=usuario.email, 
         senha_hash=hashed_password
     )
     
@@ -46,6 +45,7 @@ def registrar_usuario(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(novo_usuario)
     
     return novo_usuario
+
 
 # ✅ ROTA DE LOGIN (CORRIGIDA E COMPLETA)
 @router.post("/login", response_model=Token)

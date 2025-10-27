@@ -8,16 +8,15 @@ class Usuario(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
+    apelido = Column(String, nullable=True)  # ✅ NOVO CAMPO ADICIONADO
     email = Column(String, unique=True, index=True, nullable=False)
     senha_hash = Column(String, nullable=False)
     email_verificado = Column(Boolean, default=False)
     
-    # ✅ Adicionado o campo 'is_active'
+    # ✅ Campo 'is_active' mantido
     is_active = Column(Boolean, default=True)
 
-    # --- 👇 ADICIONE ESTAS LINHAS ---
-    # Este relacionamento cria o "par" que falta para o 'back_populates'
-    # da classe RefeicaoSalva
+    # Relacionamento com refeições salvas
     refeicoes_salvas = relationship(
         "RefeicaoSalva", 
         back_populates="owner", 
@@ -30,7 +29,6 @@ class DadosUsuario(Base):
     id = Column(Integer, primary_key=True, index=True)
     usuario_id = Column(Integer, ForeignKey("usuarios.id", ondelete="CASCADE"), nullable=False)
 
-    
     altura_cm = Column(Numeric, nullable=True)
     peso_kg = Column(Numeric, nullable=True)
     idade = Column(Integer, nullable=True)
@@ -38,7 +36,6 @@ class DadosUsuario(Base):
     nivel_atividade = Column(String, nullable=True)
     dieta_preferida = Column(String, nullable=True)
     objetivo = Column(String, nullable=True)
-#    refeicoes_diarias = Column(String, nullable=True)
 
     # Metas nutricionais
     kcal_meta = Column(Float, nullable=True)
@@ -55,11 +52,6 @@ class DadosUsuario(Base):
     # Relacionamento de volta para o usuário
     usuario = relationship("Usuario")
 
-    # Relacionamentos
-#    refeicao = relationship("Refeicao", back_populates="usuario", cascade="all, delete-orphan")
-    # ✅ Removido o relacionamento com PlanejamentoRefeicao, pois ainda não existe.
-
-
 class HistoricoUsuario(Base):
     __tablename__ = "historico_usuarios"
 
@@ -73,7 +65,6 @@ class HistoricoUsuario(Base):
     nivel_atividade = Column(String, nullable=True)
     dieta_preferida = Column(String, nullable=True)
     objetivo = Column(String, nullable=True)
-#    refeicoes_diarias = Column(String, nullable=True)
 
     kcal_meta = Column(Numeric, nullable=True)
     proteina_g_meta = Column(Numeric, nullable=True)
@@ -86,5 +77,3 @@ class HistoricoUsuario(Base):
 
     # Relacionamento de volta para o usuário
     usuario = relationship("Usuario")
-
-    

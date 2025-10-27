@@ -1,11 +1,12 @@
-// frontend/src/app/login/page.tsx - VERSÃO INTEGRADA COM AuthContext
+// frontend/src/app/login/page.tsx - VERSÃO ATUALIZADA COM OLHINHO
 
 "use client";
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '../../context/AuthContext'; // ✅ 1. IMPORTAMOS o useAuth
+import { useAuth } from '../../context/AuthContext';
+import PasswordInput from '../../components/PasswordInput'; // Importando o componente
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,9 +15,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   
-  const { login } = useAuth(); // ✅ 2. OBTEMOS a função de login do nosso contexto
+  const { login } = useAuth();
 
-  // ✅ ADICIONE headers explícitos na requisição de login
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -56,7 +56,6 @@ export default function LoginPage() {
       <div className="container mx-auto max-w-md bg-white shadow-2xl rounded-2xl p-8">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-4 text-center">Login</h1>
         <form onSubmit={handleLogin}>
-          {/* O restante do seu formulário JSX continua exatamente o mesmo */}
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
             <input
@@ -68,17 +67,15 @@ export default function LoginPage() {
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
           </div>
-          <div className="mb-6">
-            <label htmlFor="password"  className="block text-gray-700 font-bold mb-2">Senha</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </div>
+          
+          {/* Campo de senha com olhinho */}
+          <PasswordInput
+            id="password"
+            label="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
           
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 

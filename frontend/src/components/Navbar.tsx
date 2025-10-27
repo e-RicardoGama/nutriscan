@@ -24,9 +24,12 @@ export default function Navbar({ onLogout }: NavbarProps) {
 
   let saudacao = "";
   let iconeSaudacao = null;
+  let nomeParaSaudacao = "";
 
   if (usuario) {
     const hora = new Date().getHours();
+    
+    // ✅ Define a saudação baseada na hora
     if (hora < 12) {
       saudacao = "Bom dia";
       iconeSaudacao = <Sun className="w-5 h-5" />;
@@ -37,6 +40,9 @@ export default function Navbar({ onLogout }: NavbarProps) {
       saudacao = "Boa noite";
       iconeSaudacao = <Moon className="w-5 h-5" />;
     }
+    
+    // ✅ Define o nome para saudação: apelido tem prioridade
+    nomeParaSaudacao = usuario.apelido || usuario.nome;
   }
 
   return (
@@ -66,7 +72,8 @@ export default function Navbar({ onLogout }: NavbarProps) {
                   </h1>
                   {usuario && (
                     <span className="text-xs md:text-sm font-semibold text-green-800 flex items-center gap-1">
-                      {saudacao}, {usuario.nome} {iconeSaudacao}
+                      {/* ✅ CORREÇÃO 1: Usar nomeParaSaudacao em vez de usuario.nome */}
+                      {saudacao}, {nomeParaSaudacao}! {iconeSaudacao}
                     </span>
                   )}
                 </div>
@@ -76,14 +83,15 @@ export default function Navbar({ onLogout }: NavbarProps) {
               <div className="flex items-center gap-2 sm:gap-3">
                 {!usuario ? (
                   <>
+                    {/* ✅ CORREÇÃO 2: Rotas corretas para login e cadastro */}
                     <button
-                      onClick={() => router.push("/auth")}
+                      onClick={() => router.push("/login")}  // ← Corrigido de "/auth" para "/login"
                       className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold"
                     >
                       Entrar
                     </button>
                     <button
-                      onClick={() => router.push("/cadastro")}
+                      onClick={() => router.push("/registrar")}  // ← Corrigido de "/cadastro" para "/registrar"
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
                     >
                       Cadastrar

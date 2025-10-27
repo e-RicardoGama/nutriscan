@@ -1,120 +1,87 @@
-import axios from 'axios';
+// /src/services/api.ts
+import axios from "axios";
 
-// 1. Lê a URL da API da variável de ambiente
- const baseURL = process.env.NEXT_PUBLIC_API_URL;
-//const baseURL = 'https://nutriscan-backend-925272362555.southamerica-east1.run.app';
+const baseURL =
+  typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_URL
+    ? process.env.NEXT_PUBLIC_API_URL
+    : "";
 
-// 2. Cria a instância do Axios
+// Cria a instância do Axios
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL,
+  timeout: 10000, // ✅ Adicionar timeout
 });
 
-// --- Funções para gerenciar o token JWT (Seu código) ---
-let accessToken: string | null = null;
+// Token guardado em memória (runtime)
+let _accessToken: string | null = null;
 
+/**
+ * Define o token em memória e (se estiver no client) em localStorage e headers do axios
+ */
 export const setAccessToken = (token: string | null) => {
-  accessToken = token;
-  if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    localStorage.setItem('accessToken', token);
-  } else {
-    delete api.defaults.headers.common['Authorization'];
-    localStorage.removeItem('accessToken');
-  }
-};
+  _accessToken = token;
 
-export const getAccessToken = (): string | null => {
-  if (!accessToken) {
-    accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  // Atualiza header da instância do axios
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common["Authorization"];
+  }
+
+  // Persiste somente no client
+  if (typeof window !== "undefined") {
+    try {
+      if (token) localStorage.setItem("accessToken", token);
+      else localStorage.removeItem("accessToken");
+    } catch (err) {
+      console.warn("services/api: falha ao acessar localStorage", err);
     }
   }
-  return accessToken;
 };
 
-// --- Interceptors (Seu código) ---
+/**
+ * Lê o token da memória; se não existir e estivermos no client, tenta do localStorage.
+ * Retorna string|null
+ */
+export const getAccessToken = (): string | null => {
+  if (_accessToken) return _accessToken;
+
+  if (typeof window !== "undefined") {
+    try {
+      const t = localStorage.getItem("accessToken");
+      if (t) {
+        _accessToken = t;
+        api.defaults.headers.common["Authorization"] = `Bearer ${t}`;
+        return t;
+      }
+    } catch (err) {
+      console.warn("services/api: erro ao ler token do localStorage", err);
+    }
+  }
+
+  return null;
+};
+
+// Interceptors (logging e tratamento simples)
 api.interceptors.request.use(
   (config) => {
-    console.log('🔄 Fazendo requisição para:', config.url);
+    if (typeof window !== "undefined") {
+      // opcional: leve logging
+      // console.log("🔄 Fazendo requisição para:", config.url);
+    }
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  (res) => res,
   (error) => {
-    console.error('❌ Erro na requisição:', error);
+    // Tratar 401 / refresh token etc. (placeholder)
+    // console.error("API response error:", error);
     return Promise.reject(error);
   }
 );
-// ... (seu interceptor de response) ...
 
-// ==================================================================
-// ✅ INÍCIO DA ADIÇÃO: Funções de Ação da API (COM CORREÇÃO)
-// ==================================================================
-
-// --- Interfaces de Tipos ---
-// (Já tínhamos estas)
-interface Nutrients {
-  calories: number;
-  protein: number;
-  fat: number;
-  carbs: number;
-}
-interface ApiItem {
-  id: string;
-  name: string;
-  nutrients: Nutrients;
-}
-
-// (Faltava esta no api.ts, ela estava no componente)
-interface MealItem extends ApiItem {
-  category: string;
-}
-
-// ✅ NOVA INTERFACE: Esta é a correção para o erro 'any'
-// Ela define exatamente a estrutura do objeto mealData
-interface MealPayload {
-  items: MealItem[];
-  totals: Nutrients;
-}
-
-/**
- * Envia uma foto para a API para análise.
- * @param {File} photo - O arquivo da imagem
- */
-export const takeAndAnalyzePhoto = async (photo: File): Promise<ApiItem> => {
-  const formData = new FormData();
-  formData.append('file', photo); 
-
-  console.log("Enviando foto para /analyze-photo...");
-  
-  const response = await api.post('/analyze-photo', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-  // Agora o TypeScript sabe que a resposta DEVE ser um ApiItem
-  return response.data; 
-};
-
-/**
- * Salva a refeição completa no banco de dados.
- * @param {MealPayload} mealData - O objeto { items: [...], totals: {...} }
- */
-// ✅ CORREÇÃO: Trocamos 'any' por 'MealPayload'
-export const saveMealToDatabase = async (mealData: MealPayload) => {
-  console.log("Salvando refeição no DB via /meals...");
-  
-  // Agora o TypeScript sabe exatamente o que é mealData
-  const response = await api.post('/meals', mealData);
-  
-  // Você também pode tipar a resposta se souber o que ela retorna
-  // ex: const response = await api.post<SaveResponse>('/meals', mealData);
-  return response.data;
-};
-
-// ==================================================================
-// FIM DA ADIÇÃO
-// ==================================================================
-
-// Exporta a instância 'api' como default
+// Exportações
 export default api;

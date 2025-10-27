@@ -8,7 +8,6 @@ import api from '../services/api';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { useAuth } from '../context/AuthContext';
 import { ChevronDown, Check, Pencil, Trash2 } from 'lucide-react';
 
@@ -567,7 +566,6 @@ export default function Home() {
                     </div>
                 </div>
             </main>
-            <Footer />
         </div>
     );
 }
