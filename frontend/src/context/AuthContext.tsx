@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const fetchMe = useCallback(async () => {
     try {
       if (IS_DEVELOPMENT) console.log('🔄 Buscando dados do usuário...');
-      const { data } = await api.get<MeResponse>("/usuarios/me");
+      const { data } = await api.get<MeResponse>("/api/v1/usuarios/me"); 
       if (IS_DEVELOPMENT) console.log('✅ Dados do usuário recebidos:', data);
       setUsuario(data);
     } catch (error) {
@@ -75,10 +75,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       body.set("username", email);
       body.set("password", senha);
 
-      if (IS_DEVELOPMENT) {
-        console.log('🔐 Tentando login...');
-        console.log('🌐 URL completa:', `${API_BASE_URL}/api/v1/auth/login`);
-      }
+      // Constrói a URL que será usada
+      const loginUrl = `${API_BASE_URL}/api/v1/auth/login`;
+
+      // Log para verificar a URL antes de chamar o fetch
+      console.log('>>> URL COMPLETA SENDO USADA PARA LOGIN:', loginUrl); // <--- ADICIONE ESTA LINHA AQUI
 
       // ✅ CORREÇÃO: Usar a URL correta com /api/v1
       const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
