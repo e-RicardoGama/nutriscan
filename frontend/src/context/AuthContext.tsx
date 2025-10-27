@@ -77,11 +77,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
       if (IS_DEVELOPMENT) {
         console.log('🔐 Tentando login...');
-        console.log('🌐 URL da API:', API_BASE_URL);
+        console.log('🌐 URL completa:', `${API_BASE_URL}/api/v1/auth/login`);
       }
 
-      // ✅ CORREÇÃO: Usar fetch diretamente com URL absoluta para evitar problemas de CORS
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      // ✅ CORREÇÃO: Usar a URL correta com /api/v1
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -90,15 +90,15 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ detail: 'Erro desconhecido' }));
-        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('❌ Resposta do servidor:', errorText);
+        throw new Error(`Erro HTTP! status: ${response.status}`);
       }
 
       const data = await response.json();
       
       if (IS_DEVELOPMENT) console.log('✅ Login bem-sucedido, token recebido:', data);
       
-      // ✅ CORREÇÃO: Verificar se o token existe
       if (!data.access_token) {
         throw new Error('Token não recebido da API');
       }
@@ -107,20 +107,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       await fetchMe();
     } catch (err) {
       console.error('❌ Erro no login:', err);
-      
-      // ✅ CORREÇÃO: Mensagem de erro mais específica
-      let errorMessage = 'Erro durante o login';
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (typeof err === 'string') {
-        errorMessage = err;
-      }
-      
-      throw new Error(errorMessage);
+      throw err;
     } finally {
       setCarregando(false);
     }
-  }, [fetchMe]);
+  }, [fetchMe]); 
 
   const logout = useCallback(() => {
     if (IS_DEVELOPMENT) console.log('🚪 Fazendo logout...');

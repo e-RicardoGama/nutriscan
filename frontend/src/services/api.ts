@@ -1,15 +1,14 @@
 // /src/services/api.ts
 import axios from "axios";
 
-const baseURL =
-  typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_URL
-    ? process.env.NEXT_PUBLIC_API_URL
-    : "";
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-// Cria a instância do Axios
+// DEBUG - verificar se a URL está correta
+console.log('🔧 API Base URL configurada:', baseURL);
+
 const api = axios.create({
   baseURL,
-  timeout: 10000, // ✅ Adicionar timeout
+  timeout: 10000,
 });
 
 // Token guardado em memória (runtime)
