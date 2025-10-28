@@ -5,7 +5,7 @@ export default function PoliticaCookies() {
       <h1 className="text-3xl font-bold mb-4">Política de Cookies</h1>
 
       <p className="mb-2">
-        O aplicativo <strong>Alimentação Equilibrada</strong> utiliza cookies e tecnologias semelhantes para melhorar a experiência do usuário, analisar desempenho e personalizar conteúdo.
+        O aplicativo <strong>Nutrindo seu bem-estar</strong> utiliza cookies e tecnologias semelhantes para melhorar a experiência do usuário, analisar desempenho e personalizar conteúdo.
       </p>
 
       <h2 className="text-2xl font-semibold mt-4 mb-2">1. Tipos de Cookies</h2>

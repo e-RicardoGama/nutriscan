@@ -5,7 +5,7 @@ export default function TermosUso() {
       <h1 className="text-3xl font-bold mb-4">Termos de Uso</h1>
       
       <p className="mb-2">
-        Bem-vindo ao aplicativo <strong>Alimentação Equilibrada</strong>. Ao acessar ou utilizar este aplicativo, você concorda com os termos e condições descritos abaixo. Caso não concorde, não utilize nossos serviços.
+        Bem-vindo ao aplicativo <strong>Nutrindo seu bem-estar</strong>. Ao acessar ou utilizar este aplicativo, você concorda com os termos e condições descritos abaixo. Caso não concorde, não utilize nossos serviços.
       </p>
 
       <h2 className="text-2xl font-semibold mt-4 mb-2">1. Uso do Aplicativo</h2>

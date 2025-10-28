@@ -308,7 +308,7 @@ export default function Home() {
         formData.append('imagem', file); 
         
         try {
-            const response = await api.post<ScanRapidoResponse>('/refeicoes/scan-rapido', formData);
+            const response = await api.post<ScanRapidoResponse>('/api/v1/refeicoes/scan-rapido', formData);
             setScanResult(response.data);
         } catch (error) {
             // ✅ CORREÇÃO 1: Usando const e simplificado

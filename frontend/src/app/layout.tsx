@@ -11,7 +11,7 @@ import ConsentimentoLGPD from "../components/ConsentimentoLGPD";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Alimentação Equilibrada",
+  title: "Nutri Info",
   description: "Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial.",
   icons: { icon: "/imagens/alimentacao.jpg" },
 };

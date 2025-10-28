@@ -5,7 +5,7 @@ export default function PoliticaPrivacidade() {
       <h1 className="text-3xl font-bold mb-4">Política de Privacidade</h1>
 
       <p className="mb-2">
-        O aplicativo <strong>Alimentação Equilibrada</strong> coleta, armazena e processa dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018). Ao utilizar nosso aplicativo, você concorda com esta política.
+        O aplicativo <strong>Nutrindo seu bem-estar</strong> coleta, armazena e processa dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018). Ao utilizar nosso aplicativo, você concorda com esta política.
       </p>
 
       <h2 className="text-2xl font-semibold mt-4 mb-2">1. Dados Coletados</h2>

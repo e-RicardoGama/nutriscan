@@ -68,7 +68,7 @@ export default function Navbar({ onLogout }: NavbarProps) {
                 />
                 <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
                   <h1 className="text-lg md:text-xl font-bold text-green-800">
-                    Nutrientes
+                    Nutrindo seu bem-estar
                   </h1>
                   {usuario && (
                     <span className="text-xs md:text-sm font-semibold text-green-800 flex items-center gap-1">
