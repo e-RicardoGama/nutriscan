@@ -142,22 +142,22 @@ async def analisar_refeicao_detalhadamente_por_id(
 
 
 # --- Endpoint de Análise Detalhada DIRETO DA IMAGEM (Opcional) ---
-@router.post("/analisar-imagem-detalhado", response_model=AnaliseCompletaResponseSchema, summary="[Alternativo] Analisa imagem direto", deprecated=True) 
-async def analisar_imagem_detalhada_direto(
-    file: UploadFile = File(...),
-    db: Session = Depends(get_db), 
-    current_user: Usuario = Depends(get_current_user) 
-):
-    if not file.content_type.startswith("image/"): raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Arquivo inválido.")
-    try:
-        conteudo_imagem = await file.read()
-        resultado = analisar_imagem_do_prato_detalhado(conteudo_imagem) 
-        if not isinstance(resultado, dict): raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Formato inesperado da análise de imagem.")
-        if "erro" in resultado: raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=resultado["erro"])
-        validated_result = AnaliseCompletaResponseSchema.model_validate(resultado) 
-        return validated_result 
-    except HTTPException: raise
-    except Exception as e:
-        print(f"Erro endpoint /analisar-imagem-detalhado: {str(e)}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno: consulte logs.")
+#@router.post("/analisar-imagem-detalhado", response_model=AnaliseCompletaResponseSchema, summary="[Alternativo] Analisa imagem direto", deprecated=True) 
+#async def analisar_imagem_detalhada_direto(
+#    file: UploadFile = File(...),
+#    db: Session = Depends(get_db), 
+#    current_user: Usuario = Depends(get_current_user) 
+#):
+#    if not file.content_type.startswith("image/"): raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Arquivo inválido.")
+#    try:
+#        conteudo_imagem = await file.read()
+#        resultado = analisar_imagem_do_prato_detalhado(conteudo_imagem) 
+#        if not isinstance(resultado, dict): raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Formato inesperado da análise de imagem.")
+#        if "erro" in resultado: raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=resultado["erro"])
+#        validated_result = AnaliseCompletaResponseSchema.model_validate(resultado) 
+#        return validated_result 
+#    except HTTPException: raise
+#    except Exception as e:
+#        print(f"Erro endpoint /analisar-imagem-detalhado: {str(e)}")
+#        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno: consulte logs.")
 

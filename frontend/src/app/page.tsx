@@ -395,59 +395,75 @@ export default function Home() {
     };
     // --- Fim dos Handlers do ScanResult ---
 
-    // Função para buscar a Análise Detalhada
     const fetchDetailedAnalysis = async () => {
-        setLoadingAnalysis(true);
+        setLoadingAnalysis(true); // Indica que o processo começou (salvar + analisar)
         setAnalysisError(null);
-        
+        setApiError(null); // Limpa erros anteriores também
+        let savedMealId: number | null = null; // Para guardar o ID da refeição salva
+
         try {
-            if (!fotoCapturada) {
-                throw new Error('Nenhuma imagem disponível para análise detalhada');
+            // --- PASSO 1: Salvar a Refeição Editada ---
+            if (!scanResult?.resultado?.alimentos_extraidos || scanResult.resultado.alimentos_extraidos.length === 0) {
+                throw new Error("Não há alimentos editados do scan rápido para salvar e analisar.");
             }
 
-            const formData = new FormData();
-            formData.append('file', fotoCapturada);
-            
-            const response = await api.post<AnaliseCompletaResponse>(
-                '/api/v1/refeicoes/analisar-imagem-detalhado', 
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
+            // Formata os dados para o schema AlimentoSalvoCreate (ajuste os nomes dos campos se necessário)
+            const alimentosParaSalvar = scanResult.resultado.alimentos_extraidos.map(alimento => ({
+                nome: alimento.nome,
+                quantidade_estimada_g: alimento.quantidade_estimada_g,
+                categoria_nutricional: alimento.categoria, // Mapeia 'categoria' para 'categoria_nutricional'
+                confianca: alimento.confianca,
+                calorias_estimadas: alimento.calorias_estimadas,
+                medida_caseira_sugerida: alimento.medida_caseira_sugerida,
+                // origin_category: ??? // Adicione este se precisar vir do frontend
+            }));
+
+            console.log("-> Enviando alimentos editados para salvar:", alimentosParaSalvar);
+            const saveResponse = await api.post<{ meal_id: number }>(
+                '/api/v1/refeicoes/salvar-scan-editado', // Endpoint de salvar
+                alimentosParaSalvar
             );
-            
-            if (response.data && response.data.detalhes_prato) {
-                // ✅ LIMPA OS RESULTADOS DO SCAN RÁPIDO QUANDO A ANÁLISE DETALHADA É GERADA
-                setScanResult(null);
-                setAnalysisResult(response.data);
+
+            savedMealId = saveResponse.data.meal_id;
+            console.log("-> Refeição salva com ID:", savedMealId);
+
+            if (!savedMealId) {
+                throw new Error("Falha ao obter o ID da refeição salva.");
+            }
+
+            // --- PASSO 2: Chamar a Análise Detalhada POR ID ---
+            console.log(`-> Solicitando análise detalhada para meal_id: ${savedMealId}`);
+            const analysisResponse = await api.post<AnaliseCompletaResponse>(
+                `/api/v1/refeicoes/analisar-detalhadamente/${savedMealId}` // Endpoint de análise por ID
+                // Não precisa enviar corpo (body) para este POST
+            );
+
+            console.log("-> Resposta da análise detalhada recebida:", analysisResponse.data);
+            if (analysisResponse.data && analysisResponse.data.detalhes_prato) {
+                setScanResult(null); // Limpa o resultado do scan rápido
+                setAnalysisResult(analysisResponse.data); // Define o resultado da análise detalhada
             } else {
                 throw new Error('Resposta da análise detalhada em formato inválido');
             }
-            
+
         } catch (error) {
-            console.error('Erro na análise detalhada:', error);
-            const defaultErrorMessage = "Ocorreu um erro ao gerar a análise detalhada.";
-            
+            console.error('Erro no fluxo de salvar e analisar:', error);
+            const defaultErrorMessage = savedMealId
+                ? `Ocorreu um erro ao gerar a análise detalhada para a refeição ${savedMealId}.`
+                : "Ocorreu um erro ao salvar a refeição editada.";
+
+            // Tratamento de erro unificado (pode exibir em apiError ou analysisError)
             if (error instanceof AxiosError) {
                 const detail = error.response?.data?.detail;
-                if (typeof detail === 'string') {
-                    setAnalysisError(detail);
-                } else if (error.response?.data?.erro) {
-                    setAnalysisError(error.response.data.erro);
-                } else if (error.message) {
-                    setAnalysisError(error.message);
-                } else {
-                    setAnalysisError(defaultErrorMessage);
-                }
+                const errorMsg = typeof detail === 'string' ? detail : error.message || defaultErrorMessage;
+                setAnalysisError(errorMsg); // Ou setApiError(errorMsg)
             } else if (error instanceof Error) {
-                setAnalysisError(error.message);
+                setAnalysisError(error.message); // Ou setApiError(error.message)
             } else {
-                setAnalysisError(defaultErrorMessage);
+                setAnalysisError(defaultErrorMessage); // Ou setApiError(defaultErrorMessage)
             }
         } finally {
-            setLoadingAnalysis(false);
+            setLoadingAnalysis(false); // Indica que o processo terminou
         }
     };
 
