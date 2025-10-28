@@ -8,7 +8,7 @@ console.log('🔧 API Base URL configurada:', baseURL);
 
 const api = axios.create({
   baseURL,
-  timeout: 10000,
+  timeout: 40000,
 });
 
 // Token guardado em memória (runtime)
