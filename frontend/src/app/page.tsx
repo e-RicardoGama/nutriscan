@@ -409,7 +409,7 @@ export default function Home() {
             formData.append('file', fotoCapturada);
             
             const response = await api.post<AnaliseCompletaResponse>(
-                '/refeicoes/analisar-imagem-detalhado', 
+                '/api/v1/refeicoes/analisar-imagem-detalhado', 
                 formData,
                 {
                     headers: {
