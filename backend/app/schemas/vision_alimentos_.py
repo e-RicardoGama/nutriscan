@@ -69,7 +69,7 @@ class Macronutrientes(BaseModel):
     gorduras_g: float
 
 class AnaliseNutricional(BaseModel):
-    calorias_totais: int # Mantido int conforme original
+    calorias_totais: float # Mantido int conforme original
     macronutrientes: Macronutrientes
     vitaminas_minerais: List[str]
 
