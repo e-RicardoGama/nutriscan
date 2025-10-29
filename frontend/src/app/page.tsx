@@ -575,8 +575,9 @@ export default function Home() {
                     <div className="flex flex-col text-center">
                         <h3 className="text-md px-2 font-bold text-green-800">1. Fotografe seu prato</h3>
                         <p className="text-sm text-gray-600 mt-2 px-4">
-                            Eu uso IA para analisar sua foto 🧠. Ainda estou aprendendo, 
-                            então se eu errar, use os ícones de ação para me corrigir!
+                            A análise nutricional é feita com ajuda de IA 🧠. 
+                            Estou em constante aprendizado — se algo parecer incorreto,
+                            use os ícones para ajustar!
                         </p>
                         
                         {!imageUrl && (

@@ -1,6 +1,7 @@
 [
   {
     "alimento": "Arroz integral cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 124,
@@ -10,6 +11,7 @@
   },
   {
     "alimento": "Arroz integral cru",
+    "unidades": 1.1,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 100.1,
     "energia_kcal_100g": 360,
@@ -19,6 +21,7 @@
   },
   {
     "alimento": "Arroz branco cozido",
+    "unidades": 1.2,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 100.2,
     "energia_kcal_100g": 128,
@@ -28,6 +31,7 @@
   },
   {
     "alimento": "Arroz branco cru",
+    "unidades": 1.3,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 100.3,
     "energia_kcal_100g": 358,
@@ -37,6 +41,7 @@
   },
   {
     "alimento": "Arroz branco cozido",
+    "unidades": 1.4,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 100.4,
     "energia_kcal_100g": 130,
@@ -46,6 +51,7 @@
   },
   {
     "alimento": "Arroz branco cru",
+    "unidades": 1.5,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 100.5,
     "energia_kcal_100g": 358,
@@ -55,6 +61,7 @@
   },
   {
     "alimento": "Aveia em flocos",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 12.0,
     "energia_kcal_100g": 394,
@@ -64,6 +71,7 @@
   },
   {
     "alimento": "Biscoito Maizena",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 7.0,
     "energia_kcal_100g": 443,
@@ -73,6 +81,7 @@
   },
   {
     "alimento": "Biscoito recheado de chocolate",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 472,
@@ -82,6 +91,7 @@
   },
   {
     "alimento": "Biscoito recheado de morango",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 471,
@@ -91,6 +101,7 @@
   },
   {
     "alimento": "Biscoito wafer de chocolate",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 502,
@@ -100,6 +111,7 @@
   },
   {
     "alimento": "Biscoito wafer de morango",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 513,
@@ -109,6 +121,7 @@
   },
   {
     "alimento": "Biscoito cream cracker",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 432,
@@ -118,6 +131,7 @@
   },
   {
     "alimento": "Mistura para bolo",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 10.1,
     "energia_kcal_100g": 419,
@@ -127,6 +141,7 @@
   },
   {
     "alimento": "Bolo de aipim",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 5x5x5cm",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 324,
@@ -136,6 +151,7 @@
   },
   {
     "alimento": "Bolo de chocolate",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 5x5x5cm",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 410,
@@ -145,6 +161,7 @@
   },
   {
     "alimento": "Bolo de coco",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 5x5x5cm",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 333,
@@ -154,6 +171,7 @@
   },
   {
     "alimento": "Bolo de milho",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 5x5x5cm",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 311,
@@ -163,6 +181,7 @@
   },
   {
     "alimento": "Canjica / Mungunzá",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 358,
@@ -172,6 +191,7 @@
   },
   {
     "alimento": "Canjica doce / Mungunzá doce",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 250.0,
     "energia_kcal_100g": 112,
@@ -181,6 +201,7 @@
   },
   {
     "alimento": "Flocos de milho com sal",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 7.0,
     "energia_kcal_100g": 370,
@@ -190,6 +211,7 @@
   },
   {
     "alimento": "Flocos de milho sem sal",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 7.0,
     "energia_kcal_100g": 363,
@@ -199,6 +221,7 @@
   },
   {
     "alimento": "Mingau de milho infantil",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 394,
@@ -208,6 +231,7 @@
   },
   {
     "alimento": "Mix de cereais para vitamina / Tipo Neston",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 381,
@@ -217,6 +241,7 @@
   },
   {
     "alimento": "Cereal de milho / Corn flakes",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 365,
@@ -226,6 +251,7 @@
   },
   {
     "alimento": "Sucrilhos / Cereal de milho com açúcar",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 377,
@@ -235,6 +261,7 @@
   },
   {
     "alimento": "Creme de arroz",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 386,
@@ -244,6 +271,7 @@
   },
   {
     "alimento": "Creme de milho",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 333,
@@ -253,6 +281,7 @@
   },
   {
     "alimento": "Curau",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 78,
@@ -262,6 +291,7 @@
   },
   {
     "alimento": "Mistura para curau",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 402,
@@ -271,6 +301,7 @@
   },
   {
     "alimento": "Farinha de arroz",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa cheia",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 363,
@@ -280,6 +311,7 @@
   },
   {
     "alimento": "Farinha de centeio integral",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa cheia",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 336,
@@ -289,6 +321,7 @@
   },
   {
     "alimento": "Farinha de milho",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 351,
@@ -298,6 +331,7 @@
   },
   {
     "alimento": "Farinha de rosca",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 371,
@@ -307,6 +341,7 @@
   },
   {
     "alimento": "Farinha de trigo",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa cheia",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 360,
@@ -316,6 +351,7 @@
   },
   {
     "alimento": "Farinha Láctea",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 415,
@@ -325,6 +361,7 @@
   },
   {
     "alimento": "Massa de lasanha cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "placa média",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 164,
@@ -334,6 +371,7 @@
   },
   {
     "alimento": "Massa de lasanha fresca",
+    "unidades": 1.0,
     "un_medida_caseira": "placa média",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 220,
@@ -343,6 +381,7 @@
   },
   {
     "alimento": "Macarrão instantâneo / Miojo",
+    "unidades": 0.5,
     "un_medida_caseira": "pacote cozido",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 436,
@@ -352,6 +391,7 @@
   },
   {
     "alimento": "Macarrão cru",
+    "unidades": 0.5,
     "un_medida_caseira": "pacote cozido",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 371,
@@ -361,6 +401,7 @@
   },
   {
     "alimento": "Macarrão com ovos cru",
+    "unidades": 0.5,
     "un_medida_caseira": "pacote cozido",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 371,
@@ -370,6 +411,7 @@
   },
   {
     "alimento": "Amido de milho / Maizena",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 361,
@@ -379,6 +421,7 @@
   },
   {
     "alimento": "Fubá",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 353,
@@ -388,6 +431,7 @@
   },
   {
     "alimento": "Milho verde cru",
+    "unidades": 1.0,
     "un_medida_caseira": "espiga média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 138,
@@ -397,6 +441,7 @@
   },
   {
     "alimento": "Milho verde em conserva",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 98,
@@ -406,6 +451,7 @@
   },
   {
     "alimento": "Mingau em pó",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 373,
@@ -415,6 +461,7 @@
   },
   {
     "alimento": "Pamonha",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 171,
@@ -424,6 +471,7 @@
   },
   {
     "alimento": "Pão de forma de aveia",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 343,
@@ -433,6 +481,7 @@
   },
   {
     "alimento": "Pão de soja",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 309,
@@ -442,6 +491,7 @@
   },
   {
     "alimento": "Pão de forma com glúten",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 253,
@@ -451,6 +501,7 @@
   },
   {
     "alimento": "Pão de forma de milho",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 292,
@@ -460,6 +511,7 @@
   },
   {
     "alimento": "Pão de forma integral",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 253,
@@ -469,6 +521,7 @@
   },
   {
     "alimento": "Pão francês",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 300,
@@ -478,6 +531,7 @@
   },
   {
     "alimento": "Pão sovado",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 311,
@@ -487,6 +541,7 @@
   },
   {
     "alimento": "Pastel de carne cru",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 289,
@@ -496,6 +551,7 @@
   },
   {
     "alimento": "Pastel de carne frito",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 388,
@@ -505,6 +561,7 @@
   },
   {
     "alimento": "Pastel de queijo cru",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 308,
@@ -514,6 +571,7 @@
   },
   {
     "alimento": "Pastel de queijo frito",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 422,
@@ -523,6 +581,7 @@
   },
   {
     "alimento": "Massa de pastel crua",
+    "unidades": 1.0,
     "un_medida_caseira": "disco",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 310,
@@ -532,6 +591,7 @@
   },
   {
     "alimento": "Massa de pastel frita",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 570,
@@ -541,6 +601,7 @@
   },
   {
     "alimento": "Pipoca sem sal",
+    "unidades": 1.0,
     "un_medida_caseira": "tigela média  estourada",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 448,
@@ -550,6 +611,7 @@
   },
   {
     "alimento": "Polenta pré-cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 2cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 103,
@@ -559,6 +621,7 @@
   },
   {
     "alimento": "Torrada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 377,
@@ -568,6 +631,7 @@
   },
   {
     "alimento": "Abóbora cabotiá cozida / Abóbora japonesa cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa bem cheia",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 48,
@@ -577,6 +641,7 @@
   },
   {
     "alimento": "Abóbora cabotiá crua / Abóbora japonesa crua",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço 4x4cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 39,
@@ -586,6 +651,7 @@
   },
   {
     "alimento": "Abóbora menina brasileira",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço 4x4cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 14,
@@ -595,6 +661,7 @@
   },
   {
     "alimento": "Abóbora moranga crua",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço 4x4cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 12,
@@ -604,6 +671,7 @@
   },
   {
     "alimento": "Abóbora moranga refogada",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 29,
@@ -613,6 +681,7 @@
   },
   {
     "alimento": "Abóbora pescoço",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço 4x4cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 24,
@@ -622,6 +691,7 @@
   },
   {
     "alimento": "Abobrinha italiana cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 15,
@@ -631,6 +701,7 @@
   },
   {
     "alimento": "Abobrinha italiana crua",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 19,
@@ -640,6 +711,7 @@
   },
   {
     "alimento": "Abobrinha italiana refogada",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 24,
@@ -649,6 +721,7 @@
   },
   {
     "alimento": "Abobrinha paulista",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 31,
@@ -658,6 +731,7 @@
   },
   {
     "alimento": "Acelga",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 21,
@@ -667,6 +741,7 @@
   },
   {
     "alimento": "Agrião",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 17,
@@ -676,6 +751,7 @@
   },
   {
     "alimento": "Aipo / Salsão",
+    "unidades": 1.0,
     "un_medida_caseira": "talo médio",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 19,
@@ -685,6 +761,7 @@
   },
   {
     "alimento": "Alface americana",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 9,
@@ -694,6 +771,7 @@
   },
   {
     "alimento": "Alface crespa",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 11,
@@ -703,6 +781,7 @@
   },
   {
     "alimento": "Alface lisa",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 14,
@@ -712,6 +791,7 @@
   },
   {
     "alimento": "Alface roxa",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 13,
@@ -721,6 +801,7 @@
   },
   {
     "alimento": "Alfavaca",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa  - como tempero",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 29,
@@ -730,6 +811,7 @@
   },
   {
     "alimento": "Alho",
+    "unidades": 1.0,
     "un_medida_caseira": "dente médio",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 113,
@@ -739,6 +821,7 @@
   },
   {
     "alimento": "Alho-poró",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 32,
@@ -748,6 +831,7 @@
   },
   {
     "alimento": "Almeirão cru",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 18,
@@ -757,6 +841,7 @@
   },
   {
     "alimento": "Almeirão refogado",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 65,
@@ -766,6 +851,7 @@
   },
   {
     "alimento": "Mandioquinha cozida / Batata baroa cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 80,
@@ -775,6 +861,7 @@
   },
   {
     "alimento": "Mandioquinha crua / Batata baroa crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 101,
@@ -784,6 +871,7 @@
   },
   {
     "alimento": "Batata-doce cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 77,
@@ -793,6 +881,7 @@
   },
   {
     "alimento": "Batata-doce crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 118,
@@ -802,6 +891,7 @@
   },
   {
     "alimento": "Batata chips",
+    "unidades": 1.0,
     "un_medida_caseira": "punhado (10-15 unidades)",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 543,
@@ -811,6 +901,7 @@
   },
   {
     "alimento": "Batata inglesa cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 52,
@@ -820,6 +911,7 @@
   },
   {
     "alimento": "Batata inglesa crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 64,
@@ -829,6 +921,7 @@
   },
   {
     "alimento": "Batata frita",
+    "unidades": 1.0,
     "un_medida_caseira": "porção média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 267,
@@ -838,6 +931,7 @@
   },
   {
     "alimento": "Batata sauté",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de servir",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 68,
@@ -847,6 +941,7 @@
   },
   {
     "alimento": "Berinjela cozida",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 19,
@@ -856,6 +951,7 @@
   },
   {
     "alimento": "Berinjela crua",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 20,
@@ -865,6 +961,7 @@
   },
   {
     "alimento": "Beterraba cozida",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 32,
@@ -874,6 +971,7 @@
   },
   {
     "alimento": "Beterraba crua",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 49,
@@ -883,6 +981,7 @@
   },
   {
     "alimento": "Biscoito de polvilho",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 7.0,
     "energia_kcal_100g": 438,
@@ -892,6 +991,7 @@
   },
   {
     "alimento": "Brócolis cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 25,
@@ -901,6 +1001,7 @@
   },
   {
     "alimento": "Brócolis cru",
+    "unidades": 1.0,
     "un_medida_caseira": "ramo médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 25,
@@ -910,6 +1011,7 @@
   },
   {
     "alimento": "Cará cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 78,
@@ -919,6 +1021,7 @@
   },
   {
     "alimento": "Cará cru",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 96,
@@ -928,6 +1031,7 @@
   },
   {
     "alimento": "Caruru",
+    "unidades": 2.0,
     "un_medida_caseira": "mãos em concha",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 34,
@@ -937,6 +1041,7 @@
   },
   {
     "alimento": "Catalonha crua",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 24,
@@ -946,6 +1051,7 @@
   },
   {
     "alimento": "Catalonha refogada",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 63,
@@ -955,6 +1061,7 @@
   },
   {
     "alimento": "Cebola",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 39,
@@ -964,6 +1071,7 @@
   },
   {
     "alimento": "Cebolinha",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa  - como tempero",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 20,
@@ -973,6 +1081,7 @@
   },
   {
     "alimento": "Cenoura cozida",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 30,
@@ -982,6 +1091,7 @@
   },
   {
     "alimento": "Cenoura crua",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 75.0,
     "energia_kcal_100g": 34,
@@ -991,6 +1101,7 @@
   },
   {
     "alimento": "Chicória",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 14,
@@ -1000,6 +1111,7 @@
   },
   {
     "alimento": "Chuchu cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 19,
@@ -1009,6 +1121,7 @@
   },
   {
     "alimento": "Chuchu cru",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 17,
@@ -1018,6 +1131,7 @@
   },
   {
     "alimento": "Coentro em pó",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de chá  - como tempero",
     "peso_aproximado_g": 2.0,
     "energia_kcal_100g": 309,
@@ -1027,6 +1141,7 @@
   },
   {
     "alimento": "Couve manteiga crua",
+    "unidades": 2.0,
     "un_medida_caseira": "folhas médias",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 27,
@@ -1036,6 +1151,7 @@
   },
   {
     "alimento": "Couve refogada",
+    "unidades": 2.0,
     "un_medida_caseira": "folhas médias",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 90,
@@ -1045,6 +1161,7 @@
   },
   {
     "alimento": "Couve-flor crua",
+    "unidades": 1.0,
     "un_medida_caseira": "ramo médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 23,
@@ -1054,6 +1171,7 @@
   },
   {
     "alimento": "Couve-flor cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 19,
@@ -1063,6 +1181,7 @@
   },
   {
     "alimento": "Espinafre cru",
+    "unidades": 2.0,
     "un_medida_caseira": "mãos em concha",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 16,
@@ -1072,6 +1191,7 @@
   },
   {
     "alimento": "Espinafre refogado",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 67,
@@ -1081,6 +1201,7 @@
   },
   {
     "alimento": "Farinha de mandioca",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 361,
@@ -1090,6 +1211,7 @@
   },
   {
     "alimento": "Farofa / Farinha de mandioca torrada",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 365,
@@ -1099,6 +1221,7 @@
   },
   {
     "alimento": "Farinha d'água / Farinha de puba",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 360,
@@ -1108,6 +1231,7 @@
   },
   {
     "alimento": "Polvilho / Fécula de mandioca",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 331,
@@ -1117,6 +1241,7 @@
   },
   {
     "alimento": "Broto de feijão / Moyashi",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 39,
@@ -1126,6 +1251,7 @@
   },
   {
     "alimento": "Inhame",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 97,
@@ -1135,6 +1261,7 @@
   },
   {
     "alimento": "Jiló",
+    "unidades": 3.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 27,
@@ -1144,6 +1271,7 @@
   },
   {
     "alimento": "Jurubeba",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa  - como tempero",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 126,
@@ -1153,6 +1281,7 @@
   },
   {
     "alimento": "Mandioca cozida / Aipim cozido / Macaxeira cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço 8cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 125,
@@ -1162,6 +1291,7 @@
   },
   {
     "alimento": "Mandioca crua / Aipim cru / Macaxeira crua",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço 8cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 151,
@@ -1171,6 +1301,7 @@
   },
   {
     "alimento": "Farofa pronta",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 406,
@@ -1180,6 +1311,7 @@
   },
   {
     "alimento": "Mandioca frita / Aipim frito",
+    "unidades": 5.0,
     "un_medida_caseira": "palitos médios",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 300,
@@ -1189,6 +1321,7 @@
   },
   {
     "alimento": "Manjericão",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa  - como tempero",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 21,
@@ -1198,6 +1331,7 @@
   },
   {
     "alimento": "Maxixe",
+    "unidades": 3.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 14,
@@ -1207,6 +1341,7 @@
   },
   {
     "alimento": "Folha de mostarda",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 18,
@@ -1216,6 +1351,7 @@
   },
   {
     "alimento": "Nhoque",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 181,
@@ -1225,6 +1361,7 @@
   },
   {
     "alimento": "Nabo",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 18,
@@ -1234,6 +1371,7 @@
   },
   {
     "alimento": "Palmito juçara em conserva",
+    "unidades": 2.0,
     "un_medida_caseira": "rodelas médias",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 23,
@@ -1243,6 +1381,7 @@
   },
   {
     "alimento": "Palmito pupunha em conserva",
+    "unidades": 2.0,
     "un_medida_caseira": "rodelas médias",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 29,
@@ -1252,6 +1391,7 @@
   },
   {
     "alimento": "Pão de queijo assado",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 363,
@@ -1261,6 +1401,7 @@
   },
   {
     "alimento": "Pão de queijo cru",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 295,
@@ -1270,6 +1411,7 @@
   },
   {
     "alimento": "Pepino",
+    "unidades": 0.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 10,
@@ -1279,6 +1421,7 @@
   },
   {
     "alimento": "Pimentão amarelo",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 28,
@@ -1288,6 +1431,7 @@
   },
   {
     "alimento": "Pimentão verde",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 21,
@@ -1297,6 +1441,7 @@
   },
   {
     "alimento": "Pimentão vermelho",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 23,
@@ -1306,6 +1451,7 @@
   },
   {
     "alimento": "Polvilho doce",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 351,
@@ -1315,6 +1461,7 @@
   },
   {
     "alimento": "Quiabo",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 30,
@@ -1324,6 +1471,7 @@
   },
   {
     "alimento": "Rabanete",
+    "unidades": 4.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 14,
@@ -1333,6 +1481,7 @@
   },
   {
     "alimento": "Repolho branco",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia grossa",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 17,
@@ -1342,6 +1491,7 @@
   },
   {
     "alimento": "Repolho roxo cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia grossa",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 31,
@@ -1351,6 +1501,7 @@
   },
   {
     "alimento": "Repolho roxo refogado",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 42,
@@ -1360,6 +1511,7 @@
   },
   {
     "alimento": "Rúcula",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 13,
@@ -1369,6 +1521,7 @@
   },
   {
     "alimento": "Salsa / Salsinha",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa  - como tempero",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 33,
@@ -1378,6 +1531,7 @@
   },
   {
     "alimento": "Seleta de legumes",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 57,
@@ -1387,6 +1541,7 @@
   },
   {
     "alimento": "Serralha",
+    "unidades": 1.0,
     "un_medida_caseira": "prato de sobremesa",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 30,
@@ -1396,6 +1551,7 @@
   },
   {
     "alimento": "Taioba",
+    "unidades": 2.0,
     "un_medida_caseira": "folhas médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 34,
@@ -1405,6 +1561,7 @@
   },
   {
     "alimento": "Tomate com semente",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 15,
@@ -1414,6 +1571,7 @@
   },
   {
     "alimento": "Extrato de tomate",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 61,
@@ -1423,6 +1581,7 @@
   },
   {
     "alimento": "Molho de tomate",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 38,
@@ -1432,6 +1591,7 @@
   },
   {
     "alimento": "Purê de tomate",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 28,
@@ -1441,6 +1601,7 @@
   },
   {
     "alimento": "Salada de tomate",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 21,
@@ -1450,6 +1611,7 @@
   },
   {
     "alimento": "Vagem",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 25,
@@ -1459,6 +1621,7 @@
   },
   {
     "alimento": "Abacate",
+    "unidades": 0.25,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 96,
@@ -1468,6 +1631,7 @@
   },
   {
     "alimento": "Abacaxi",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 2cm",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 48,
@@ -1477,6 +1641,7 @@
   },
   {
     "alimento": "Polpa de abacaxi",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 31,
@@ -1486,6 +1651,7 @@
   },
   {
     "alimento": "Abiu",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 62,
@@ -1495,6 +1661,7 @@
   },
   {
     "alimento": "Açaí (creme/polpa)",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 110,
@@ -1504,6 +1671,7 @@
   },
   {
     "alimento": "Polpa de açaí",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 58,
@@ -1513,6 +1681,7 @@
   },
   {
     "alimento": "Acerola",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 33,
@@ -1522,6 +1691,7 @@
   },
   {
     "alimento": "Polpa de acerola",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 22,
@@ -1531,6 +1701,7 @@
   },
   {
     "alimento": "Ameixa em calda enlatada",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 183,
@@ -1540,6 +1711,7 @@
   },
   {
     "alimento": "Ameixa",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 53,
@@ -1549,6 +1721,7 @@
   },
   {
     "alimento": "Ameixa em calda enlatada, drenada",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 177,
@@ -1558,6 +1731,7 @@
   },
   {
     "alimento": "Atemóia",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 97,
@@ -1567,6 +1741,7 @@
   },
   {
     "alimento": "Banana-da-terra",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 128,
@@ -1576,6 +1751,7 @@
   },
   {
     "alimento": "Bananada",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia fina",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 280,
@@ -1585,6 +1761,7 @@
   },
   {
     "alimento": "Banana-figo",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 105,
@@ -1594,6 +1771,7 @@
   },
   {
     "alimento": "Banana-maçã",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 87,
@@ -1603,6 +1781,7 @@
   },
   {
     "alimento": "Banana-nanica",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 92,
@@ -1612,6 +1791,7 @@
   },
   {
     "alimento": "Banana-ouro",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 112,
@@ -1621,6 +1801,7 @@
   },
   {
     "alimento": "Banana pacova",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 78,
@@ -1630,6 +1811,7 @@
   },
   {
     "alimento": "Banana-prata",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 98,
@@ -1639,6 +1821,7 @@
   },
   {
     "alimento": "Cacau",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 74,
@@ -1648,6 +1831,7 @@
   },
   {
     "alimento": "Cajá-manga",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 46,
@@ -1657,6 +1841,7 @@
   },
   {
     "alimento": "Polpa de cajá",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 26,
@@ -1666,6 +1851,7 @@
   },
   {
     "alimento": "Caju",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 43,
@@ -1675,6 +1861,7 @@
   },
   {
     "alimento": "Polpa de caju",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 37,
@@ -1684,6 +1871,7 @@
   },
   {
     "alimento": "Suco concentrado de caju",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 45,
@@ -1693,6 +1881,7 @@
   },
   {
     "alimento": "Caqui chocolate",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 71,
@@ -1702,6 +1891,7 @@
   },
   {
     "alimento": "Carambola",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 46,
@@ -1711,6 +1901,7 @@
   },
   {
     "alimento": "Ciriguela / Seriguela",
+    "unidades": 3.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 76,
@@ -1720,6 +1911,7 @@
   },
   {
     "alimento": "Cupuaçu",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 49,
@@ -1729,6 +1921,7 @@
   },
   {
     "alimento": "Polpa de cupuaçu",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 49,
@@ -1738,6 +1931,7 @@
   },
   {
     "alimento": "Figo",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 41,
@@ -1747,6 +1941,7 @@
   },
   {
     "alimento": "Figo em calda",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 184,
@@ -1756,6 +1951,7 @@
   },
   {
     "alimento": "Fruta-pão",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 67,
@@ -1765,6 +1961,7 @@
   },
   {
     "alimento": "Goiaba branca com casca",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 52,
@@ -1774,6 +1971,7 @@
   },
   {
     "alimento": "Goiabada",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 269,
@@ -1783,6 +1981,7 @@
   },
   {
     "alimento": "Goiabada cascão",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia fina",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 286,
@@ -1792,6 +1991,7 @@
   },
   {
     "alimento": "Goiaba vermelha com casca",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 54,
@@ -1801,6 +2001,7 @@
   },
   {
     "alimento": "Graviola",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 62,
@@ -1810,6 +2011,7 @@
   },
   {
     "alimento": "Polpa de graviola",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 38,
@@ -1819,6 +2021,7 @@
   },
   {
     "alimento": "Jabuticaba",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 58,
@@ -1828,6 +2031,7 @@
   },
   {
     "alimento": "Jaca",
+    "unidades": 2.0,
     "un_medida_caseira": "bagos médios",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 88,
@@ -1837,6 +2041,7 @@
   },
   {
     "alimento": "Jambo",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 27,
@@ -1846,6 +2051,7 @@
   },
   {
     "alimento": "Jamelão",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 41,
@@ -1855,6 +2061,7 @@
   },
   {
     "alimento": "Kiwi",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 51,
@@ -1864,6 +2071,7 @@
   },
   {
     "alimento": "Laranja-baía",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 45,
@@ -1873,6 +2081,7 @@
   },
   {
     "alimento": "Suco de laranja-baía",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 37,
@@ -1882,6 +2091,7 @@
   },
   {
     "alimento": "Laranja-da-terra",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 51,
@@ -1891,6 +2101,7 @@
   },
   {
     "alimento": "Suco de laranja-da-terra",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 41,
@@ -1900,6 +2111,7 @@
   },
   {
     "alimento": "Laranja-lima",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 46,
@@ -1909,6 +2121,7 @@
   },
   {
     "alimento": "Suco de laranja-lima",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 39,
@@ -1918,6 +2131,7 @@
   },
   {
     "alimento": "Laranja-pêra",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 37,
@@ -1927,6 +2141,7 @@
   },
   {
     "alimento": "Suco de laranja",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 33,
@@ -1936,6 +2151,7 @@
   },
   {
     "alimento": "Laranja-valência",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 46,
@@ -1945,6 +2161,7 @@
   },
   {
     "alimento": "Suco de laranja-valência",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 36,
@@ -1954,6 +2171,7 @@
   },
   {
     "alimento": "Suco de limão-cravo",
+    "unidades": 0.5,
     "un_medida_caseira": "copo 100ml",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 14,
@@ -1963,6 +2181,7 @@
   },
   {
     "alimento": "Suco de limão-galego",
+    "unidades": 0.5,
     "un_medida_caseira": "copo 100ml",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 22,
@@ -1972,6 +2191,7 @@
   },
   {
     "alimento": "Limão-tahiti",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 32,
@@ -1981,6 +2201,7 @@
   },
   {
     "alimento": "Maçã argentina com casca",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 63,
@@ -1990,6 +2211,7 @@
   },
   {
     "alimento": "Maçã Fuji com casca",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 56,
@@ -1999,6 +2221,7 @@
   },
   {
     "alimento": "Macaúba",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 404,
@@ -2008,6 +2231,7 @@
   },
   {
     "alimento": "Mamão em calda enlatada, drenado",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 196,
@@ -2017,6 +2241,7 @@
   },
   {
     "alimento": "Mamão formosa",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 3cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 45,
@@ -2026,6 +2251,7 @@
   },
   {
     "alimento": "Mamão papaia",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 3cm",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 40,
@@ -2035,6 +2261,7 @@
   },
   {
     "alimento": "Mamão verde em calda enlatada, drenada",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 209,
@@ -2044,6 +2271,7 @@
   },
   {
     "alimento": "Manga haden",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 64,
@@ -2053,6 +2281,7 @@
   },
   {
     "alimento": "Manga palmer",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 72,
@@ -2062,6 +2291,7 @@
   },
   {
     "alimento": "Polpa de manga",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 48,
@@ -2071,6 +2301,7 @@
   },
   {
     "alimento": "Manga tommy",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 51,
@@ -2080,6 +2311,7 @@
   },
   {
     "alimento": "Maracujá",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 68,
@@ -2089,6 +2321,7 @@
   },
   {
     "alimento": "Polpa de maracujá",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 39,
@@ -2098,6 +2331,7 @@
   },
   {
     "alimento": "Suco concentrado de maracujá",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 42,
@@ -2107,6 +2341,7 @@
   },
   {
     "alimento": "Melancia",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média triângulo",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 33,
@@ -2116,6 +2351,7 @@
   },
   {
     "alimento": "Melão",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média 1/8",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 29,
@@ -2125,6 +2361,7 @@
   },
   {
     "alimento": "Mexerica murcote / Morgote",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 58,
@@ -2134,6 +2371,7 @@
   },
   {
     "alimento": "Mexerica rio",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 37,
@@ -2143,6 +2381,7 @@
   },
   {
     "alimento": "Morango",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 30,
@@ -2152,6 +2391,7 @@
   },
   {
     "alimento": "Nêspera",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 43,
@@ -2161,6 +2401,7 @@
   },
   {
     "alimento": "Pequi",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 205,
@@ -2170,6 +2411,7 @@
   },
   {
     "alimento": "Pêra park",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 130.0,
     "energia_kcal_100g": 61,
@@ -2179,6 +2421,7 @@
   },
   {
     "alimento": "Pêra williams",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 130.0,
     "energia_kcal_100g": 53,
@@ -2188,6 +2431,7 @@
   },
   {
     "alimento": "Pêssego aurora",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 36,
@@ -2197,6 +2441,7 @@
   },
   {
     "alimento": "Pêssego em calda",
+    "unidades": 2.0,
     "un_medida_caseira": "metades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 63,
@@ -2206,6 +2451,7 @@
   },
   {
     "alimento": "Pinha / Fruta-do-conde",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 88,
@@ -2215,6 +2461,7 @@
   },
   {
     "alimento": "Pitanga",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 41,
@@ -2224,6 +2471,7 @@
   },
   {
     "alimento": "Polpa de pitanga",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 19,
@@ -2233,6 +2481,7 @@
   },
   {
     "alimento": "Romã",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 56,
@@ -2242,6 +2491,7 @@
   },
   {
     "alimento": "Tamarindo",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 276,
@@ -2251,6 +2501,7 @@
   },
   {
     "alimento": "Tangerina poncã",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 38,
@@ -2260,6 +2511,7 @@
   },
   {
     "alimento": "Suco de tangerina",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 36,
@@ -2269,6 +2521,7 @@
   },
   {
     "alimento": "Tucumã",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 262,
@@ -2278,6 +2531,7 @@
   },
   {
     "alimento": "Umbu",
+    "unidades": 3.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 37,
@@ -2287,6 +2541,7 @@
   },
   {
     "alimento": "Polpa de umbu",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 34,
@@ -2296,6 +2551,7 @@
   },
   {
     "alimento": "Uva itália",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 53,
@@ -2305,6 +2561,7 @@
   },
   {
     "alimento": "Uva rubi",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 49,
@@ -2314,6 +2571,7 @@
   },
   {
     "alimento": "Suco de uva concentrado",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 58,
@@ -2323,6 +2581,7 @@
   },
   {
     "alimento": "Azeite de dendê",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2332,6 +2591,7 @@
   },
   {
     "alimento": "Azeite de oliva extravirgem",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2341,6 +2601,7 @@
   },
   {
     "alimento": "Manteiga com sal",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 726,
@@ -2350,6 +2611,7 @@
   },
   {
     "alimento": "Manteiga sem sal",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 758,
@@ -2359,6 +2621,7 @@
   },
   {
     "alimento": "Margarina com sal (65% lipídeos)",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 596,
@@ -2368,6 +2631,7 @@
   },
   {
     "alimento": "Margarina sem sal (80% lipídeos)",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 723,
@@ -2377,6 +2641,7 @@
   },
   {
     "alimento": "Margarina sem sal (65% lipídeos)",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 594,
@@ -2386,6 +2651,7 @@
   },
   {
     "alimento": "Margarina sem sal (65% lipídeos)",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 593,
@@ -2395,6 +2661,7 @@
   },
   {
     "alimento": "Óleo de babaçu",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2404,6 +2671,7 @@
   },
   {
     "alimento": "Óleo de canola",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2413,6 +2681,7 @@
   },
   {
     "alimento": "Óleo de girassol",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2422,6 +2691,7 @@
   },
   {
     "alimento": "Óleo de milho",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2431,6 +2701,7 @@
   },
   {
     "alimento": "Óleo de pequi",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2440,6 +2711,7 @@
   },
   {
     "alimento": "Óleo de soja",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 884,
@@ -2449,6 +2721,7 @@
   },
   {
     "alimento": "Filé de abadejo assado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 112,
@@ -2458,6 +2731,7 @@
   },
   {
     "alimento": "Filé de abadejo cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 91,
@@ -2467,6 +2741,7 @@
   },
   {
     "alimento": "Filé de abadejo cru",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 59,
@@ -2476,6 +2751,7 @@
   },
   {
     "alimento": "Filé de abadejo grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 130,
@@ -2485,6 +2761,7 @@
   },
   {
     "alimento": "Atum em lata / Atum em óleo",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa  - escorrido",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 166,
@@ -2494,6 +2771,7 @@
   },
   {
     "alimento": "Atum fresco",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 118,
@@ -2503,6 +2781,7 @@
   },
   {
     "alimento": "Bacalhau cru",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 136,
@@ -2512,6 +2791,7 @@
   },
   {
     "alimento": "Bacalhau refogado",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 140,
@@ -2521,6 +2801,7 @@
   },
   {
     "alimento": "Posta de cação à milanesa",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 208,
@@ -2530,6 +2811,7 @@
   },
   {
     "alimento": "Posta de cação cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 116,
@@ -2539,6 +2821,7 @@
   },
   {
     "alimento": "Posta de cação crua",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 83,
@@ -2548,6 +2831,7 @@
   },
   {
     "alimento": "Camarão cozido",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 90,
@@ -2557,6 +2841,7 @@
   },
   {
     "alimento": "Camarão cru",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 47,
@@ -2566,6 +2851,7 @@
   },
   {
     "alimento": "Camarão com casca frito",
+    "unidades": 8.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 231,
@@ -2575,6 +2861,7 @@
   },
   {
     "alimento": "Caranguejo",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média  ou patas",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 83,
@@ -2584,6 +2871,7 @@
   },
   {
     "alimento": "Curimbatá cru",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 128,
@@ -2593,6 +2881,7 @@
   },
   {
     "alimento": "Curimbatá assado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 261,
@@ -2602,6 +2891,7 @@
   },
   {
     "alimento": "Curimbatá cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 239,
@@ -2611,6 +2901,7 @@
   },
   {
     "alimento": "Corvina água doce crua",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 101,
@@ -2620,6 +2911,7 @@
   },
   {
     "alimento": "Corvina água salgada crua",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 94,
@@ -2629,6 +2921,7 @@
   },
   {
     "alimento": "Corvina assada",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 147,
@@ -2638,6 +2931,7 @@
   },
   {
     "alimento": "Corvina cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 100,
@@ -2647,6 +2941,7 @@
   },
   {
     "alimento": "Dourado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 131,
@@ -2656,6 +2951,7 @@
   },
   {
     "alimento": "Lambari congelado cru",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 131,
@@ -2665,6 +2961,7 @@
   },
   {
     "alimento": "Lambari frito",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 327,
@@ -2674,6 +2971,7 @@
   },
   {
     "alimento": "Lambari congelado cozido",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 152,
@@ -2683,6 +2981,7 @@
   },
   {
     "alimento": "Manjuba frita com farinha de trigo",
+    "unidades": 8.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 344,
@@ -2692,6 +2991,7 @@
   },
   {
     "alimento": "Manjuba frita",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 349,
@@ -2701,6 +3001,7 @@
   },
   {
     "alimento": "Filé de merluza assado",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 122,
@@ -2710,6 +3011,7 @@
   },
   {
     "alimento": "Filé de merluza cru",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 89,
@@ -2719,6 +3021,7 @@
   },
   {
     "alimento": "Filé de merluza frito",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 192,
@@ -2728,6 +3031,7 @@
   },
   {
     "alimento": "Pescada branca crua",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 111,
@@ -2737,6 +3041,7 @@
   },
   {
     "alimento": "Pescada branca frita",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 223,
@@ -2746,6 +3051,7 @@
   },
   {
     "alimento": "Filé de pescada à milanesa",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 283,
@@ -2755,6 +3061,7 @@
   },
   {
     "alimento": "Filé de pescada cru",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 107,
@@ -2764,6 +3071,7 @@
   },
   {
     "alimento": "Filé de pescada frito",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 154,
@@ -2773,6 +3081,7 @@
   },
   {
     "alimento": "Pescada ao molho escabeche",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 142,
@@ -2782,6 +3091,7 @@
   },
   {
     "alimento": "Pescadinha crua",
+    "unidades": 1.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 76,
@@ -2791,6 +3101,7 @@
   },
   {
     "alimento": "Pintado assado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 192,
@@ -2800,6 +3111,7 @@
   },
   {
     "alimento": "Pintado cru",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 91,
@@ -2809,6 +3121,7 @@
   },
   {
     "alimento": "Pintado grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 152,
@@ -2818,6 +3131,7 @@
   },
   {
     "alimento": "Peixe-porco cru",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 93,
@@ -2827,6 +3141,7 @@
   },
   {
     "alimento": "Filé de salmão grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 229,
@@ -2836,6 +3151,7 @@
   },
   {
     "alimento": "Salmão sem pele cru",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 170,
@@ -2845,6 +3161,7 @@
   },
   {
     "alimento": "Salmão sem pele grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "posta média  - tamanho palma da mão",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 243,
@@ -2854,6 +3171,7 @@
   },
   {
     "alimento": "Sardinha assada",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 164,
@@ -2863,6 +3181,7 @@
   },
   {
     "alimento": "Sardinha em lata",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias  - escorridas",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 285,
@@ -2872,6 +3191,7 @@
   },
   {
     "alimento": "Sardinha frita",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 257,
@@ -2881,6 +3201,7 @@
   },
   {
     "alimento": "Sardinha crua",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 114,
@@ -2890,6 +3211,7 @@
   },
   {
     "alimento": "Filé de tucunaré",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 88,
@@ -2899,6 +3221,7 @@
   },
   {
     "alimento": "Apresuntado",
+    "unidades": 2.0,
     "un_medida_caseira": "fatias finas",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 129,
@@ -2908,6 +3231,7 @@
   },
   {
     "alimento": "Caldo de carne",
+    "unidades": 1.0,
     "un_medida_caseira": "tablete",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 241,
@@ -2917,6 +3241,7 @@
   },
   {
     "alimento": "Caldo de galinha",
+    "unidades": 1.0,
     "un_medida_caseira": "tablete",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 251,
@@ -2926,6 +3251,7 @@
   },
   {
     "alimento": "Carne moída cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de servir",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 212,
@@ -2935,6 +3261,7 @@
   },
   {
     "alimento": "Carne moída crua",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de servir",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 137,
@@ -2944,6 +3271,7 @@
   },
   {
     "alimento": "Acém sem gordura cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de servir",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 215,
@@ -2953,6 +3281,7 @@
   },
   {
     "alimento": "Acém sem gordura cru",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 144,
@@ -2962,6 +3291,7 @@
   },
   {
     "alimento": "Almôndegas cruas",
+    "unidades": 3.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 90.0,
     "energia_kcal_100g": 189,
@@ -2971,6 +3301,7 @@
   },
   {
     "alimento": "Almôndegas fritas",
+    "unidades": 3.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 90.0,
     "energia_kcal_100g": 272,
@@ -2980,6 +3311,7 @@
   },
   {
     "alimento": "Dobradinha / Bucho cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 133,
@@ -2989,6 +3321,7 @@
   },
   {
     "alimento": "Bucho bovino cru",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 137,
@@ -2998,6 +3331,7 @@
   },
   {
     "alimento": "Capa de contrafilé com gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 217,
@@ -3007,6 +3341,7 @@
   },
   {
     "alimento": "Capa de contrafilé com gordura grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 312,
@@ -3016,6 +3351,7 @@
   },
   {
     "alimento": "Capa de contrafilé sem gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 131,
@@ -3025,6 +3361,7 @@
   },
   {
     "alimento": "Capa de contrafilé sem gordura grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 239,
@@ -3034,6 +3371,7 @@
   },
   {
     "alimento": "Charque cozido / Jabá cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 263,
@@ -3043,6 +3381,7 @@
   },
   {
     "alimento": "Charque cru / Jabá cru",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 249,
@@ -3052,6 +3391,7 @@
   },
   {
     "alimento": "Bife à milanesa de contrafilé",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 352,
@@ -3061,6 +3401,7 @@
   },
   {
     "alimento": "Contrafilé de costela cru",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 202,
@@ -3070,6 +3411,7 @@
   },
   {
     "alimento": "Contrafilé de costela grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 275,
@@ -3079,6 +3421,7 @@
   },
   {
     "alimento": "Contrafilé com gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 206,
@@ -3088,6 +3431,7 @@
   },
   {
     "alimento": "Contrafilé com gordura grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 278,
@@ -3097,6 +3441,7 @@
   },
   {
     "alimento": "Contrafilé sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 157,
@@ -3106,6 +3451,7 @@
   },
   {
     "alimento": "Contrafilé sem gordura grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 194,
@@ -3115,6 +3461,7 @@
   },
   {
     "alimento": "Costela assada",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 373,
@@ -3124,6 +3471,7 @@
   },
   {
     "alimento": "Costela bovina crua",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 358,
@@ -3133,6 +3481,7 @@
   },
   {
     "alimento": "Coxão duro sem gordura cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 217,
@@ -3142,6 +3491,7 @@
   },
   {
     "alimento": "Coxão duro sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 148,
@@ -3151,6 +3501,7 @@
   },
   {
     "alimento": "Coxão mole sem gordura cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 219,
@@ -3160,6 +3511,7 @@
   },
   {
     "alimento": "Coxão mole sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 169,
@@ -3169,6 +3521,7 @@
   },
   {
     "alimento": "Cupim assado",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 330,
@@ -3178,6 +3531,7 @@
   },
   {
     "alimento": "Cupim cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 221,
@@ -3187,6 +3541,7 @@
   },
   {
     "alimento": "Fígado de boi cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 141,
@@ -3196,6 +3551,7 @@
   },
   {
     "alimento": "Fígado de boi grelhado / Bife de fígado",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 225,
@@ -3205,6 +3561,7 @@
   },
   {
     "alimento": "Filé mignon sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 143,
@@ -3214,6 +3571,7 @@
   },
   {
     "alimento": "Filé mignon sem gordura grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 220,
@@ -3223,6 +3581,7 @@
   },
   {
     "alimento": "Fraldinha sem gordura cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 196,
@@ -3232,6 +3591,7 @@
   },
   {
     "alimento": "Fraldinha sem gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 141,
@@ -3241,6 +3601,7 @@
   },
   {
     "alimento": "Fraldinha com gordura cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 338,
@@ -3250,6 +3611,7 @@
   },
   {
     "alimento": "Fraldinha com gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 221,
@@ -3259,6 +3621,7 @@
   },
   {
     "alimento": "Lagarto cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 222,
@@ -3268,6 +3631,7 @@
   },
   {
     "alimento": "Lagarto cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 135,
@@ -3277,6 +3641,7 @@
   },
   {
     "alimento": "Língua de boi cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 315,
@@ -3286,6 +3651,7 @@
   },
   {
     "alimento": "Língua de boi crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 215,
@@ -3295,6 +3661,7 @@
   },
   {
     "alimento": "Maminha crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 153,
@@ -3304,6 +3671,7 @@
   },
   {
     "alimento": "Maminha grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 153,
@@ -3313,6 +3681,7 @@
   },
   {
     "alimento": "Miolo de alcatra sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 163,
@@ -3322,6 +3691,7 @@
   },
   {
     "alimento": "Miolo de alcatra sem gordura grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 241,
@@ -3331,6 +3701,7 @@
   },
   {
     "alimento": "Músculo sem gordura cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 194,
@@ -3340,6 +3711,7 @@
   },
   {
     "alimento": "Músculo bovino sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 142,
@@ -3349,6 +3721,7 @@
   },
   {
     "alimento": "Paleta bovina com gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 159,
@@ -3358,6 +3731,7 @@
   },
   {
     "alimento": "Paleta sem gordura cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 194,
@@ -3367,6 +3741,7 @@
   },
   {
     "alimento": "Paleta bovina sem gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 141,
@@ -3376,6 +3751,7 @@
   },
   {
     "alimento": "Patinho sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 133,
@@ -3385,6 +3761,7 @@
   },
   {
     "alimento": "Patinho sem gordura grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "bife médio",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 219,
@@ -3394,6 +3771,7 @@
   },
   {
     "alimento": "Peito bovino sem gordura cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 338,
@@ -3403,6 +3781,7 @@
   },
   {
     "alimento": "Peito bovino sem gordura cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 259,
@@ -3412,6 +3791,7 @@
   },
   {
     "alimento": "Picanha com gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 213,
@@ -3421,6 +3801,7 @@
   },
   {
     "alimento": "Picanha com gordura grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 289,
@@ -3430,6 +3811,7 @@
   },
   {
     "alimento": "Picanha sem gordura crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 134,
@@ -3439,6 +3821,7 @@
   },
   {
     "alimento": "Picanha sem gordura grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 238,
@@ -3448,6 +3831,7 @@
   },
   {
     "alimento": "Carne-seca cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 313,
@@ -3457,6 +3841,7 @@
   },
   {
     "alimento": "Carne-seca crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 313,
@@ -3466,6 +3851,7 @@
   },
   {
     "alimento": "Coxinha",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 283,
@@ -3475,6 +3861,7 @@
   },
   {
     "alimento": "Croquete de carne cru",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 246,
@@ -3484,6 +3871,7 @@
   },
   {
     "alimento": "Croquete de carne frito",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 347,
@@ -3493,6 +3881,7 @@
   },
   {
     "alimento": "Empada de frango assada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 358,
@@ -3502,6 +3891,7 @@
   },
   {
     "alimento": "Empada de frango",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 377,
@@ -3511,6 +3901,7 @@
   },
   {
     "alimento": "Asa de frango com pele crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 213,
@@ -3520,6 +3911,7 @@
   },
   {
     "alimento": "Frango caipira com pele cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "porção  ou 1/4 de frango",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 243,
@@ -3529,6 +3921,7 @@
   },
   {
     "alimento": "Frango caipira sem pele cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "porção  ou 1/4 de frango",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 196,
@@ -3538,6 +3931,7 @@
   },
   {
     "alimento": "Coração de frango cru",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 222,
@@ -3547,6 +3941,7 @@
   },
   {
     "alimento": "Coração de frango na brasa",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 207,
@@ -3556,6 +3951,7 @@
   },
   {
     "alimento": "Coxa de frango com pele assada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 215,
@@ -3565,6 +3961,7 @@
   },
   {
     "alimento": "Coxa de frango com pele crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 161,
@@ -3574,6 +3971,7 @@
   },
   {
     "alimento": "Coxa de frango sem pele cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 70.0,
     "energia_kcal_100g": 167,
@@ -3583,6 +3981,7 @@
   },
   {
     "alimento": "Coxa de frango sem pele crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 70.0,
     "energia_kcal_100g": 120,
@@ -3592,6 +3991,7 @@
   },
   {
     "alimento": "Fígado de frango",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média  ou 1/8 de frango",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 106,
@@ -3601,6 +4001,7 @@
   },
   {
     "alimento": "Filé de frango à milanesa",
+    "unidades": 1.0,
     "un_medida_caseira": "filé médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 221,
@@ -3610,6 +4011,7 @@
   },
   {
     "alimento": "Frango inteiro com pele cru",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 226,
@@ -3619,6 +4021,7 @@
   },
   {
     "alimento": "Frango sem pele assado",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média  ou 1/8 de frango",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 187,
@@ -3628,6 +4031,7 @@
   },
   {
     "alimento": "Frango sem pele cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "porção  ou 1/4 de frango",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 170,
@@ -3637,6 +4041,7 @@
   },
   {
     "alimento": "Frango inteiro sem pele cru",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 129,
@@ -3646,6 +4051,7 @@
   },
   {
     "alimento": "Peito de frango com pele assado",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 212,
@@ -3655,6 +4061,7 @@
   },
   {
     "alimento": "Peito de frango com pele cru",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 149,
@@ -3664,6 +4071,7 @@
   },
   {
     "alimento": "Peito de frango sem pele cozido",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 163,
@@ -3673,6 +4081,7 @@
   },
   {
     "alimento": "Peito de frango sem pele cru",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 119,
@@ -3682,6 +4091,7 @@
   },
   {
     "alimento": "Filé de frango sem pele grelhado",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 159,
@@ -3691,6 +4101,7 @@
   },
   {
     "alimento": "Sobrecoxa de frango com pele assada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 90.0,
     "energia_kcal_100g": 260,
@@ -3700,6 +4111,7 @@
   },
   {
     "alimento": "Sobrecoxa de frango com pele crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 90.0,
     "energia_kcal_100g": 255,
@@ -3709,6 +4121,7 @@
   },
   {
     "alimento": "Sobrecoxa de frango sem pele assada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 233,
@@ -3718,6 +4131,7 @@
   },
   {
     "alimento": "Sobrecoxa de frango sem pele crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 162,
@@ -3727,6 +4141,7 @@
   },
   {
     "alimento": "Hambúrguer cru",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 215,
@@ -3736,6 +4151,7 @@
   },
   {
     "alimento": "Hambúrguer frito",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 258,
@@ -3745,6 +4161,7 @@
   },
   {
     "alimento": "Hambúrguer grelhado",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 210,
@@ -3754,6 +4171,7 @@
   },
   {
     "alimento": "Linguiça de frango crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 218,
@@ -3763,6 +4181,7 @@
   },
   {
     "alimento": "Linguiça de frango frita",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 245,
@@ -3772,6 +4191,7 @@
   },
   {
     "alimento": "Linguiça de frango grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 244,
@@ -3781,6 +4201,7 @@
   },
   {
     "alimento": "Linguiça de porco crua / Linguiça toscana crua",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 227,
@@ -3790,6 +4211,7 @@
   },
   {
     "alimento": "Linguiça de porco frita",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 280,
@@ -3799,6 +4221,7 @@
   },
   {
     "alimento": "Linguiça de porco grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 296,
@@ -3808,6 +4231,7 @@
   },
   {
     "alimento": "Mortadela",
+    "unidades": 2.0,
     "un_medida_caseira": "fatias finas",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 269,
@@ -3817,6 +4241,7 @@
   },
   {
     "alimento": "Peru assado",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 163,
@@ -3826,6 +4251,7 @@
   },
   {
     "alimento": "Peru cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 94,
@@ -3835,6 +4261,7 @@
   },
   {
     "alimento": "Bisteca de porco crua",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 164,
@@ -3844,6 +4271,7 @@
   },
   {
     "alimento": "Bisteca de porco frita",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 311,
@@ -3853,6 +4281,7 @@
   },
   {
     "alimento": "Bisteca de porco grelhada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 280,
@@ -3862,6 +4291,7 @@
   },
   {
     "alimento": "Costela de porco assada",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 402,
@@ -3871,6 +4301,7 @@
   },
   {
     "alimento": "Costela de porco crua",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 256,
@@ -3880,6 +4311,7 @@
   },
   {
     "alimento": "Lombo de porco assado",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 210,
@@ -3889,6 +4321,7 @@
   },
   {
     "alimento": "Lombo de porco cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 176,
@@ -3898,6 +4331,7 @@
   },
   {
     "alimento": "Orelha de porco salgada",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 258,
@@ -3907,6 +4341,7 @@
   },
   {
     "alimento": "Pernil de porco assado",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 262,
@@ -3916,6 +4351,7 @@
   },
   {
     "alimento": "Pernil de porco cru",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 186,
@@ -3925,6 +4361,7 @@
   },
   {
     "alimento": "Rabo de porco salgado",
+    "unidades": 0.0,
     "un_medida_caseira": "-",
     "peso_aproximado_g": 0.0,
     "energia_kcal_100g": 377,
@@ -3934,6 +4371,7 @@
   },
   {
     "alimento": "Presunto com gordura",
+    "unidades": 2.0,
     "un_medida_caseira": "fatias finas",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 128,
@@ -3943,6 +4381,7 @@
   },
   {
     "alimento": "Presunto sem gordura",
+    "unidades": 2.0,
     "un_medida_caseira": "fatias finas",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 94,
@@ -3952,6 +4391,7 @@
   },
   {
     "alimento": "Quibe assado",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 136,
@@ -3961,6 +4401,7 @@
   },
   {
     "alimento": "Quibe cru",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de servir",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 109,
@@ -3970,6 +4411,7 @@
   },
   {
     "alimento": "Quibe frito",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 254,
@@ -3979,6 +4421,7 @@
   },
   {
     "alimento": "Salame",
+    "unidades": 3.0,
     "un_medida_caseira": "fatias finas",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 398,
@@ -3988,6 +4431,7 @@
   },
   {
     "alimento": "Toucinho cru",
+    "unidades": 2.0,
     "un_medida_caseira": "fatias",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 593,
@@ -3997,6 +4441,7 @@
   },
   {
     "alimento": "Torresmo",
+    "unidades": 2.0,
     "un_medida_caseira": "fatias",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 697,
@@ -4006,6 +4451,7 @@
   },
   {
     "alimento": "Bebida láctea sabor pêssego",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 55,
@@ -4015,6 +4461,7 @@
   },
   {
     "alimento": "Creme de leite",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 221,
@@ -4024,6 +4471,7 @@
   },
   {
     "alimento": "Iogurte natural",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 170.0,
     "energia_kcal_100g": 51,
@@ -4033,6 +4481,7 @@
   },
   {
     "alimento": "Iogurte natural desnatado",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 170.0,
     "energia_kcal_100g": 41,
@@ -4042,6 +4491,7 @@
   },
   {
     "alimento": "Iogurte de abacaxi",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 170.0,
     "energia_kcal_100g": 0,
@@ -4051,6 +4501,7 @@
   },
   {
     "alimento": "Iogurte de morango",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 170.0,
     "energia_kcal_100g": 70,
@@ -4060,6 +4511,7 @@
   },
   {
     "alimento": "Iogurte de pêssego",
+    "unidades": 1.0,
     "un_medida_caseira": "pote pequeno",
     "peso_aproximado_g": 170.0,
     "energia_kcal_100g": 68,
@@ -4069,6 +4521,7 @@
   },
   {
     "alimento": "Leite condensado",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 313,
@@ -4078,6 +4531,7 @@
   },
   {
     "alimento": "Leite de cabra",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 66,
@@ -4087,6 +4541,7 @@
   },
   {
     "alimento": "Leite com achocolatado",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 83,
@@ -4096,6 +4551,7 @@
   },
   {
     "alimento": "Leite em pó desnatado",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 362,
@@ -4105,6 +4561,7 @@
   },
   {
     "alimento": "Leite desnatado",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 0,
@@ -4114,6 +4571,7 @@
   },
   {
     "alimento": "Leite integral",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 0,
@@ -4123,6 +4581,7 @@
   },
   {
     "alimento": "Leite em pó integral",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 497,
@@ -4132,6 +4591,7 @@
   },
   {
     "alimento": "Leite fermentado / Yakult",
+    "unidades": 1.0,
     "un_medida_caseira": "frasco 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 70,
@@ -4141,6 +4601,7 @@
   },
   {
     "alimento": "Queijo minas frescal",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2x2x1cm",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 264,
@@ -4150,6 +4611,7 @@
   },
   {
     "alimento": "Queijo minas meia cura",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2x2x1cm",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 321,
@@ -4159,6 +4621,7 @@
   },
   {
     "alimento": "Queijo muçarela",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2x2x1cm",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 330,
@@ -4168,6 +4631,7 @@
   },
   {
     "alimento": "Queijo parmesão",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa  - ralado",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 453,
@@ -4177,6 +4641,7 @@
   },
   {
     "alimento": "Queijo processado / Polenguinho",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2x2x1cm",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 303,
@@ -4186,6 +4651,7 @@
   },
   {
     "alimento": "Petit suisse de morango / Danoninho",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 121,
@@ -4195,6 +4661,7 @@
   },
   {
     "alimento": "Queijo prato",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2x2x1cm",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 360,
@@ -4204,6 +4671,7 @@
   },
   {
     "alimento": "Requeijão cremoso",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 257,
@@ -4213,6 +4681,7 @@
   },
   {
     "alimento": "Ricota",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 2x2x2cm",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 140,
@@ -4222,6 +4691,7 @@
   },
   {
     "alimento": "Isotônico / Gatorade / Powerade",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 26,
@@ -4231,6 +4701,7 @@
   },
   {
     "alimento": "Café",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de café (50ml)",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 9,
@@ -4240,6 +4711,7 @@
   },
   {
     "alimento": "Cachaça / Aguardente",
+    "unidades": 1.0,
     "un_medida_caseira": "dose (50ml)",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 216,
@@ -4249,6 +4721,7 @@
   },
   {
     "alimento": "Caldo de cana",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 65,
@@ -4258,6 +4731,7 @@
   },
   {
     "alimento": "Cerveja",
+    "unidades": 1.0,
     "un_medida_caseira": "lata 350ml",
     "peso_aproximado_g": 350.0,
     "energia_kcal_100g": 41,
@@ -4267,6 +4741,7 @@
   },
   {
     "alimento": "Chá de erva-doce",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá (200ml)",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 1,
@@ -4276,6 +4751,7 @@
   },
   {
     "alimento": "Chá mate",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá (200ml)",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 3,
@@ -4285,6 +4761,7 @@
   },
   {
     "alimento": "Chá preto",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá (200ml)",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 2,
@@ -4294,6 +4771,7 @@
   },
   {
     "alimento": "Água de coco",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 22,
@@ -4303,6 +4781,7 @@
   },
   {
     "alimento": "Água tônica",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 31,
@@ -4312,6 +4791,7 @@
   },
   {
     "alimento": "Refrigerante de cola",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 34,
@@ -4321,6 +4801,7 @@
   },
   {
     "alimento": "Refrigerante de guaraná",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 39,
@@ -4330,6 +4811,7 @@
   },
   {
     "alimento": "Refrigerante de laranja",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 46,
@@ -4339,6 +4821,7 @@
   },
   {
     "alimento": "Refrigerante de limão",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 40,
@@ -4348,6 +4831,7 @@
   },
   {
     "alimento": "Omelete de queijo",
+    "unidades": 1.0,
     "un_medida_caseira": "porção (2 ovos)",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 268,
@@ -4357,6 +4841,7 @@
   },
   {
     "alimento": "Ovo de codorna",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 177,
@@ -4366,6 +4851,7 @@
   },
   {
     "alimento": "Clara de ovo cozida",
+    "unidades": 2.0,
     "un_medida_caseira": "claras",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 59,
@@ -4375,6 +4861,7 @@
   },
   {
     "alimento": "Gema de ovo cozida",
+    "unidades": 2.0,
     "un_medida_caseira": "gemas",
     "peso_aproximado_g": 40.0,
     "energia_kcal_100g": 353,
@@ -4384,6 +4871,7 @@
   },
   {
     "alimento": "Ovo cozido",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 146,
@@ -4393,6 +4881,7 @@
   },
   {
     "alimento": "Ovo cru",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 143,
@@ -4402,6 +4891,7 @@
   },
   {
     "alimento": "Ovo frito",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 240,
@@ -4411,6 +4901,7 @@
   },
   {
     "alimento": "Achocolatado em pó",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 401,
@@ -4420,6 +4911,7 @@
   },
   {
     "alimento": "Açúcar cristal",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 387,
@@ -4429,6 +4921,7 @@
   },
   {
     "alimento": "Açúcar mascavo",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 369,
@@ -4438,6 +4931,7 @@
   },
   {
     "alimento": "Açúcar refinado",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 387,
@@ -4447,6 +4941,7 @@
   },
   {
     "alimento": "Chocolate ao leite",
+    "unidades": 1.0,
     "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 540,
@@ -4456,6 +4951,7 @@
   },
   {
     "alimento": "Chocolate com castanha-do-pará",
+    "unidades": 1.0,
     "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 559,
@@ -4465,6 +4961,7 @@
   },
   {
     "alimento": "Chocolate diet",
+    "unidades": 1.0,
     "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 557,
@@ -4474,6 +4971,7 @@
   },
   {
     "alimento": "Chocolate meio amargo",
+    "unidades": 1.0,
     "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 475,
@@ -4483,6 +4981,7 @@
   },
   {
     "alimento": "Cocada",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 449,
@@ -4492,6 +4991,7 @@
   },
   {
     "alimento": "Doce de abóbora",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 199,
@@ -4501,6 +5001,7 @@
   },
   {
     "alimento": "Doce de leite",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 306,
@@ -4510,6 +5011,7 @@
   },
   {
     "alimento": "Geleia de mocotó",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 106,
@@ -4519,6 +5021,7 @@
   },
   {
     "alimento": "Xarope de milho / Glicose de milho",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 292,
@@ -4528,6 +5031,7 @@
   },
   {
     "alimento": "Maria-mole",
+    "unidades": 1.0,
     "un_medida_caseira": "porção",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 301,
@@ -4537,6 +5041,7 @@
   },
   {
     "alimento": "Maria-mole de coco queimado",
+    "unidades": 1.0,
     "un_medida_caseira": "porção",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 307,
@@ -4546,6 +5051,7 @@
   },
   {
     "alimento": "Marmelada",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 257,
@@ -4555,6 +5061,7 @@
   },
   {
     "alimento": "Mel",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 309,
@@ -4564,6 +5071,7 @@
   },
   {
     "alimento": "Melado de cana",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 297,
@@ -4573,6 +5081,7 @@
   },
   {
     "alimento": "Quindim",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 411,
@@ -4582,6 +5091,7 @@
   },
   {
     "alimento": "Rapadura",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço pequeno",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 352,
@@ -4591,6 +5101,7 @@
   },
   {
     "alimento": "Pó de café",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de chá",
     "peso_aproximado_g": 2.0,
     "energia_kcal_100g": 419,
@@ -4600,6 +5111,7 @@
   },
   {
     "alimento": "Cappuccino em pó",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 417,
@@ -4609,6 +5121,7 @@
   },
   {
     "alimento": "Fermento em pó",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de chá",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 90,
@@ -4618,6 +5131,7 @@
   },
   {
     "alimento": "Fermento biológico",
+    "unidades": 1.0,
     "un_medida_caseira": "tablete",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 90,
@@ -4627,6 +5141,7 @@
   },
   {
     "alimento": "Gelatina em pó",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 380,
@@ -4636,6 +5151,7 @@
   },
   {
     "alimento": "Sal light / Sal dietético",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de chá",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 0,
@@ -4645,6 +5161,7 @@
   },
   {
     "alimento": "Sal grosso",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de chá",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 0,
@@ -4654,6 +5171,7 @@
   },
   {
     "alimento": "Molho shoyu",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 61,
@@ -4663,6 +5181,7 @@
   },
   {
     "alimento": "Tempero completo",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de chá",
     "peso_aproximado_g": 5.0,
     "energia_kcal_100g": 21,
@@ -4672,6 +5191,7 @@
   },
   {
     "alimento": "Azeitona preta",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 194,
@@ -4681,6 +5201,7 @@
   },
   {
     "alimento": "Azeitona verde",
+    "unidades": 5.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 137,
@@ -4690,6 +5211,7 @@
   },
   {
     "alimento": "Chantilly em spray",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 315,
@@ -4699,6 +5221,7 @@
   },
   {
     "alimento": "Leite de coco",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 166,
@@ -4708,6 +5231,7 @@
   },
   {
     "alimento": "Maionese",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 15.0,
     "energia_kcal_100g": 302,
@@ -4717,6 +5241,7 @@
   },
   {
     "alimento": "Acarajé",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 289,
@@ -4726,6 +5251,7 @@
   },
   {
     "alimento": "Arroz carreteiro",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 154,
@@ -4735,6 +5261,7 @@
   },
   {
     "alimento": "Baião de dois",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 136,
@@ -4744,6 +5271,7 @@
   },
   {
     "alimento": "Barreado",
+    "unidades": 1.0,
     "un_medida_caseira": "porção",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 165,
@@ -4753,6 +5281,7 @@
   },
   {
     "alimento": "Bife a cavalo",
+    "unidades": 1.0,
     "un_medida_caseira": "porção  - bife + ovo + arroz",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 291,
@@ -4762,6 +5291,7 @@
   },
   {
     "alimento": "Bolinho de arroz",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 274,
@@ -4771,6 +5301,7 @@
   },
   {
     "alimento": "Camarão à baiana",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 101,
@@ -4780,6 +5311,7 @@
   },
   {
     "alimento": "Charuto de repolho",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 78,
@@ -4789,6 +5321,7 @@
   },
   {
     "alimento": "Cuscuz",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia grossa",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 113,
@@ -4798,6 +5331,7 @@
   },
   {
     "alimento": "Cuscuz paulista",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 142,
@@ -4807,6 +5341,7 @@
   },
   {
     "alimento": "Molho cuxá",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de servir",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 80,
@@ -4816,6 +5351,7 @@
   },
   {
     "alimento": "Dobradinha",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 125,
@@ -4825,6 +5361,7 @@
   },
   {
     "alimento": "Estrogonofe de carne",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 173,
@@ -4834,6 +5371,7 @@
   },
   {
     "alimento": "Estrogonofe de frango",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 157,
@@ -4843,6 +5381,7 @@
   },
   {
     "alimento": "Feijão tropeiro",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 152,
@@ -4852,6 +5391,7 @@
   },
   {
     "alimento": "Frango com açafrão",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 113,
@@ -4861,6 +5401,7 @@
   },
   {
     "alimento": "Macarronada à bolonhesa",
+    "unidades": 1.0,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 220.0,
     "energia_kcal_100g": 120,
@@ -4870,6 +5411,7 @@
   },
   {
     "alimento": "Maniçoba",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 134,
@@ -4879,6 +5421,7 @@
   },
   {
     "alimento": "Quibebe",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 86,
@@ -4888,6 +5431,7 @@
   },
   {
     "alimento": "Maionese de legumes",
+    "unidades": 1.0,
     "un_medida_caseira": "pires",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 96,
@@ -4897,6 +5441,7 @@
   },
   {
     "alimento": "Salada de legumes cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "pires",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 35,
@@ -4906,6 +5451,7 @@
   },
   {
     "alimento": "Salpicão",
+    "unidades": 1.0,
     "un_medida_caseira": "escumadeira cheia",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 148,
@@ -4915,6 +5461,7 @@
   },
   {
     "alimento": "Sarapatel",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 123,
@@ -4924,6 +5471,7 @@
   },
   {
     "alimento": "Tabule",
+    "unidades": 1.0,
     "un_medida_caseira": "porção",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 57,
@@ -4933,6 +5481,7 @@
   },
   {
     "alimento": "Tacacá",
+    "unidades": 1.0,
     "un_medida_caseira": "tigela pequena (250ml)",
     "peso_aproximado_g": 250.0,
     "energia_kcal_100g": 47,
@@ -4942,6 +5491,7 @@
   },
   {
     "alimento": "Tapioca",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 60.0,
     "energia_kcal_100g": 348,
@@ -4951,6 +5501,7 @@
   },
   {
     "alimento": "Tucupi",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa  - como tempero",
     "peso_aproximado_g": 20.0,
     "energia_kcal_100g": 27,
@@ -4960,6 +5511,7 @@
   },
   {
     "alimento": "Vaca atolada",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 145,
@@ -4969,6 +5521,7 @@
   },
   {
     "alimento": "Vatapá",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média  - por ser mais calórico",
     "peso_aproximado_g": 120.0,
     "energia_kcal_100g": 255,
@@ -4978,6 +5531,7 @@
   },
   {
     "alimento": "Virado à paulista",
+    "unidades": 1.0,
     "un_medida_caseira": "porção completa  - feijão, arroz, bisteca, etc.",
     "peso_aproximado_g": 300.0,
     "energia_kcal_100g": 307,
@@ -4987,6 +5541,7 @@
   },
   {
     "alimento": "Yakisoba",
+    "unidades": 1.0,
     "un_medida_caseira": "prato raso",
     "peso_aproximado_g": 250.0,
     "energia_kcal_100g": 113,
@@ -4996,6 +5551,7 @@
   },
   {
     "alimento": "Amendoim",
+    "unidades": 1.0,
     "un_medida_caseira": "punhado (cabe na mão)",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 544,
@@ -5005,6 +5561,7 @@
   },
   {
     "alimento": "Amendoim torrado e salgado",
+    "unidades": 1.0,
     "un_medida_caseira": "punhado (cabe na mão)",
     "peso_aproximado_g": 25.0,
     "energia_kcal_100g": 606,
@@ -5014,6 +5571,7 @@
   },
   {
     "alimento": "Ervilha fresca",
+    "unidades": 1.0,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 88,
@@ -5023,6 +5581,7 @@
   },
   {
     "alimento": "Ervilha em conserva",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 74,
@@ -5032,6 +5591,7 @@
   },
   {
     "alimento": "Feijão carioca cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 76,
@@ -5041,6 +5601,7 @@
   },
   {
     "alimento": "Feijão carioca cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 329,
@@ -5050,6 +5611,7 @@
   },
   {
     "alimento": "Feijão fradinho cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 78,
@@ -5059,6 +5621,7 @@
   },
   {
     "alimento": "Feijão fradinho cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 339,
@@ -5068,6 +5631,7 @@
   },
   {
     "alimento": "Feijão jalo cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 93,
@@ -5077,6 +5641,7 @@
   },
   {
     "alimento": "Feijão jalo cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 328,
@@ -5086,6 +5651,7 @@
   },
   {
     "alimento": "Feijão preto cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 77,
@@ -5095,6 +5661,7 @@
   },
   {
     "alimento": "Feijão preto cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 324,
@@ -5104,6 +5671,7 @@
   },
   {
     "alimento": "Feijão rajado cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 85,
@@ -5113,6 +5681,7 @@
   },
   {
     "alimento": "Feijão rajado cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 326,
@@ -5122,6 +5691,7 @@
   },
   {
     "alimento": "Feijão rosinha cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 68,
@@ -5131,6 +5701,7 @@
   },
   {
     "alimento": "Feijão rosinha cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 337,
@@ -5140,6 +5711,7 @@
   },
   {
     "alimento": "Feijão roxo cozido",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 77,
@@ -5149,6 +5721,7 @@
   },
   {
     "alimento": "Feijão roxo cru",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 180.0,
     "energia_kcal_100g": 331,
@@ -5158,6 +5731,7 @@
   },
   {
     "alimento": "Grão-de-bico",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 355,
@@ -5167,6 +5741,7 @@
   },
   {
     "alimento": "Guandu / Andu",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 344,
@@ -5176,6 +5751,7 @@
   },
   {
     "alimento": "Lentilha cozida",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 93,
@@ -5185,6 +5761,7 @@
   },
   {
     "alimento": "Lentilha crua",
+    "unidades": 1.0,
     "un_medida_caseira": "concha média",
     "peso_aproximado_g": 150.0,
     "energia_kcal_100g": 339,
@@ -5194,6 +5771,7 @@
   },
   {
     "alimento": "Paçoca",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 487,
@@ -5203,6 +5781,7 @@
   },
   {
     "alimento": "Pé-de-moleque",
+    "unidades": 1.0,
     "un_medida_caseira": "unidade",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 503,
@@ -5212,6 +5791,7 @@
   },
   {
     "alimento": "Farinha de soja",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 404,
@@ -5221,6 +5801,7 @@
   },
   {
     "alimento": "Leite de soja / Bebida de soja",
+    "unidades": 1.0,
     "un_medida_caseira": "copo 200ml",
     "peso_aproximado_g": 200.0,
     "energia_kcal_100g": 39,
@@ -5230,6 +5811,7 @@
   },
   {
     "alimento": "Leite de soja em pó",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 459,
@@ -5239,6 +5821,7 @@
   },
   {
     "alimento": "Tofu",
+    "unidades": 1.0,
     "un_medida_caseira": "fatia 4x4x2cm",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 64,
@@ -5248,6 +5831,7 @@
   },
   {
     "alimento": "Tremoço",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 381,
@@ -5257,6 +5841,7 @@
   },
   {
     "alimento": "Tremoço em conserva",
+    "unidades": 0.5,
     "un_medida_caseira": "xícara de chá",
     "peso_aproximado_g": 80.0,
     "energia_kcal_100g": 121,
@@ -5266,6 +5851,7 @@
   },
   {
     "alimento": "Amêndoa torrada e salgada",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 581,
@@ -5275,6 +5861,7 @@
   },
   {
     "alimento": "Castanha-de-caju torrada e salgada",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 570,
@@ -5284,6 +5871,7 @@
   },
   {
     "alimento": "Castanha-do-pará",
+    "unidades": 2.0,
     "un_medida_caseira": "unidades",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 643,
@@ -5293,6 +5881,7 @@
   },
   {
     "alimento": "Coco seco",
+    "unidades": 1.0,
     "un_medida_caseira": "pedaço médio 3x3cm",
     "peso_aproximado_g": 50.0,
     "energia_kcal_100g": 406,
@@ -5302,6 +5891,7 @@
   },
   {
     "alimento": "Coco verde",
+    "unidades": 0.25,
     "un_medida_caseira": "unidade média  - polpa + água",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 0,
@@ -5311,6 +5901,7 @@
   },
   {
     "alimento": "Farinha de babaçu",
+    "unidades": 2.0,
     "un_medida_caseira": "colheres de sopa",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 329,
@@ -5320,6 +5911,7 @@
   },
   {
     "alimento": "Gergelim",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 584,
@@ -5329,6 +5921,7 @@
   },
   {
     "alimento": "Linhaça",
+    "unidades": 1.0,
     "un_medida_caseira": "colher de sopa",
     "peso_aproximado_g": 10.0,
     "energia_kcal_100g": 495,
@@ -5338,6 +5931,7 @@
   },
   {
     "alimento": "Pinhão",
+    "unidades": 10.0,
     "un_medida_caseira": "unidades médias",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 174,
@@ -5347,6 +5941,7 @@
   },
   {
     "alimento": "Pupunha",
+    "unidades": 0.5,
     "un_medida_caseira": "unidade média",
     "peso_aproximado_g": 100.0,
     "energia_kcal_100g": 219,
@@ -5356,6 +5951,7 @@
   },
   {
     "alimento": "Noz",
+    "unidades": 4.0,
     "un_medida_caseira": "metades",
     "peso_aproximado_g": 30.0,
     "energia_kcal_100g": 620,
