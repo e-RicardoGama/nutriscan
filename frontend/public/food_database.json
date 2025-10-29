@@ -1,0 +1,5366 @@
+[
+  {
+    "alimento": "Arroz integral cozido",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 124,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 25.8,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Arroz integral cru",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.1,
+    "energia_kcal_100g": 360,
+    "proteina_g_100g": 7.3,
+    "carboidrato_g_100g": 77.5,
+    "lipidios_g_100g": 1.9
+  },
+  {
+    "alimento": "Arroz branco cozido",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.2,
+    "energia_kcal_100g": 128,
+    "proteina_g_100g": 2.5,
+    "carboidrato_g_100g": 28.1,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Arroz branco cru",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.3,
+    "energia_kcal_100g": 358,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 78.8,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Arroz branco cozido",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.4,
+    "energia_kcal_100g": 130,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 28.2,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Arroz branco cru",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.5,
+    "energia_kcal_100g": 358,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 78.9,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Aveia em flocos",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 12.0,
+    "energia_kcal_100g": 394,
+    "proteina_g_100g": 13.9,
+    "carboidrato_g_100g": 66.6,
+    "lipidios_g_100g": 8.5
+  },
+  {
+    "alimento": "Biscoito Maizena",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 7.0,
+    "energia_kcal_100g": 443,
+    "proteina_g_100g": 8.1,
+    "carboidrato_g_100g": 75.2,
+    "lipidios_g_100g": 12.0
+  },
+  {
+    "alimento": "Biscoito recheado de chocolate",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 472,
+    "proteina_g_100g": 6.4,
+    "carboidrato_g_100g": 70.5,
+    "lipidios_g_100g": 19.6
+  },
+  {
+    "alimento": "Biscoito recheado de morango",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 471,
+    "proteina_g_100g": 5.7,
+    "carboidrato_g_100g": 71.0,
+    "lipidios_g_100g": 19.6
+  },
+  {
+    "alimento": "Biscoito wafer de chocolate",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 502,
+    "proteina_g_100g": 5.6,
+    "carboidrato_g_100g": 67.5,
+    "lipidios_g_100g": 24.7
+  },
+  {
+    "alimento": "Biscoito wafer de morango",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 513,
+    "proteina_g_100g": 4.5,
+    "carboidrato_g_100g": 67.4,
+    "lipidios_g_100g": 26.4
+  },
+  {
+    "alimento": "Biscoito cream cracker",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 432,
+    "proteina_g_100g": 10.1,
+    "carboidrato_g_100g": 68.7,
+    "lipidios_g_100g": 14.4
+  },
+  {
+    "alimento": "Mistura para bolo",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 10.1,
+    "energia_kcal_100g": 419,
+    "proteina_g_100g": 6.2,
+    "carboidrato_g_100g": 84.7,
+    "lipidios_g_100g": 6.1
+  },
+  {
+    "alimento": "Bolo de aipim",
+    "un_medida_caseira": "fatia média 5x5x5cm",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 324,
+    "proteina_g_100g": 4.4,
+    "carboidrato_g_100g": 47.9,
+    "lipidios_g_100g": 12.7
+  },
+  {
+    "alimento": "Bolo de chocolate",
+    "un_medida_caseira": "fatia média 5x5x5cm",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 410,
+    "proteina_g_100g": 6.2,
+    "carboidrato_g_100g": 54.7,
+    "lipidios_g_100g": 18.5
+  },
+  {
+    "alimento": "Bolo de coco",
+    "un_medida_caseira": "fatia média 5x5x5cm",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 333,
+    "proteina_g_100g": 5.7,
+    "carboidrato_g_100g": 52.3,
+    "lipidios_g_100g": 11.3
+  },
+  {
+    "alimento": "Bolo de milho",
+    "un_medida_caseira": "fatia média 5x5x5cm",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 311,
+    "proteina_g_100g": 4.8,
+    "carboidrato_g_100g": 45.1,
+    "lipidios_g_100g": 12.4
+  },
+  {
+    "alimento": "Canjica / Mungunzá",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 358,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 78.1,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Canjica doce / Mungunzá doce",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 250.0,
+    "energia_kcal_100g": 112,
+    "proteina_g_100g": 2.4,
+    "carboidrato_g_100g": 23.6,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Flocos de milho com sal",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 7.0,
+    "energia_kcal_100g": 370,
+    "proteina_g_100g": 7.3,
+    "carboidrato_g_100g": 80.8,
+    "lipidios_g_100g": 1.6
+  },
+  {
+    "alimento": "Flocos de milho sem sal",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 7.0,
+    "energia_kcal_100g": 363,
+    "proteina_g_100g": 6.9,
+    "carboidrato_g_100g": 80.4,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Mingau de milho infantil",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 394,
+    "proteina_g_100g": 6.4,
+    "carboidrato_g_100g": 87.3,
+    "lipidios_g_100g": 1.1
+  },
+  {
+    "alimento": "Mix de cereais para vitamina / Tipo Neston",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 381,
+    "proteina_g_100g": 8.9,
+    "carboidrato_g_100g": 81.6,
+    "lipidios_g_100g": 2.1
+  },
+  {
+    "alimento": "Cereal de milho / Corn flakes",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 365,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 83.8,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Sucrilhos / Cereal de milho com açúcar",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 377,
+    "proteina_g_100g": 4.7,
+    "carboidrato_g_100g": 88.8,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Creme de arroz",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 386,
+    "proteina_g_100g": 7.0,
+    "carboidrato_g_100g": 83.9,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Creme de milho",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 333,
+    "proteina_g_100g": 4.8,
+    "carboidrato_g_100g": 86.1,
+    "lipidios_g_100g": 1.6
+  },
+  {
+    "alimento": "Curau",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 78,
+    "proteina_g_100g": 2.4,
+    "carboidrato_g_100g": 13.9,
+    "lipidios_g_100g": 1.6
+  },
+  {
+    "alimento": "Mistura para curau",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 402,
+    "proteina_g_100g": 2.2,
+    "carboidrato_g_100g": 79.8,
+    "lipidios_g_100g": 13.4
+  },
+  {
+    "alimento": "Farinha de arroz",
+    "un_medida_caseira": "colher de sopa cheia",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 363,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 85.5,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Farinha de centeio integral",
+    "un_medida_caseira": "colher de sopa cheia",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 336,
+    "proteina_g_100g": 12.5,
+    "carboidrato_g_100g": 73.3,
+    "lipidios_g_100g": 1.8
+  },
+  {
+    "alimento": "Farinha de milho",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 351,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 79.1,
+    "lipidios_g_100g": 1.5
+  },
+  {
+    "alimento": "Farinha de rosca",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 371,
+    "proteina_g_100g": 11.4,
+    "carboidrato_g_100g": 75.8,
+    "lipidios_g_100g": 1.5
+  },
+  {
+    "alimento": "Farinha de trigo",
+    "un_medida_caseira": "colher de sopa cheia",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 360,
+    "proteina_g_100g": 9.8,
+    "carboidrato_g_100g": 75.1,
+    "lipidios_g_100g": 1.4
+  },
+  {
+    "alimento": "Farinha Láctea",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 415,
+    "proteina_g_100g": 11.9,
+    "carboidrato_g_100g": 77.8,
+    "lipidios_g_100g": 5.8
+  },
+  {
+    "alimento": "Massa de lasanha cozida",
+    "un_medida_caseira": "placa média",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 164,
+    "proteina_g_100g": 5.8,
+    "carboidrato_g_100g": 32.5,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Massa de lasanha fresca",
+    "un_medida_caseira": "placa média",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 220,
+    "proteina_g_100g": 7.0,
+    "carboidrato_g_100g": 45.1,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Macarrão instantâneo / Miojo",
+    "un_medida_caseira": "pacote cozido",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 436,
+    "proteina_g_100g": 8.8,
+    "carboidrato_g_100g": 62.4,
+    "lipidios_g_100g": 17.2
+  },
+  {
+    "alimento": "Macarrão cru",
+    "un_medida_caseira": "pacote cozido",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 371,
+    "proteina_g_100g": 10.0,
+    "carboidrato_g_100g": 77.9,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Macarrão com ovos cru",
+    "un_medida_caseira": "pacote cozido",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 371,
+    "proteina_g_100g": 10.3,
+    "carboidrato_g_100g": 76.6,
+    "lipidios_g_100g": 2.0
+  },
+  {
+    "alimento": "Amido de milho / Maizena",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 361,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 87.1,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Fubá",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 353,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 78.9,
+    "lipidios_g_100g": 1.9
+  },
+  {
+    "alimento": "Milho verde cru",
+    "un_medida_caseira": "espiga média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 138,
+    "proteina_g_100g": 6.6,
+    "carboidrato_g_100g": 28.6,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Milho verde em conserva",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 98,
+    "proteina_g_100g": 3.2,
+    "carboidrato_g_100g": 17.1,
+    "lipidios_g_100g": 2.4
+  },
+  {
+    "alimento": "Mingau em pó",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 373,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 89.3,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Pamonha",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 171,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 30.7,
+    "lipidios_g_100g": 4.8
+  },
+  {
+    "alimento": "Pão de forma de aveia",
+    "un_medida_caseira": "fatia",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 343,
+    "proteina_g_100g": 12.4,
+    "carboidrato_g_100g": 59.6,
+    "lipidios_g_100g": 5.7
+  },
+  {
+    "alimento": "Pão de soja",
+    "un_medida_caseira": "fatia",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 309,
+    "proteina_g_100g": 11.3,
+    "carboidrato_g_100g": 56.5,
+    "lipidios_g_100g": 3.6
+  },
+  {
+    "alimento": "Pão de forma com glúten",
+    "un_medida_caseira": "fatia",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 253,
+    "proteina_g_100g": 12.0,
+    "carboidrato_g_100g": 44.1,
+    "lipidios_g_100g": 2.7
+  },
+  {
+    "alimento": "Pão de forma de milho",
+    "un_medida_caseira": "fatia",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 292,
+    "proteina_g_100g": 8.3,
+    "carboidrato_g_100g": 56.4,
+    "lipidios_g_100g": 3.1
+  },
+  {
+    "alimento": "Pão de forma integral",
+    "un_medida_caseira": "fatia",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 253,
+    "proteina_g_100g": 9.4,
+    "carboidrato_g_100g": 49.9,
+    "lipidios_g_100g": 3.7
+  },
+  {
+    "alimento": "Pão francês",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 300,
+    "proteina_g_100g": 8.0,
+    "carboidrato_g_100g": 58.6,
+    "lipidios_g_100g": 3.1
+  },
+  {
+    "alimento": "Pão sovado",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 311,
+    "proteina_g_100g": 8.4,
+    "carboidrato_g_100g": 61.5,
+    "lipidios_g_100g": 2.8
+  },
+  {
+    "alimento": "Pastel de carne cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 289,
+    "proteina_g_100g": 10.7,
+    "carboidrato_g_100g": 42.0,
+    "lipidios_g_100g": 8.8
+  },
+  {
+    "alimento": "Pastel de carne frito",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 388,
+    "proteina_g_100g": 10.1,
+    "carboidrato_g_100g": 43.8,
+    "lipidios_g_100g": 20.1
+  },
+  {
+    "alimento": "Pastel de queijo cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 308,
+    "proteina_g_100g": 9.9,
+    "carboidrato_g_100g": 45.9,
+    "lipidios_g_100g": 9.6
+  },
+  {
+    "alimento": "Pastel de queijo frito",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 422,
+    "proteina_g_100g": 8.7,
+    "carboidrato_g_100g": 48.1,
+    "lipidios_g_100g": 22.7
+  },
+  {
+    "alimento": "Massa de pastel crua",
+    "un_medida_caseira": "disco",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 310,
+    "proteina_g_100g": 6.9,
+    "carboidrato_g_100g": 57.4,
+    "lipidios_g_100g": 5.5
+  },
+  {
+    "alimento": "Massa de pastel frita",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 570,
+    "proteina_g_100g": 6.0,
+    "carboidrato_g_100g": 49.3,
+    "lipidios_g_100g": 40.9
+  },
+  {
+    "alimento": "Pipoca sem sal",
+    "un_medida_caseira": "tigela média  estourada",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 448,
+    "proteina_g_100g": 9.9,
+    "carboidrato_g_100g": 70.3,
+    "lipidios_g_100g": 15.9
+  },
+  {
+    "alimento": "Polenta pré-cozida",
+    "un_medida_caseira": "fatia média 2cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 103,
+    "proteina_g_100g": 2.3,
+    "carboidrato_g_100g": 23.3,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Torrada",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 377,
+    "proteina_g_100g": 10.5,
+    "carboidrato_g_100g": 74.6,
+    "lipidios_g_100g": 3.3
+  },
+  {
+    "alimento": "Abóbora cabotiá cozida / Abóbora japonesa cozida",
+    "un_medida_caseira": "colher de sopa bem cheia",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 48,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 10.8,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Abóbora cabotiá crua / Abóbora japonesa crua",
+    "un_medida_caseira": "pedaço 4x4cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 1.7,
+    "carboidrato_g_100g": 8.4,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Abóbora menina brasileira",
+    "un_medida_caseira": "pedaço 4x4cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 14,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 3.3,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Abóbora moranga crua",
+    "un_medida_caseira": "pedaço 4x4cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 12,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 2.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Abóbora moranga refogada",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 29,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 6.0,
+    "lipidios_g_100g": 0.8
+  },
+  {
+    "alimento": "Abóbora pescoço",
+    "un_medida_caseira": "pedaço 4x4cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 24,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 6.1,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Abobrinha italiana cozida",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 15,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 3.0,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Abobrinha italiana crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 19,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 4.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Abobrinha italiana refogada",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 24,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 4.2,
+    "lipidios_g_100g": 0.8
+  },
+  {
+    "alimento": "Abobrinha paulista",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 31,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 7.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Acelga",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 21,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 4.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Agrião",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 17,
+    "proteina_g_100g": 2.7,
+    "carboidrato_g_100g": 2.3,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Aipo / Salsão",
+    "un_medida_caseira": "talo médio",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 19,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 4.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Alface americana",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 9,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 1.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Alface crespa",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 11,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 1.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Alface lisa",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 14,
+    "proteina_g_100g": 1.7,
+    "carboidrato_g_100g": 2.4,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Alface roxa",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 13,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 2.5,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Alfavaca",
+    "un_medida_caseira": "colheres de sopa  - como tempero",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 29,
+    "proteina_g_100g": 2.7,
+    "carboidrato_g_100g": 5.2,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Alho",
+    "un_medida_caseira": "dente médio",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 113,
+    "proteina_g_100g": 7.0,
+    "carboidrato_g_100g": 23.9,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Alho-poró",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 32,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 6.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Almeirão cru",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 18,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 3.3,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Almeirão refogado",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 65,
+    "proteina_g_100g": 1.7,
+    "carboidrato_g_100g": 5.7,
+    "lipidios_g_100g": 4.8
+  },
+  {
+    "alimento": "Mandioquinha cozida / Batata baroa cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 80,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 18.9,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Mandioquinha crua / Batata baroa crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 101,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 24.0,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Batata-doce cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 77,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 18.4,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Batata-doce crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 118,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 28.2,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Batata chips",
+    "un_medida_caseira": "punhado (10-15 unidades)",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 543,
+    "proteina_g_100g": 5.6,
+    "carboidrato_g_100g": 51.2,
+    "lipidios_g_100g": 36.6
+  },
+  {
+    "alimento": "Batata inglesa cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 52,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 11.9,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Batata inglesa crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 64,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 14.7,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Batata frita",
+    "un_medida_caseira": "porção média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 267,
+    "proteina_g_100g": 5.0,
+    "carboidrato_g_100g": 35.6,
+    "lipidios_g_100g": 13.1
+  },
+  {
+    "alimento": "Batata sauté",
+    "un_medida_caseira": "colher de servir",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 68,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 14.1,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Berinjela cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 19,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 4.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Berinjela crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 20,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 4.4,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Beterraba cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 32,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 7.2,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Beterraba crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 49,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 11.1,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Biscoito de polvilho",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 7.0,
+    "energia_kcal_100g": 438,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 80.5,
+    "lipidios_g_100g": 12.2
+  },
+  {
+    "alimento": "Brócolis cozido",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 25,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 4.4,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Brócolis cru",
+    "un_medida_caseira": "ramo médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 25,
+    "proteina_g_100g": 3.6,
+    "carboidrato_g_100g": 4.0,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Cará cozido",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 78,
+    "proteina_g_100g": 1.5,
+    "carboidrato_g_100g": 18.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Cará cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 96,
+    "proteina_g_100g": 2.3,
+    "carboidrato_g_100g": 23.0,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Caruru",
+    "un_medida_caseira": "mãos em concha",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 34,
+    "proteina_g_100g": 3.2,
+    "carboidrato_g_100g": 6.0,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Catalonha crua",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 24,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 4.8,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Catalonha refogada",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 63,
+    "proteina_g_100g": 2.0,
+    "carboidrato_g_100g": 4.8,
+    "lipidios_g_100g": 4.8
+  },
+  {
+    "alimento": "Cebola",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 1.7,
+    "carboidrato_g_100g": 8.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Cebolinha",
+    "un_medida_caseira": "colher de sopa  - como tempero",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 20,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 3.4,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Cenoura cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 30,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 6.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Cenoura crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 75.0,
+    "energia_kcal_100g": 34,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 7.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Chicória",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 14,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 2.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Chuchu cozido",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 19,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 4.8,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Chuchu cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 17,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 4.1,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Coentro em pó",
+    "un_medida_caseira": "colher de chá  - como tempero",
+    "peso_aproximado_g": 2.0,
+    "energia_kcal_100g": 309,
+    "proteina_g_100g": 20.9,
+    "carboidrato_g_100g": 48.0,
+    "lipidios_g_100g": 10.4
+  },
+  {
+    "alimento": "Couve manteiga crua",
+    "un_medida_caseira": "folhas médias",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 27,
+    "proteina_g_100g": 2.9,
+    "carboidrato_g_100g": 4.3,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Couve refogada",
+    "un_medida_caseira": "folhas médias",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 90,
+    "proteina_g_100g": 1.7,
+    "carboidrato_g_100g": 8.7,
+    "lipidios_g_100g": 6.6
+  },
+  {
+    "alimento": "Couve-flor crua",
+    "un_medida_caseira": "ramo médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 23,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 4.5,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Couve-flor cozida",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 19,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 3.9,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Espinafre cru",
+    "un_medida_caseira": "mãos em concha",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 16,
+    "proteina_g_100g": 2.0,
+    "carboidrato_g_100g": 2.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Espinafre refogado",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 67,
+    "proteina_g_100g": 2.7,
+    "carboidrato_g_100g": 4.2,
+    "lipidios_g_100g": 5.4
+  },
+  {
+    "alimento": "Farinha de mandioca",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 361,
+    "proteina_g_100g": 1.6,
+    "carboidrato_g_100g": 87.9,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Farofa / Farinha de mandioca torrada",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 365,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 89.2,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Farinha d'água / Farinha de puba",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 360,
+    "proteina_g_100g": 1.6,
+    "carboidrato_g_100g": 87.3,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Polvilho / Fécula de mandioca",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 331,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 81.1,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Broto de feijão / Moyashi",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 4.2,
+    "carboidrato_g_100g": 7.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Inhame",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 97,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 23.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Jiló",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 27,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 6.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Jurubeba",
+    "un_medida_caseira": "colher de sopa  - como tempero",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 126,
+    "proteina_g_100g": 4.4,
+    "carboidrato_g_100g": 23.1,
+    "lipidios_g_100g": 3.9
+  },
+  {
+    "alimento": "Mandioca cozida / Aipim cozido / Macaxeira cozida",
+    "un_medida_caseira": "pedaço 8cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 125,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 30.1,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Mandioca crua / Aipim cru / Macaxeira crua",
+    "un_medida_caseira": "pedaço 8cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 151,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 36.2,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Farofa pronta",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 406,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 80.3,
+    "lipidios_g_100g": 9.1
+  },
+  {
+    "alimento": "Mandioca frita / Aipim frito",
+    "un_medida_caseira": "palitos médios",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 300,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 50.3,
+    "lipidios_g_100g": 11.2
+  },
+  {
+    "alimento": "Manjericão",
+    "un_medida_caseira": "colheres de sopa  - como tempero",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 21,
+    "proteina_g_100g": 2.0,
+    "carboidrato_g_100g": 3.6,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Maxixe",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 14,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 2.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Folha de mostarda",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 18,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 3.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Nhoque",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 181,
+    "proteina_g_100g": 5.9,
+    "carboidrato_g_100g": 36.8,
+    "lipidios_g_100g": 1.9
+  },
+  {
+    "alimento": "Nabo",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 18,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 4.1,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Palmito juçara em conserva",
+    "un_medida_caseira": "rodelas médias",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 23,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 4.3,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Palmito pupunha em conserva",
+    "un_medida_caseira": "rodelas médias",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 29,
+    "proteina_g_100g": 2.5,
+    "carboidrato_g_100g": 5.5,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Pão de queijo assado",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 363,
+    "proteina_g_100g": 5.1,
+    "carboidrato_g_100g": 34.2,
+    "lipidios_g_100g": 24.6
+  },
+  {
+    "alimento": "Pão de queijo cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 295,
+    "proteina_g_100g": 3.6,
+    "carboidrato_g_100g": 38.5,
+    "lipidios_g_100g": 14.0
+  },
+  {
+    "alimento": "Pepino",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 10,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 2.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Pimentão amarelo",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 28,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 6.0,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Pimentão verde",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 21,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 4.9,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Pimentão vermelho",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 23,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 5.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Polvilho doce",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 351,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 86.8,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Quiabo",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 30,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 6.4,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Rabanete",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 14,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 2.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Repolho branco",
+    "un_medida_caseira": "fatia grossa",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 17,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 3.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Repolho roxo cru",
+    "un_medida_caseira": "fatia grossa",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 31,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 7.2,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Repolho roxo refogado",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 42,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 7.6,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Rúcula",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 13,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 2.2,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Salsa / Salsinha",
+    "un_medida_caseira": "colher de sopa  - como tempero",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 33,
+    "proteina_g_100g": 3.3,
+    "carboidrato_g_100g": 5.7,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Seleta de legumes",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 57,
+    "proteina_g_100g": 3.4,
+    "carboidrato_g_100g": 12.7,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Serralha",
+    "un_medida_caseira": "prato de sobremesa",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 30,
+    "proteina_g_100g": 2.7,
+    "carboidrato_g_100g": 4.9,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Taioba",
+    "un_medida_caseira": "folhas médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 34,
+    "proteina_g_100g": 2.9,
+    "carboidrato_g_100g": 5.4,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Tomate com semente",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 15,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 3.1,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Extrato de tomate",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 61,
+    "proteina_g_100g": 2.4,
+    "carboidrato_g_100g": 15.0,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Molho de tomate",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 38,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 7.7,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Purê de tomate",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 28,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 6.9,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Salada de tomate",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 21,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 5.1,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Vagem",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 25,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 5.3,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Abacate",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 96,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 6.0,
+    "lipidios_g_100g": 8.4
+  },
+  {
+    "alimento": "Abacaxi",
+    "un_medida_caseira": "fatia média 2cm",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 48,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 12.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Polpa de abacaxi",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 31,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 7.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Abiu",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 62,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 14.9,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Açaí (creme/polpa)",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 110,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 21.5,
+    "lipidios_g_100g": 3.7
+  },
+  {
+    "alimento": "Polpa de açaí",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 58,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 6.2,
+    "lipidios_g_100g": 3.9
+  },
+  {
+    "alimento": "Acerola",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 33,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 8.0,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Polpa de acerola",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 22,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 5.5,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Ameixa em calda enlatada",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 183,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 46.9,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Ameixa",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 53,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 13.9,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Ameixa em calda enlatada, drenada",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 177,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 47.7,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Atemóia",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 97,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 25.3,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Banana-da-terra",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 128,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 33.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Bananada",
+    "un_medida_caseira": "fatia fina",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 280,
+    "proteina_g_100g": 2.2,
+    "carboidrato_g_100g": 75.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Banana-figo",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 105,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 27.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Banana-maçã",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 87,
+    "proteina_g_100g": 1.8,
+    "carboidrato_g_100g": 22.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Banana-nanica",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 92,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 23.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Banana-ouro",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 112,
+    "proteina_g_100g": 1.5,
+    "carboidrato_g_100g": 29.3,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Banana pacova",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 78,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 20.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Banana-prata",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 98,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 26.0,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Cacau",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 74,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 19.4,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Cajá-manga",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 46,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 11.4,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Polpa de cajá",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 26,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 6.4,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Caju",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 43,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 10.3,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Polpa de caju",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 37,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 9.4,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Suco concentrado de caju",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 45,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 10.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Caqui chocolate",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 71,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 19.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Carambola",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 46,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 11.5,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Ciriguela / Seriguela",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 76,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 18.9,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Cupuaçu",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 49,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 10.4,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Polpa de cupuaçu",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 49,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 11.4,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Figo",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 41,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 10.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Figo em calda",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 184,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 50.3,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Fruta-pão",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 67,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 17.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Goiaba branca com casca",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 52,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 12.4,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Goiabada",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 269,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 74.1,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Goiabada cascão",
+    "un_medida_caseira": "fatia fina",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 286,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 78.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Goiaba vermelha com casca",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 54,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 13.0,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Graviola",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 62,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 15.8,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Polpa de graviola",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 38,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 9.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Jabuticaba",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 58,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 15.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Jaca",
+    "un_medida_caseira": "bagos médios",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 88,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 22.5,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Jambo",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 27,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 6.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Jamelão",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 41,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 10.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Kiwi",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 51,
+    "proteina_g_100g": 1.3,
+    "carboidrato_g_100g": 11.5,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Laranja-baía",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 45,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 11.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Suco de laranja-baía",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 37,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 8.7,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Laranja-da-terra",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 51,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 12.9,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Suco de laranja-da-terra",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 41,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 9.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Laranja-lima",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 46,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 11.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Suco de laranja-lima",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 9.2,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Laranja-pêra",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 37,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 8.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Suco de laranja",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 33,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 7.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Laranja-valência",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 46,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 11.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Suco de laranja-valência",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 36,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 8.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Suco de limão-cravo",
+    "un_medida_caseira": "copo 100ml",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 14,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 5.2,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Suco de limão-galego",
+    "un_medida_caseira": "copo 100ml",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 22,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 7.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Limão-tahiti",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 32,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 11.1,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Maçã argentina com casca",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 63,
+    "proteina_g_100g": 0.2,
+    "carboidrato_g_100g": 16.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Maçã Fuji com casca",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 56,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 15.2,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Macaúba",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 404,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 13.9,
+    "lipidios_g_100g": 40.7
+  },
+  {
+    "alimento": "Mamão em calda enlatada, drenado",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 196,
+    "proteina_g_100g": 0.2,
+    "carboidrato_g_100g": 54.0,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Mamão formosa",
+    "un_medida_caseira": "fatia média 3cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 45,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 11.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Mamão papaia",
+    "un_medida_caseira": "fatia média 3cm",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 40,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 10.4,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Mamão verde em calda enlatada, drenada",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 209,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 57.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Manga haden",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 64,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 16.7,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Manga palmer",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 72,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 19.4,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Polpa de manga",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 48,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 12.5,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Manga tommy",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 51,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 12.8,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Maracujá",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 68,
+    "proteina_g_100g": 2.0,
+    "carboidrato_g_100g": 12.3,
+    "lipidios_g_100g": 2.1
+  },
+  {
+    "alimento": "Polpa de maracujá",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 9.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Suco concentrado de maracujá",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 42,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 9.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Melancia",
+    "un_medida_caseira": "fatia média triângulo",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 33,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 8.1,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Melão",
+    "un_medida_caseira": "fatia média 1/8",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 29,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 7.5,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Mexerica murcote / Morgote",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 58,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 14.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Mexerica rio",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 37,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 9.3,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Morango",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 30,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 6.8,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Nêspera",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 43,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 11.5,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Pequi",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 205,
+    "proteina_g_100g": 2.3,
+    "carboidrato_g_100g": 13.0,
+    "lipidios_g_100g": 18.0
+  },
+  {
+    "alimento": "Pêra park",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 130.0,
+    "energia_kcal_100g": 61,
+    "proteina_g_100g": 0.2,
+    "carboidrato_g_100g": 16.1,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Pêra williams",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 130.0,
+    "energia_kcal_100g": 53,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 14.0,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Pêssego aurora",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 36,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 9.3,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Pêssego em calda",
+    "un_medida_caseira": "metades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 63,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 16.9,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Pinha / Fruta-do-conde",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 88,
+    "proteina_g_100g": 1.5,
+    "carboidrato_g_100g": 22.4,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Pitanga",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 41,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 10.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Polpa de pitanga",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 19,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 4.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Romã",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 56,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 15.1,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Tamarindo",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 276,
+    "proteina_g_100g": 3.2,
+    "carboidrato_g_100g": 72.5,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Tangerina poncã",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 38,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 9.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Suco de tangerina",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 36,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 8.8,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Tucumã",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 262,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 26.5,
+    "lipidios_g_100g": 19.1
+  },
+  {
+    "alimento": "Umbu",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 37,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 9.4,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Polpa de umbu",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 34,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 8.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Uva itália",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 53,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 13.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Uva rubi",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 49,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 12.7,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Suco de uva concentrado",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 58,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 14.7,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Azeite de dendê",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Azeite de oliva extravirgem",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Manteiga com sal",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 726,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 0.1,
+    "lipidios_g_100g": 82.4
+  },
+  {
+    "alimento": "Manteiga sem sal",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 758,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 86.0
+  },
+  {
+    "alimento": "Margarina com sal (65% lipídeos)",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 596,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 67.4
+  },
+  {
+    "alimento": "Margarina sem sal (80% lipídeos)",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 723,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 81.7
+  },
+  {
+    "alimento": "Margarina sem sal (65% lipídeos)",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 594,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 67.2
+  },
+  {
+    "alimento": "Margarina sem sal (65% lipídeos)",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 593,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 67.1
+  },
+  {
+    "alimento": "Óleo de babaçu",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Óleo de canola",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Óleo de girassol",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Óleo de milho",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Óleo de pequi",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Óleo de soja",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 884,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 100.0
+  },
+  {
+    "alimento": "Filé de abadejo assado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 112,
+    "proteina_g_100g": 23.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Filé de abadejo cozido",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 91,
+    "proteina_g_100g": 19.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Filé de abadejo cru",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 59,
+    "proteina_g_100g": 13.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Filé de abadejo grelhado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 130,
+    "proteina_g_100g": 27.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Atum em lata / Atum em óleo",
+    "un_medida_caseira": "colher de sopa  - escorrido",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 166,
+    "proteina_g_100g": 26.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.0
+  },
+  {
+    "alimento": "Atum fresco",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 118,
+    "proteina_g_100g": 25.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Bacalhau cru",
+    "un_medida_caseira": "pedaço médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 136,
+    "proteina_g_100g": 29.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Bacalhau refogado",
+    "un_medida_caseira": "pedaço médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 140,
+    "proteina_g_100g": 24.0,
+    "carboidrato_g_100g": 1.2,
+    "lipidios_g_100g": 3.6
+  },
+  {
+    "alimento": "Posta de cação à milanesa",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 208,
+    "proteina_g_100g": 25.0,
+    "carboidrato_g_100g": 3.1,
+    "lipidios_g_100g": 10.0
+  },
+  {
+    "alimento": "Posta de cação cozida",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 116,
+    "proteina_g_100g": 25.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Posta de cação crua",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 83,
+    "proteina_g_100g": 17.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.8
+  },
+  {
+    "alimento": "Camarão cozido",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 90,
+    "proteina_g_100g": 19.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Camarão cru",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 47,
+    "proteina_g_100g": 10.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Camarão com casca frito",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 231,
+    "proteina_g_100g": 18.4,
+    "carboidrato_g_100g": 2.9,
+    "lipidios_g_100g": 15.6
+  },
+  {
+    "alimento": "Caranguejo",
+    "un_medida_caseira": "unidade média  ou patas",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 83,
+    "proteina_g_100g": 18.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Curimbatá cru",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 128,
+    "proteina_g_100g": 17.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.0
+  },
+  {
+    "alimento": "Curimbatá assado",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 261,
+    "proteina_g_100g": 19.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 19.6
+  },
+  {
+    "alimento": "Curimbatá cozido",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 239,
+    "proteina_g_100g": 20.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 16.9
+  },
+  {
+    "alimento": "Corvina água doce crua",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 101,
+    "proteina_g_100g": 18.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.2
+  },
+  {
+    "alimento": "Corvina água salgada crua",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 94,
+    "proteina_g_100g": 18.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.6
+  },
+  {
+    "alimento": "Corvina assada",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 147,
+    "proteina_g_100g": 26.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 3.6
+  },
+  {
+    "alimento": "Corvina cozida",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 100,
+    "proteina_g_100g": 23.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.6
+  },
+  {
+    "alimento": "Dourado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 131,
+    "proteina_g_100g": 18.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.6
+  },
+  {
+    "alimento": "Lambari congelado cru",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 131,
+    "proteina_g_100g": 16.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.5
+  },
+  {
+    "alimento": "Lambari frito",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 327,
+    "proteina_g_100g": 28.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 22.8
+  },
+  {
+    "alimento": "Lambari congelado cozido",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 152,
+    "proteina_g_100g": 15.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 9.4
+  },
+  {
+    "alimento": "Manjuba frita com farinha de trigo",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 344,
+    "proteina_g_100g": 23.5,
+    "carboidrato_g_100g": 10.2,
+    "lipidios_g_100g": 22.6
+  },
+  {
+    "alimento": "Manjuba frita",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 349,
+    "proteina_g_100g": 30.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 24.5
+  },
+  {
+    "alimento": "Filé de merluza assado",
+    "un_medida_caseira": "filé médio  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 122,
+    "proteina_g_100g": 26.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Filé de merluza cru",
+    "un_medida_caseira": "filé médio  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 89,
+    "proteina_g_100g": 16.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.0
+  },
+  {
+    "alimento": "Filé de merluza frito",
+    "un_medida_caseira": "filé médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 192,
+    "proteina_g_100g": 26.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.5
+  },
+  {
+    "alimento": "Pescada branca crua",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 111,
+    "proteina_g_100g": 16.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.6
+  },
+  {
+    "alimento": "Pescada branca frita",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 223,
+    "proteina_g_100g": 27.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 11.8
+  },
+  {
+    "alimento": "Filé de pescada à milanesa",
+    "un_medida_caseira": "filé médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 283,
+    "proteina_g_100g": 21.4,
+    "carboidrato_g_100g": 5.0,
+    "lipidios_g_100g": 19.1
+  },
+  {
+    "alimento": "Filé de pescada cru",
+    "un_medida_caseira": "filé médio  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 107,
+    "proteina_g_100g": 16.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.0
+  },
+  {
+    "alimento": "Filé de pescada frito",
+    "un_medida_caseira": "filé médio  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 154,
+    "proteina_g_100g": 28.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 3.6
+  },
+  {
+    "alimento": "Pescada ao molho escabeche",
+    "un_medida_caseira": "posta média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 142,
+    "proteina_g_100g": 11.8,
+    "carboidrato_g_100g": 5.0,
+    "lipidios_g_100g": 8.0
+  },
+  {
+    "alimento": "Pescadinha crua",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 76,
+    "proteina_g_100g": 15.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.1
+  },
+  {
+    "alimento": "Pintado assado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 192,
+    "proteina_g_100g": 36.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.0
+  },
+  {
+    "alimento": "Pintado cru",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 91,
+    "proteina_g_100g": 18.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Pintado grelhado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 152,
+    "proteina_g_100g": 30.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.3
+  },
+  {
+    "alimento": "Peixe-porco cru",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 93,
+    "proteina_g_100g": 20.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Filé de salmão grelhado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 229,
+    "proteina_g_100g": 23.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 14.0
+  },
+  {
+    "alimento": "Salmão sem pele cru",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 170,
+    "proteina_g_100g": 19.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 9.7
+  },
+  {
+    "alimento": "Salmão sem pele grelhado",
+    "un_medida_caseira": "posta média  - tamanho palma da mão",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 243,
+    "proteina_g_100g": 26.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 14.5
+  },
+  {
+    "alimento": "Sardinha assada",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 164,
+    "proteina_g_100g": 32.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 3.0
+  },
+  {
+    "alimento": "Sardinha em lata",
+    "un_medida_caseira": "unidades médias  - escorridas",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 285,
+    "proteina_g_100g": 15.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 24.0
+  },
+  {
+    "alimento": "Sardinha frita",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 257,
+    "proteina_g_100g": 33.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 12.7
+  },
+  {
+    "alimento": "Sardinha crua",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 114,
+    "proteina_g_100g": 21.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.7
+  },
+  {
+    "alimento": "Filé de tucunaré",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 88,
+    "proteina_g_100g": 18.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Apresuntado",
+    "un_medida_caseira": "fatias finas",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 129,
+    "proteina_g_100g": 13.5,
+    "carboidrato_g_100g": 2.9,
+    "lipidios_g_100g": 6.7
+  },
+  {
+    "alimento": "Caldo de carne",
+    "un_medida_caseira": "tablete",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 241,
+    "proteina_g_100g": 7.8,
+    "carboidrato_g_100g": 15.1,
+    "lipidios_g_100g": 16.6
+  },
+  {
+    "alimento": "Caldo de galinha",
+    "un_medida_caseira": "tablete",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 251,
+    "proteina_g_100g": 6.3,
+    "carboidrato_g_100g": 10.6,
+    "lipidios_g_100g": 20.4
+  },
+  {
+    "alimento": "Carne moída cozida",
+    "un_medida_caseira": "colher de servir",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 212,
+    "proteina_g_100g": 26.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 10.9
+  },
+  {
+    "alimento": "Carne moída crua",
+    "un_medida_caseira": "colher de servir",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 137,
+    "proteina_g_100g": 19.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.9
+  },
+  {
+    "alimento": "Acém sem gordura cozido",
+    "un_medida_caseira": "colher de servir",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 215,
+    "proteina_g_100g": 27.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 10.9
+  },
+  {
+    "alimento": "Acém sem gordura cru",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 144,
+    "proteina_g_100g": 20.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.1
+  },
+  {
+    "alimento": "Almôndegas cruas",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 90.0,
+    "energia_kcal_100g": 189,
+    "proteina_g_100g": 12.3,
+    "carboidrato_g_100g": 9.8,
+    "lipidios_g_100g": 11.2
+  },
+  {
+    "alimento": "Almôndegas fritas",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 90.0,
+    "energia_kcal_100g": 272,
+    "proteina_g_100g": 18.2,
+    "carboidrato_g_100g": 14.3,
+    "lipidios_g_100g": 15.8
+  },
+  {
+    "alimento": "Dobradinha / Bucho cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 133,
+    "proteina_g_100g": 21.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.5
+  },
+  {
+    "alimento": "Bucho bovino cru",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 137,
+    "proteina_g_100g": 20.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.5
+  },
+  {
+    "alimento": "Capa de contrafilé com gordura crua",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 217,
+    "proteina_g_100g": 19.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.0
+  },
+  {
+    "alimento": "Capa de contrafilé com gordura grelhada",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 312,
+    "proteina_g_100g": 30.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 20.0
+  },
+  {
+    "alimento": "Capa de contrafilé sem gordura crua",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 131,
+    "proteina_g_100g": 21.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.3
+  },
+  {
+    "alimento": "Capa de contrafilé sem gordura grelhada",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 239,
+    "proteina_g_100g": 35.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 10.0
+  },
+  {
+    "alimento": "Charque cozido / Jabá cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 263,
+    "proteina_g_100g": 36.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 11.9
+  },
+  {
+    "alimento": "Charque cru / Jabá cru",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 249,
+    "proteina_g_100g": 22.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 16.8
+  },
+  {
+    "alimento": "Bife à milanesa de contrafilé",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 352,
+    "proteina_g_100g": 20.6,
+    "carboidrato_g_100g": 12.2,
+    "lipidios_g_100g": 24.0
+  },
+  {
+    "alimento": "Contrafilé de costela cru",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 202,
+    "proteina_g_100g": 19.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 13.1
+  },
+  {
+    "alimento": "Contrafilé de costela grelhado",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 275,
+    "proteina_g_100g": 29.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 16.3
+  },
+  {
+    "alimento": "Contrafilé com gordura cru",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 206,
+    "proteina_g_100g": 21.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 12.8
+  },
+  {
+    "alimento": "Contrafilé com gordura grelhado",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 278,
+    "proteina_g_100g": 32.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.5
+  },
+  {
+    "alimento": "Contrafilé sem gordura cru",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 157,
+    "proteina_g_100g": 24.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.0
+  },
+  {
+    "alimento": "Contrafilé sem gordura grelhado",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 194,
+    "proteina_g_100g": 35.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.5
+  },
+  {
+    "alimento": "Costela assada",
+    "un_medida_caseira": "pedaço médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 373,
+    "proteina_g_100g": 28.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 27.7
+  },
+  {
+    "alimento": "Costela bovina crua",
+    "un_medida_caseira": "pedaço médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 358,
+    "proteina_g_100g": 16.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 31.8
+  },
+  {
+    "alimento": "Coxão duro sem gordura cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 217,
+    "proteina_g_100g": 31.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.9
+  },
+  {
+    "alimento": "Coxão duro sem gordura cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 148,
+    "proteina_g_100g": 21.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.2
+  },
+  {
+    "alimento": "Coxão mole sem gordura cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 219,
+    "proteina_g_100g": 32.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.9
+  },
+  {
+    "alimento": "Coxão mole sem gordura cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 169,
+    "proteina_g_100g": 21.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.7
+  },
+  {
+    "alimento": "Cupim assado",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 330,
+    "proteina_g_100g": 28.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 23.0
+  },
+  {
+    "alimento": "Cupim cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 221,
+    "proteina_g_100g": 19.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.3
+  },
+  {
+    "alimento": "Fígado de boi cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 141,
+    "proteina_g_100g": 20.7,
+    "carboidrato_g_100g": 1.1,
+    "lipidios_g_100g": 5.4
+  },
+  {
+    "alimento": "Fígado de boi grelhado / Bife de fígado",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 225,
+    "proteina_g_100g": 29.9,
+    "carboidrato_g_100g": 4.2,
+    "lipidios_g_100g": 9.0
+  },
+  {
+    "alimento": "Filé mignon sem gordura cru",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 143,
+    "proteina_g_100g": 21.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.6
+  },
+  {
+    "alimento": "Filé mignon sem gordura grelhado",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 220,
+    "proteina_g_100g": 32.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.8
+  },
+  {
+    "alimento": "Fraldinha sem gordura cozida",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 196,
+    "proteina_g_100g": 29.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.8
+  },
+  {
+    "alimento": "Fraldinha sem gordura crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 141,
+    "proteina_g_100g": 20.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.2
+  },
+  {
+    "alimento": "Fraldinha com gordura cozida",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 338,
+    "proteina_g_100g": 24.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 26.0
+  },
+  {
+    "alimento": "Fraldinha com gordura crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 221,
+    "proteina_g_100g": 17.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 16.1
+  },
+  {
+    "alimento": "Lagarto cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 222,
+    "proteina_g_100g": 32.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 9.1
+  },
+  {
+    "alimento": "Lagarto cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 135,
+    "proteina_g_100g": 20.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.2
+  },
+  {
+    "alimento": "Língua de boi cozida",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 315,
+    "proteina_g_100g": 21.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 24.8
+  },
+  {
+    "alimento": "Língua de boi crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 215,
+    "proteina_g_100g": 17.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.8
+  },
+  {
+    "alimento": "Maminha crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 153,
+    "proteina_g_100g": 20.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.0
+  },
+  {
+    "alimento": "Maminha grelhada",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 153,
+    "proteina_g_100g": 30.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.4
+  },
+  {
+    "alimento": "Miolo de alcatra sem gordura cru",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 163,
+    "proteina_g_100g": 21.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.8
+  },
+  {
+    "alimento": "Miolo de alcatra sem gordura grelhado",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 241,
+    "proteina_g_100g": 31.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 11.6
+  },
+  {
+    "alimento": "Músculo sem gordura cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 194,
+    "proteina_g_100g": 31.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.7
+  },
+  {
+    "alimento": "Músculo bovino sem gordura cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 142,
+    "proteina_g_100g": 21.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.5
+  },
+  {
+    "alimento": "Paleta bovina com gordura crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 159,
+    "proteina_g_100g": 21.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.5
+  },
+  {
+    "alimento": "Paleta sem gordura cozida",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 194,
+    "proteina_g_100g": 29.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.4
+  },
+  {
+    "alimento": "Paleta bovina sem gordura crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 141,
+    "proteina_g_100g": 21.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.7
+  },
+  {
+    "alimento": "Patinho sem gordura cru",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 133,
+    "proteina_g_100g": 21.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.5
+  },
+  {
+    "alimento": "Patinho sem gordura grelhado",
+    "un_medida_caseira": "bife médio",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 219,
+    "proteina_g_100g": 35.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.3
+  },
+  {
+    "alimento": "Peito bovino sem gordura cozido",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 338,
+    "proteina_g_100g": 22.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 27.0
+  },
+  {
+    "alimento": "Peito bovino sem gordura cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 259,
+    "proteina_g_100g": 17.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 20.4
+  },
+  {
+    "alimento": "Picanha com gordura crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 213,
+    "proteina_g_100g": 18.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 14.7
+  },
+  {
+    "alimento": "Picanha com gordura grelhada",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 289,
+    "proteina_g_100g": 26.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 19.5
+  },
+  {
+    "alimento": "Picanha sem gordura crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 134,
+    "proteina_g_100g": 21.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.7
+  },
+  {
+    "alimento": "Picanha sem gordura grelhada",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 238,
+    "proteina_g_100g": 31.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 11.3
+  },
+  {
+    "alimento": "Carne-seca cozida",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 313,
+    "proteina_g_100g": 26.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 21.9
+  },
+  {
+    "alimento": "Carne-seca crua",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 313,
+    "proteina_g_100g": 19.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 25.4
+  },
+  {
+    "alimento": "Coxinha",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 283,
+    "proteina_g_100g": 9.6,
+    "carboidrato_g_100g": 34.5,
+    "lipidios_g_100g": 11.8
+  },
+  {
+    "alimento": "Croquete de carne cru",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 246,
+    "proteina_g_100g": 12.0,
+    "carboidrato_g_100g": 13.9,
+    "lipidios_g_100g": 15.6
+  },
+  {
+    "alimento": "Croquete de carne frito",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 347,
+    "proteina_g_100g": 16.9,
+    "carboidrato_g_100g": 18.1,
+    "lipidios_g_100g": 22.7
+  },
+  {
+    "alimento": "Empada de frango assada",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 358,
+    "proteina_g_100g": 6.9,
+    "carboidrato_g_100g": 47.5,
+    "lipidios_g_100g": 15.6
+  },
+  {
+    "alimento": "Empada de frango",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 377,
+    "proteina_g_100g": 7.3,
+    "carboidrato_g_100g": 35.5,
+    "lipidios_g_100g": 22.9
+  },
+  {
+    "alimento": "Asa de frango com pele crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 213,
+    "proteina_g_100g": 18.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.1
+  },
+  {
+    "alimento": "Frango caipira com pele cozido",
+    "un_medida_caseira": "porção  ou 1/4 de frango",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 243,
+    "proteina_g_100g": 23.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.6
+  },
+  {
+    "alimento": "Frango caipira sem pele cozido",
+    "un_medida_caseira": "porção  ou 1/4 de frango",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 196,
+    "proteina_g_100g": 29.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.7
+  },
+  {
+    "alimento": "Coração de frango cru",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 222,
+    "proteina_g_100g": 12.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 18.6
+  },
+  {
+    "alimento": "Coração de frango na brasa",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 207,
+    "proteina_g_100g": 22.4,
+    "carboidrato_g_100g": 0.6,
+    "lipidios_g_100g": 12.1
+  },
+  {
+    "alimento": "Coxa de frango com pele assada",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 215,
+    "proteina_g_100g": 28.5,
+    "carboidrato_g_100g": 0.1,
+    "lipidios_g_100g": 10.4
+  },
+  {
+    "alimento": "Coxa de frango com pele crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 161,
+    "proteina_g_100g": 17.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 9.8
+  },
+  {
+    "alimento": "Coxa de frango sem pele cozida",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 70.0,
+    "energia_kcal_100g": 167,
+    "proteina_g_100g": 26.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.8
+  },
+  {
+    "alimento": "Coxa de frango sem pele crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 70.0,
+    "energia_kcal_100g": 120,
+    "proteina_g_100g": 17.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.9
+  },
+  {
+    "alimento": "Fígado de frango",
+    "un_medida_caseira": "fatia média  ou 1/8 de frango",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 106,
+    "proteina_g_100g": 17.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 3.5
+  },
+  {
+    "alimento": "Filé de frango à milanesa",
+    "un_medida_caseira": "filé médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 221,
+    "proteina_g_100g": 28.5,
+    "carboidrato_g_100g": 7.5,
+    "lipidios_g_100g": 7.8
+  },
+  {
+    "alimento": "Frango inteiro com pele cru",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 226,
+    "proteina_g_100g": 16.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 17.3
+  },
+  {
+    "alimento": "Frango sem pele assado",
+    "un_medida_caseira": "fatia média  ou 1/8 de frango",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 187,
+    "proteina_g_100g": 28.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.5
+  },
+  {
+    "alimento": "Frango sem pele cozido",
+    "un_medida_caseira": "porção  ou 1/4 de frango",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 170,
+    "proteina_g_100g": 25.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.1
+  },
+  {
+    "alimento": "Frango inteiro sem pele cru",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 129,
+    "proteina_g_100g": 20.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.6
+  },
+  {
+    "alimento": "Peito de frango com pele assado",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 212,
+    "proteina_g_100g": 33.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 7.6
+  },
+  {
+    "alimento": "Peito de frango com pele cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 149,
+    "proteina_g_100g": 20.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.7
+  },
+  {
+    "alimento": "Peito de frango sem pele cozido",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 163,
+    "proteina_g_100g": 31.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 3.2
+  },
+  {
+    "alimento": "Peito de frango sem pele cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 119,
+    "proteina_g_100g": 21.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 3.0
+  },
+  {
+    "alimento": "Filé de frango sem pele grelhado",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 159,
+    "proteina_g_100g": 32.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 2.5
+  },
+  {
+    "alimento": "Sobrecoxa de frango com pele assada",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 90.0,
+    "energia_kcal_100g": 260,
+    "proteina_g_100g": 28.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 15.2
+  },
+  {
+    "alimento": "Sobrecoxa de frango com pele crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 90.0,
+    "energia_kcal_100g": 255,
+    "proteina_g_100g": 15.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 20.9
+  },
+  {
+    "alimento": "Sobrecoxa de frango sem pele assada",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 233,
+    "proteina_g_100g": 29.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 12.0
+  },
+  {
+    "alimento": "Sobrecoxa de frango sem pele crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 162,
+    "proteina_g_100g": 17.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 9.6
+  },
+  {
+    "alimento": "Hambúrguer cru",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 215,
+    "proteina_g_100g": 13.2,
+    "carboidrato_g_100g": 4.2,
+    "lipidios_g_100g": 16.2
+  },
+  {
+    "alimento": "Hambúrguer frito",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 258,
+    "proteina_g_100g": 20.0,
+    "carboidrato_g_100g": 6.3,
+    "lipidios_g_100g": 17.0
+  },
+  {
+    "alimento": "Hambúrguer grelhado",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 210,
+    "proteina_g_100g": 13.2,
+    "carboidrato_g_100g": 11.3,
+    "lipidios_g_100g": 12.4
+  },
+  {
+    "alimento": "Linguiça de frango crua",
+    "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 218,
+    "proteina_g_100g": 14.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 17.4
+  },
+  {
+    "alimento": "Linguiça de frango frita",
+    "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 245,
+    "proteina_g_100g": 18.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 18.5
+  },
+  {
+    "alimento": "Linguiça de frango grelhada",
+    "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 244,
+    "proteina_g_100g": 18.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 18.4
+  },
+  {
+    "alimento": "Linguiça de porco crua / Linguiça toscana crua",
+    "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 227,
+    "proteina_g_100g": 16.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 17.6
+  },
+  {
+    "alimento": "Linguiça de porco frita",
+    "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 280,
+    "proteina_g_100g": 20.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 21.3
+  },
+  {
+    "alimento": "Linguiça de porco grelhada",
+    "un_medida_caseira": "fatia 2cm  ou 2 unidades pequenas",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 296,
+    "proteina_g_100g": 23.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 21.9
+  },
+  {
+    "alimento": "Mortadela",
+    "un_medida_caseira": "fatias finas",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 269,
+    "proteina_g_100g": 12.0,
+    "carboidrato_g_100g": 5.8,
+    "lipidios_g_100g": 21.6
+  },
+  {
+    "alimento": "Peru assado",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 163,
+    "proteina_g_100g": 26.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 5.7
+  },
+  {
+    "alimento": "Peru cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 94,
+    "proteina_g_100g": 18.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 1.8
+  },
+  {
+    "alimento": "Bisteca de porco crua",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 164,
+    "proteina_g_100g": 21.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.0
+  },
+  {
+    "alimento": "Bisteca de porco frita",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 311,
+    "proteina_g_100g": 33.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 18.5
+  },
+  {
+    "alimento": "Bisteca de porco grelhada",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 280,
+    "proteina_g_100g": 28.9,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 17.4
+  },
+  {
+    "alimento": "Costela de porco assada",
+    "un_medida_caseira": "pedaço médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 402,
+    "proteina_g_100g": 30.2,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 30.3
+  },
+  {
+    "alimento": "Costela de porco crua",
+    "un_medida_caseira": "pedaço médio",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 256,
+    "proteina_g_100g": 18.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 19.8
+  },
+  {
+    "alimento": "Lombo de porco assado",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 210,
+    "proteina_g_100g": 35.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 6.4
+  },
+  {
+    "alimento": "Lombo de porco cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 176,
+    "proteina_g_100g": 22.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 8.8
+  },
+  {
+    "alimento": "Orelha de porco salgada",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 258,
+    "proteina_g_100g": 18.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 19.9
+  },
+  {
+    "alimento": "Pernil de porco assado",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 262,
+    "proteina_g_100g": 32.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 13.9
+  },
+  {
+    "alimento": "Pernil de porco cru",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 186,
+    "proteina_g_100g": 20.1,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 11.1
+  },
+  {
+    "alimento": "Rabo de porco salgado",
+    "un_medida_caseira": "-",
+    "peso_aproximado_g": 0.0,
+    "energia_kcal_100g": 377,
+    "proteina_g_100g": 15.6,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 34.5
+  },
+  {
+    "alimento": "Presunto com gordura",
+    "un_medida_caseira": "fatias finas",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 128,
+    "proteina_g_100g": 14.4,
+    "carboidrato_g_100g": 1.4,
+    "lipidios_g_100g": 6.8
+  },
+  {
+    "alimento": "Presunto sem gordura",
+    "un_medida_caseira": "fatias finas",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 94,
+    "proteina_g_100g": 14.3,
+    "carboidrato_g_100g": 2.1,
+    "lipidios_g_100g": 2.7
+  },
+  {
+    "alimento": "Quibe assado",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 136,
+    "proteina_g_100g": 14.6,
+    "carboidrato_g_100g": 12.9,
+    "lipidios_g_100g": 2.7
+  },
+  {
+    "alimento": "Quibe cru",
+    "un_medida_caseira": "colher de servir",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 109,
+    "proteina_g_100g": 12.4,
+    "carboidrato_g_100g": 10.8,
+    "lipidios_g_100g": 1.7
+  },
+  {
+    "alimento": "Quibe frito",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 254,
+    "proteina_g_100g": 14.9,
+    "carboidrato_g_100g": 12.3,
+    "lipidios_g_100g": 15.8
+  },
+  {
+    "alimento": "Salame",
+    "un_medida_caseira": "fatias finas",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 398,
+    "proteina_g_100g": 25.8,
+    "carboidrato_g_100g": 2.9,
+    "lipidios_g_100g": 30.6
+  },
+  {
+    "alimento": "Toucinho cru",
+    "un_medida_caseira": "fatias",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 593,
+    "proteina_g_100g": 11.5,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 60.3
+  },
+  {
+    "alimento": "Torresmo",
+    "un_medida_caseira": "fatias",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 697,
+    "proteina_g_100g": 27.3,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 64.3
+  },
+  {
+    "alimento": "Bebida láctea sabor pêssego",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 55,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 7.6,
+    "lipidios_g_100g": 1.9
+  },
+  {
+    "alimento": "Creme de leite",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 221,
+    "proteina_g_100g": 1.5,
+    "carboidrato_g_100g": 4.5,
+    "lipidios_g_100g": 22.5
+  },
+  {
+    "alimento": "Iogurte natural",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 170.0,
+    "energia_kcal_100g": 51,
+    "proteina_g_100g": 4.1,
+    "carboidrato_g_100g": 1.9,
+    "lipidios_g_100g": 3.0
+  },
+  {
+    "alimento": "Iogurte natural desnatado",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 170.0,
+    "energia_kcal_100g": 41,
+    "proteina_g_100g": 3.8,
+    "carboidrato_g_100g": 5.8,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Iogurte de abacaxi",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 170.0,
+    "energia_kcal_100g": 0,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Iogurte de morango",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 170.0,
+    "energia_kcal_100g": 70,
+    "proteina_g_100g": 2.7,
+    "carboidrato_g_100g": 9.7,
+    "lipidios_g_100g": 2.3
+  },
+  {
+    "alimento": "Iogurte de pêssego",
+    "un_medida_caseira": "pote pequeno",
+    "peso_aproximado_g": 170.0,
+    "energia_kcal_100g": 68,
+    "proteina_g_100g": 2.5,
+    "carboidrato_g_100g": 9.4,
+    "lipidios_g_100g": 2.3
+  },
+  {
+    "alimento": "Leite condensado",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 313,
+    "proteina_g_100g": 7.7,
+    "carboidrato_g_100g": 57.0,
+    "lipidios_g_100g": 6.7
+  },
+  {
+    "alimento": "Leite de cabra",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 66,
+    "proteina_g_100g": 3.1,
+    "carboidrato_g_100g": 5.2,
+    "lipidios_g_100g": 3.8
+  },
+  {
+    "alimento": "Leite com achocolatado",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 83,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 14.2,
+    "lipidios_g_100g": 2.2
+  },
+  {
+    "alimento": "Leite em pó desnatado",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 362,
+    "proteina_g_100g": 34.7,
+    "carboidrato_g_100g": 53.0,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Leite desnatado",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 0,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Leite integral",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 0,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Leite em pó integral",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 497,
+    "proteina_g_100g": 25.4,
+    "carboidrato_g_100g": 39.2,
+    "lipidios_g_100g": 26.9
+  },
+  {
+    "alimento": "Leite fermentado / Yakult",
+    "un_medida_caseira": "frasco 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 70,
+    "proteina_g_100g": 1.9,
+    "carboidrato_g_100g": 15.7,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Queijo minas frescal",
+    "un_medida_caseira": "fatia 2x2x1cm",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 264,
+    "proteina_g_100g": 17.4,
+    "carboidrato_g_100g": 3.2,
+    "lipidios_g_100g": 20.2
+  },
+  {
+    "alimento": "Queijo minas meia cura",
+    "un_medida_caseira": "fatia 2x2x1cm",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 321,
+    "proteina_g_100g": 21.2,
+    "carboidrato_g_100g": 3.6,
+    "lipidios_g_100g": 24.6
+  },
+  {
+    "alimento": "Queijo muçarela",
+    "un_medida_caseira": "fatia 2x2x1cm",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 330,
+    "proteina_g_100g": 22.6,
+    "carboidrato_g_100g": 3.0,
+    "lipidios_g_100g": 25.2
+  },
+  {
+    "alimento": "Queijo parmesão",
+    "un_medida_caseira": "colher de sopa  - ralado",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 453,
+    "proteina_g_100g": 35.6,
+    "carboidrato_g_100g": 1.7,
+    "lipidios_g_100g": 33.5
+  },
+  {
+    "alimento": "Queijo processado / Polenguinho",
+    "un_medida_caseira": "fatia 2x2x1cm",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 303,
+    "proteina_g_100g": 9.4,
+    "carboidrato_g_100g": 5.7,
+    "lipidios_g_100g": 27.4
+  },
+  {
+    "alimento": "Petit suisse de morango / Danoninho",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 121,
+    "proteina_g_100g": 5.8,
+    "carboidrato_g_100g": 18.5,
+    "lipidios_g_100g": 2.8
+  },
+  {
+    "alimento": "Queijo prato",
+    "un_medida_caseira": "fatia 2x2x1cm",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 360,
+    "proteina_g_100g": 22.7,
+    "carboidrato_g_100g": 1.9,
+    "lipidios_g_100g": 29.1
+  },
+  {
+    "alimento": "Requeijão cremoso",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 257,
+    "proteina_g_100g": 9.6,
+    "carboidrato_g_100g": 2.4,
+    "lipidios_g_100g": 23.4
+  },
+  {
+    "alimento": "Ricota",
+    "un_medida_caseira": "fatia 2x2x2cm",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 140,
+    "proteina_g_100g": 12.6,
+    "carboidrato_g_100g": 3.8,
+    "lipidios_g_100g": 8.1
+  },
+  {
+    "alimento": "Isotônico / Gatorade / Powerade",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 26,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 6.4,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Café",
+    "un_medida_caseira": "xícara de café (50ml)",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 9,
+    "proteina_g_100g": 0.7,
+    "carboidrato_g_100g": 1.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Cachaça / Aguardente",
+    "un_medida_caseira": "dose (50ml)",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 216,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Caldo de cana",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 65,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 18.2,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Cerveja",
+    "un_medida_caseira": "lata 350ml",
+    "peso_aproximado_g": 350.0,
+    "energia_kcal_100g": 41,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 3.3,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Chá de erva-doce",
+    "un_medida_caseira": "xícara de chá (200ml)",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 1,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.4,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Chá mate",
+    "un_medida_caseira": "xícara de chá (200ml)",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 3,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.6,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Chá preto",
+    "un_medida_caseira": "xícara de chá (200ml)",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 2,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.6,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Água de coco",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 22,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 5.3,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Água tônica",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 31,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 8.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Refrigerante de cola",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 34,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 8.7,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Refrigerante de guaraná",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 10.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Refrigerante de laranja",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 46,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 11.8,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Refrigerante de limão",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 40,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 10.3,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Omelete de queijo",
+    "un_medida_caseira": "porção (2 ovos)",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 268,
+    "proteina_g_100g": 15.6,
+    "carboidrato_g_100g": 0.4,
+    "lipidios_g_100g": 22.0
+  },
+  {
+    "alimento": "Ovo de codorna",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 177,
+    "proteina_g_100g": 13.7,
+    "carboidrato_g_100g": 0.8,
+    "lipidios_g_100g": 12.7
+  },
+  {
+    "alimento": "Clara de ovo cozida",
+    "un_medida_caseira": "claras",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 59,
+    "proteina_g_100g": 13.4,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Gema de ovo cozida",
+    "un_medida_caseira": "gemas",
+    "peso_aproximado_g": 40.0,
+    "energia_kcal_100g": 353,
+    "proteina_g_100g": 15.9,
+    "carboidrato_g_100g": 1.6,
+    "lipidios_g_100g": 30.8
+  },
+  {
+    "alimento": "Ovo cozido",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 146,
+    "proteina_g_100g": 13.3,
+    "carboidrato_g_100g": 0.6,
+    "lipidios_g_100g": 9.5
+  },
+  {
+    "alimento": "Ovo cru",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 143,
+    "proteina_g_100g": 13.0,
+    "carboidrato_g_100g": 1.6,
+    "lipidios_g_100g": 8.9
+  },
+  {
+    "alimento": "Ovo frito",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 240,
+    "proteina_g_100g": 15.6,
+    "carboidrato_g_100g": 1.2,
+    "lipidios_g_100g": 18.6
+  },
+  {
+    "alimento": "Achocolatado em pó",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 401,
+    "proteina_g_100g": 4.2,
+    "carboidrato_g_100g": 91.2,
+    "lipidios_g_100g": 2.2
+  },
+  {
+    "alimento": "Açúcar cristal",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 387,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 99.6,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Açúcar mascavo",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 369,
+    "proteina_g_100g": 0.8,
+    "carboidrato_g_100g": 94.5,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Açúcar refinado",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 387,
+    "proteina_g_100g": 0.3,
+    "carboidrato_g_100g": 99.5,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Chocolate ao leite",
+    "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 540,
+    "proteina_g_100g": 7.2,
+    "carboidrato_g_100g": 59.6,
+    "lipidios_g_100g": 30.3
+  },
+  {
+    "alimento": "Chocolate com castanha-do-pará",
+    "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 559,
+    "proteina_g_100g": 7.4,
+    "carboidrato_g_100g": 55.4,
+    "lipidios_g_100g": 34.2
+  },
+  {
+    "alimento": "Chocolate diet",
+    "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 557,
+    "proteina_g_100g": 6.9,
+    "carboidrato_g_100g": 56.3,
+    "lipidios_g_100g": 33.8
+  },
+  {
+    "alimento": "Chocolate meio amargo",
+    "un_medida_caseira": "quadrado 5g ou 1 barra pequena",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 475,
+    "proteina_g_100g": 4.9,
+    "carboidrato_g_100g": 62.4,
+    "lipidios_g_100g": 29.9
+  },
+  {
+    "alimento": "Cocada",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 449,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 81.4,
+    "lipidios_g_100g": 13.6
+  },
+  {
+    "alimento": "Doce de abóbora",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 199,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 54.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Doce de leite",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 306,
+    "proteina_g_100g": 5.5,
+    "carboidrato_g_100g": 59.5,
+    "lipidios_g_100g": 6.0
+  },
+  {
+    "alimento": "Geleia de mocotó",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 106,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 24.2,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Xarope de milho / Glicose de milho",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 292,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 79.4,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Maria-mole",
+    "un_medida_caseira": "porção",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 301,
+    "proteina_g_100g": 3.8,
+    "carboidrato_g_100g": 73.6,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Maria-mole de coco queimado",
+    "un_medida_caseira": "porção",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 307,
+    "proteina_g_100g": 3.9,
+    "carboidrato_g_100g": 75.1,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Marmelada",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 257,
+    "proteina_g_100g": 0.4,
+    "carboidrato_g_100g": 70.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Mel",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 309,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 84.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Melado de cana",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 297,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 76.6,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Quindim",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 411,
+    "proteina_g_100g": 4.7,
+    "carboidrato_g_100g": 46.3,
+    "lipidios_g_100g": 24.4
+  },
+  {
+    "alimento": "Rapadura",
+    "un_medida_caseira": "pedaço pequeno",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 352,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 90.8,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Pó de café",
+    "un_medida_caseira": "colher de chá",
+    "peso_aproximado_g": 2.0,
+    "energia_kcal_100g": 419,
+    "proteina_g_100g": 14.7,
+    "carboidrato_g_100g": 65.8,
+    "lipidios_g_100g": 11.9
+  },
+  {
+    "alimento": "Cappuccino em pó",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 417,
+    "proteina_g_100g": 11.3,
+    "carboidrato_g_100g": 73.6,
+    "lipidios_g_100g": 8.6
+  },
+  {
+    "alimento": "Fermento em pó",
+    "un_medida_caseira": "colher de chá",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 90,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 43.9,
+    "lipidios_g_100g": 0.1
+  },
+  {
+    "alimento": "Fermento biológico",
+    "un_medida_caseira": "tablete",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 90,
+    "proteina_g_100g": 17.0,
+    "carboidrato_g_100g": 7.7,
+    "lipidios_g_100g": 1.5
+  },
+  {
+    "alimento": "Gelatina em pó",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 380,
+    "proteina_g_100g": 8.9,
+    "carboidrato_g_100g": 89.2,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Sal light / Sal dietético",
+    "un_medida_caseira": "colher de chá",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 0,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Sal grosso",
+    "un_medida_caseira": "colher de chá",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 0,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Molho shoyu",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 61,
+    "proteina_g_100g": 3.3,
+    "carboidrato_g_100g": 11.6,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Tempero completo",
+    "un_medida_caseira": "colher de chá",
+    "peso_aproximado_g": 5.0,
+    "energia_kcal_100g": 21,
+    "proteina_g_100g": 2.7,
+    "carboidrato_g_100g": 2.1,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Azeitona preta",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 194,
+    "proteina_g_100g": 1.2,
+    "carboidrato_g_100g": 5.5,
+    "lipidios_g_100g": 20.3
+  },
+  {
+    "alimento": "Azeitona verde",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 137,
+    "proteina_g_100g": 0.9,
+    "carboidrato_g_100g": 4.1,
+    "lipidios_g_100g": 14.2
+  },
+  {
+    "alimento": "Chantilly em spray",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 315,
+    "proteina_g_100g": 0.5,
+    "carboidrato_g_100g": 16.9,
+    "lipidios_g_100g": 27.3
+  },
+  {
+    "alimento": "Leite de coco",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 166,
+    "proteina_g_100g": 1.0,
+    "carboidrato_g_100g": 2.2,
+    "lipidios_g_100g": 18.4
+  },
+  {
+    "alimento": "Maionese",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 15.0,
+    "energia_kcal_100g": 302,
+    "proteina_g_100g": 0.6,
+    "carboidrato_g_100g": 7.9,
+    "lipidios_g_100g": 30.5
+  },
+  {
+    "alimento": "Acarajé",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 289,
+    "proteina_g_100g": 8.3,
+    "carboidrato_g_100g": 19.1,
+    "lipidios_g_100g": 19.9
+  },
+  {
+    "alimento": "Arroz carreteiro",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 154,
+    "proteina_g_100g": 10.8,
+    "carboidrato_g_100g": 11.6,
+    "lipidios_g_100g": 7.1
+  },
+  {
+    "alimento": "Baião de dois",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 136,
+    "proteina_g_100g": 6.2,
+    "carboidrato_g_100g": 20.4,
+    "lipidios_g_100g": 3.2
+  },
+  {
+    "alimento": "Barreado",
+    "un_medida_caseira": "porção",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 165,
+    "proteina_g_100g": 18.3,
+    "carboidrato_g_100g": 0.2,
+    "lipidios_g_100g": 9.5
+  },
+  {
+    "alimento": "Bife a cavalo",
+    "un_medida_caseira": "porção  - bife + ovo + arroz",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 291,
+    "proteina_g_100g": 23.7,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 21.1
+  },
+  {
+    "alimento": "Bolinho de arroz",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 274,
+    "proteina_g_100g": 8.0,
+    "carboidrato_g_100g": 41.7,
+    "lipidios_g_100g": 8.3
+  },
+  {
+    "alimento": "Camarão à baiana",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 101,
+    "proteina_g_100g": 7.9,
+    "carboidrato_g_100g": 3.2,
+    "lipidios_g_100g": 6.0
+  },
+  {
+    "alimento": "Charuto de repolho",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 78,
+    "proteina_g_100g": 6.8,
+    "carboidrato_g_100g": 10.1,
+    "lipidios_g_100g": 1.1
+  },
+  {
+    "alimento": "Cuscuz",
+    "un_medida_caseira": "fatia grossa",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 113,
+    "proteina_g_100g": 2.2,
+    "carboidrato_g_100g": 25.3,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Cuscuz paulista",
+    "un_medida_caseira": "fatia média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 142,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 22.5,
+    "lipidios_g_100g": 4.6
+  },
+  {
+    "alimento": "Molho cuxá",
+    "un_medida_caseira": "colher de servir",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 80,
+    "proteina_g_100g": 5.6,
+    "carboidrato_g_100g": 5.7,
+    "lipidios_g_100g": 3.6
+  },
+  {
+    "alimento": "Dobradinha",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 125,
+    "proteina_g_100g": 19.8,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 4.4
+  },
+  {
+    "alimento": "Estrogonofe de carne",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 173,
+    "proteina_g_100g": 15.0,
+    "carboidrato_g_100g": 3.0,
+    "lipidios_g_100g": 10.8
+  },
+  {
+    "alimento": "Estrogonofe de frango",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 157,
+    "proteina_g_100g": 17.6,
+    "carboidrato_g_100g": 2.6,
+    "lipidios_g_100g": 8.0
+  },
+  {
+    "alimento": "Feijão tropeiro",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 152,
+    "proteina_g_100g": 10.2,
+    "carboidrato_g_100g": 19.6,
+    "lipidios_g_100g": 6.8
+  },
+  {
+    "alimento": "Frango com açafrão",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 113,
+    "proteina_g_100g": 9.7,
+    "carboidrato_g_100g": 4.1,
+    "lipidios_g_100g": 6.2
+  },
+  {
+    "alimento": "Macarronada à bolonhesa",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 220.0,
+    "energia_kcal_100g": 120,
+    "proteina_g_100g": 4.9,
+    "carboidrato_g_100g": 22.5,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Maniçoba",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 134,
+    "proteina_g_100g": 10.0,
+    "carboidrato_g_100g": 3.4,
+    "lipidios_g_100g": 8.7
+  },
+  {
+    "alimento": "Quibebe",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 86,
+    "proteina_g_100g": 8.6,
+    "carboidrato_g_100g": 6.6,
+    "lipidios_g_100g": 2.7
+  },
+  {
+    "alimento": "Maionese de legumes",
+    "un_medida_caseira": "pires",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 96,
+    "proteina_g_100g": 1.1,
+    "carboidrato_g_100g": 8.9,
+    "lipidios_g_100g": 7.0
+  },
+  {
+    "alimento": "Salada de legumes cozida",
+    "un_medida_caseira": "pires",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 35,
+    "proteina_g_100g": 2.0,
+    "carboidrato_g_100g": 7.1,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Salpicão",
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 148,
+    "proteina_g_100g": 13.9,
+    "carboidrato_g_100g": 4.6,
+    "lipidios_g_100g": 7.8
+  },
+  {
+    "alimento": "Sarapatel",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 123,
+    "proteina_g_100g": 18.5,
+    "carboidrato_g_100g": 1.1,
+    "lipidios_g_100g": 4.4
+  },
+  {
+    "alimento": "Tabule",
+    "un_medida_caseira": "porção",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 57,
+    "proteina_g_100g": 2.0,
+    "carboidrato_g_100g": 10.6,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Tacacá",
+    "un_medida_caseira": "tigela pequena (250ml)",
+    "peso_aproximado_g": 250.0,
+    "energia_kcal_100g": 47,
+    "proteina_g_100g": 7.0,
+    "carboidrato_g_100g": 3.4,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Tapioca",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 60.0,
+    "energia_kcal_100g": 348,
+    "proteina_g_100g": 0.1,
+    "carboidrato_g_100g": 63.6,
+    "lipidios_g_100g": 10.9
+  },
+  {
+    "alimento": "Tucupi",
+    "un_medida_caseira": "colher de sopa  - como tempero",
+    "peso_aproximado_g": 20.0,
+    "energia_kcal_100g": 27,
+    "proteina_g_100g": 2.1,
+    "carboidrato_g_100g": 4.7,
+    "lipidios_g_100g": 0.3
+  },
+  {
+    "alimento": "Vaca atolada",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 145,
+    "proteina_g_100g": 5.1,
+    "carboidrato_g_100g": 10.1,
+    "lipidios_g_100g": 9.3
+  },
+  {
+    "alimento": "Vatapá",
+    "un_medida_caseira": "concha média  - por ser mais calórico",
+    "peso_aproximado_g": 120.0,
+    "energia_kcal_100g": 255,
+    "proteina_g_100g": 6.0,
+    "carboidrato_g_100g": 9.7,
+    "lipidios_g_100g": 23.2
+  },
+  {
+    "alimento": "Virado à paulista",
+    "un_medida_caseira": "porção completa  - feijão, arroz, bisteca, etc.",
+    "peso_aproximado_g": 300.0,
+    "energia_kcal_100g": 307,
+    "proteina_g_100g": 10.2,
+    "carboidrato_g_100g": 14.1,
+    "lipidios_g_100g": 25.6
+  },
+  {
+    "alimento": "Yakisoba",
+    "un_medida_caseira": "prato raso",
+    "peso_aproximado_g": 250.0,
+    "energia_kcal_100g": 113,
+    "proteina_g_100g": 7.5,
+    "carboidrato_g_100g": 18.3,
+    "lipidios_g_100g": 2.6
+  },
+  {
+    "alimento": "Amendoim",
+    "un_medida_caseira": "punhado (cabe na mão)",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 544,
+    "proteina_g_100g": 27.2,
+    "carboidrato_g_100g": 20.3,
+    "lipidios_g_100g": 43.9
+  },
+  {
+    "alimento": "Amendoim torrado e salgado",
+    "un_medida_caseira": "punhado (cabe na mão)",
+    "peso_aproximado_g": 25.0,
+    "energia_kcal_100g": 606,
+    "proteina_g_100g": 22.5,
+    "carboidrato_g_100g": 18.7,
+    "lipidios_g_100g": 54.0
+  },
+  {
+    "alimento": "Ervilha fresca",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 88,
+    "proteina_g_100g": 7.5,
+    "carboidrato_g_100g": 14.2,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Ervilha em conserva",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 74,
+    "proteina_g_100g": 4.6,
+    "carboidrato_g_100g": 13.4,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Feijão carioca cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 76,
+    "proteina_g_100g": 4.8,
+    "carboidrato_g_100g": 13.6,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Feijão carioca cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 329,
+    "proteina_g_100g": 20.0,
+    "carboidrato_g_100g": 61.2,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Feijão fradinho cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 78,
+    "proteina_g_100g": 5.1,
+    "carboidrato_g_100g": 13.5,
+    "lipidios_g_100g": 0.6
+  },
+  {
+    "alimento": "Feijão fradinho cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 339,
+    "proteina_g_100g": 20.2,
+    "carboidrato_g_100g": 61.2,
+    "lipidios_g_100g": 2.4
+  },
+  {
+    "alimento": "Feijão jalo cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 93,
+    "proteina_g_100g": 6.1,
+    "carboidrato_g_100g": 16.5,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Feijão jalo cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 328,
+    "proteina_g_100g": 20.1,
+    "carboidrato_g_100g": 61.5,
+    "lipidios_g_100g": 0.9
+  },
+  {
+    "alimento": "Feijão preto cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 77,
+    "proteina_g_100g": 4.5,
+    "carboidrato_g_100g": 14.0,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Feijão preto cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 324,
+    "proteina_g_100g": 21.3,
+    "carboidrato_g_100g": 58.8,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Feijão rajado cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 85,
+    "proteina_g_100g": 5.5,
+    "carboidrato_g_100g": 15.3,
+    "lipidios_g_100g": 0.4
+  },
+  {
+    "alimento": "Feijão rajado cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 326,
+    "proteina_g_100g": 17.3,
+    "carboidrato_g_100g": 62.9,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Feijão rosinha cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 68,
+    "proteina_g_100g": 4.5,
+    "carboidrato_g_100g": 11.8,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Feijão rosinha cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 337,
+    "proteina_g_100g": 20.9,
+    "carboidrato_g_100g": 62.2,
+    "lipidios_g_100g": 1.3
+  },
+  {
+    "alimento": "Feijão roxo cozido",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 77,
+    "proteina_g_100g": 5.7,
+    "carboidrato_g_100g": 12.9,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Feijão roxo cru",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 180.0,
+    "energia_kcal_100g": 331,
+    "proteina_g_100g": 22.2,
+    "carboidrato_g_100g": 60.0,
+    "lipidios_g_100g": 1.2
+  },
+  {
+    "alimento": "Grão-de-bico",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 355,
+    "proteina_g_100g": 21.2,
+    "carboidrato_g_100g": 57.9,
+    "lipidios_g_100g": 5.4
+  },
+  {
+    "alimento": "Guandu / Andu",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 344,
+    "proteina_g_100g": 19.0,
+    "carboidrato_g_100g": 64.0,
+    "lipidios_g_100g": 2.1
+  },
+  {
+    "alimento": "Lentilha cozida",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 93,
+    "proteina_g_100g": 6.3,
+    "carboidrato_g_100g": 16.3,
+    "lipidios_g_100g": 0.5
+  },
+  {
+    "alimento": "Lentilha crua",
+    "un_medida_caseira": "concha média",
+    "peso_aproximado_g": 150.0,
+    "energia_kcal_100g": 339,
+    "proteina_g_100g": 23.2,
+    "carboidrato_g_100g": 62.0,
+    "lipidios_g_100g": 0.8
+  },
+  {
+    "alimento": "Paçoca",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 487,
+    "proteina_g_100g": 16.0,
+    "carboidrato_g_100g": 52.4,
+    "lipidios_g_100g": 26.1
+  },
+  {
+    "alimento": "Pé-de-moleque",
+    "un_medida_caseira": "unidade",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 503,
+    "proteina_g_100g": 13.2,
+    "carboidrato_g_100g": 54.7,
+    "lipidios_g_100g": 28.0
+  },
+  {
+    "alimento": "Farinha de soja",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 404,
+    "proteina_g_100g": 36.0,
+    "carboidrato_g_100g": 38.4,
+    "lipidios_g_100g": 14.6
+  },
+  {
+    "alimento": "Leite de soja / Bebida de soja",
+    "un_medida_caseira": "copo 200ml",
+    "peso_aproximado_g": 200.0,
+    "energia_kcal_100g": 39,
+    "proteina_g_100g": 2.4,
+    "carboidrato_g_100g": 4.3,
+    "lipidios_g_100g": 1.6
+  },
+  {
+    "alimento": "Leite de soja em pó",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 459,
+    "proteina_g_100g": 35.7,
+    "carboidrato_g_100g": 28.5,
+    "lipidios_g_100g": 26.2
+  },
+  {
+    "alimento": "Tofu",
+    "un_medida_caseira": "fatia 4x4x2cm",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 64,
+    "proteina_g_100g": 6.6,
+    "carboidrato_g_100g": 2.1,
+    "lipidios_g_100g": 4.0
+  },
+  {
+    "alimento": "Tremoço",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 381,
+    "proteina_g_100g": 33.6,
+    "carboidrato_g_100g": 43.8,
+    "lipidios_g_100g": 10.3
+  },
+  {
+    "alimento": "Tremoço em conserva",
+    "un_medida_caseira": "xícara de chá",
+    "peso_aproximado_g": 80.0,
+    "energia_kcal_100g": 121,
+    "proteina_g_100g": 11.1,
+    "carboidrato_g_100g": 12.4,
+    "lipidios_g_100g": 3.8
+  },
+  {
+    "alimento": "Amêndoa torrada e salgada",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 581,
+    "proteina_g_100g": 18.6,
+    "carboidrato_g_100g": 29.5,
+    "lipidios_g_100g": 47.3
+  },
+  {
+    "alimento": "Castanha-de-caju torrada e salgada",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 570,
+    "proteina_g_100g": 18.5,
+    "carboidrato_g_100g": 29.1,
+    "lipidios_g_100g": 46.3
+  },
+  {
+    "alimento": "Castanha-do-pará",
+    "un_medida_caseira": "unidades",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 643,
+    "proteina_g_100g": 14.5,
+    "carboidrato_g_100g": 15.1,
+    "lipidios_g_100g": 63.5
+  },
+  {
+    "alimento": "Coco seco",
+    "un_medida_caseira": "pedaço médio 3x3cm",
+    "peso_aproximado_g": 50.0,
+    "energia_kcal_100g": 406,
+    "proteina_g_100g": 3.7,
+    "carboidrato_g_100g": 10.4,
+    "lipidios_g_100g": 42.0
+  },
+  {
+    "alimento": "Coco verde",
+    "un_medida_caseira": "unidade média  - polpa + água",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 0,
+    "proteina_g_100g": 0.0,
+    "carboidrato_g_100g": 0.0,
+    "lipidios_g_100g": 0.0
+  },
+  {
+    "alimento": "Farinha de babaçu",
+    "un_medida_caseira": "colheres de sopa",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 329,
+    "proteina_g_100g": 1.4,
+    "carboidrato_g_100g": 79.2,
+    "lipidios_g_100g": 0.2
+  },
+  {
+    "alimento": "Gergelim",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 584,
+    "proteina_g_100g": 21.2,
+    "carboidrato_g_100g": 21.6,
+    "lipidios_g_100g": 50.4
+  },
+  {
+    "alimento": "Linhaça",
+    "un_medida_caseira": "colher de sopa",
+    "peso_aproximado_g": 10.0,
+    "energia_kcal_100g": 495,
+    "proteina_g_100g": 14.1,
+    "carboidrato_g_100g": 43.3,
+    "lipidios_g_100g": 32.3
+  },
+  {
+    "alimento": "Pinhão",
+    "un_medida_caseira": "unidades médias",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 174,
+    "proteina_g_100g": 3.0,
+    "carboidrato_g_100g": 43.9,
+    "lipidios_g_100g": 0.7
+  },
+  {
+    "alimento": "Pupunha",
+    "un_medida_caseira": "unidade média",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 219,
+    "proteina_g_100g": 2.5,
+    "carboidrato_g_100g": 29.6,
+    "lipidios_g_100g": 12.8
+  },
+  {
+    "alimento": "Noz",
+    "un_medida_caseira": "metades",
+    "peso_aproximado_g": 30.0,
+    "energia_kcal_100g": 620,
+    "proteina_g_100g": 14.0,
+    "carboidrato_g_100g": 18.4,
+    "lipidios_g_100g": 59.4
+  }
+]

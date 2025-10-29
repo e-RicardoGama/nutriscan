@@ -10,6 +10,7 @@ import { AxiosError } from 'axios';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 import { ChevronDown, Check, Pencil, Trash2 } from 'lucide-react';
+import EditFoodModal from '../components/alimentos/EditFoodModal.jsx';
 
 // --- Interfaces da API ---
 
@@ -30,6 +31,29 @@ interface AnaliseCompletaResponse {
     analise_nutricional: AnaliseNutricional; 
     recomendacoes: Recomendacoes; 
     timestamp?: string; 
+}
+
+// Interface para os dados do nosso food_database.json
+interface FoodDatabaseItem {
+  alimento: string;
+  un_medida_caseira: string;
+  peso_aproximado_g: number;
+  energia_kcal_100g: number;
+  proteina_g_100g: number;
+  carboidrato_g_100g: number;
+  lipidios_g_100g: number;
+}
+
+// Interface para os dados que o modal usa
+interface ModalAlimentoData {
+  nome: string;
+  peso_g: number;
+  kcal: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  confianca: 'alta' | 'media' | 'baixa' | 'corrigido' | string;
+  categoria?: string;
 }
 // --- Fim das Interfaces ---
 
@@ -271,6 +295,9 @@ export default function Home() {
     const [loadingAnalysis, setLoadingAnalysis] = useState<boolean>(false);
     const [analysisError, setAnalysisError] = useState<string | null>(null);
     const [analysisResult, setAnalysisResult] = useState<AnaliseCompletaResponse | null>(null);
+
+    const [foodDatabase, setFoodDatabase] = useState<FoodDatabaseItem[]>([]); // Guarda o food_database.json
+    const [editingItem, setEditingItem] = useState<{ index: number, data: ModalAlimentoData } | null>(null); // Guarda o item sendo editado
     
     // Proteção de Rota
     useEffect(() => {
@@ -295,6 +322,14 @@ export default function Home() {
             setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
         }
     }, [analysisResult, scanResult]);
+
+    useEffect(() => {
+        // Carrega a base de dados de alimentos da pasta /public
+        fetch('/food_database.json')
+            .then(res => res.json())
+            .then(data => setFoodDatabase(data))
+            .catch(err => console.error("Erro ao carregar food_database.json:", err));
+    }, []); // O array vazio [] garante que isso rode apenas uma vez
 
     // Função para rodar o Scan Rápido
     const runScan = async (file: File) => {
@@ -367,23 +402,77 @@ export default function Home() {
     };
 
     const handleEditFood = (indexToEdit: number) => {
-        const alimento = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
-        const novoNome = prompt("Corrija o nome do alimento:", alimento?.nome);
-
-        if (novoNome && novoNome !== alimento?.nome) {
-            setScanResult(prevResult => {
-                if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-                const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
-                    if (index === indexToEdit) {
-                        return { ...item, nome: novoNome, confianca: 'corrigido' as const }; 
-                    }
-                    return item;
-                });
-                const oldAlertas = prevResult.resultado.alertas || [];
-                return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos, resumo_nutricional: undefined, alertas: [...oldAlertas, "Item editado. Os totais de macros podem estar desatualizados."] } };
+        const alimentoOriginal = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
+        
+        if (alimentoOriginal) {
+            // Mapeia do seu tipo 'ScanRapidoAlimento' para o formato 'any' 
+            // que o modal JavaScript espera
+            const itemParaModal = {
+                nome: alimentoOriginal.nome,
+                peso_g: alimentoOriginal.quantidade_estimada_g,
+                kcal: alimentoOriginal.calorias_estimadas,
+                // O Scan Rápido não tem macros, então inicializamos como 0
+                // O modal vai calcular isso se o usuário escolher um item do DB
+                protein: 0, 
+                carbs: 0,
+                fats: 0,
+                confianca: alimentoOriginal.confianca,
+                ...alimentoOriginal // Passa o resto (ex: categoria)
+            };
+            
+            // Abre o modal
+            setEditingItem({
+                index: indexToEdit,
+                data: itemParaModal
             });
         }
     };
+
+    // Função para fechar o modal (passada para o componente)
+    const handleCloseModal = () => {
+        setEditingItem(null);
+    };
+
+    // Função para salvar os dados (passada para o componente)
+    const handleSaveEdit = (itemAtualizadoDoModal: ModalAlimentoData) => {
+        if (editingItem === null) return; // Segurança
+
+    const indexToEdit = editingItem.index;
+
+    setScanResult(prevResult => {
+        if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
+
+        // Mapeia *de volta* do formato do modal para o seu tipo 'ScanRapidoAlimento'
+        const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
+            if (index === indexToEdit) {
+                // Constrói o novo 'ScanRapidoAlimento'
+                return {
+                    ...item, // Mantém props originais como 'categoria'
+                    nome: itemAtualizadoDoModal.nome,
+                    quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
+                    calorias_estimadas: itemAtualizadoDoModal.kcal, // Atualiza as calorias
+                    confianca: 'corrigido' as const, // Força a confiança
+                };
+            }
+            return item;
+        });
+
+        const oldAlertas = prevResult.resultado.alertas || [];
+
+        return {
+            ...prevResult,
+            resultado: {
+                ...prevResult.resultado,
+                alimentos_extraidos: newAlimentos,
+                // Invalida o resumo antigo, pois os dados mudaram
+                resumo_nutricional: undefined, 
+                alertas: [...oldAlertas, "Item editado. Os totais podem estar desatualizados."]
+            }
+        };
+    });
+
+    setEditingItem(null); // Fecha o modal após salvar
+};
 
     const handleDeleteFood = (indexToDelete: number) => {
         setScanResult(prevResult => {
@@ -507,15 +596,19 @@ export default function Home() {
                     
                     {/* --- COLUNA DA DIREITA (RESULTADOS) --- */}
                     <div className="flex flex-col">
-                        <h3 className="text-md px-2 font-bold text-green-800 text-center">2. Revise os Alimentos</h3>
-                        
-                        {/* Legenda dos ícones */}
-                        <div className="flex justify-center items-center gap-4 sm:gap-6 mt-4 text-xs text-gray-500">
-                            <div className="flex items-center gap-1"><Check size={16} className="text-green-600" /><span>Confirmar</span></div>
-                            <div className="flex items-center gap-1"><Pencil size={16} className="text-blue-600" /><span>Editar</span></div>
-                            <div className="flex items-center gap-1"><Trash2 size={16} className="text-red-600" /><span>Apagar</span></div>
-                        </div>
-                        
+                        {/* ✅ TÍTULO E LEGENDA QUE SOMEM APÓS A ANÁLISE DETALHADA */}
+                        {scanResult && !analysisResult && (
+                            <>
+                                <h3 className="text-md px-2 font-bold text-green-800 text-center">2. Revise os Alimentos</h3>
+                                
+                                {/* Legenda dos ícones */}
+                                <div className="flex justify-center items-center gap-4 sm:gap-6 mt-4 text-xs text-gray-500">
+                                    <div className="flex items-center gap-1"><Check size={16} className="text-green-600" /><span>Confirmar</span></div>
+                                    <div className="flex items-center gap-1"><Pencil size={16} className="text-blue-600" /><span>Editar</span></div>
+                                    <div className="flex items-center gap-1"><Trash2 size={16} className="text-red-600" /><span>Apagar</span></div>
+                                </div>
+                            </>
+                        )}                    
                         {/* Área de Resultados */}
                         <div className="w-full results-container space-y-6 mt-8">
     
@@ -581,6 +674,15 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+                {/* 4. ADICIONE O MODAL AQUI */}
+                {editingItem && (
+                    <EditFoodModal
+                        itemParaEditar={editingItem.data}
+                        foodDatabase={foodDatabase}
+                        onSave={handleSaveEdit}
+                        onClose={handleCloseModal}
+                    />
+                )}
             </main>
         </div>
     );
