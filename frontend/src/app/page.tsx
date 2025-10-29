@@ -405,20 +405,24 @@ export default function Home() {
         const alimentoOriginal = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
         
         if (alimentoOriginal) {
-            // Mapeia do seu tipo 'ScanRapidoAlimento' para o formato 'any' 
-            // que o modal JavaScript espera
+            
+            // --- CORREÇÃO AQUI ---
             const itemParaModal = {
-                nome: alimentoOriginal.nome,
+                // 1. Espalhe o objeto original primeiro
+                ...alimentoOriginal,
+                
+                // 2. Mapeie os nomes das propriedades para o que o modal espera
                 peso_g: alimentoOriginal.quantidade_estimada_g,
                 kcal: alimentoOriginal.calorias_estimadas,
-                // O Scan Rápido não tem macros, então inicializamos como 0
-                // O modal vai calcular isso se o usuário escolher um item do DB
+                
+                // 3. Adicione as propriedades que faltam e que o modal usa
                 protein: 0, 
                 carbs: 0,
-                fats: 0,
-                confianca: alimentoOriginal.confianca,
-                ...alimentoOriginal // Passa o resto (ex: categoria)
+                fats: 0
+                
+                // As propriedades 'nome' e 'confianca' já vêm do '...alimentoOriginal'
             };
+            // --- FIM DA CORREÇÃO ---
             
             // Abre o modal
             setEditingItem({
