@@ -1,10 +1,12 @@
-# app/vision.py - VERSÃO COM FUNÇÃO PARA ANALISAR LISTA
+# app/vision.py - VERSÃO FINAL E LIMPA
+# Este ficheiro APENAS fala com a API do Gemini.
+# Ele NÃO importa 'sqlalchemy', 'Session', 'crud' ou 'models'.
 
 import os
 import json
 import re
 import logging
-from typing import Dict, Any, List # Adicionado List
+from typing import Dict, Any, List
 import google.generativeai as genai
 from PIL import Image
 from io import BytesIO
@@ -19,28 +21,26 @@ try:
     if not api_key:
         raise ValueError("A variável de ambiente GEMINI_API_KEY não está definida.")
     genai.configure(api_key=api_key)
+    # Use o nome do seu modelo (ex: 'models/gemini-1.5-flash' ou 'models/gemini-2.5-flash')
+    gemini_model = genai.GenerativeModel('models/gemini-1.5-flash') 
 except Exception as e:
     logger.error(f"Erro ao configurar a API do Gemini: {e}")
-    # Considerar levantar o erro ou ter um fallback
-    # raise e
+    gemini_model = None
 
-# Função auxiliar para extrair JSON (sem alterações)
+# Função auxiliar para extrair JSON
 def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
-    # ... (código da função extrair_json_da_resposta) ...
+    """ Extrai um objeto JSON de uma resposta de texto, limpando ```json e outros. """
     if not texto_resposta:
         logger.error("Resposta vazia recebida do modelo de IA.")
         return {"erro": "Resposta vazia do modelo de IA"}
     try:
-        # Tenta remover ```json ``` e espaços extras
         cleaned = re.sub(r'^```json\s*|\s*```$', '', texto_resposta.strip(), flags=re.IGNORECASE | re.DOTALL)
         return json.loads(cleaned)
     except json.JSONDecodeError:
         logger.warning("Falha ao parsear JSON diretamente. Tentando extrair de texto.")
-        # Tenta extrair o primeiro JSON válido encontrado no texto
-        json_match = re.search(r'\{[^{}]*\}', texto_resposta, re.DOTALL) # Simplificado para JSON simples, ajuste se precisar de aninhamento complexo
+        json_match = re.search(r'\{.*\}', texto_resposta, re.DOTALL)
         if json_match:
             try:
-                # Tenta novamente limpar possíveis ```json ``` ao redor do JSON encontrado
                 json_str = json_match.group()
                 cleaned_match = re.sub(r'^```json\s*|\s*```$', '', json_str.strip(), flags=re.IGNORECASE | re.DOTALL)
                 return json.loads(cleaned_match)
@@ -51,56 +51,15 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
         return {"erro": "Nenhum JSON válido encontrado na resposta."}
 
 
-# Função para análise detalhada DE IMAGEM (sem alterações)
-def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
-    # ... (código da função analisar_imagem_do_prato_detalhado) ...
-    model = genai.GenerativeModel('models/gemini-2.5-flash') # Ou gemini-1.5-flash
-    prompt_detalhado = """Você é um nutricionista especialista. Analise esta foto de comida e forneça um relatório estruturado em JSON com as seguintes seções:
-{
-  "detalhes_prato": { "alimentos": [ { "nome": "string", "quantidade_gramas": "number", "metodo_preparo": "string", "categoria": "string (ex: Fruta, Grão, Carne Vermelha)" } ] },
-  "analise_nutricional": { "calorias_totais": "number", "macronutrientes": { "proteinas_g": "number", "carboidratos_g": "number", "gorduras_g": "number" }, "vitaminas_minerais": ["string"] },
-  "recomendacoes": { "pontos_positivos": ["string"], "sugestoes_balanceamento": ["string"], "alternativas_saudaveis": ["string"] }
-} Forneça APENAS o JSON, sem texto adicional."""
-    try:
-        logger.info("-> Enviando imagem para análise detalhada...")
-        img = Image.open(BytesIO(conteudo_imagem))
-        response = model.generate_content([prompt_detalhado, img])
-        logger.info(f"Resposta bruta Gemini (detalhada img): {response.text}")
-        resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (detalhada img): {resultado}")
-        return resultado
-    except Exception as e:
-        logger.error(f"ERRO Gemini (detalhada img): {e}")
-        return {"erro": "Falha na análise detalhada da imagem."}
-
-
-# Função para análise simples DE IMAGEM (sem alterações)
-def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
-    # ... (código da função analisar_imagem_do_prato) ...
-    model = genai.GenerativeModel('models/gemini-2.5-flash')
-    prompt = """Analise a imagem. Identifique cada alimento, estime a quantidade em gramas (g) e justifique. Retorne JSON: { "foods": [ { "name", "quantity_g", "justification" } ] }"""
-    try:
-        logger.info("-> Enviando imagem para análise simples...")
-        img = Image.open(BytesIO(conteudo_imagem))
-        response = model.generate_content([prompt, img])
-        logger.info(f"Resposta bruta Gemini (simples img): {response.text}")
-        resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (simples img): {resultado}")
-        return resultado
-    except Exception as e:
-        logger.error(f"ERRO Gemini (simples img): {e}")
-        return {"erro": "Falha ao analisar imagem (simples)."}
-
-# Função para SCAN RÁPIDO DE IMAGEM (sem alterações)
+# Função 1: Scan Rápido (A sua função original, mantida)
 def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
-    # ... (código da função escanear_prato_extrair_alimentos) ...
+    if not gemini_model: return {"erro": "API do Gemini não configurada."}
     try:
         if not conteudo_imagem: return {"erro": "Imagem vazia"}
-        model = genai.GenerativeModel('models/gemini-2.5-flash')
         prompt_scan = """SCAN RÁPIDO. Retorne APENAS JSON: {"alimentos_extraidos": [{"nome", "categoria" (nutricional), "quantidade_estimada_g", "confianca" ('alta'|'media'|'baixa'), "calorias_estimadas"}], "resumo_nutricional": {"total_calorias", "total_proteinas_g", "total_carboidratos_g", "total_gorduras_g"}, "alertas": []}"""
         logger.info("Processando SCAN rápido...")
         img = Image.open(BytesIO(conteudo_imagem))
-        response = model.generate_content([prompt_scan, img], generation_config=genai.types.GenerationConfig(temperature=0.1))
+        response = gemini_model.generate_content([prompt_scan, img], generation_config=genai.types.GenerationConfig(temperature=0.1))
         if not response.text: return {"erro": "Resposta vazia da API"}
         logger.info(f"Resposta bruta Gemini (scan rápido): {response.text}")
         resultado = extrair_json_da_resposta(response.text)
@@ -111,82 +70,99 @@ def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
         return {"erro": f"Falha no scan rápido: {str(e)}"}
 
 
-# ==========================================================
-# ✅ NOVA FUNÇÃO: Analisar LISTA de Alimentos Detalhadamente
-# ==========================================================
-def analisar_lista_alimentos_detalhadamente(lista_alimentos: List[Dict[str, Any]]) -> dict:
+# =================================================================
+# ✅ FUNÇÃO 2: Obter dados nutricionais de 1 alimento (para auto-aprendizagem)
+# =================================================================
+def fetch_gemini_nutritional_data(alimento_nome: str) -> Dict[str, Any]:
     """
-    Recebe uma lista de alimentos (nome, quantidade_gramas) e usa o Gemini
-    para gerar a análise nutricional detalhada e recomendações.
-    Retorna um dicionário no formato AnaliseCompletaResponseSchema.
+    Chama o Gemini para obter dados nutricionais de um NOVO alimento.
     """
+    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+
+    logger.info(f"-> Consultando Gemini para novos dados de: '{alimento_nome}'")
+
+    prompt = f"""
+    Você é um assistente de banco de dados nutricional.
+    Para o alimento "{alimento_nome}", forneça os dados nutricionais para 100g.
+    Estime também uma "unidade", "un_medida_caseira" e "peso_aproximado_g" comuns para este alimento.
+    Responda APENAS com um objeto JSON. O objeto deve ter as seguintes chaves (use 0 se não souber um valor):
+    {{
+      "alimento": "{alimento_nome}",
+      "energia_kcal_100g": "<valor_numerico>",
+      "proteina_g_100g": "<valor_numerico>",
+      "carboidrato_g_100g": "<valor_numerico>",
+      "lipidios_g_100g": "<valor_numerico>",
+      "fibra_g_100g": "<valor_numerico>",
+      "unidades": "<valor_numerico_ex: 1>",
+      "un_medida_caseira": "<string_ex: 'espiga média'>",
+      "peso_aproximado_g": "<valor_numerico_ex: 150>"
+    }}
+    """
+    
+    try:
+        config = genai.GenerationConfig(response_mime_type="application/json")
+        response = gemini_model.generate_content(prompt, generation_config=config)
+        dados_nutricionais = json.loads(response.text)
+        logger.info(f"INFO: Gemini respondeu com dados para '{alimento_nome}'.")
+        return dados_nutricionais
+        
+    except Exception as e:
+        logger.error(f"ERRO: Falha ao consultar o Gemini para dados nutricionais: {e}")
+        return {"erro": f"Falha ao obter dados para {alimento_nome}."}
+
+# =================================================================
+# ✅ FUNÇÃO 3: Obter APENAS recomendações
+# =================================================================
+def gerar_recomendacoes_detalhadas_ia(
+    lista_alimentos: List[Dict[str, Any]], 
+    totais: Dict[str, float]
+) -> Dict[str, Any]:
+    """
+    Recebe a lista de alimentos e os TOTAIS CALCULADOS (pelo Python).
+    Usa o Gemini para gerar APENAS as recomendações e vitaminas.
+    """
+    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+
     if not lista_alimentos:
         logger.error("Tentativa de analisar lista de alimentos vazia.")
         return {"erro": "A lista de alimentos para análise está vazia."}
 
-    # Prepara o prompt para o Gemini
-    # Converte a lista de dicionários Python em uma string formatada
     alimentos_str = "\n".join([f"- {item['nome']}: {item['quantidade_gramas']}g" for item in lista_alimentos])
+    totais_str = f"""
+    - Calorias Totais: {totais.get('kcal', 0):.0f} kcal
+    - Proteínas Totais: {totais.get('protein', 0):.1f} g
+    - Carboidratos Totais: {totais.get('carbs', 0):.1f} g
+    - Gorduras Totais: {totais.get('fats', 0):.1f} g
+    """
 
-    prompt_lista = f"""Você é um nutricionista especialista. Analise esta lista de alimentos de uma refeição:
+    prompt_lista = f"""Você é um nutricionista especialista. Analise esta refeição com base nos alimentos e nos seus totais nutricionais.
+    
+Lista de Alimentos:
 {alimentos_str}
 
-Forneça um relatório nutricional completo e estruturado em JSON com as seguintes seções:
+Totais Nutricionais da Refeição:
+{totais_str}
+
+Forneça APENAS um objeto JSON com as seguintes chaves:
 {{
-  "detalhes_prato": {{ 
-    "alimentos": [ 
-      {{ 
-        "nome": "string (nome original da lista)", 
-        "quantidade_gramas": "number (quantidade original da lista)", 
-        "metodo_preparo": "string (inferido ou 'Não especificado')",
-        "categoria": "string (categoria nutricional, ex: Fruta, Grão, Carne Vermelha)" 
-      }} 
-      // Repetir para cada alimento da lista original
-    ] 
-  }},
-  "analise_nutricional": {{ 
-    "calorias_totais": "number (soma total)", 
-    "macronutrientes": {{ 
-      "proteinas_g": "number (soma total)", 
-      "carboidratos_g": "number (soma total)", 
-      "gorduras_g": "number (soma total)" 
-    }}, 
-    "vitaminas_minerais": ["string (principais presentes na refeição)"] 
-  }},
+  "vitaminas_minerais": ["string (principais vitaminas e minerais inferidos da lista de alimentos)"], 
   "recomendacoes": {{ 
     "pontos_positivos": ["string (aspectos bons da combinação)"], 
-    "sugestoes_balanceamento": ["string (o que poderia melhorar)"], 
+    "sugestoes_balanceamento": ["string (o que poderia melhorar com base nos totais e alimentos)"], 
     "alternativas_saudaveis": ["string (sugestões de trocas)"] 
   }}
 }}
-
-Forneça APENAS o JSON como resposta, sem nenhum texto introdutório ou final."""
-
-    model = genai.GenerativeModel('models/gemini-2.5-flash') # Ou gemini-1.5-flash
-
+"""
     try:
-        logger.info(f"-> Enviando lista de alimentos para análise detalhada: {alimentos_str}")
-        # Envia apenas o prompt de texto
-        response = model.generate_content(prompt_lista) 
+        logger.info(f"-> Enviando lista de alimentos para obter RECOMENDAÇÕES...")
+        response = gemini_model.generate_content(prompt_lista)
         
-        logger.info(f"Resposta bruta Gemini (detalhada lista): {response.text}")
-        
-        # Usa a função auxiliar para extrair e validar o JSON
+        logger.info(f"Resposta bruta Gemini (recomendações): {response.text}")
         resultado = extrair_json_da_resposta(response.text)
-        
-        logger.info(f"Resultado processado (detalhada lista): {resultado}")
-
-        # Validação extra (opcional): Verificar se as chaves principais existem
-        if "detalhes_prato" not in resultado or "analise_nutricional" not in resultado or "recomendacoes" not in resultado:
-             logger.warning("JSON retornado não possui a estrutura esperada.")
-             # Poderia retornar um erro aqui ou tentar usar o que veio
-             # return {"erro": "Estrutura JSON inválida retornada pela IA."}
+        logger.info(f"Resultado processado (recomendações): {resultado}")
 
         return resultado
         
     except Exception as e:
-        logger.error(f"ERRO: Falha na comunicação com a API do Gemini (análise de lista): {e}")
-        return {"erro": "Desculpe, não foi possível realizar a análise detalhada no momento."}
-# ==========================================================
-# FIM DA NOVA FUNÇÃO
-# ==========================================================
+        logger.error(f"ERRO: Falha na comunicação com a API do Gemini (recomendações): {e}")
+        return {"erro": "Desculpe, não foi possível gerar as recomendações no momento."}
