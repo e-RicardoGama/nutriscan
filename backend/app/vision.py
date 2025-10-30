@@ -166,3 +166,44 @@ Forneça APENAS um objeto JSON com as seguintes chaves:
     except Exception as e:
         logger.error(f"ERRO: Falha na comunicação com a API do Gemini (recomendações): {e}")
         return {"erro": "Desculpe, não foi possível gerar as recomendações no momento."}
+    
+
+# Função para análise detalhada DE IMAGEM (sem alterações)
+def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
+    # ... (código da função analisar_imagem_do_prato_detalhado) ...
+    model = genai.GenerativeModel('models/gemini-2.5-flash') # Ou gemini-1.5-flash
+    prompt_detalhado = """Você é um nutricionista especialista. Analise esta foto de comida e forneça um relatório estruturado em JSON com as seguintes seções:
+{
+  "detalhes_prato": { "alimentos": [ { "nome": "string", "quantidade_gramas": "number", "metodo_preparo": "string", "categoria": "string (ex: Fruta, Grão, Carne Vermelha)" } ] },
+  "analise_nutricional": { "calorias_totais": "number", "macronutrientes": { "proteinas_g": "number", "carboidratos_g": "number", "gorduras_g": "number" }, "vitaminas_minerais": ["string"] },
+  "recomendacoes": { "pontos_positivos": ["string"], "sugestoes_balanceamento": ["string"], "alternativas_saudaveis": ["string"] }
+} Forneça APENAS o JSON, sem texto adicional."""
+    try:
+        logger.info("-> Enviando imagem para análise detalhada...")
+        img = Image.open(BytesIO(conteudo_imagem))
+        response = model.generate_content([prompt_detalhado, img])
+        logger.info(f"Resposta bruta Gemini (detalhada img): {response.text}")
+        resultado = extrair_json_da_resposta(response.text)
+        logger.info(f"Resultado processado (detalhada img): {resultado}")
+        return resultado
+    except Exception as e:
+        logger.error(f"ERRO Gemini (detalhada img): {e}")
+        return {"erro": "Falha na análise detalhada da imagem."}
+
+
+# Função para análise simples DE IMAGEM (sem alterações)
+def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
+    # ... (código da função analisar_imagem_do_prato) ...
+    model = genai.GenerativeModel('models/gemini-2.5-flash')
+    prompt = """Analise a imagem. Identifique cada alimento, estime a quantidade em gramas (g) e justifique. Retorne JSON: { "foods": [ { "name", "quantity_g", "justification" } ] }"""
+    try:
+        logger.info("-> Enviando imagem para análise simples...")
+        img = Image.open(BytesIO(conteudo_imagem))
+        response = model.generate_content([prompt, img])
+        logger.info(f"Resposta bruta Gemini (simples img): {response.text}")
+        resultado = extrair_json_da_resposta(response.text)
+        logger.info(f"Resultado processado (simples img): {resultado}")
+        return resultado
+    except Exception as e:
+        logger.error(f"ERRO Gemini (simples img): {e}")
+        return {"erro": "Falha ao analisar imagem (simples)."}
