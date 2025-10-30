@@ -11,53 +11,53 @@
   },
   {
     "alimento": "Arroz integral cru",
-    "unidades": 1.1,
+    "unidades": 1.0,
     "un_medida_caseira": "escumadeira cheia",
-    "peso_aproximado_g": 100.1,
-    "energia_kcal_100g": 360,
-    "proteina_g_100g": 7.3,
-    "carboidrato_g_100g": 77.5,
-    "lipidios_g_100g": 1.9
-  },
-  {
-    "alimento": "Arroz branco cozido",
-    "unidades": 1.2,
-    "un_medida_caseira": "escumadeira cheia",
-    "peso_aproximado_g": 100.2,
-    "energia_kcal_100g": 128,
-    "proteina_g_100g": 2.5,
-    "carboidrato_g_100g": 28.1,
-    "lipidios_g_100g": 0.2
-  },
-  {
-    "alimento": "Arroz branco cru",
-    "unidades": 1.3,
-    "un_medida_caseira": "escumadeira cheia",
-    "peso_aproximado_g": 100.3,
-    "energia_kcal_100g": 358,
-    "proteina_g_100g": 7.2,
-    "carboidrato_g_100g": 78.8,
-    "lipidios_g_100g": 0.3
-  },
-  {
-    "alimento": "Arroz branco cozido",
-    "unidades": 1.4,
-    "un_medida_caseira": "escumadeira cheia",
-    "peso_aproximado_g": 100.4,
-    "energia_kcal_100g": 130,
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 124,
     "proteina_g_100g": 2.6,
-    "carboidrato_g_100g": 28.2,
-    "lipidios_g_100g": 0.4
+    "carboidrato_g_100g": 25.8,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Arroz branco cozido",
+    "unidades": 1.0,
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 124,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 25.8,
+    "lipidios_g_100g": 1.0
   },
   {
     "alimento": "Arroz branco cru",
-    "unidades": 1.5,
+    "unidades": 1.0,
     "un_medida_caseira": "escumadeira cheia",
-    "peso_aproximado_g": 100.5,
-    "energia_kcal_100g": 358,
-    "proteina_g_100g": 7.2,
-    "carboidrato_g_100g": 78.9,
-    "lipidios_g_100g": 0.3
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 124,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 25.8,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Arroz branco cozido",
+    "unidades": 1.0,
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 124,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 25.8,
+    "lipidios_g_100g": 1.0
+  },
+  {
+    "alimento": "Arroz branco cru",
+    "unidades": 1.0,
+    "un_medida_caseira": "escumadeira cheia",
+    "peso_aproximado_g": 100.0,
+    "energia_kcal_100g": 124,
+    "proteina_g_100g": 2.6,
+    "carboidrato_g_100g": 25.8,
+    "lipidios_g_100g": 1.0
   },
   {
     "alimento": "Aveia em flocos",

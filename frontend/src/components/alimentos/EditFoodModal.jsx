@@ -19,7 +19,7 @@ const styles = {
         width: '90%',
         maxWidth: '500px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-        position: 'relative', // Para o autocomplete
+        position: 'relative', 
     },
     inputGroup: {
         marginBottom: '16px',
@@ -42,7 +42,7 @@ const styles = {
         background: 'white',
         border: '1px solid #ddd',
         borderRadius: '4px',
-        width: 'calc(100% - 48px)', // Largura do modal - padding
+        width: 'calc(100% - 48px)',
         maxHeight: '150px',
         overflowY: 'auto',
         listStyle: 'none',
@@ -60,35 +60,25 @@ const styles = {
         gap: '8px',
         marginTop: '24px',
     },
-    measureInfo: { // Estilo para mostrar a medida caseira
-        fontSize: '14px', // Um pouco maior
-        color: '#555',
-        marginLeft: '8px', // Espaço após o input de unidades
-        whiteSpace: 'nowrap', // Evitar quebra de linha
-    },
-    inputSmall: { // Para o campo unidades
-        width: '80px', // Um pouco maior
-        padding: '8px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        boxSizing: 'border-box',
-    },
-    readOnlyInput: { // Estilo para o campo gramas (se quiser desabilitado)
-        width: '100%',
-        padding: '8px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        boxSizing: 'border-box',
-        backgroundColor: '#f0f0f0',
-        color: '#555',
-        cursor: 'not-allowed',
-    },
-    quantityContainer: { // Para alinhar unidades e medida caseira
+     quantityContainer: { // Para alinhar unidades e medida caseira
         display: 'flex',
-        alignItems: 'center', // Alinha verticalmente
+        alignItems: 'center',
+        gap: '12px', // Espaço entre os inputs
         marginBottom: '16px',
     },
-    // ... adicione :hover para autocompleteItem e botões
+    quantityInput: { // Input para Unidades e Gramas
+        width: '100px', // Tamanho fixo para os inputs numéricos
+        padding: '8px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        boxSizing: 'border-box',
+    },
+    measureLabel: {
+        flex: 1, // Ocupa o espaço restante
+        fontSize: '14px',
+        color: '#333',
+        paddingTop: '24px', // Alinha com os inputs (que têm label)
+    },
 };
 
 
@@ -97,126 +87,113 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
     // Estados do formulário
     const [nome, setNome] = useState(itemParaEditar.nome);
     const [gramas, setGramas] = useState(itemParaEditar.peso_g || 100);
-    const [unidades, setUnidades] = useState(1); // <-- NOVO ESTADO
-
-    // Estado para o item do DB que foi selecionado (com as colunas novas)
-    const [dbItemSelecionado, setDbItemSelecionado] = useState(null);
-
-    // Estados do Autocomplete
+    const [unidades, setUnidades] = useState(1);
+    
+    // Estados de controlo
+    const [medidaCaseira, setMedidaCaseira] = useState('g'); // Ex: "escumadeira cheia" ou "g"
+    const [pesoPorUnidade, setPesoPorUnidade] = useState(100); // Peso base para cálculo
     const [sugestoes, setSugestoes] = useState([]);
-
-    // --- Função Helper para calcular gramas ---
-    const calcularGramas = (itemDB, numUnidades) => {
-        if (itemDB && itemDB.peso_aproximado_g && itemDB.peso_aproximado_g > 0) {
-            // Peso por 1 unidade = peso_aproximado_g / unidades_do_db (ou 1 se unidades_do_db for 0 ou nulo)
-            const pesoPorUnidadePadrao = itemDB.peso_aproximado_g / (itemDB.unidades || 1);
-            return parseFloat((pesoPorUnidadePadrao * numUnidades).toFixed(1));
-        }
-        return 100; // Retorna um padrão se não for possível calcular
-    };
-
-    // --- Efeito para carregar dados iniciais e quando itemParaEditar muda ---
+    
+    // --- EFEITO INICIAL: Preenche o modal quando abre ---
     useEffect(() => {
         setNome(itemParaEditar.nome);
-        setSugestoes([]); // Limpa sugestões
-
-        // Tenta encontrar o item correspondente no foodDatabase
+        setSugestoes([]);
+        
+        const gramasIniciais = itemParaEditar.peso_g || 100;
+        
+        // Tenta encontrar o item na base de dados
         const itemMatch = foodDatabase.find(f => f.alimento.toLowerCase() === itemParaEditar.nome.toLowerCase());
-
+        
         if (itemMatch) {
-            setDbItemSelecionado(itemMatch);
-            // Calcula as unidades iniciais com base nas gramas atuais e no peso padrão do item
-            const pesoPorUnidadePadrao = itemMatch.peso_aproximado_g / (itemMatch.unidades || 1);
-            // Se pesoPorUnidadePadrao for 0, usa as unidades padrão do item (ou 1)
-            const unidadesIniciais = pesoPorUnidadePadrao > 0
-                ? Math.round((itemParaEditar.peso_g || itemMatch.peso_aproximado_g) / pesoPorUnidadePadrao)
-                : (itemMatch.unidades || 1);
+            // ENCONTROU O ALIMENTO NA BASE DE DADOS
+            
+            // 1. Calcula o peso de 1 unidade
+            // (ex: 100g / 1 unidade = 100)
+            const pesoBase = itemMatch.peso_aproximado_g / (itemMatch.unidades || 1);
+            setPesoPorUnidade(pesoBase);
+            setMedidaCaseira(itemMatch.un_medida_caseira || 'g');
 
-            const unidadesValidas = Math.max(1, unidadesIniciais || 1); // Garante pelo menos 1
-            setUnidades(unidadesValidas);
-            setGramas(calcularGramas(itemMatch, unidadesValidas)); // Define gramas iniciais
+            // 2. Adivinha as unidades com base nas gramas do scan
+            // (ex: 200g (do scan) / 100 (pesoBase) = 2 unidades)
+            const unidadesIniciais = parseFloat((gramasIniciais / pesoBase).toFixed(1)) || 1;
+            setUnidades(unidadesIniciais);
+            setGramas(gramasIniciais); // Mantém as gramas do scan
+
         } else {
-            // Se não encontrou no DB, reseta para valores padrão
-            setDbItemSelecionado(null);
+            // NÃO ENCONTROU (é um alimento customizado ou com nome diferente)
+            // Assume que as gramas do scan são para 1 unidade
             setUnidades(1);
-            setGramas(itemParaEditar.peso_g || 100); // Usa as gramas originais ou 100g
+            setGramas(gramasIniciais);
+            setPesoPorUnidade(gramasIniciais); // O peso base é o total de gramas
+            setMedidaCaseira('g'); // Medida padrão
         }
-    }, [itemParaEditar, foodDatabase]); // Re-executa se o item a editar ou a base de dados mudarem
+
+    }, [itemParaEditar, foodDatabase]); // Depende do item e da base de dados
+
 
     // --- Handlers de Eventos ---
 
-    // Quando o nome do alimento muda (digitação)
     const handleNomeChange = (e) => {
         const valor = e.target.value;
         setNome(valor);
-        setDbItemSelecionado(null); // Desvincula do item do DB
-        setUnidades(1); // Reseta unidades
-        // Poderia resetar gramas aqui também, ou deixar como está
-        // setGramas(100);
-
-        // Lógica do autocomplete
+        
         if (valor.length > 2) {
             const matches = foodDatabase.filter(food =>
                 food.alimento.toLowerCase().includes(valor.toLowerCase())
-            ).slice(0, 5);
+            ).slice(0, 5); 
             setSugestoes(matches);
         } else {
             setSugestoes([]);
         }
     };
 
-    // Quando clica numa sugestão do autocomplete
+    // O utilizador CLICOU numa sugestão do autocomplete
     const handleSugestaoClick = (food) => {
         setNome(food.alimento);
-        setDbItemSelecionado(food); // Vincula ao item do DB
-        const unidadesPadrao = Math.max(1, food.unidades || 1); // Usa unidades do DB (mínimo 1)
+        setSugestoes([]);
+
+        // 1. Calcula o peso de 1 unidade
+        const pesoBase = food.peso_aproximado_g / (food.unidades || 1);
+        setPesoPorUnidade(pesoBase);
+        
+        // 2. Define os padrões desse alimento
+        const unidadesPadrao = food.unidades || 1;
         setUnidades(unidadesPadrao);
-        setGramas(calcularGramas(food, unidadesPadrao)); // Calcula gramas com base nas unidades padrão
-        setSugestoes([]); // Fecha autocomplete
+        setGramas(food.peso_aproximado_g); // Define as gramas para o peso padrão
+        setMedidaCaseira(food.un_medida_caseira || 'g');
     };
 
-    // Quando o número de unidades é alterado
+    // O utilizador MUDOU O NÚMERO DE UNIDADES
     const handleUnidadesChange = (e) => {
-        const numUnidades = parseInt(e.target.value, 10);
-        const unidadesValidas = Math.max(1, numUnidades || 1); // Garante que é número e pelo menos 1
-        setUnidades(unidadesValidas);
-
-        // Recalcula gramas APENAS se houver um item do DB selecionado
-        if (dbItemSelecionado) {
-            setGramas(calcularGramas(dbItemSelecionado, unidadesValidas));
-        }
-        // Se não houver item selecionado, as gramas NÃO são recalculadas (mantêm o último valor)
+        const numUnidades = parseFloat(e.target.value) || 0;
+        setUnidades(numUnidades);
+        
+        // Recalcula as gramas (ex: 2 * 100 = 200)
+        const gramasCalculadas = parseFloat((pesoPorUnidade * numUnidades).toFixed(1));
+        setGramas(gramasCalculadas);
     };
-
-    // Quando as gramas são alteradas DIRETAMENTE
+    
+    // O utilizador MUDOU AS GRAMAS DIRETAMENTE
     const handleGramasChange = (e) => {
-        const gramasDireto = parseFloat(e.target.value) || 0;
-        setGramas(gramasDireto);
-        // Opcional: Se quiser que a edição direta de gramas desvincule do item do DB:
-        // setDbItemSelecionado(null);
-        // setUnidades(1); // Poderia resetar unidades também
-    };
-
-    // Botão "Usar medida padrão" (agora usa o estado 'unidades')
-    // Esta função talvez nem seja mais necessária se o clique na sugestão já define as unidades/gramas padrão
-    /*
-    const handleUsarMedidaPadrao = () => {
-        if (dbItemSelecionado) {
-             const unidadesPadrao = Math.max(1, dbItemSelecionado.unidades || 1);
-             setUnidades(unidadesPadrao);
-             setGramas(calcularGramas(dbItemSelecionado, unidadesPadrao));
+        const numGramas = parseFloat(e.target.value) || 0;
+        setGramas(numGramas);
+        
+        // Recalcula as unidades (ex: 200 / 100 = 2)
+        if (pesoPorUnidade > 0) {
+            const unidadesCalculadas = parseFloat((numGramas / pesoPorUnidade).toFixed(1));
+            setUnidades(unidadesCalculadas);
         }
     };
-    */
 
-    // Quando clica em Salvar
+
+    // O utilizador SALVOU
     const handleSalvar = () => {
-        // Usa o item selecionado ou tenta encontrar pelo nome final
-        const itemFinalDoDB = dbItemSelecionado || foodDatabase.find(f => f.alimento.toLowerCase() === nome.toLowerCase());
+        // Tenta encontrar o item final do DB (para obter macros)
+        const itemFinalDoDB = foodDatabase.find(f => f.alimento.toLowerCase() === nome.toLowerCase());
 
         let novosMacros = {};
 
-        // Recalcula macros com base nas GRAMAS finais e nos dados de 100g do item do DB (se encontrado)
+        // A lógica de cálculo de macros usa as 'gramas' finais
         if (itemFinalDoDB) {
             const ratio = gramas / 100.0;
             novosMacros = {
@@ -225,34 +202,32 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
                 carbs: (itemFinalDoDB.carboidrato_g_100g || 0) * ratio,
                 fats: (itemFinalDoDB.lipidios_g_100g || 0) * ratio,
             };
-        } else if (nome.toLowerCase() === itemParaEditar.nome.toLowerCase() && itemParaEditar.peso_g > 0) {
-            // Nome não mudou E peso original > 0: Recalcula proporcionalmente
-             const ratio = gramas / itemParaEditar.peso_g;
-             novosMacros = {
-                 kcal: (itemParaEditar.kcal || 0) * ratio,
-                 protein: (itemParaEditar.protein || 0) * ratio,
-                 carbs: (itemParaEditar.carbs || 0) * ratio,
-                 fats: (itemParaEditar.fats || 0) * ratio,
-             };
+        } else if (nome.toLowerCase() === itemParaEditar.nome.toLowerCase()) {
+            // Nome não mudou (mas não foi achado no DB): Recalcula proporcionalmente
+            const ratio = gramas / (itemParaEditar.peso_g || 100);
+            novosMacros = {
+                kcal: (itemParaEditar.kcal || 0) * ratio,
+                protein: (itemParaEditar.protein || 0) * ratio,
+                carbs: (itemParaEditar.carbs || 0) * ratio,
+                fats: (itemParaEditar.fats || 0) * ratio,
+            };
         } else {
-             // Nome mudou e não achou no DB OU peso original era 0: Zera macros (não sabe calcular)
-             novosMacros = { kcal: 0, protein: 0, carbs: 0, fats: 0 };
+            // Nome mudou e não foi achado no DB: Zera macros
+            novosMacros = { kcal: 0, protein: 0, carbs: 0, fats: 0 };
         }
 
-        // Monta o objeto final atualizado
         const itemAtualizado = {
-            ...itemParaEditar,      // Mantém propriedades originais (ID, categoria, etc.)
-            ...novosMacros,         // Sobrescreve macros com os recalculados
-            nome: nome,             // Nome atualizado
-            peso_g: gramas,         // Gramas atualizadas (calculadas ou editadas)
-            confianca: 'corrigido', // Marca como corrigido
+            ...itemParaEditar, 
+            ...novosMacros,     
+            nome: nome,
+            peso_g: gramas, // Usa o estado final de gramas
+            confianca: 'corrigido', 
         };
 
-        onSave(itemAtualizado); // Envia para o componente pai
+        onSave(itemAtualizado);
     };
 
 
-    // --- JSX / Renderização ---
     return (
         <div style={styles.modalBackdrop} onClick={onClose}>
             <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
@@ -260,7 +235,7 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
 
                 {/* --- Campo Nome (com Autocomplete) --- */}
                 <div style={styles.inputGroup}>
-                    <label style={styles.label} htmlFor="food-name">Alimento</label>
+                   <label style={styles.label} htmlFor="food-name">Alimento</label>
                     <input
                         id="food-name"
                         type="text"
@@ -271,12 +246,10 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
                     />
                     {sugestoes.length > 0 && (
                         <ul style={styles.autocompleteList}>
-                            {sugestoes.map((food) => ( // Removido index desnecessário
+                            {sugestoes.map((food, index) => (
                                 <li
-                                    // Usar uma chave mais estável se 'food' tiver um ID único
-                                    key={food.alimento + food.peso_aproximado_g} 
+                                    key={food.alimento + index}
                                     style={styles.autocompleteItem}
-                                    // Usar onMouseDown para executar antes do onBlur do input
                                     onMouseDown={() => handleSugestaoClick(food)}
                                 >
                                     {food.alimento}
@@ -286,60 +259,53 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
                     )}
                 </div>
 
-                 {/* --- Campo Quantidade (Unidades + Medida Caseira) --- */}
-                <div style={styles.quantityContainer}> {/* Container para alinhar */}
-                    <div style={{ flexShrink: 0 }}> {/* Evita que o label encolha */}
-                        <label style={styles.label} htmlFor="food-units">Quantidade</label>
+                {/* --- Campos Quantidade (Sincronizados) --- */}
+                <div style={styles.quantityContainer}> 
+                    
+                    {/* Input de Unidades */}
+                    <div>
+                        <label style={styles.label} htmlFor="food-units">Unidades</label>
                         <input
                             id="food-units"
                             type="number"
-                            min="1" // Input de número aceita min
-                            step="0.5" // Permite meia unidade (opcional)
+                            step="0.1" // Permite 0.5, 1.5, etc.
                             value={unidades}
                             onChange={handleUnidadesChange}
-                            style={styles.inputSmall} // Input menor
-                            // Desabilita se não houver um item do DB selecionado para basear o cálculo
-                            disabled={!dbItemSelecionado}
+                            style={styles.quantityInput}
                         />
                     </div>
-                    {/* Mostra a medida caseira apenas se houver item selecionado */}
-                    {dbItemSelecionado && (
-                         <span style={styles.measureInfo}>
-                             {dbItemSelecionado.un_medida_caseira || 'unidade(s)'}
-                         </span>
-                    )}
-                </div>
 
-                {/* --- Campo Gramas (Calculado/Editável) --- */}
-                <div style={styles.inputGroup}>
-                    <label style={styles.label} htmlFor="food-grams">
-                        {/* Muda o label se as gramas forem calculadas */}
-                        {dbItemSelecionado ? "Peso Total Estimado (g)" : "Peso Total (g)"}
-                    </label>
-                    <input
-                        id="food-grams"
-                        type="number"
-                        min="0"
-                        step="1" // Ajuste conforme a precisão desejada
-                        value={gramas}
-                        onChange={handleGramasChange}
-                        // Descomente a linha abaixo para tornar apenas leitura quando calculado
-                        // readOnly={!!dbItemSelecionado}
-                        style={styles.input}
-                        // style={dbItemSelecionado ? styles.readOnlyInput : styles.input} // Estilo diferente se for readOnly
-                    />
-                </div>
+                    {/* Mostra a Medida Caseira */}
+                    <span style={styles.measureLabel}>
+                        {medidaCaseira}
+                    </span>
 
+                    {/* Input de Gramas */}
+                    <div>
+                        <label style={styles.label} htmlFor="food-grams">Gramas</label>
+                        <input
+                            id="food-grams"
+                            type="number"
+                            step="10"
+                            value={gramas}
+                            onChange={handleGramasChange}
+                            style={styles.quantityInput}
+                        />
+                    </div>
+
+                    <span style={styles.measureLabel}>g</span>
+
+                </div>
 
                 {/* --- Botões de Ação --- */}
                 <div style={styles.buttonContainer}>
-                    <button type="button" onClick={onClose} style={{background: '#eee'}}>
-                        Cancelar
-                    </button>
-                    <button type="button" onClick={handleSalvar} style={{background: '#007bff', color: 'white'}}>
-                        Salvar Alterações
-                    </button>
-                </div>
+                   <button type="button" onClick={onClose} style={{background: '#eee'}}>
+                       Cancelar
+                   </button>
+                   <button type="button" onClick={handleSalvar} style={{background: '#007bff', color: 'white'}}>
+                       Salvar Alterações
+                   </button>
+               </div>
 
             </div>
         </div>
