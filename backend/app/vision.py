@@ -22,7 +22,7 @@ try:
         raise ValueError("A variável de ambiente GEMINI_API_KEY não está definida.")
     genai.configure(api_key=api_key)
     # Use o nome do seu modelo (ex: 'models/gemini-1.5-flash' ou 'models/gemini-2.5-flash')
-    gemini_model = genai.GenerativeModel('models/gemini-1.5-flash') 
+    gemini_model = genai.GenerativeModel('models/gemini-2.5-flash') 
 except Exception as e:
     logger.error(f"Erro ao configurar a API do Gemini: {e}")
     gemini_model = None
