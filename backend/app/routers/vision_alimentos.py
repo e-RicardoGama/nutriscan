@@ -10,7 +10,7 @@ import asyncio
 # --- Imports Explícitos (Mantendo os seus padrões) ---
 from app.database import get_db
 from app import crud
-from app import models # ✅ ADICIONADO para aceder a models.Alimento
+from app.models.alimentos import Alimento # ✅ ADICIONADO para aceder a models.Alimento
 from app.models.usuario import Usuario 
 from app.models.refeicoes import RefeicaoSalva, AlimentoSalvo
 from app.models.alimentos import Alimento 
@@ -47,15 +47,15 @@ router = APIRouter(
 # ==========================================================
 # ✅ FUNÇÃO DE "AUTO-APRENDIZAGEM" (Vive aqui, pois usa DB)
 # ==========================================================
-def get_or_create_nutritional_data(db: Session, alimento_nome: str) -> models.Alimento:
+def get_or_create_nutritional_data(db: Session, alimento_nome: str) -> Alimento:
     """
     Procura um alimento no DB (case-insensitive). 
     Se não encontrar, chama o 'vision.py' para obter os dados do Gemini e salva no DB.
     """
     
     # 1. Tenta encontrar no DB
-    alimento_db = db.query(models.Alimento).filter(
-        func.lower(models.Alimento.alimento) == func.lower(alimento_nome)
+    alimento_db = db.query(Alimento).filter(
+        func.lower(Alimento.alimento) == func.lower(alimento_nome)
     ).first()
     
     if alimento_db:
@@ -76,7 +76,7 @@ def get_or_create_nutritional_data(db: Session, alimento_nome: str) -> models.Al
         print(f"INFO: Gemini respondeu. A salvar '{alimento_nome}' no DB...")
         
         # (Ajuste os campos 'default' conforme o seu models.Alimento)
-        novo_alimento_db = models.Alimento(
+        novo_alimento_db = Alimento(
             alimento=dados_nutricionais.get("alimento", alimento_nome),
             energia_kcal_100g=float(dados_nutricionais.get("energia_kcal_100g", 0)),
             proteina_g_100g=float(dados_nutricionais.get("proteina_g_100g", 0)),
@@ -106,7 +106,7 @@ def get_or_create_nutritional_data(db: Session, alimento_nome: str) -> models.Al
         print(f"ERRO: Falha ao consultar o Gemini ou salvar no DB: {e}")
         db.rollback()
         # Retorna um "Alimento Vazio" para não quebrar a análise
-        return models.Alimento(
+        return Alimento(
              alimento=alimento_nome, energia_kcal_100g=0, proteina_g_100g=0, 
              carboidrato_g_100g=0, lipidios_g_100g=0, unidades=1, 
              un_medida_caseira="g", peso_aproximado_g=100, 
