@@ -11,7 +11,7 @@ import { Loader2, Home, ArrowLeft } from 'lucide-react';
 
 // 🔥 REUTILIZE SEUS COMPONENTES E INTERFACES!
 // Importe a interface da sua página principal
-import { AnaliseCompletaResponse } from '../../scan/page';
+import { AnaliseCompletaResponse } from '../../../interfaces/api.types';
 // Importe o componente que você já criou para mostrar a análise
 import AnalysisResults from '../../../components/AnalysisResults';
 
