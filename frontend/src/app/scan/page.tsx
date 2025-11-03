@@ -11,62 +11,14 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import { ChevronDown, Check, Pencil, Trash2, Home as HomeIcon } from 'lucide-react';
 import EditFoodModal from '../../components/alimentos/EditFoodModal.jsx';
-import { AnaliseCompletaResponse } from '../../interfaces/api.types';
+import {
+  ScanRapidoAlimento,
+  ScanRapidoResponse,
+  AnaliseCompletaResponse,
+  FoodDatabaseItem,
+  ModalAlimentoData
+} from '../../interfaces/api.types';
 
-// --- Interfaces da API ---
-
-// (Scan Rápido)
-export interface ScanRapidoAlimento {
-  nome: string;
-  categoria: string;
-  quantidade_estimada_g: number;
-  confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
-  calorias_estimadas: number;
-  medida_caseira_sugerida?: string;
-}
-export interface ScanRapidoResultado {
-  modalidade?: string;
-  alimentos_extraidos?: ScanRapidoAlimento[];
-  resumo_nutricional?: {
-    total_calorias: number;
-    total_proteinas_g: number;
-    total_carboidratos_g: number;
-    total_gorduras_g: number;
-  };
-  alertas?: string[];
-  erro?: string;
-}
-export interface ScanRapidoResponse {
-  status: string;
-  modalidade: string;
-  resultado: ScanRapidoResultado;
-  timestamp: string;
-}
-
-
-// Interface para os dados do nosso food_database.json
-export interface FoodDatabaseItem {
-  alimento: string;
-  un_medida_caseira: string;
-  peso_aproximado_g: number;
-  energia_kcal_100g: number;
-  proteina_g_100g: number;
-  carboidrato_g_100g: number;
-  lipidios_g_100g: number;
-}
-
-// Interface para os dados que o modal usa
-export interface ModalAlimentoData {
-  nome: string;
-  peso_g: number;
-  kcal: number;
-  protein: number;
-  carbs: number;
-  fats: number;
-  confianca: 'alta' | 'media' | 'baixa' | 'corrigido' | string;
-  categoria?: string;
-}
-// --- Fim das Interfaces ---
 
 
 // --- UTIL: separa vitaminas e minerais a partir de uma lista mista ---
