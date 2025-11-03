@@ -32,14 +32,24 @@ origins = [
     "https://nutri.api.br",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://0.0.0.0:3000",  # Adicione esta linha
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type", "X-Requested-With"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=[
+        "Authorization", 
+        "Content-Type", 
+        "X-Requested-With",
+        "Accept",
+        "Origin",
+        "Access-Control-Request-Method",
+        "Access-Control-Request-Headers"
+    ],
+    expose_headers=["*"]  # Adicione esta linha
 )
 
 # ✅ MIDDLEWARE DE HOSTS CONFIÁVEIS (Produção)
@@ -79,19 +89,23 @@ def api_info():
 
 # ✅ MIDDLEWARE DE LOG E SEGURANÇA
 @app.middleware("http")
-async def add_security_headers(request: Request, call_next):
-    start_time = time.time()
+async def debug_cors_middleware(request: Request, call_next):
+    # Log da requisição recebida
+    origin = request.headers.get("origin")
+    method = request.method
+    path = request.url.path
     
+    print(f"🔍 [CORS DEBUG] {method} {path} from origin: {origin}")
+    
+    # Processa a requisição
     response = await call_next(request)
     
-    # Headers de segurança
-    response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["X-Frame-Options"] = "DENY"
-    response.headers["X-XSS-Protection"] = "1; mode=block"
+    # Adiciona headers de debug
+    response.headers["X-CORS-Debug"] = f"Origin: {origin}, Method: {method}"
     
-    # Log de performance
-    process_time = time.time() - start_time
-    response.headers["X-Process-Time"] = str(process_time)
+    # Log da resposta
+    print(f"🔍 [CORS DEBUG] Response status: {response.status_code}")
+    print(f"🔍 [CORS DEBUG] Response CORS headers: {dict(response.headers)}")
     
     return response
 

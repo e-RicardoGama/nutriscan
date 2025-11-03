@@ -1,694 +1,139 @@
-// frontend_nutri/src/app/page.tsx - VERSÃO COMPLETA E CORRIGIDA (FLUXO PROGRESSIVO)
-
+// src/app/page.tsx
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import api from '../services/api';
 import { useRouter } from 'next/navigation';
-import { AxiosError } from 'axios';
-import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
-import { ChevronDown, Check, Pencil, Trash2 } from 'lucide-react';
-import EditFoodModal from '../components/alimentos/EditFoodModal.jsx';
+import Navbar from '../components/Navbar';
+import GoalCircles from '../components/dashboard/GoalCircles';
+import DailyFeed from '../components/dashboard/DailyFeed';
+import { Plus } from 'lucide-react';
+import api from '../services/api';
 
-// --- Interfaces da API ---
-
-// (Scan Rápido)
-interface ScanRapidoAlimento { nome: string; categoria: string; quantidade_estimada_g: number; confianca: 'alta' | 'media' | 'baixa' | 'corrigido'; calorias_estimadas: number; medida_caseira_sugerida?: string;}
-interface ScanRapidoResultado { modalidade?: string; alimentos_extraidos?: ScanRapidoAlimento[]; resumo_nutricional?: { total_calorias: number; total_proteinas_g: number; total_carboidratos_g: number; total_gorduras_g: number; }; alertas?: string[]; erro?: string; }
-interface ScanRapidoResponse { status: string; modalidade: string; resultado: ScanRapidoResultado; timestamp: string; }
-
-// (Análise Detalhada via Lista)
-interface AlimentoDetalhado { nome: string; quantidade_gramas: number; metodo_preparo: string; medida_caseira_sugerida?: string; }
-interface Macronutrientes { proteinas_g: number; carboidratos_g: number; gorduras_g: number; }
-interface AnaliseNutricional { calorias_totais: number; macronutrientes: Macronutrientes; vitaminas_minerais: string[]; }
-interface Recomendacoes { pontos_positivos: string[]; sugestoes_balanceamento: string[]; alternativas_saudaveis: string[]; }
-
-// Resposta do endpoint /refeicoes/analisar-lista-detalhada
-interface AnaliseCompletaResponse { 
-    detalhes_prato: { alimentos: AlimentoDetalhado[]; }; 
-    analise_nutricional: AnaliseNutricional; 
-    recomendacoes: Recomendacoes; 
-    timestamp?: string; 
+interface DailyTotals {
+  total_calorias: number;
+  total_proteinas_g: number;
+  total_carboidratos_g: number;
+  total_gorduras_g: number;
 }
 
-// Interface para os dados do nosso food_database.json
-interface FoodDatabaseItem {
-  alimento: string;
-  un_medida_caseira: string;
-  peso_aproximado_g: number;
-  energia_kcal_100g: number;
-  proteina_g_100g: number;
-  carboidrato_g_100g: number;
-  lipidios_g_100g: number;
+interface MealSummary {
+  id: number;
+  tipo?: string;
+  kcal_estimadas?: number;
+  imagem_url?: string | null;
+  proteinas_g?: number | null;
+  carboidratos_g?: number | null;
+  gorduras_g?: number | null;
+  alimentos_principais?: string[];
+  suggested_name?: string;
 }
 
-// Interface para os dados que o modal usa
-interface ModalAlimentoData {
-  nome: string;
-  peso_g: number;
-  kcal: number;
-  protein: number;
-  carbs: number;
-  fats: number;
-  confianca: 'alta' | 'media' | 'baixa' | 'corrigido' | string;
-  categoria?: string;
-}
-// --- Fim das Interfaces ---
+export default function DashboardHome() {
+  const router = useRouter();
+  const { usuario, carregando, logout } = useAuth();
+  
+  const [totals, setTotals] = useState<DailyTotals | null>(null);
+  const [todaysMeals, setTodaysMeals] = useState<MealSummary[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Proteção de Rota
+  useEffect(() => {
+    if (!carregando && !usuario) {
+      router.push('/login');
+    }
+  }, [usuario, carregando, router]);
 
-// --- COMPONENTE DO ACORDEÃO (sem alterações) ---
-type AccordionItemProps = {
-  title: string;
-  children: React.ReactNode;
-  isOpen: boolean;
-  onClick: () => void;
-  colorClasses: string;
-};
+  // Busca os dados do Dashboard
+  useEffect(() => {
+    if (usuario) {
+      const fetchData = async () => {
+        try {
+          setLoadingData(true);
+          setError(null);
+          
+          const totalsResponse = await api.get<DailyTotals>('/api/v1/refeicoes/resumo-diario');
+          const mealsResponse = await api.get<MealSummary[]>('/api/v1/refeicoes/refeicoes-hoje');
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onClick, colorClasses }) => {
+          setTotals(totalsResponse.data);
+          setTodaysMeals(mealsResponse.data);
+
+        } catch (err) {
+          console.error("Erro ao buscar dados do dashboard:", err);
+          setError("Não foi possível carregar seu resumo. Tente novamente.");
+        } finally {
+          setLoadingData(false);
+        }
+      };
+      fetchData();
+    }
+  }, [usuario]);
+
+  const handleScanMealClick = () => {
+    router.push('/scan'); 
+  };
+
+  // ✅ FUNÇÃO PARA VISUALIZAR ANÁLISE DETALHADA
+  const handleViewMealAnalysis = (mealId: number) => {
+    // Navega para a página de análise detalhada
+    router.push(`/analysis/${mealId}`);
+  };
+
+  // ✅ FUNÇÃO PARA CLIQUE NO CARD INTEIRO (DETALHES DA REFEIÇÃO)
+  const handleMealClick = (mealId: number) => {
+    // Pode ser usado para abrir um modal ou navegar para detalhes
+    console.log('Abrir detalhes da refeição:', mealId);
+    // router.push(`/meal/${mealId}`); // Se tiver uma página de detalhes
+  };
+
+  if (carregando || !usuario) {
+    return <div className="flex justify-center items-center min-h-screen">Carregando...</div>;
+  }
+
   return (
-    <div className={`border rounded-lg shadow-sm overflow-hidden ${colorClasses}`}>
-      <button
-        onClick={onClick}
-        className="w-full flex justify-between items-center p-4 font-semibold text-left"
-      >
-        <span>{title}</span>
-        <ChevronDown
-          className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-        />
-      </button>
-      {isOpen && (
-        <div className="p-4 pt-0 text-gray-700 bg-white">
-          {children}
-        </div>
-      )}
+    <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
+      <Navbar onLogout={logout} />
+      <main className="flex-grow w-full max-w-4xl mx-auto p-4 lg:p-8">
+        
+        {loadingData && (
+          <div className="text-center text-gray-600">Carregando seu resumo...</div>
+        )}
+        
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center">{error}</div>
+        )}
+
+        {!loadingData && !error && (
+          <>
+            {/* Círculos de Totais Consumidos */}
+            <h2 className="text-2xl font-bold text-green-800 mb-4">Consumo de Hoje</h2>
+            {totals ? (
+              <GoalCircles totals={totals} />
+            ) : (
+              <p className='text-gray-500 text-center'>Sem dados de consumo hoje.</p>
+            )}
+
+            {/* Feed Visual de Refeições */}
+            <h2 className="text-2xl font-bold text-green-800 mt-10 mb-4">Suas Refeições</h2>
+            <DailyFeed 
+              meals={todaysMeals} 
+              onAddMealClick={handleScanMealClick}
+              onViewMealClick={handleViewMealAnalysis} // ✅ Link para análise
+              onMealClick={handleMealClick} // ✅ Clique no card
+            />
+          </>
+        )}
+
+        {/* Botão de Ação Rápida (FAB) */}
+        <button
+          onClick={handleScanMealClick}
+          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 bg-blue-500 text-white rounded-full p-4 shadow-lg hover:bg-blue-600 transition-transform hover:scale-110 z-50"
+          title="Analisar nova refeição"
+        >
+          <Plus size={28} />
+        </button>
+      </main>
     </div>
   );
-};
-
-
-// --- COMPONENTE SCANRESULTS (Com handlers e botão confirmar sempre ativo) ---
-const ScanResults = ({ 
-    scanResult,
-    onConfirm,
-    onEdit,
-    onDelete
-}: { 
-    scanResult: ScanRapidoResponse | null;
-    onConfirm: (index: number) => void;
-    onEdit: (index: number) => void;
-    onDelete: (index: number) => void;
-}) => {
-    if (!scanResult?.resultado) return null;
-
-    const { alimentos_extraidos, alertas } = scanResult.resultado;
-
-    const confiancaStyles: Record<ScanRapidoAlimento['confianca'], string> = {
-        alta: 'bg-green-100 text-green-800',
-        media: 'bg-yellow-100 text-yellow-800',
-        baixa: 'bg-red-100 text-red-800',
-        corrigido: 'bg-blue-100 text-blue-800',
-    };
-
-    return (
-        <>
-            {alimentos_extraidos && alimentos_extraidos.length > 0 && (
-                <div className="mb-6">
-                    <h2 className="font-semibold text-md text-green-800 mb-2 text-left">Alimentos Identificados:</h2>
-                    <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md">
-                        <table className="min-w-full bg-white">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="py-3 px-4 text-left text-xs font-semibold uppercase text-green-700">Alimento</th>
-                                    <th className="py-3 px-4 text-center text-xs font-semibold uppercase text-green-700">Ações</th>
-                                    <th className="py-3 px-4 text-right text-xs font-semibold uppercase text-green-700">Calorias</th>
-                                    <th className="py-3 px-4 text-center text-xs font-semibold uppercase text-green-700">Confiança</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {alimentos_extraidos.map((alimento, index) => (
-                                    <tr key={index} className="hover:bg-gray-50">
-                                        <td className="py-3 px-4 text-sm font-medium text-gray-900">
-                                            {alimento.nome}
-                                            <span className="block text-xs text-gray-500">{alimento.quantidade_estimada_g}g ({alimento.categoria})</span>
-                                        </td>
-                                        <td className="py-3 px-4 text-center">
-                                            <div className="flex justify-center items-center space-x-2">
-                                                <button 
-                                                    onClick={() => onConfirm(index)}
-                                                    className="p-1 text-green-600 rounded-full hover:bg-green-100" // Botão sempre ativo
-                                                    title="Confirmar"
-                                                >
-                                                    <Check size={18} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => onEdit(index)}
-                                                    className="p-1 text-blue-600 rounded-full hover:bg-blue-100"
-                                                    title="Editar"
-                                                >
-                                                    <Pencil size={18} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => onDelete(index)}
-                                                    className="p-1 text-red-600 rounded-full hover:bg-red-100"
-                                                    title="Excluir"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                        
-                                        <td className="py-3 px-4 text-sm text-gray-500 text-right">{alimento.calorias_estimadas}</td>
-                                        <td className="py-3 px-4 text-center">
-                                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${confiancaStyles[alimento.confianca] || confiancaStyles.baixa}`}>
-                                                {alimento.confianca}
-                                            </span>
-                                        </td>
-                                        
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            )}
-            {alertas && alertas.length > 0 && (
-                <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-left">
-                    <h4 className="font-semibold text-yellow-800 mb-2">Alertas:</h4>
-                    <ul className="list-disc list-inside text-sm text-yellow-700">
-                        {alertas.map((alerta, index) => <li key={index}>{alerta}</li>)}
-                    </ul>
-                </div>
-            )}
-        </>
-    );
-};
-
-
-// --- COMPONENTE ANALYSISRESULTS ("read-only", simplificado) ---
-const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaResponse | null }) => {
-    const [openAccordion, setOpenAccordion] = useState<string | null>(null);
-
-    if (!analysisResult) {
-        return null;
-    }
-
-    const handleAccordionClick = (id: string) => {
-        setOpenAccordion(currentOpen => (currentOpen === id ? null : id));
-    };
-
-    const { detalhes_prato, analise_nutricional, recomendacoes } = analysisResult;
-    
-    return (
-        <div className="space-y-8 mt-6 pt-6 border-t">
-            {detalhes_prato?.alimentos?.length > 0 && (
-                <div className="mb-6">
-                    <h3 className="font-semibold text-md text-green-800 mb-2 text-left">Análise Detalhada:</h3>
-                    <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md">
-                        <table className="min-w-full bg-white">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="py-3 px-4 text-left text-xs font-semibold uppercase text-blue-700">Alimento</th>
-                                    <th className="py-3 px-4 text-right text-xs font-semibold uppercase text-blue-700">Quantidade (g)</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {detalhes_prato.alimentos.map((alimento, index) => (
-                                    <tr key={index} className="hover:bg-gray-50">
-                                        <td className="py-3 px-4 text-sm font-medium text-gray-900">{alimento.nome}</td>
-                                        <td className="py-3 px-4 text-sm text-gray-500 text-right">{alimento.quantidade_gramas}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            )}
-
-            {/* Análise Nutricional */}
-            <div className="mb-6 text-left">
-                <h3 className="font-semibold text-md text-green-800 mb-2">Análise Nutricional:</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-blue-800">Calorias Totais</h4>
-                        <p className="text-xl font-bold text-blue-600">{analise_nutricional.calorias_totais} kcal</p>
-                    </div>
-                    <div className="bg-green-50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-green-800">Macronutrientes</h4>
-                        <p className="text-sm text-green-700">
-                            Proteínas: {analise_nutricional.macronutrientes?.proteinas_g}g<br/>
-                            Carboidratos: {analise_nutricional.macronutrientes?.carboidratos_g}g<br/>
-                            Gorduras: {analise_nutricional.macronutrientes?.gorduras_g}g
-                        </p>
-                    </div>
-                </div>
-                {analise_nutricional.vitaminas_minerais?.length > 0 && (
-                    <div className="mt-4 bg-purple-50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-purple-800">Vitaminas e Minerais Principais</h4>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                            {analise_nutricional.vitaminas_minerais.map((vitamina, index) => (
-                                <span key={index} className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">
-                                    {vitamina}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-            
-            {/* Recomendações */}
-            <div className="mb-6">
-                <h3 className="font-semibold text-lg text-green-800 mb-3 text-left">Recomendações:</h3>
-                <div className="space-y-3">
-                    <AccordionItem title="Pontos Positivos" isOpen={openAccordion === 'positivos'} onClick={() => handleAccordionClick('positivos')} colorClasses="bg-green-50 border-green-200 text-green-800">
-                        <ul className="list-disc list-inside text-sm space-y-1 text-left">{recomendacoes.pontos_positivos.map((ponto, index) => <li key={index}>{ponto}</li>)}</ul>
-                    </AccordionItem>
-                    <AccordionItem title="Sugestões de Balanceamento" isOpen={openAccordion === 'balanceamento'} onClick={() => handleAccordionClick('balanceamento')} colorClasses="bg-orange-50 border-orange-200 text-orange-800">
-                        <ul className="list-disc list-inside text-sm space-y-1 text-left">{recomendacoes.sugestoes_balanceamento.map((sugestao, index) => <li key={index}>{sugestao}</li>)}</ul>
-                    </AccordionItem>
-                    <AccordionItem title="Alternativas Saudáveis" isOpen={openAccordion === 'alternativas'} onClick={() => handleAccordionClick('alternativas')} colorClasses="bg-sky-50 border-sky-200 text-sky-800">
-                        <ul className="list-disc list-inside text-sm space-y-1 text-left">{recomendacoes.alternativas_saudaveis.map((alternativa, index) => <li key={index}>{alternativa}</li>)}</ul>
-                    </AccordionItem>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-
-// --- COMPONENTE PRINCIPAL DA PÁGINA ---
-export default function Home() {
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const [fotoCapturada, setFotoCapturada] = useState<File | null>(null);
-//    const [currentImage, setCurrentImage] = useState<File | null>(null); // ✅ VARIÁVEL ADICIONADA
-    const [totais, setTotais] = useState({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
-    const router = useRouter();
-    const { usuario, carregando, logout } = useAuth();
-
-    // Estados para o fluxo
-    const [loading, setLoading] = useState<boolean>(false); 
-    const [apiError, setApiError] = useState<string | null>(null); 
-    const [scanResult, setScanResult] = useState<ScanRapidoResponse | null>(null);
-    
-    const [loadingAnalysis, setLoadingAnalysis] = useState<boolean>(false);
-    const [analysisError, setAnalysisError] = useState<string | null>(null);
-    const [analysisResult, setAnalysisResult] = useState<AnaliseCompletaResponse | null>(null);
-
-    const [foodDatabase, setFoodDatabase] = useState<FoodDatabaseItem[]>([]); // Guarda o food_database.json
-    const [editingItem, setEditingItem] = useState<{ index: number, data: ModalAlimentoData } | null>(null); // Guarda o item sendo editado
-    
-    // Proteção de Rota
-    useEffect(() => {
-        if (!carregando && !usuario) {
-            router.push('/login');
-        }
-    }, [usuario, carregando, router]);
-
-    // Calcula os totais nutricionais
-    useEffect(() => {
-        if (analysisResult?.analise_nutricional) {
-            const { calorias_totais, macronutrientes } = analysisResult.analise_nutricional;
-            setTotais({ kcal: calorias_totais || 0, protein: macronutrientes?.proteinas_g || 0, carbs: macronutrientes?.carboidratos_g || 0, fats: macronutrientes?.gorduras_g || 0 });
-        } else if (scanResult?.resultado?.resumo_nutricional) {
-            const { total_calorias, total_proteinas_g, total_carboidratos_g, total_gorduras_g } = scanResult.resultado.resumo_nutricional;
-            setTotais({ kcal: total_calorias || 0, protein: total_proteinas_g || 0, carbs: total_carboidratos_g || 0, fats: total_gorduras_g || 0 });
-        } else if (scanResult?.resultado?.alimentos_extraidos) {
-            let kcal = 0;
-            scanResult.resultado.alimentos_extraidos.forEach(alimento => { kcal += alimento.calorias_estimadas || 0; });
-            setTotais({ kcal: kcal, protein: 0, carbs: 0, fats: 0 });
-        } else {
-            setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
-        }
-    }, [analysisResult, scanResult]);
-
-    useEffect(() => {
-        // Carrega a base de dados de alimentos da pasta /public
-        fetch('/food_database.json')
-            .then(res => res.json())
-            .then(data => setFoodDatabase(data))
-            .catch(err => console.error("Erro ao carregar food_database.json:", err));
-    }, []); // O array vazio [] garante que isso rode apenas uma vez
-
-    // Função para rodar o Scan Rápido
-    const runScan = async (file: File) => {
-        setLoading(true);
-        setApiError(null);
-        setScanResult(null);
-        setAnalysisResult(null); 
-        setAnalysisError(null); 
-
-        const formData = new FormData();
-        formData.append('imagem', file); 
-        
-        try {
-            const response = await api.post<ScanRapidoResponse>('/api/v1/refeicoes/scan-rapido', formData);
-            setScanResult(response.data);
-        } catch (error) {
-            // ✅ CORREÇÃO 1: Usando const e simplificado
-            const defaultErrorMessage = "Ocorreu um erro ao escanear a imagem.";
-            if (error instanceof AxiosError) {
-                const detail = error.response?.data?.detail;
-                setApiError(typeof detail === 'string' ? detail : error.message || defaultErrorMessage);
-            } else if (error instanceof Error) {
-                setApiError(error.message);
-            } else {
-                setApiError(defaultErrorMessage);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // ✅ CORREÇÃO 3: Removido o eslint-disable
-    useEffect(() => {
-        if (fotoCapturada) {
-            runScan(fotoCapturada);
-        }
-    }, [fotoCapturada]);
-
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            setImageUrl(URL.createObjectURL(file));
-            setFotoCapturada(file); 
-        }
-        event.target.value = '';
-    };
-
-    const handleClearScreen = () => {
-        setImageUrl(null);
-        setFotoCapturada(null);
-        setAnalysisResult(null);
-        setScanResult(null);
-        setApiError(null);
-        setAnalysisError(null);
-        setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
-    };
-
-    // ✅ CORREÇÃO 4, 5, 6: Handlers para ScanResult FUNCIONAIS
-    const handleConfirmFood = (indexToConfirm: number) => {
-        setScanResult(prevResult => {
-            if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-            const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
-                if (index === indexToConfirm) {
-                    return { ...item, confianca: 'alta' as const }; 
-                }
-                return item;
-            });
-             return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos } };
-        });
-    };
-
-    const handleEditFood = (indexToEdit: number) => {
-        const alimentoOriginal = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
-        
-        if (alimentoOriginal) {
-            
-            // --- CORREÇÃO AQUI ---
-            const itemParaModal = {
-                // 1. Espalhe o objeto original primeiro
-                ...alimentoOriginal,
-                
-                // 2. Mapeie os nomes das propriedades para o que o modal espera
-                peso_g: alimentoOriginal.quantidade_estimada_g,
-                kcal: alimentoOriginal.calorias_estimadas,
-                
-                // 3. Adicione as propriedades que faltam e que o modal usa
-                protein: 0, 
-                carbs: 0,
-                fats: 0
-                
-                // As propriedades 'nome' e 'confianca' já vêm do '...alimentoOriginal'
-            };
-            // --- FIM DA CORREÇÃO ---
-            
-            // Abre o modal
-            setEditingItem({
-                index: indexToEdit,
-                data: itemParaModal
-            });
-        }
-    };
-
-    // Função para fechar o modal (passada para o componente)
-    const handleCloseModal = () => {
-        setEditingItem(null);
-    };
-
-    // Função para salvar os dados (passada para o componente)
-    const handleSaveEdit = (itemAtualizadoDoModal: ModalAlimentoData) => {
-        if (editingItem === null) return; // Segurança
-
-    const indexToEdit = editingItem.index;
-
-    setScanResult(prevResult => {
-        if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-
-        // Mapeia *de volta* do formato do modal para o seu tipo 'ScanRapidoAlimento'
-        const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
-            if (index === indexToEdit) {
-                // Constrói o novo 'ScanRapidoAlimento'
-                return {
-                    ...item, // Mantém props originais como 'categoria'
-                    nome: itemAtualizadoDoModal.nome,
-                    quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
-                    calorias_estimadas: itemAtualizadoDoModal.kcal, // Atualiza as calorias
-                    confianca: 'corrigido' as const, // Força a confiança
-                };
-            }
-            return item;
-        });
-
-        const oldAlertas = prevResult.resultado.alertas || [];
-
-        return {
-            ...prevResult,
-            resultado: {
-                ...prevResult.resultado,
-                alimentos_extraidos: newAlimentos,
-                // Invalida o resumo antigo, pois os dados mudaram
-                resumo_nutricional: undefined, 
-                alertas: [...oldAlertas, "Item editado. Os totais podem estar desatualizados."]
-            }
-        };
-    });
-
-    setEditingItem(null); // Fecha o modal após salvar
-};
-
-    const handleDeleteFood = (indexToDelete: number) => {
-        setScanResult(prevResult => {
-            if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-            const newAlimentos = prevResult.resultado.alimentos_extraidos.filter((_, index) => index !== indexToDelete);
-            const oldAlertas = prevResult.resultado.alertas || [];
-            return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos, resumo_nutricional: undefined, alertas: [...oldAlertas, "Item removido. Os totais de macros podem estar desatualizados."] } };
-        });
-    };
-    // --- Fim dos Handlers do ScanResult ---
-
-    const fetchDetailedAnalysis = async () => {
-        setLoadingAnalysis(true); // Indica que o processo começou (salvar + analisar)
-        setAnalysisError(null);
-        setApiError(null); // Limpa erros anteriores também
-        let savedMealId: number | null = null; // Para guardar o ID da refeição salva
-
-        try {
-            // --- PASSO 1: Salvar a Refeição Editada ---
-            if (!scanResult?.resultado?.alimentos_extraidos || scanResult.resultado.alimentos_extraidos.length === 0) {
-                throw new Error("Não há alimentos editados do scan rápido para salvar e analisar.");
-            }
-
-            // Formata os dados para o schema AlimentoSalvoCreate (ajuste os nomes dos campos se necessário)
-            const alimentosParaSalvar = scanResult.resultado.alimentos_extraidos.map(alimento => ({
-                nome: alimento.nome,
-                quantidade_estimada_g: alimento.quantidade_estimada_g,
-                categoria_nutricional: alimento.categoria, // Mapeia 'categoria' para 'categoria_nutricional'
-                confianca: alimento.confianca,
-                calorias_estimadas: alimento.calorias_estimadas,
-                medida_caseira_sugerida: alimento.medida_caseira_sugerida,
-                // origin_category: ??? // Adicione este se precisar vir do frontend
-            }));
-
-            console.log("-> Enviando alimentos editados para salvar:", alimentosParaSalvar);
-            const saveResponse = await api.post<{ meal_id: number }>(
-                '/api/v1/refeicoes/salvar-scan-editado', // Endpoint de salvar
-                alimentosParaSalvar
-            );
-
-            savedMealId = saveResponse.data.meal_id;
-            console.log("-> Refeição salva com ID:", savedMealId);
-
-            if (!savedMealId) {
-                throw new Error("Falha ao obter o ID da refeição salva.");
-            }
-
-            // --- PASSO 2: Chamar a Análise Detalhada POR ID ---
-            console.log(`-> Solicitando análise detalhada para meal_id: ${savedMealId}`);
-            const analysisResponse = await api.post<AnaliseCompletaResponse>(
-                `/api/v1/refeicoes/analisar-detalhadamente/${savedMealId}` // Endpoint de análise por ID
-                // Não precisa enviar corpo (body) para este POST
-            );
-
-            console.log("-> Resposta da análise detalhada recebida:", analysisResponse.data);
-            if (analysisResponse.data && analysisResponse.data.detalhes_prato) {
-                setScanResult(null); // Limpa o resultado do scan rápido
-                setAnalysisResult(analysisResponse.data); // Define o resultado da análise detalhada
-            } else {
-                throw new Error('Resposta da análise detalhada em formato inválido');
-            }
-
-        } catch (error) {
-            console.error('Erro no fluxo de salvar e analisar:', error);
-            const defaultErrorMessage = savedMealId
-                ? `Ocorreu um erro ao gerar a análise detalhada para a refeição ${savedMealId}.`
-                : "Ocorreu um erro ao salvar a refeição editada.";
-
-            // Tratamento de erro unificado (pode exibir em apiError ou analysisError)
-            if (error instanceof AxiosError) {
-                const detail = error.response?.data?.detail;
-                const errorMsg = typeof detail === 'string' ? detail : error.message || defaultErrorMessage;
-                setAnalysisError(errorMsg); // Ou setApiError(errorMsg)
-            } else if (error instanceof Error) {
-                setAnalysisError(error.message); // Ou setApiError(error.message)
-            } else {
-                setAnalysisError(defaultErrorMessage); // Ou setApiError(defaultErrorMessage)
-            }
-        } finally {
-            setLoadingAnalysis(false); // Indica que o processo terminou
-        }
-    };
-
-    // Loader principal
-    if (carregando) { return <div className="flex justify-center items-center min-h-screen">Carregando...</div>; }
-    if (!usuario) { return null; }
-
-    // JSX principal da página
-    return (
-        <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
-            <Navbar onLogout={logout} />
-            <main className="flex-grow w-full">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-4 lg:p-8">
-                    
-                    {/* --- COLUNA DA ESQUERDA (IMAGEM) --- */}
-                    <div className="flex flex-col text-center">
-                        <h3 className="text-md px-2 font-bold text-green-800">1. Fotografe seu prato</h3>
-                        <p className="text-sm text-gray-600 mt-2 px-4">
-                            A análise nutricional é feita com ajuda de IA 🧠. 
-                            Estou em constante aprendizado — se algo parecer incorreto,
-                            use os ícones para ajustar!
-                        </p>
-                        
-                        {!imageUrl && (
-                            <label htmlFor="upload-inicial" className="w-full sm:w-auto cursor-pointer bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-blue-600 shadow-md mt-4">
-                                📸 Abrir Câmera / Escolher Foto
-                                <input type="file" id="upload-inicial" accept="image/*" capture="environment" className="hidden" onChange={handleImageUpload}/>
-                            </label>
-                        )}
-                        
-                        {imageUrl && (
-                            <div className="w-full mt-4">
-                                <div className="relative w-full max-w-lg mx-auto aspect-square bg-white rounded-xl overflow-hidden mb-6 shadow-2xl">
-                                    <Image src={imageUrl} alt="Prato a ser analisado" fill className="object-cover" />
-                                </div>
-                                <button onClick={handleClearScreen} className="w-full sm:w-auto bg-red-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-red-600 shadow-md">
-                                    Limpar Foto
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                    
-                    {/* --- COLUNA DA DIREITA (RESULTADOS) --- */}
-                    <div className="flex flex-col">
-                        {/* ✅ TÍTULO E LEGENDA QUE SOMEM APÓS A ANÁLISE DETALHADA */}
-                        {scanResult && !analysisResult && (
-                            <>
-                                <h3 className="text-md px-2 font-bold text-green-800 text-center">2. Revise os Alimentos</h3>
-                                
-                                {/* Legenda dos ícones */}
-                                <div className="flex justify-center items-center gap-4 sm:gap-6 mt-4 text-xs text-gray-500">
-                                    <div className="flex items-center gap-1"><Check size={16} className="text-green-600" /><span>Confirmar</span></div>
-                                    <div className="flex items-center gap-1"><Pencil size={16} className="text-blue-600" /><span>Editar</span></div>
-                                    <div className="flex items-center gap-1"><Trash2 size={16} className="text-red-600" /><span>Apagar</span></div>
-                                </div>
-                            </>
-                        )}                    
-                        {/* Área de Resultados */}
-                        <div className="w-full results-container space-y-6 mt-8">
-    
-                            {loading && <div className="p-4 text-lg font-semibold text-gray-600 animate-pulse text-center">Analisando imagem...</div>}
-                            {apiError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center">{apiError}</div>}
-
-                            {/* ✅ MOSTRA SCAN RESULTS APENAS SE NÃO HOUVER ANALYSIS RESULT */}
-                            {scanResult && !analysisResult && (
-                                <ScanResults 
-                                    scanResult={scanResult} 
-                                    onConfirm={handleConfirmFood}
-                                    onEdit={handleEditFood}
-                                    onDelete={handleDeleteFood}
-                                />
-                            )}
-                            
-                            {/* Botão para Análise Detalhada - APENAS QUANDO HÁ SCAN MAS NÃO HÁ ANÁLISE */}
-                            {!loading && scanResult && !analysisResult && (
-                                <div className="mt-6 text-center">
-                                    <h3 className="text-md px-2 font-bold text-green-800 text-center mb-4">3. Gere a Análise Completa</h3>
-                                    <p className="text-sm text-gray-600 mb-4">
-                                        Obtenha uma análise nutricional completa com calorias precisas, macronutrientes, 
-                                        vitaminas e recomendações personalizadas
-                                    </p>
-                                    <button 
-                                        onClick={fetchDetailedAnalysis} 
-                                        disabled={loadingAnalysis || !scanResult.resultado?.alimentos_extraidos?.length}
-                                        className="w-full sm:w-auto cursor-pointer bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-blue-600 shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
-                                    >
-                                        {loadingAnalysis ? 'Gerando Análise...' : 'Gerar Análise Nutricional Completa'}
-                                    </button>
-                                </div>
-                            )}
-
-                            {loadingAnalysis && <div className="p-4 text-lg font-semibold text-gray-600 animate-pulse text-center">Gerando análise detalhada...</div>}
-                            {analysisError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center">{analysisError}</div>}
-
-                            {/* ✅ ANALYSIS RESULTS SUBSTITUI O SCAN RESULTS */}
-                            {analysisResult && (
-                                <AnalysisResults analysisResult={analysisResult} />
-                            )}
-                            
-                            {/* Resumo Nutricional - MOSTRA PARA AMBOS OS CASOS */}
-                            {(!loading && !loadingAnalysis) && (scanResult || analysisResult) && (
-                                <div className="bg-gray-100 p-4 rounded-lg mt-8">
-                                    <h4 className="font-semibold text-green-800 mb-2 text-base md:text-lg text-center">Resumo Nutricional Geral</h4>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                                        <div><p className="text-2xl font-bold text-blue-600">{totais.kcal.toFixed(0)}</p><p className="text-xs text-gray-600">Calorias</p></div>
-                                        {totais.protein > 0 || totais.carbs > 0 || totais.fats > 0 ? (
-                                            <>
-                                                <div><p className="text-2xl font-bold text-green-600">{totais.protein.toFixed(1)}g</p><p className="text-xs text-gray-600">Proteínas</p></div>
-                                                <div><p className="text-2xl font-bold text-orange-600">{totais.carbs.toFixed(1)}g</p><p className="text-xs text-gray-600">Carboidratos</p></div>
-                                                <div><p className="text-2xl font-bold text-red-600">{totais.fats.toFixed(1)}g</p><p className="text-xs text-gray-600">Gorduras</p></div>
-                                            </>
-                                        ) : (
-                                            <div className="col-span-3 text-sm text-gray-500 text-center flex items-center justify-center">
-                                                <p>(Macros disponíveis após a análise detalhada).</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                {/* 4. ADICIONE O MODAL AQUI */}
-                {editingItem && (
-                    <EditFoodModal
-                        itemParaEditar={editingItem.data}
-                        foodDatabase={foodDatabase}
-                        onSave={handleSaveEdit}
-                        onClose={handleCloseModal}
-                    />
-                )}
-            </main>
-        </div>
-    );
 }

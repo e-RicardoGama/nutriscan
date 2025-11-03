@@ -71,7 +71,9 @@ class Macronutrientes(BaseModel):
 class AnaliseNutricional(BaseModel):
     calorias_totais: float # Mantido int conforme original
     macronutrientes: Macronutrientes
-    vitaminas_minerais: List[str]
+    vitaminas: Optional[List[str]] = None
+    minerais: Optional[List[str]] = None
+    vitaminas_minerais: Optional[List[str]] = None
 
 class Recomendacoes(BaseModel):
     pontos_positivos: List[str]
@@ -125,8 +127,10 @@ class AlimentoSalvoBase(BaseModel):
     categoria_nutricional: Optional[str] = Field(None, example="Grão") 
     confianca: Optional[str] = Field(None, example="corrigido") 
     calorias_estimadas: Optional[float] = Field(None, example=130.0) 
-    medida_caseira_sugerida: Optional[str] = Field(None, example="4 colheres de sopa") 
-    origin_category: Optional[str] = Field(None, example="Prato Principal") 
+    medida_caseira_sugerida: Optional[str] = Field(None, example="4 colheres de sopa")
+
+    class Config:
+        extra = 'ignore'
 
 class AlimentoSalvoCreate(AlimentoSalvoBase):
     pass
@@ -138,6 +142,7 @@ class AlimentoSalvo(AlimentoSalvoBase):
 
 class RefeicaoSalvaBase(BaseModel):
     status: RefeicaoStatus = RefeicaoStatus.PENDING_ANALYSIS
+    imagem_url: Optional[str] = None
 
 class RefeicaoSalvaCreate(RefeicaoSalvaBase):
     alimentos: List[AlimentoSalvoCreate] 
@@ -153,3 +158,34 @@ class RefeicaoSalva(RefeicaoSalvaBase):
 class RefeicaoSalvaIdResponse(BaseModel):
     meal_id: int 
 
+
+# ---------------------------------------------------------------
+# ✅ NOVOS SCHEMAS (Para Endpoints de Histórico)
+# ---------------------------------------------------------------
+
+class RefeicaoHistoricoItem(BaseModel):
+    """
+    Schema resumido para cada item da lista de histórico.
+    Usado pelo endpoint: GET /api/v1/refeicoes/historico
+    """
+    id: int
+    data_criacao: datetime = Field(..., alias="created_at") # Mapeia 'created_at' para 'data_criacao'
+    imagem_url: Optional[str] = None
+    total_calorias: Optional[float] = Field(None, description="Total de calorias da análise detalhada, se disponível")
+
+    class Config:
+        from_attributes = True
+        populate_by_name = True # Permite o uso de 'alias'
+
+class ResumoDiarioResponse(BaseModel):
+    """
+    Schema da resposta para o resumo diário do dashboard.
+    Usado pelo endpoint: GET /api/v1/refeicoes/resumo-diario
+    """
+    total_calorias: float
+    total_proteinas_g: float  # <-- Adicionado _g
+    total_carboidratos_g: float # <-- Adicionado _g
+    total_gorduras_g: float # <-- Adicionado _g
+
+    class Config:
+        from_attributes = True

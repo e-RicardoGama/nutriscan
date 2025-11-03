@@ -53,6 +53,11 @@ def login_para_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)  # ✅ CORREÇÃO: Adicionar dependência do banco
 ):
+    
+    # ✅ ADICIONAR LOGS DE DEBUG
+    print(f"🔐 [LOGIN DEBUG] Tentativa de login para: {form_data.username}")
+    print(f"🔐 [LOGIN DEBUG] Comprimento da senha: {len(form_data.password)}")
+
     # Validar comprimento da senha antes da verificação
     if len(form_data.password.encode('utf-8')) > 72:
         raise HTTPException(
@@ -62,6 +67,9 @@ def login_para_access_token(
     
     # ✅ CORREÇÃO: Passar o db para a função
     user = get_user_by_email(form_data.username, db)
+
+    print(f"🔐 [LOGIN DEBUG] Usuário encontrado: {bool(user)}")
+    
     if not user or not security.verificar_senha(form_data.password, user.senha_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

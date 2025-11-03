@@ -1,0 +1,109 @@
+// src/components/dashboard/DailyFeed.tsx
+import React from 'react';
+import Image from 'next/image';
+import { Plus, ImageIcon } from 'lucide-react';
+
+export interface MealSummaryUI {
+  id: number;
+  tipo?: string; // o tipo/categoria do front (p.ex. "Almoço") ou nome de exibição
+  kcal_estimadas?: number;
+  imagem_url?: string | null;
+  // Campos opcionais que podem vir do backend ou do enriquecimento:
+  proteinas_g?: number | null;
+  carboidratos_g?: number | null;
+  gorduras_g?: number | null;
+  // lista de alimentos principais (opcional) para sugestão de nome
+  alimentos_principais?: string[]; 
+  suggested_name?: string; // opcional: nome sugerido já pronto
+}
+
+const DailyFeed: React.FC<{
+  meals: MealSummaryUI[];
+  onAddMealClick: () => void;
+  onViewMealClick?: (mealId: number) => void; // ao clicar na imagem abre análise
+  onMealClick?: (mealId: number) => void; // clique no card inteiro (detalhes)
+}> = ({ meals, onAddMealClick, onViewMealClick, onMealClick }) => {
+
+  // componente que exibe macros (com fallback)
+  const MacrosRow: React.FC<{ p?: number | null; c?: number | null; f?: number | null }> = ({ p, c, f }) => {
+    const any = (val?: number | null) => (typeof val === 'number');
+    if (!any(p) && !any(c) && !any(f)) {
+      return <p className="text-sm text-gray-500">(Macros após análise)</p>;
+    }
+    return (
+      <div className="flex gap-3 text-xs text-gray-600 mt-1">
+        {any(p) && <span>🥚 {p!.toFixed(1)}g</span>}
+        {any(c) && <span>🍞 {c!.toFixed(1)}g</span>}
+        {any(f) && <span>🥑 {f!.toFixed(1)}g</span>}
+      </div>
+    );
+  };
+
+  return (
+    <div className="space-y-4">
+      {meals.length === 0 ? (
+        <div className="p-6 bg-white rounded-lg shadow-md text-center">
+          <p className="text-lg font-semibold text-gray-700 mb-4">Nenhuma refeição registrada hoje</p>
+          <button
+            onClick={onAddMealClick}
+            aria-label="Adicionar primeira refeição"
+            className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+          >
+            <Plus /> Adicionar primeira refeição
+          </button>
+        </div>
+      ) : (
+        meals.map(meal => (
+          <div
+            key={meal.id}
+            className="flex items-start bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition cursor-pointer"
+            onClick={() => onMealClick?.(meal.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter') onMealClick?.(meal.id); }}
+          >
+            {/* Imagem clicável: chama onViewMealClick (visualizar análise) */}
+            <div className="relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+              {meal.imagem_url ? (
+                <button
+                  onClick={(ev) => { ev.stopPropagation(); onViewMealClick?.(meal.id); }}
+                  aria-label={`Ver análise detalhada da refeição ${meal.id}`}
+                  className="w-full h-full block"
+                >
+                  <Image
+                    src={meal.imagem_url}
+                    alt={meal.tipo ? `${meal.tipo} — foto da refeição` : `Foto da refeição ${meal.id}`}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    unoptimized // remove se tiver next.config.domains configurado
+                    sizes="80px"
+                  />
+                </button>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  <ImageIcon size={36} />
+                </div>
+              )}
+            </div>
+
+            <div className="ml-4 flex-1">
+              {/* Nome exibido: prioriza suggested_name, depois tipo */}
+              <h4 className="font-semibold text-lg text-gray-800">
+                {meal.suggested_name ?? meal.tipo ?? 'Refeição'}
+              </h4>
+
+              {/* Calorias */}
+              <p className="text-gray-600">Aprox. {typeof meal.kcal_estimadas === 'number' ? `${meal.kcal_estimadas} kcal` : '—'}</p>
+
+              {/* Macros (proteínas, carbs, gorduras) */}
+              <MacrosRow p={meal.proteinas_g ?? null} c={meal.carboidratos_g ?? null} f={meal.gorduras_g ?? null} />
+
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
+
+export default DailyFeed;

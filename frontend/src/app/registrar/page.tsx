@@ -32,7 +32,7 @@ function RegisterContent() {
 
     try {
       // Atualizando para incluir nome e apelido
-      await api.post('/auth/registrar', { 
+      await api.post('/api/v1/auth/registrar', { 
         nome, 
         apelido, 
         email, 
@@ -103,6 +103,7 @@ function RegisterContent() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+              autoComplete="username"
             />
           </div>
           

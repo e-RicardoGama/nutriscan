@@ -91,7 +91,7 @@ def decodificar_token(token: str) -> dict:
         raise e
 
 # --- Autenticação OAuth2 (MANTIDOS) ---
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/usuarios/login")  # ✅ CORREÇÃO
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> Usuario:
     try:
