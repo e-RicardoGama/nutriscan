@@ -81,34 +81,44 @@ export default function HistoricoPage() {
           {refeicoes.map((refeicao) => (
             <Link href={`/refeicao/${refeicao.id}`} key={refeicao.id} legacyBehavior>
               <a className="flex items-center bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
-                {/* Imagem */}
-                <Image 
-                    src={refeicao.imagem_url} 
-                    alt="Refeição" 
-                    fill 
-                    className="object-cover" 
-                />
-                {/* Infos */}
-                <div className="ml-4">
-                  <p className="font-semibold text-lg text-gray-800">
-                    Refeição #{refeicao.id}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {new Date(refeicao.data_criacao).toLocaleString('pt-BR', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </p>
-                  {refeicao.total_calorias && (
-                    <p className="text-blue-600 font-bold mt-1">
-                      {refeicao.total_calorias.toFixed(0)} kcal
+                  {/* Imagem */}
+                  <div className="relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+                    {refeicao.imagem_url ? (
+                      <Image
+                        src={refeicao.imagem_url}
+                        alt="Refeição"
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center w-full h-full text-gray-400 text-xs">
+                        Sem imagem
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Infos */}
+                  <div className="ml-4">
+                    <p className="font-semibold text-lg text-gray-800">
+                      Refeição #{refeicao.id}
                     </p>
-                  )}
-                </div>
+                    <p className="text-sm text-gray-500">
+                      {new Date(refeicao.data_criacao).toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                    {refeicao.total_calorias && (
+                      <p className="text-blue-600 font-bold mt-1">
+                        {refeicao.total_calorias.toFixed(0)} kcal
+                      </p>
+                    )}
+                  </div>
               </a>
+
             </Link>
           ))}
         </div>
