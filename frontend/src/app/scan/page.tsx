@@ -11,6 +11,7 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import { ChevronDown, Check, Pencil, Trash2, Home as HomeIcon } from 'lucide-react';
 import EditFoodModal from '../../components/alimentos/EditFoodModal.jsx';
+import { AnaliseCompletaResponse } from '../../interfaces/api.types';
 
 // --- Interfaces da API ---
 
@@ -42,28 +43,6 @@ export interface ScanRapidoResponse {
   timestamp: string;
 }
 
-// (Análise Detalhada via Lista)
-export interface AlimentoDetalhado { nome: string; quantidade_gramas: number; metodo_preparo: string; medida_caseira_sugerida?: string; }
-export interface Macronutrientes { proteinas_g: number; carboidratos_g: number; gorduras_g: number; }
-// Suporta formas antigas e novas:
-// - API antiga: vitaminas_minerais: string[]
-// - API preferível: vitaminas: string[], minerais: string[]
-export interface AnaliseNutricional {
-  calorias_totais: number;
-  macronutrientes: Macronutrientes;
-  vitaminas_minerais?: string[]; // compatibilidade legado
-  vitaminas?: string[]; // preferível
-  minerais?: string[];  // preferível
-}
-export interface Recomendacoes { pontos_positivos: string[]; sugestoes_balanceamento: string[]; alternativas_saudaveis: string[]; }
-
-// Resposta do endpoint /refeicoes/analisar-lista-detalhada
-export interface AnaliseCompletaResponse {
-  detalhes_prato: { alimentos: AlimentoDetalhado[]; };
-  analise_nutricional: AnaliseNutricional;
-  recomendacoes: Recomendacoes;
-  timestamp?: string;
-}
 
 // Interface para os dados do nosso food_database.json
 export interface FoodDatabaseItem {
