@@ -5,7 +5,7 @@ steps:
     args: ['install']
     dir: 'frontend'
 
-  # Etapa 2: Build do Next.js (COM A SINTAXE CORRETA)
+  # Etapa 2: Build do Next.js
   - name: 'node:18'
     entrypoint: 'bash'
     args:
@@ -20,17 +20,22 @@ steps:
     entrypoint: 'bash'
     args:
       - '-c'
-      - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > key.json'
+      - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > /workspace/frontend/key.json'
     dir: 'frontend'
 
   # Etapa 4: Ativa o experimento e faz o deploy usando a chave
   - name: 'node:18'
+    env:
+      - 'GOOGLE_APPLICATION_CREDENTIALS=/workspace/frontend/key.json'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        export GOOGLE_APPLICATION_CREDENTIALS=key.json && \
-        npx firebase-tools experiments:enable webframeworks && \
+        echo "Verificando se o arquivo de credenciais existe..."
+        ls -la /workspace/frontend/key.json
+        echo "Ativando experimento webframeworks..."
+        npx firebase-tools experiments:enable webframeworks
+        echo "Iniciando deploy..."
         npx firebase-tools deploy --only hosting --project $PROJECT_ID --non-interactive
     dir: 'frontend'
 
