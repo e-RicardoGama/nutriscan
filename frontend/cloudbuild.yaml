@@ -1,11 +1,11 @@
 steps:
-  # Etapa 1: Instala dependências
+  # Etapa 1: Instala dependências do Next.js
   - name: 'node:18'
     entrypoint: 'npm'
     args: ['install']
     dir: 'frontend'
 
-  # Etapa 2: Build do Next.js
+  # Etapa 2: Build do Next.js com variável de ambiente
   - name: 'node:18'
     entrypoint: 'bash'
     args:
@@ -15,15 +15,30 @@ steps:
         npm run build
     dir: 'frontend'
 
-  # Etapa 3: Baixa a chave secreta e a salva em um arquivo
+  # Etapa 3: Baixa a chave da Service Account do Secret Manager
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > /workspace/frontend/key.json'
-    dir: 'frontend'
 
-  # Etapa 4: Ativa o experimento e faz o deploy usando a chave
+  # Etapa 3.5: Debug - Verifica se o arquivo foi criado corretamente
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "=== Verificando arquivo de credenciais ==="
+        if [ -f /workspace/frontend/key.json ]; then
+          echo "✓ Arquivo key.json encontrado!"
+          echo "Tamanho: $(stat -c%s /workspace/frontend/key.json) bytes"
+          echo "Service Account: $(cat /workspace/frontend/key.json | jq -r '.client_email')"
+        else
+          echo "✗ Arquivo key.json NÃO encontrado!"
+          exit 1
+        fi
+
+  # Etapa 4: Instala Firebase CLI e faz o deploy
   - name: 'node:18'
     env:
       - 'GOOGLE_APPLICATION_CREDENTIALS=/workspace/frontend/key.json'
@@ -31,12 +46,16 @@ steps:
     args:
       - '-c'
       - |
-        echo "Verificando se o arquivo de credenciais existe..."
-        ls -la /workspace/frontend/key.json
-        echo "Ativando experimento webframeworks..."
-        npx firebase-tools experiments:enable webframeworks
-        echo "Iniciando deploy..."
-        npx firebase-tools deploy --only hosting --project $PROJECT_ID --non-interactive
+        echo "=== Instalando Firebase CLI ==="
+        npm install -g firebase-tools
+        
+        echo "=== Habilitando experimento webframeworks ==="
+        firebase experiments:enable webframeworks
+        
+        echo "=== Iniciando deploy no Firebase Hosting ==="
+        firebase deploy --only hosting --project ${PROJECT_ID} --non-interactive --debug
+        
+        echo "✓ Deploy concluído com sucesso!"
     dir: 'frontend'
 
 options:
