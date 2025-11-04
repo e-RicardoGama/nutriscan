@@ -28,25 +28,54 @@ if not SECRET_KEY:
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
-# --- BCRYPT DIRETO (SUBSTITUI O PASSLIB) ---
+# ✅ SOLUÇÃO SEGURA
 def gerar_hash_senha(senha: str) -> str:
     """
-    Gera hash da senha usando bcrypt diretamente
+    Gera hash da senha usando bcrypt diretamente.
+    Rejeita senhas muito longas em vez de truncar silenciosamente.
     """
     try:
-        # Truncar se necessário (limite do bcrypt: 72 bytes)
-        if len(senha.encode('utf-8')) > 72:
-            senha = senha.encode('utf-8')[:72].decode('utf-8', 'ignore')
+        senha_bytes = senha.encode('utf-8')
         
-        # Gerar salt e hash
-        salt = bcrypt.gensalt()
-        hashed_bytes = bcrypt.hashpw(senha.encode('utf-8'), salt)
+        # ✅ REJEITAR em vez de truncar
+        if len(senha_bytes) > 72:
+            raise ValueError(
+                "Senha muito longa. O bcrypt suporta no máximo 72 bytes UTF-8. "
+                f"Sua senha tem {len(senha_bytes)} bytes."
+            )
         
-        # Converter para string para armazenamento
+        salt = bcrypt.gensalt(rounds=12)  # ✅ Aumentar rounds para mais segurança
+        hashed_bytes = bcrypt.hashpw(senha_bytes, salt)
         return hashed_bytes.decode('utf-8')
+        
+    except ValueError as ve:
+        # Re-lançar erros de validação
+        raise
     except Exception as e:
         logger.error(f"Erro ao gerar hash de senha: {e}")
-        raise
+        raise RuntimeError("Erro interno ao processar senha")
+
+def verificar_senha(senha_plana: str, senha_hash: str) -> bool:
+    """
+    Verifica se a senha plana corresponde ao hash armazenado.
+    """
+    try:
+        senha_bytes = senha_plana.encode('utf-8')
+        
+        # ✅ REJEITAR em vez de truncar
+        if len(senha_bytes) > 72:
+            # Senha inválida por ser muito longa
+            return False
+        
+        if isinstance(senha_hash, str):
+            senha_hash = senha_hash.encode('utf-8')
+        
+        return bcrypt.checkpw(senha_bytes, senha_hash)
+        
+    except Exception as e:
+        logger.error(f"Erro ao verificar senha: {e}")
+        return False
+
 
 def verificar_senha(senha_plana: str, senha_hash: str) -> bool:
     """

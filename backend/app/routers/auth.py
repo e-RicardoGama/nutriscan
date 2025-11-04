@@ -12,11 +12,13 @@ from app.schemas.registro import UserRegister, UserResponse
 from app.database import get_db
 from app.models.usuario import Usuario 
 from app import security
+from app.utils.validators import validar_senha
 
 router = APIRouter(
     prefix="/auth",
     tags=["Autenticação"]
 )
+
 
 # ✅ CORREÇÃO: Remover 'async' pois operações no banco são síncronas
 def get_user_by_email(email: str, db: Session):
@@ -26,17 +28,21 @@ def get_user_by_email(email: str, db: Session):
 # ✅ ROTA DE REGISTRO (CORRETA)
 @router.post("/registrar", response_model=UserResponse)
 def registrar(usuario: UserRegister, db: Session = Depends(get_db)):
+    # ✅ VALIDAR SENHA
+    senha_valida, mensagem = validar_senha(usuario.password)
+    if not senha_valida:
+        raise HTTPException(status_code=400, detail=mensagem)
+    
     # Verificar se usuário já existe
     db_user = db.query(Usuario).filter(Usuario.email == usuario.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email já registrado")
     
-    # ✅ CORREÇÃO: Usar ambos os campos
     hashed_password = security.gerar_hash_senha(usuario.password)
     novo_usuario = Usuario(
-        nome=usuario.nome,        # ✅ Usar o nome do formulário
-        apelido=usuario.apelido,  # ✅ Adicionar o apelido
-        email=usuario.email, 
+        nome=usuario.nome,
+        apelido=usuario.apelido,
+        email=usuario.email,
         senha_hash=hashed_password
     )
     
@@ -53,10 +59,6 @@ def login_para_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)  # ✅ CORREÇÃO: Adicionar dependência do banco
 ):
-    
-    # ✅ ADICIONAR LOGS DE DEBUG
-    print(f"🔐 [LOGIN DEBUG] Tentativa de login para: {form_data.username}")
-    print(f"🔐 [LOGIN DEBUG] Comprimento da senha: {len(form_data.password)}")
 
     # Validar comprimento da senha antes da verificação
     if len(form_data.password.encode('utf-8')) > 72:
