@@ -94,7 +94,7 @@ export default function DashboardHome() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
       <Navbar onLogout={logout} />
-      <main className="flex-grow w-full max-w-4xl mx-auto p-4 lg:p-8">
+      <main className="grow w-full max-w-4xl mx-auto p-4 lg:p-8">
         
         {loadingData && (
           <div className="text-center text-gray-600">Carregando seu resumo...</div>
