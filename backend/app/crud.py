@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, cast, Date
 from typing import Optional, List, Dict, Any
 import json
-from datetime import datetime
+from datetime import datetime,date
 
 # --- Imports Explícitos ---
 from app.models.refeicoes import RefeicaoSalva, AlimentoSalvo, RefeicaoStatus
@@ -69,36 +69,45 @@ def get_detalhe_refeicao_por_id(db: Session, meal_id: int, user_id: int) -> Opti
         RefeicaoSalva.owner_id == user_id
     ).first()
 
-def get_consumo_macros_hoje(db: Session, user_id: int) -> Dict[str, float]:
-    """
-    Calcula a soma de calorias e macros para todas as refeições 
-    completas do usuário no dia de hoje.
-    """
-    today = datetime.now().date()
+def get_consumo_macros_hoje(db: Session, user_id: int) -> dict:
+    """Soma o total de calorias, proteínas, carboidratos e gorduras de todas as refeições de hoje."""
+    hoje = date.today()
 
-    # Buscar todas as refeições de hoje com análise completa
-    refeicoes_hoje = db.query(RefeicaoSalva).filter(
-        RefeicaoSalva.owner_id == user_id,
-        cast(RefeicaoSalva.created_at, Date) == today,
-        RefeicaoSalva.status == RefeicaoStatus.ANALYSIS_COMPLETE
-    ).all()
+    refeicoes_hoje = (
+        db.query(RefeicaoSalva)
+        .filter(
+            RefeicaoSalva.owner_id == user_id,
+            func.date(RefeicaoSalva.created_at) == hoje
+        )
+        .all()
+    )
 
     total_calorias = 0.0
-    total_proteinas = 0.0
-    total_carboidratos = 0.0
-    total_gorduras = 0.0
+    total_proteinas_g = 0.0
+    total_carboidratos_g = 0.0
+    total_gorduras_g = 0.0
 
     for refeicao in refeicoes_hoje:
-        # Calcular baseado nos alimentos salvos (versão simplificada)
-        for alimento in refeicao.alimentos:
-            total_calorias += alimento.calorias_estimadas or 0
-            # Se tiver campos de macros, adicione aqui
+        if refeicao.analysis_result_json:
+            try:
+                analise = json.loads(refeicao.analysis_result_json)
+
+                analise_nutricional = analise.get("analise_nutricional", {})
+                macros = analise_nutricional.get("macronutrientes", {})
+
+                total_calorias += analise_nutricional.get("calorias_totais", 0)
+                total_proteinas_g += macros.get("proteinas_g", 0)
+                total_carboidratos_g += macros.get("carboidratos_g", 0)
+                total_gorduras_g += macros.get("gorduras_g", 0)
+
+            except Exception as e:
+                print(f"Erro ao processar JSON da refeição ID {refeicao.id}: {e}")
 
     return {
-        "total_calorias": total_calorias,
-        "total_proteinas_g": total_proteinas,
-        "total_carboidratos_g": total_carboidratos,
-        "total_gorduras_g": total_gorduras
+        "total_calorias": round(total_calorias, 1),
+        "total_proteinas_g": round(total_proteinas_g, 1),
+        "total_carboidratos_g": round(total_carboidratos_g, 1),
+        "total_gorduras_g": round(total_gorduras_g, 1)
     }
 
 def get_refeicoes_hoje_por_usuario(db: Session, user_id: int) -> List[RefeicaoSalva]:

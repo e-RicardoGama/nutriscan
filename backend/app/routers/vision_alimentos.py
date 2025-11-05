@@ -415,12 +415,13 @@ def get_resumo_diario(
     resumo_dict = crud.get_consumo_macros_hoje(db, user_id=current_user.id)
     
     if not resumo_dict:
-         return ResumoDiarioResponse(
-             total_calorias=0,
-             total_proteinas=0,
-             total_carboidratos=0,
-             total_gorduras=0
-         )
+        return ResumoDiarioResponse(
+            total_calorias=0,
+            total_proteinas_g=0,
+            total_carboidratos_g=0,
+            total_gorduras_g=0
+        )
+
     return ResumoDiarioResponse(**resumo_dict)
 
 # ---------------------------------------------------------------

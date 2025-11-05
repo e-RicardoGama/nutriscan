@@ -63,7 +63,7 @@ const DailyFeed: React.FC<{
             onKeyDown={(e) => { if (e.key === 'Enter') onMealClick?.(meal.id); }}
           >
             {/* Imagem clicável: chama onViewMealClick (visualizar análise) */}
-            <div className="relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+            <div className="relative w-20 h-20 shrink-0 rounded-md overflow-hidden bg-gray-100">
               {meal.imagem_url ? (
                 <button
                   onClick={(ev) => { ev.stopPropagation(); onViewMealClick?.(meal.id); }}
