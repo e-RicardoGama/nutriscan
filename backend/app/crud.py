@@ -16,28 +16,40 @@ from app.schemas.vision_alimentos_ import (
 
 # --- CRUD para Refeição Salva ---
 
-def create_refeicao_salva(db: Session, refeicao_data: RefeicaoSalvaCreate, user_id: int) -> RefeicaoSalva:
+# app/crud.py - VERSÃO CORRIGIDA
+def create_refeicao_salva(db: Session,
+                         refeicao_data: RefeicaoSalvaCreate,
+                         user_id: int) -> RefeicaoSalva:
     """Cria uma nova refeição salva com seus alimentos."""
-    db_refeicao = RefeicaoSalva(owner_id=user_id, status=RefeicaoStatus.PENDING_ANALYSIS)
+    
+    # ✅ ADICIONE O CAMPO imagem_url AQUI
+    db_refeicao = RefeicaoSalva(
+        owner_id=user_id,
+        status=RefeicaoStatus.PENDING_ANALYSIS,
+        imagem_url=refeicao_data.imagem_url  # ✅ ADICIONAR ESTA LINHA
+    )
+    
     db.add(db_refeicao)
-    db.flush() 
+    db.flush()  # Gera o ID antes de inserir os alimentos
 
+    # Adiciona os alimentos associados
     for alimento_data in refeicao_data.alimentos:
         try:
             db_alimento = AlimentoSalvo(
-                **alimento_data.model_dump(), # Pydantic V2
-                refeicao_id=db_refeicao.id 
+                **alimento_data.model_dump(),  # Pydantic v2
+                refeicao_id=db_refeicao.id
             )
-        except AttributeError: # Fallback para Pydantic V1
-             db_alimento = AlimentoSalvo(
-                **alimento_data.dict(), 
-                refeicao_id=db_refeicao.id 
+        except AttributeError:  # Fallback para Pydantic v1
+            db_alimento = AlimentoSalvo(
+                **alimento_data.dict(),
+                refeicao_id=db_refeicao.id
             )
         db.add(db_alimento)
-        
+
     db.commit()
-    db.refresh(db_refeicao) 
+    db.refresh(db_refeicao)
     return db_refeicao
+
 
 def get_refeicao_salva(db: Session, meal_id: int, user_id: int) -> Optional[RefeicaoSalva]:
     """Busca uma refeição salva pelo ID, garantindo que pertence ao usuário."""
@@ -122,3 +134,72 @@ def get_refeicoes_hoje_por_usuario(db: Session, user_id: int) -> List[RefeicaoSa
         cast(RefeicaoSalva.created_at, Date) == today,
         RefeicaoSalva.status == RefeicaoStatus.ANALYSIS_COMPLETE
     ).order_by(RefeicaoSalva.created_at.asc()).all()
+
+
+def enriquecer_refeicao_com_analise(refeicao: RefeicaoSalva) -> dict:
+    """
+    Extrai dados da análise JSON e dos alimentos salvos
+    para enriquecer a resposta do dashboard.
+    """
+    resultado = {
+        "id": refeicao.id,
+        "tipo": None,
+        "kcal_estimadas": None,
+        "imagem_url": refeicao.imagem_url,
+        "proteinas_g": None,
+        "carboidratos_g": None,
+        "gorduras_g": None,
+        "suggested_name": None,
+        "alimentos_principais": []
+    }
+
+    # 1️⃣ Extrair dados da análise JSON (se existir)
+    if refeicao.analysis_result_json:
+        try:
+            analise = json.loads(refeicao.analysis_result_json)
+            
+            # Extrair calorias
+            analise_nutricional = analise.get("analise_nutricional", {})
+            resultado["kcal_estimadas"] = analise_nutricional.get("calorias_totais")
+            
+            # Extrair macros
+            macros = analise_nutricional.get("macronutrientes", {})
+            resultado["proteinas_g"] = macros.get("proteinas_g")
+            resultado["carboidratos_g"] = macros.get("carboidratos_g")
+            resultado["gorduras_g"] = macros.get("gorduras_g")
+            
+        except Exception as e:
+            print(f"Erro ao processar JSON da refeição ID {refeicao.id}: {e}")
+
+    # 2️⃣ Extrair lista de alimentos principais
+    if refeicao.alimentos:
+        # Pega os 3 primeiros alimentos
+        alimentos_principais = [
+            alimento.nome 
+            for alimento in refeicao.alimentos[:3]
+        ]
+        resultado["alimentos_principais"] = alimentos_principais
+        
+        # Gera um nome sugerido baseado nos alimentos
+        if len(alimentos_principais) > 0:
+            if len(alimentos_principais) == 1:
+                resultado["suggested_name"] = alimentos_principais[0]
+            elif len(alimentos_principais) == 2:
+                resultado["suggested_name"] = f"{alimentos_principais[0]} e {alimentos_principais[1]}"
+            else:
+                resultado["suggested_name"] = f"{alimentos_principais[0]}, {alimentos_principais[1]} e mais"
+
+    # 3️⃣ Inferir tipo de refeição baseado no horário
+    hora_criacao = refeicao.created_at.hour
+    if 5 <= hora_criacao < 11:
+        resultado["tipo"] = "Café da Manhã"
+    elif 11 <= hora_criacao < 15:
+        resultado["tipo"] = "Almoço"
+    elif 15 <= hora_criacao < 18:
+        resultado["tipo"] = "Lanche da Tarde"
+    elif 18 <= hora_criacao < 23:
+        resultado["tipo"] = "Jantar"
+    else:
+        resultado["tipo"] = "Lanche da Madrugada"
+
+    return resultado

@@ -8,7 +8,7 @@ from typing import List, Any, Dict, Optional
 from datetime import datetime
 import json
 import uuid
-from google.cloud import storage
+from app.gcs_utils import upload_to_gcs
 import os
 
 # --- Imports Explícitos ---
@@ -42,7 +42,8 @@ from app.schemas.vision_alimentos_ import (
     Macronutrientes, 
     Recomendacoes,
     RefeicaoHistoricoItem, # Schema para a lista de histórico
-    ResumoDiarioResponse  # Schema para o resumo do dashboard
+    ResumoDiarioResponse,  # Schema para o resumo do dashboard
+    RefeicaoResumoHoje,
 )
 
 from app.vision import (
@@ -100,6 +101,14 @@ async def salvar_scan_rapido_editado(
     current_user: Usuario = Depends(get_current_user) 
 ):
     
+    print("=" * 80)
+    print("🔍 DEBUG: Endpoint /salvar-scan-editado chamado")
+    print(f"📸 Imagem recebida: {imagem.filename}")
+    print(f"📏 Tipo: {imagem.content_type}")
+    print(f"📦 Tamanho: {imagem.size if hasattr(imagem, 'size') else 'desconhecido'}")
+    print(f"🍽️ Alimentos JSON (primeiros 200 chars): {alimentos_json[:200]}...")
+    print("=" * 80)
+    
     # 3. MUDANÇA: Converter o texto JSON de volta para a lista Python
     try:
         alimentos_data = json.loads(alimentos_json)
@@ -116,37 +125,27 @@ async def salvar_scan_rapido_editado(
     # 4. MUDANÇA: Lógica de Upload para o Google Cloud Storage
     imagem_url_publica = None
     try:
-        imagem_bytes = await imagem.read()
-        bucket_name = "nutriscan-imagens-prod" # O nome do seu bucket
-        
-        # Gera um nome de arquivo único para não sobrescrever
-        # Formato: refeicoes/IDdoUsuario_UUID.extensao (ex: refeicoes/123_abc123.jpg)
-        extensao = imagem.filename.split('.')[-1] if '.' in imagem.filename else 'jpg'
-        file_name = f"refeicoes/{current_user.id}_{uuid.uuid4().hex}.{extensao}" 
-        
-        # --- (A) SE VOCÊ JÁ TEM A FUNÇÃO DE UPLOAD ---
-        # (Descomente as linhas abaixo e importe sua função 'upload_to_gcs')
-        
-        # from app.gcs_utils import upload_to_gcs # <--- Importe sua função
-        # imagem_url_publica = upload_to_gcs(
-        #     bucket_name=bucket_name,
-        #     file_bytes=imagem_bytes,
-        #     destination_blob_name=file_name,
-        #     content_type=imagem.content_type
-        # )
+        from app.gcs_utils import upload_to_gcs
 
-        # --- (B) PARA TESTAR SEM A FUNÇÃO DE UPLOAD (MOCK) ---
-        # (Deixe esta linha e comente o bloco acima)
-        print(f"--- MODO TESTE: Imagem seria salva em {bucket_name}/{file_name} ---")
-        imagem_url_publica = f"https://storage.googleapis.com/{bucket_name}/{file_name}"
-        # --- FIM DO MODO TESTE ---
+        print(f"🚀 Tentando fazer upload para GCS...")
+
+        imagem_bytes = await imagem.read()
+        bucket_name = "nutriscan-imagens-prod"
+        extensao = imagem.filename.split('.')[-1] if '.' in imagem.filename else 'jpg'
+        file_name = f"refeicoes/{current_user.id}_{uuid.uuid4().hex}.{extensao}"
+
+        imagem_url_publica = upload_to_gcs(
+            bucket_name=bucket_name,
+            file_bytes=imagem_bytes,
+            destination_blob_name=file_name,
+            content_type=imagem.content_type
+        )
+
+        print(f"✅ Upload concluído! URL: {imagem_url_publica}")
 
     except Exception as e:
-        print(f"Erro ao fazer upload da imagem para GCS: {e}") 
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno ao salvar a imagem.")
-
-    if not imagem_url_publica:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Não foi possível obter a URL da imagem após o upload.")
+        print(f"Erro ao fazer upload da imagem para GCS: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao salvar a imagem.")
 
     # 5. MUDANÇA: Passar a URL da imagem ao criar a refeição
     refeicao_data = RefeicaoSalvaCreate(
@@ -165,6 +164,9 @@ async def salvar_scan_rapido_editado(
         print(f"Erro ao salvar refeição editada user {current_user.id}: {e}") 
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno ao salvar a refeição.")
     
+    print(f"✅ Refeição salva com ID: {db_refeicao.id}")
+    print("=" * 80)
+
 
 # ==========================================================
 # ✅ ENDPOINT DE ANÁLISE DETALHADA (Substituído pela nova lógica)
@@ -428,32 +430,26 @@ def get_resumo_diario(
 # ENDPOINT 6: GET LISTA DE REFEIÇÕES DE HOJE (Para o Dashboard)
 # ---------------------------------------------------------------
 @router.get(
-    "/refeicoes-hoje", 
-    response_model=List[RefeicaoHistoricoItem],
-    summary="Lista as refeições (resumo) do usuário para hoje"
+    "/refeicoes-hoje",
+    response_model=List[RefeicaoResumoHoje],  # ✅ Novo schema
+    summary="Lista as refeições (enriquecidas) do usuário para hoje"
 )
 def get_refeicoes_hoje(
     db: Session = Depends(get_db),
     current_user: Usuario = Depends(get_current_user)
 ):
+    """
+    Retorna lista de refeições de hoje com dados enriquecidos:
+    - Macronutrientes extraídos da análise
+    - Nome sugerido baseado nos alimentos
+    - Tipo inferido pelo horário
+    """
     refeicoes_db = crud.get_refeicoes_hoje_por_usuario(db, user_id=current_user.id)
+    
     resultado_lista = []
-
     for refeicao in refeicoes_db:
-        total_calorias = None
-        if refeicao.analysis_result_json:
-            try:
-                analise_data = json.loads(refeicao.analysis_result_json)
-                total_calorias = analise_data.get("analise_nutricional", {}).get("calorias_totais")
-            except:
-                pass 
-
-        resultado_lista.append(
-            RefeicaoHistoricoItem(
-                id=refeicao.id,
-                data_criacao=refeicao.created_at,
-                imagem_url=refeicao.imagem_url,
-                total_calorias=total_calorias
-            )
-        )
+        # ✅ Usa a nova função de enriquecimento
+        dados_enriquecidos = crud.enriquecer_refeicao_com_analise(refeicao)
+        resultado_lista.append(RefeicaoResumoHoje(**dados_enriquecidos))
+    
     return resultado_lista

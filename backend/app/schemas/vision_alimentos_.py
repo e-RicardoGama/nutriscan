@@ -147,6 +147,11 @@ class RefeicaoSalvaBase(BaseModel):
 class RefeicaoSalvaCreate(RefeicaoSalvaBase):
     alimentos: List[AlimentoSalvoCreate] 
 
+class RefeicaoSalvaCreate(BaseModel):
+    alimentos: List[AlimentoSalvoCreate]
+    imagem_url: Optional[str] = None  # ✅ DEVE EXISTIR
+
+
 class RefeicaoSalva(RefeicaoSalvaBase):
     id: int
     owner_id: int 
@@ -186,6 +191,30 @@ class ResumoDiarioResponse(BaseModel):
     total_proteinas_g: float  # <-- Adicionado _g
     total_carboidratos_g: float # <-- Adicionado _g
     total_gorduras_g: float # <-- Adicionado _g
+
+    class Config:
+        from_attributes = True
+
+class RefeicaoResumoHoje(BaseModel):
+    """
+    Schema para cada refeição exibida no dashboard de hoje.
+    Inclui dados enriquecidos da análise.
+    """
+    id: int
+    tipo: Optional[str] = None  # Categoria da refeição (Café, Almoço, etc.)
+    kcal_estimadas: Optional[int] = None  # Total de calorias
+    imagem_url: Optional[str] = None
+    
+    # Macronutrientes (extraídos da análise)
+    proteinas_g: Optional[float] = None
+    carboidratos_g: Optional[float] = None
+    gorduras_g: Optional[float] = None
+    
+    # Nome sugerido (gerado pela IA ou lista de alimentos)
+    suggested_name: Optional[str] = None
+    
+    # Lista de alimentos principais (para gerar nome se necessário)
+    alimentos_principais: Optional[List[str]] = None
 
     class Config:
         from_attributes = True

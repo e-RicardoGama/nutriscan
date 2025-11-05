@@ -557,6 +557,13 @@ export default function Home() {
         medida_caseira_sugerida: alimento.medida_caseira_sugerida,
       }));
 
+      console.log('🔍 DEBUG: Estado fotoCapturada:', {
+        existe: !!fotoCapturada,
+        tipo: fotoCapturada?.type,
+        tamanho: fotoCapturada?.size,
+        nome: fotoCapturada?.name
+      });
+
       // 2. Criar o FormData
       const formData = new FormData();
 
@@ -569,13 +576,19 @@ export default function Home() {
       formData.append("imagem", fotoCapturada);
       formData.append("alimentos_json", JSON.stringify(alimentosParaSalvar));
 
-      console.log('Enviando para salvar-scan-editado:', alimentosParaSalvar);
+      // 📍 ADICIONE AQUI (após criar o FormData)
+      console.log('📦 DEBUG: FormData criado:', {
+        temImagem: formData.has('imagem'),
+        temAlimentos: formData.has('alimentos_json')
+      });
 
       // ✅ CORREÇÃO: Enviar a lista DIRETAMENTE
       const saveResponse = await api.post<{ meal_id: number }>(
         '/api/v1/refeicoes/salvar-scan-editado',
         formData  
       );
+
+      console.log('✅ DEBUG: Resposta recebida:', saveResponse.data);
 
       savedMealId = saveResponse.data.meal_id;
 
@@ -639,7 +652,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
       <Navbar onLogout={logout} />
-      <main className="flex-grow w-full">
+      <main className="grow w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-4 lg:p-8">
 
           {/* --- COLUNA DA ESQUERDA (IMAGEM) --- */}
