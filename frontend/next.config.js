@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // ========================================
+  // Headers customizados
+  // ========================================
   async headers() {
     return [
       {
@@ -9,17 +12,64 @@ const nextConfig = {
             key: 'Service-Worker-Allowed',
             value: '/'
           },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          }
         ],
       },
     ]
   },
+
+  // ========================================
+  // ESLint
+  // ========================================
   eslint: {
-    // Aviso: Isso vai permitir que o build seja concluído 
-    // mesmo que seu projeto tenha erros de ESLint.
     ignoreDuringBuilds: true,
   },
+
+  // ========================================
+  // Otimização de imagens
+  // ========================================
   images: {
-    unoptimized: true  // ← LINHA CRÍTICA
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      }
+    ]
+  },
+
+  // ❌ REMOVIDO: output: 'export'
+  // ✅ Firebase Hosting com Next.js precisa de servidor
+
+  // ========================================
+  // Variáveis de ambiente públicas
+  // ========================================
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://nutriscan-backend-925272362555.southamerica-east1.run.app'
+  },
+
+  // ========================================
+  // Configurações de build
+  // ========================================
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+
+  // ========================================
+  // Experimental
+  // ========================================
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
   }
 }
 

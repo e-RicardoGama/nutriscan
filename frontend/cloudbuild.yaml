@@ -1,62 +1,120 @@
 steps:
-  # Etapa 1: Instala dependências do Next.js
-  - name: 'node:18'
+  # ========================================
+  # Etapa 1: Instala dependências
+  # ========================================
+  - name: 'node:20'
+    id: 'install-dependencies'
     entrypoint: 'npm'
-    args: ['install']
+    args: ['ci']
     dir: 'frontend'
 
-  # Etapa 2: Build do Next.js com variável de ambiente
-  - name: 'node:18'
+  # ========================================
+  # Etapa 2: Gera Prisma Client
+  # ========================================
+  - name: 'node:20'
+    id: 'generate-prisma'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
+        echo "🔧 Gerando Prisma Client..."
+        npx prisma generate
+        echo "✅ Prisma Client gerado!"
+    dir: 'frontend'
+    env:
+      - 'DATABASE_URL=${_DATABASE_URL}'
+    waitFor: ['install-dependencies']
+
+  # ========================================
+  # Etapa 3: Build do Next.js
+  # ========================================
+  - name: 'node:20'
+    id: 'build-nextjs'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "🏗️ Iniciando build do Next.js..."
         export NEXT_PUBLIC_API_URL="https://nutriscan-backend-925272362555.southamerica-east1.run.app"
         npm run build
+        echo "✅ Build concluído!"
     dir: 'frontend'
+    env:
+      - 'DATABASE_URL=${_DATABASE_URL}'
+      - 'NODE_ENV=production'
+    waitFor: ['generate-prisma']
 
-  # Etapa 3: Baixa a chave da Service Account do Secret Manager
+  # ========================================
+  # Etapa 4: Baixa credenciais Firebase
+  # ========================================
   - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT_KEY" > /workspace/frontend/key.json'
-
-  # Etapa 3.5: Debug - Verifica se o arquivo foi criado corretamente
-  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'download-firebase-key'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "=== Verificando arquivo de credenciais ==="
-        if [ -f /workspace/frontend/key.json ]; then
-          echo "✓ Arquivo key.json encontrado!"
-          echo "Tamanho: $(stat -c%s /workspace/frontend/key.json) bytes"
-          echo "Service Account: $(cat /workspace/frontend/key.json | jq -r '.client_email')"
-        else
-          echo "✗ Arquivo key.json NÃO encontrado!"
+        echo "🔑 Baixando credenciais do Firebase..."
+        gcloud secrets versions access latest \
+          --secret="FIREBASE_SERVICE_ACCOUNT_KEY" \
+          > /workspace/frontend/key.json
+        echo "✅ Credenciais baixadas!"
+    waitFor: ['-']
+
+  # ========================================
+  # Etapa 5: Valida credenciais
+  # ========================================
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'validate-firebase-key'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "=== 🔍 Validando credenciais ==="
+        if [ ! -f /workspace/frontend/key.json ]; then
+          echo "❌ Arquivo key.json NÃO encontrado!"
           exit 1
         fi
+        
+        SIZE=$(stat -c%s /workspace/frontend/key.json)
+        EMAIL=$(cat /workspace/frontend/key.json | jq -r '.client_email')
+        
+        echo "✓ Arquivo encontrado!"
+        echo "📦 Tamanho: ${SIZE} bytes"
+        echo "📧 Service Account: ${EMAIL}"
+    waitFor: ['download-firebase-key']
 
-  # Etapa 4: Instala Firebase CLI e faz o deploy
-  - name: 'node:18'
+  # ========================================
+  # Etapa 6: Deploy no Firebase
+  # ========================================
+  - name: 'node:20'
+    id: 'deploy-firebase'
     env:
       - 'GOOGLE_APPLICATION_CREDENTIALS=/workspace/frontend/key.json'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "=== Instalando Firebase CLI ==="
-        npm install -g firebase-tools
-        
-        echo "=== Habilitando experimento webframeworks ==="
-        firebase experiments:enable webframeworks
-        
-        echo "=== Iniciando deploy no Firebase Hosting ==="
-        firebase deploy --only hosting --project ${PROJECT_ID} --non-interactive --debug
-        
-        echo "✓ Deploy concluído com sucesso!"
-    dir: 'frontend'
+        echo "🚀 Instalando Firebase CLI..."
+        npm install -g firebase-tools@latest
 
+        echo "🧪 Habilitando experimento webframeworks..."
+        firebase experiments:enable webframeworks
+
+        echo "🔥 Iniciando deploy no Firebase Hosting..."
+        firebase deploy \
+          --only hosting \
+          --project ${PROJECT_ID} \
+          --non-interactive \
+          --debug
+
+        echo "✅ Deploy concluído com sucesso!"
+    dir: 'frontend'
+    waitFor: ['build-nextjs', 'validate-firebase-key']
+
+# ========================================
+# Configurações globais
+# ========================================
 options:
   logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
+

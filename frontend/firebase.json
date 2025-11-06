@@ -8,17 +8,6 @@
     ],
     "frameworksBackend": {
       "region": "southamerica-east1"
-    },
-    "headers": [
-      {
-        "source": "/sw-debug.js",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          }
-        ]
-      }
-    ]
+    }
   }
 }
