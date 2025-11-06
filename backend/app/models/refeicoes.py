@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from app.database import Base
 import enum
-from datetime import datetime
+from datetime import datetime, timezone
 
 class RefeicaoStatus(str, enum.Enum):
     PENDING_ANALYSIS = "pending_analysis"
@@ -23,8 +23,8 @@ class RefeicaoSalva(Base):
     
     analysis_result_json = Column(Text, nullable=True)
     
-    created_at = Column(DateTime, default=datetime.now)
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relacionamentos
     alimentos = relationship("AlimentoSalvo", back_populates="refeicao", cascade="all, delete-orphan")
