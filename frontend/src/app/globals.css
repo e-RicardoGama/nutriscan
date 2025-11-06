@@ -22,3 +22,7 @@ body {
   color: var(--foreground);
   /* A font-family será gerenciada pelo layout.tsx com next/font */
 }
+
+   html {
+     scroll-behavior: smooth;
+   }
