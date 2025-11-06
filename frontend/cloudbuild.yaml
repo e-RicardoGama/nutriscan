@@ -60,7 +60,7 @@ steps:
         echo "✅ Credenciais baixadas!"
     waitFor: ['-']
 
-  # ========================================
+    # ========================================
   # Etapa 5: Valida credenciais
   # ========================================
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -75,12 +75,12 @@ steps:
           exit 1
         fi
         
-        SIZE=$(stat -c%s /workspace/frontend/key.json)
-        EMAIL=$(cat /workspace/frontend/key.json | jq -r '.client_email')
+        SIZE=$$(stat -c%s /workspace/frontend/key.json)
+        EMAIL=$$(cat /workspace/frontend/key.json | jq -r '.client_email')
         
         echo "✓ Arquivo encontrado!"
-        echo "📦 Tamanho: ${SIZE} bytes"
-        echo "📧 Service Account: ${EMAIL}"
+        echo "📦 Tamanho: $${SIZE} bytes"
+        echo "📧 Service Account: $${EMAIL}"
     waitFor: ['download-firebase-key']
 
   # ========================================
