@@ -1,4 +1,4 @@
-// /app/termos-uso/page.tsx
+// /app/termos-de-uso/page.tsx
 import Link from 'next/link';
 
 export default function TermosUso() {

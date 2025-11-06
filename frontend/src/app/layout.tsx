@@ -1,4 +1,4 @@
-// layout.tsx
+// /app/layout.tsx
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -6,7 +6,7 @@ import { AuthProvider } from "../context/AuthContext";
 import { Suspense } from "react";
 import ServiceWorkerClient from "../ServiceWorkerClient";
 import Footer from "../components/Footer";
-import ConsentimentoLGPD from "../components/ConsentimentoLGPD";
+import ConsentimentoWrapper from '../components/ConsentimentoWrapper';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +23,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Suspense fallback={<div>Carregando...</div>}>
           <AuthProvider>
             <ServiceWorkerClient />
+            
+            {/* Conteúdo principal da aplicação */}
             {children}
-            <ConsentimentoLGPD />
+            
+            {/* Modal de consentimento - aparece automaticamente quando necessário */}
+            <ConsentimentoWrapper />
+            
+            {/* Rodapé global */}
             <Footer />
           </AuthProvider>
         </Suspense>
