@@ -160,7 +160,7 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
         const unidadesPadrao = food.unidades || 1;
         setUnidades(unidadesPadrao);
         setGramas(food.peso_aproximado_g); // Define as gramas para o peso padrão
-        setMedidaCaseira(food.un_medida_caseira || '');
+        setMedidaCaseira(food.un_medida_caseira || 'g');
     };
 
     // O utilizador MUDOU O NÚMERO DE UNIDADES
@@ -292,8 +292,6 @@ export default function EditFoodModal({ itemParaEditar, foodDatabase, onSave, on
                             style={styles.quantityInput}
                         />
                     </div>
-
-                    <span style={styles.measureLabel}>g</span>
 
                 </div>
 
