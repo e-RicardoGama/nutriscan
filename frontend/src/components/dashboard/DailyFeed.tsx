@@ -1,7 +1,7 @@
 // src/components/dashboard/DailyFeed.tsx
 import React from 'react';
 import Image from 'next/image';
-import { Plus, ImageIcon } from 'lucide-react';
+import { Plus, ImageIcon, Eye } from 'lucide-react'; // Adicionado 'Eye' para o botão de análise
 
 export interface MealSummaryUI {
   id: number;
@@ -13,7 +13,7 @@ export interface MealSummaryUI {
   carboidratos_g?: number | null;
   gorduras_g?: number | null;
   // lista de alimentos principais (opcional) para sugestão de nome
-  alimentos_principais?: string[]; 
+  alimentos_principais?: string[];
   suggested_name?: string; // opcional: nome sugerido já pronto
 }
 
@@ -56,29 +56,20 @@ const DailyFeed: React.FC<{
         meals.map(meal => (
           <div
             key={meal.id}
-            className="flex items-start bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition cursor-pointer"
-            onClick={() => onMealClick?.(meal.id)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter') onMealClick?.(meal.id); }}
+            className="flex items-start bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition" // Removido cursor-pointer e onClick aqui
           >
-            {/* Imagem clicável: chama onViewMealClick (visualizar análise) */}
+            {/* Imagem: agora não é clicável para análise */}
             <div className="relative w-20 h-20 shrink-0 rounded-md overflow-hidden bg-gray-100">
               {meal.imagem_url ? (
-                <button
-                  onClick={(ev) => { ev.stopPropagation(); onViewMealClick?.(meal.id); }}
-                  aria-label={`Ver análise detalhada da refeição ${meal.id}`}
-                  className="w-full h-full block"
-                >
-                  <Image
-                    src={meal.imagem_url}
-                    alt={meal.tipo ? `${meal.tipo} — foto da refeição` : `Foto da refeição ${meal.id}`}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    unoptimized // remove se tiver next.config.domains configurado
-                    sizes="80px"
-                  />
-                </button>
+                // A imagem não tem mais um onClick para análise
+                <Image
+                  src={meal.imagem_url}
+                  alt={meal.tipo ? `${meal.tipo} — foto da refeição` : `Foto da refeição ${meal.id}`}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  unoptimized
+                  sizes="80px"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
                   <ImageIcon size={36} />
@@ -98,6 +89,27 @@ const DailyFeed: React.FC<{
               {/* Macros (proteínas, carbs, gorduras) */}
               <MacrosRow p={meal.proteinas_g ?? null} c={meal.carboidratos_g ?? null} f={meal.gorduras_g ?? null} />
 
+              {/* Novo botão para Ver Análise Detalhada */}
+              {onViewMealClick && (
+                <button
+                  onClick={() => onViewMealClick(meal.id)}
+                  className="mt-2 inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  aria-label={`Ver análise detalhada da refeição ${meal.id}`}
+                >
+                  <Eye size={16} /> Ver Análise
+                </button>
+              )}
+
+              {/* Se você quiser o card inteiro clicável para outros detalhes, pode adicionar aqui */}
+              {onMealClick && (
+                <button
+                  onClick={() => onMealClick(meal.id)} // CORRIGIDO: Era 'onMealId', agora é 'onMealClick'
+                  className="mt-2 ml-4 inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 text-sm font-medium"
+                  aria-label={`Ver detalhes da refeição ${meal.id}`}
+                >
+                  Ver Detalhes
+                </button>
+              )}
             </div>
           </div>
         ))

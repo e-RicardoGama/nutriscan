@@ -1,4 +1,4 @@
-// /src/services/api.ts
+// src/services/api.ts
 import axios from "axios";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -8,76 +8,67 @@ console.log('🔧 API Base URL configurada:', baseURL);
 
 const api = axios.create({
   baseURL,
-//  timeout: 60000,
+  // timeout: 60000, // Mantido comentado, pode ser útil em redes lentas
 });
 
-// Token guardado em memória (runtime)
-let _accessToken: string | null = null;
-
 /**
- * Define o token em memória e (se estiver no client) em localStorage e headers do axios
+ * Define o token no localStorage e no cabeçalho padrão do Axios.
+ * Esta função deve ser chamada após o login bem-sucedido.
  */
 export const setAccessToken = (token: string | null) => {
-  _accessToken = token;
-
-  // Atualiza header da instância do axios
+  if (typeof window !== "undefined") {
+    try {
+      if (token) {
+        localStorage.setItem("accessToken", token);
+      } else {
+        localStorage.removeItem("accessToken");
+      }
+    } catch (err) {
+      console.warn("services/api: falha ao acessar localStorage para setAccessToken", err);
+    }
+  }
+  // Atualiza o cabeçalho padrão para futuras requisições
   if (token) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
     delete api.defaults.headers.common["Authorization"];
   }
-
-  // Persiste somente no client
-  if (typeof window !== "undefined") {
-    try {
-      if (token) localStorage.setItem("accessToken", token);
-      else localStorage.removeItem("accessToken");
-    } catch (err) {
-      console.warn("services/api: falha ao acessar localStorage", err);
-    }
-  }
 };
 
-/**
- * Lê o token da memória; se não existir e estivermos no client, tenta do localStorage.
- * Retorna string|null
- */
-export const getAccessToken = (): string | null => {
-  if (_accessToken) return _accessToken;
-
-  if (typeof window !== "undefined") {
-    try {
-      const t = localStorage.getItem("accessToken");
-      if (t) {
-        _accessToken = t;
-        api.defaults.headers.common["Authorization"] = `Bearer ${t}`;
-        return t;
-      }
-    } catch (err) {
-      console.warn("services/api: erro ao ler token do localStorage", err);
-    }
-  }
-
-  return null;
-};
-
-// Interceptors (logging e tratamento simples)
+// Interceptor de Requisição: Adiciona o token de autenticação a cada requisição
 api.interceptors.request.use(
   (config) => {
-    if (typeof window !== "undefined") {
-      // opcional: leve logging
-      // console.log("🔄 Fazendo requisição para:", config.url);
+    if (typeof window !== "undefined") { // Garante que o localStorage só é acessado no lado do cliente
+      try {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        // Opcional: logging para depuração
+        // console.log("🔄 Fazendo requisição para:", config.url, "com token:", !!token);
+      } catch (err) {
+        console.warn("services/api: erro ao ler token do localStorage no interceptor", err);
+      }
     }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
+// Interceptor de Resposta: Trata erros comuns, como 401 Unauthorized
 api.interceptors.response.use(
-  (res) => res,
+  (response) => response,
   (error) => {
-    // Tratar 401 / refresh token etc. (placeholder)
-    // console.error("API response error:", error);
+    if (error.response && error.response.status === 401) {
+      console.error("Erro 401: Não autorizado. Token inválido ou expirado.");
+      // Redireciona para a página de login e limpa o token
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("accessToken");
+        // Use window.location.href para garantir um refresh completo e limpar o estado
+        window.location.href = '/login';
+      }
+    }
+    // Você pode adicionar outros tratamentos de erro aqui (ex: 403, 500)
     return Promise.reject(error);
   }
 );

@@ -8,7 +8,7 @@ import { AnaliseCompletaResponse } from '../interfaces/api.types';
 
 // Importe os "ajudantes" que acabamos de mover
 import AccordionItem from './AccordionItem';
-import { splitVitsAndMins } from '../utils/nutrition'; 
+import { splitVitsAndMins } from '../utils/nutrition';
 
 // Cole o seu código original aqui
 const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaResponse | null }) => {
