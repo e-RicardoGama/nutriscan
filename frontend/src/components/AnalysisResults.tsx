@@ -8,9 +8,8 @@ import { AnaliseCompletaResponse } from '../interfaces/api.types';
 
 // Importe os "ajudantes" que acabamos de mover
 import AccordionItem from './AccordionItem';
-import { splitVitsAndMins } from '../utils/nutrition';
+// REMOVIDO: import { splitVitsAndMins } from '../utils/nutrition'; // Não é mais necessário
 
-// Cole o seu código original aqui
 const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaResponse | null }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
@@ -32,22 +31,10 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
     gorduras: analise_nutricional?.macronutrientes?.gorduras_g ?? 0,
   };
 
-  // prepara vitaminas/minerais
-  let vitaminasList: string[] = [];
-  let mineraisList: string[] = [];
+  // ✅ CORREÇÃO AQUI: As vitaminas e minerais já vêm separadas do backend
+  const vitaminasList: string[] = analise_nutricional?.vitaminas ?? [];
+  const mineraisList: string[] = analise_nutricional?.minerais ?? [];
 
-  if (analise_nutricional) {
-    if (analise_nutricional.vitaminas?.length || analise_nutricional.minerais?.length) {
-      vitaminasList = analise_nutricional.vitaminas ?? [];
-      mineraisList = analise_nutricional.minerais ?? [];
-    } else if (analise_nutricional.vitaminas_minerais && analise_nutricional.vitaminas_minerais.length) {
-      const split = splitVitsAndMins(analise_nutricional.vitaminas_minerais);
-      vitaminasList = split.vitaminas;
-      mineraisList = split.minerais;
-    }
-  }
-
-  // O seu JSX original completo
   return (
     <div className="space-y-8 mt-6 pt-6 border-t">
       {detalhes_prato?.alimentos?.length > 0 && (

@@ -14,6 +14,10 @@ const api = axios.create({
 /**
  * Define o token no localStorage e no cabeçalho padrão do Axios.
  * Esta função deve ser chamada após o login bem-sucedido.
+ *
+ * NOTA: A função getAccessToken e a variável _accessToken foram removidas.
+ * O token agora é lido diretamente do localStorage no interceptor de requisição
+ * para garantir que esteja sempre atualizado e evitar problemas de sincronização.
  */
 export const setAccessToken = (token: string | null) => {
   if (typeof window !== "undefined") {
@@ -27,7 +31,8 @@ export const setAccessToken = (token: string | null) => {
       console.warn("services/api: falha ao acessar localStorage para setAccessToken", err);
     }
   }
-  // Atualiza o cabeçalho padrão para futuras requisições
+  // Opcional: Atualiza o cabeçalho padrão para futuras requisições *imediatas*.
+  // O interceptor abaixo garante que o token do localStorage seja usado em cada requisição.
   if (token) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {

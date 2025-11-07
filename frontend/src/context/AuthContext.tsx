@@ -1,148 +1,91 @@
-// src/context/AuthContext.tsx - VERSÃO CORRIGIDA
-
+// src/context/AuthContext.tsx
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { AxiosError } from "axios";
-import api, { setAccessToken, getAccessToken } from "../services/api";
-import type { Usuario } from "../types/usuario";
+//import { AxiosError } from "axios";
+import api, { setAccessToken } from "../services/api"; // REMOVIDO: getAccessToken
+import type { Usuario } from "../types/usuario"; // Assumindo que este é o caminho correto
 
-type MeResponse = Usuario;
+type MeResponse = Usuario; // Assumindo que o endpoint /me retorna um objeto Usuario
 
-type AuthCtx = {
+interface AuthContextType {
   usuario: Usuario | null;
   carregando: boolean;
-  login: (email: string, senha: string) => Promise<void>;
+  login: (token: string) => void;
   logout: () => void;
-  setUsuario: (usuario: Usuario | null) => void;
-};
+  refreshUser: () => Promise<void>;
+}
 
-const Ctx = createContext<AuthCtx | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// ✅ CORREÇÃO: Usar a URL da API do ambiente
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
-
-export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  const [carregando, setCarregando] = useState<boolean>(true);
+  const [carregando, setCarregando] = useState(true);
 
-  // ✅ CORREÇÃO: Log da URL da API para debug
-  useEffect(() => {
-    if (IS_DEVELOPMENT) {
-      console.log('🌐 API Base URL:', API_BASE_URL);
-      console.log('🎯 AuthProvider montado');
-    }
-  }, []);
-
-  const fetchMe = useCallback(async () => {
+  const fetchUser = useCallback(async () => {
     try {
-      if (IS_DEVELOPMENT) console.log('🔄 Buscando dados do usuário...');
-      const { data } = await api.get<MeResponse>("/api/v1/usuarios/me"); 
-      if (IS_DEVELOPMENT) console.log('✅ Dados do usuário recebidos:', data);
-      setUsuario(data);
+      // ✅ CORREÇÃO AQUI: Chamando o endpoint correto no backend
+      const response = await api.get<MeResponse>("/api/v1/usuarios/me");
+      setUsuario(response.data);
     } catch (error) {
-      console.error('❌ Erro ao buscar usuário:', error);
-      
-      if (error instanceof AxiosError && error.response?.status === 401) {
-        setAccessToken(null);
-      }
-      
+      console.error("Erro ao buscar dados do usuário:", error);
       setUsuario(null);
+      // Se /me falhar (ex: 401 Unauthorized), o interceptor em api.ts já deve lidar com isso
+      // redirecionando para login e limpando o token.
+      // Para o erro 404, o token não é inválido, mas o recurso não foi encontrado.
+      // Não removemos o token aqui para 404, pois o usuário pode estar autenticado,
+      // mas o endpoint /me pode estar com problema no backend.
     } finally {
       setCarregando(false);
     }
   }, []);
 
   useEffect(() => {
-    const token = getAccessToken();
-    if (IS_DEVELOPMENT) console.log('🔐 Token encontrado:', !!token);
-    
-    if (token) {
-      if (IS_DEVELOPMENT) console.log('🔄 Iniciando fetchMe...');
-      fetchMe();
-    } else {
-      if (IS_DEVELOPMENT) console.log('🚫 Sem token, pulando fetchMe');
-      setCarregando(false);
-    }
-  }, [fetchMe]);
+    const initializeAuth = async () => {
+      if (typeof window !== "undefined") {
+        const storedToken = localStorage.getItem("accessToken");
+        if (storedToken) {
+          setAccessToken(storedToken); // Configura o token no Axios para futuras requisições
+          await fetchUser(); // Tenta buscar os dados do usuário
+        } else {
+          setCarregando(false); // Não há token, então não há usuário logado, para de carregar
+        }
+      } else {
+        // No ambiente do servidor (SSR), não há localStorage, então não há token persistido
+        setCarregando(false);
+      }
+    };
+    initializeAuth();
+  }, [fetchUser]);
 
-  // ✅ CORREÇÃO PRINCIPAL: Login com URL absoluta para evitar problemas de CORS
-  const login = useCallback(async (email: string, senha: string) => {
+  const login = useCallback((token: string) => {
+    setAccessToken(token); // Salva o token no localStorage e configura o Axios
     setCarregando(true);
-    try {
-      const body = new URLSearchParams();
-      body.set("username", email);
-      body.set("password", senha);
-
-      // Constrói a URL que será usada
-      const loginUrl = `${API_BASE_URL}/api/v1/auth/login`;
-
-      // Log para verificar a URL antes de chamar o fetch
-      console.log('>>> URL COMPLETA SENDO USADA PARA LOGIN:', loginUrl); // <--- ADICIONE ESTA LINHA AQUI
-
-      // ✅ CORREÇÃO: Usar a URL correta com /api/v1
-      const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: body.toString(),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ Resposta do servidor:', errorText);
-        throw new Error(`Erro HTTP! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      if (IS_DEVELOPMENT) console.log('✅ Login bem-sucedido, token recebido:', data);
-      
-      if (!data.access_token) {
-        throw new Error('Token não recebido da API');
-      }
-      
-      setAccessToken(data.access_token);
-      await fetchMe();
-    } catch (err) {
-      console.error('❌ Erro no login:', err);
-      throw err;
-    } finally {
-      setCarregando(false);
-    }
-  }, [fetchMe]); 
+    fetchUser(); // Busca os dados do usuário após o login
+  }, [fetchUser]);
 
   const logout = useCallback(() => {
-    if (IS_DEVELOPMENT) console.log('🚪 Fazendo logout...');
-    setAccessToken(null);
+    setAccessToken(null); // Limpa o token do localStorage e do Axios
     setUsuario(null);
+    setCarregando(false);
   }, []);
 
-  // Log de estado (apenas desenvolvimento)
-  useEffect(() => {
-    if (IS_DEVELOPMENT) {
-      console.log('🔐 AuthContext - Estado atual:', {
-        usuario: usuario ? { nome: usuario.nome, email: usuario.email } : null,
-        carregando
-      });
-    }
-  }, [usuario, carregando]);
+  const refreshUser = useCallback(async () => {
+    setCarregando(true);
+    await fetchUser();
+  }, [fetchUser]);
 
   return (
-    <Ctx.Provider value={{ usuario, carregando, login, logout, setUsuario }}>
+    <AuthContext.Provider value={{ usuario, carregando, login, logout, refreshUser }}>
       {children}
-    </Ctx.Provider>
+    </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const context = useContext(Ctx);
-  if (!context) {
-    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
-
-export default Ctx;
