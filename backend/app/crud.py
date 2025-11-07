@@ -4,6 +4,7 @@ from sqlalchemy import func, cast, Date
 from typing import Optional, List, Dict, Any
 import json
 from datetime import datetime,date
+from pytz import timezone
 
 # --- Imports Explícitos ---
 from app.models.refeicoes import RefeicaoSalva, AlimentoSalvo, RefeicaoStatus
@@ -127,7 +128,7 @@ def get_refeicoes_hoje_por_usuario(db: Session, user_id: int) -> List[RefeicaoSa
     Busca todas as refeições do usuário de hoje
     que já tiveram a análise concluída.
     """
-    today = datetime.now().date()
+    today = datetime.now(timezone("America/Sao_Paulo")).date()
 
     return db.query(RefeicaoSalva).filter(
         RefeicaoSalva.owner_id == user_id,
