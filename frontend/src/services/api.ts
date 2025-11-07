@@ -64,6 +64,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // ✅ ESTA É A LINHA CRÍTICA: Certifique-se de que é '&&' e não '&amp;amp;&amp;amp;'
     if (error.response && error.response.status === 401) {
       console.error("Erro 401: Não autorizado. Token inválido ou expirado.");
       // Redireciona para a página de login e limpa o token

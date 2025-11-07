@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-//import { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import api, { setAccessToken } from "../services/api"; // REMOVIDO: getAccessToken
 import type { Usuario } from "../types/usuario"; // Assumindo que este é o caminho correto
 
@@ -11,7 +11,7 @@ type MeResponse = Usuario; // Assumindo que o endpoint /me retorna um objeto Usu
 interface AuthContextType {
   usuario: Usuario | null;
   carregando: boolean;
-  login: (token: string) => void;
+  login: (token: string) => void; // ✅ CORREÇÃO: login espera APENAS o token
   logout: () => void;
   refreshUser: () => Promise<void>;
 }
@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeAuth();
   }, [fetchUser]);
 
-  const login = useCallback((token: string) => {
+  const login = useCallback((token: string) => { // ✅ CORREÇÃO: login espera APENAS o token
     setAccessToken(token); // Salva o token no localStorage e configura o Axios
     setCarregando(true);
     fetchUser(); // Busca os dados do usuário após o login
