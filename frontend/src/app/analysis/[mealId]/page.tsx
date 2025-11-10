@@ -3,12 +3,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Navbar from "../../components/Navbar";
-import AnalysisResults from "../../components/AnalysisResults";
-import { useAuth } from "../../context/AuthContext";
-import api from "../../services/api";
-import { AnaliseCompletaResponse } from "../../interfaces/api.types";
-import { AxiosError } from "axios"; // Importar AxiosError para tipagem mais precisa
+// ✅ CORREÇÃO: Adicionado um '../' a mais em cada caminho
+import Navbar from "../../../components/Navbar";
+import AnalysisResults from "../../../components/AnalysisResults";
+import { useAuth } from "../../../context/AuthContext";
+import api from "../../../services/api";
+import { AnaliseCompletaResponse } from "../../../interfaces/api.types"; // Este também estava incorreto, mas não gerou erro antes
+import { AxiosError } from "axios";
 
 export default function AnalysisPage() {
   const { mealId } = useParams() as { mealId: string };
@@ -31,9 +32,8 @@ export default function AnalysisPage() {
           `/api/v1/refeicoes/detalhe/${mealId}`
         );
         setAnalysis(response.data);
-      } catch (error) { // ✅ CORREÇÃO 1: Removido 'any'
+      } catch (error) {
         console.error("Erro ao buscar análise:", error);
-        // ✅ CORREÇÃO 1: Tipagem mais específica para erro do Axios
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 403 || axiosError.response?.status === 401) {
           setErro("Permissão negada. Faça login novamente.");
@@ -46,7 +46,7 @@ export default function AnalysisPage() {
     };
 
     if (usuario) fetchAnalysis();
-  }, [usuario, carregando, mealId, router]); // ✅ CORREÇÃO 2: Adicionado 'router' à lista de dependências
+  }, [usuario, carregando, mealId, router]);
 
   if (carregando || carregandoPagina) {
     return <div className="flex min-h-screen justify-center items-center">Carregando...</div>;
