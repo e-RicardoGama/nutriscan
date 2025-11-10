@@ -8,6 +8,12 @@
     ],
     "frameworksBackend": {
       "region": "southamerica-east1"
-    }
+    },
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "ssrgenlangclient0450724"
+      }
+    ]
   }
 }
