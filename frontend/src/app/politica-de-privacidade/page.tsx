@@ -8,7 +8,7 @@ export default function PoliticaPrivacidade() {
       <header className="mb-8 border-b pb-4">
         <h1 className="text-4xl font-bold text-green-600 mb-2">Política de Privacidade</h1>
         <p className="text-sm text-gray-600">
-          <strong>Nutri Info</strong> | Atualizado em 6 de novembro de 2025
+          <strong>NutrInfo</strong> | Atualizado em 6 de novembro de 2025
         </p>
       </header>
 
@@ -35,15 +35,15 @@ export default function PoliticaPrivacidade() {
       <section id="introducao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">1. Introdução</h2>
         <p className="mb-3 leading-relaxed">
-          A <strong>Nutri Info</strong> valoriza sua privacidade e está comprometida com a proteção de seus dados pessoais, em conformidade com a <strong>LGPD (Lei Geral de Proteção de Dados Pessoais - Lei nº 13.709/2018)</strong>, <strong>GDPR (Regulamento Geral de Proteção de Dados da UE)</strong> e demais legislações aplicáveis de proteção de dados.
+          A <strong>NutrInfo</strong> valoriza sua privacidade e está comprometida com a proteção de seus dados pessoais, em conformidade com a <strong>LGPD (Lei Geral de Proteção de Dados Pessoais - Lei nº 13.709/2018)</strong>, <strong>GDPR (Regulamento Geral de Proteção de Dados da UE)</strong> e demais legislações aplicáveis de proteção de dados.
         </p>
         <p className="mb-3 leading-relaxed">
-          Esta <strong>Política de Privacidade</strong> detalha como coletamos, processamos, armazenamos, compartilhamos e protegemos suas informações pessoais quando você utiliza nossos serviços (aplicativo móvel, site e serviços relacionados). Ao usar a Nutri Info, você concorda com as práticas descritas nesta política.
+          Esta <strong>Política de Privacidade</strong> detalha como coletamos, processamos, armazenamos, compartilhamos e protegemos suas informações pessoais quando você utiliza nossos serviços (aplicativo móvel, site e serviços relacionados). Ao usar a NutrInfo, você concorda com as práticas descritas nesta política.
         </p>
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
           <p className="font-semibold text-blue-800">📋 Informações Importantes</p>
           <p className="text-sm text-blue-700 mt-1">
-            Esta política se aplica a todos os usuários da Nutri Info Ltda., CNPJ 12.345.678/0001-90, com sede na Av. Paulista, 1000, São Paulo/SP, CEP 01310-100.
+            Esta política se aplica a todos os usuários da NutrInfo Ltda., CNPJ 12.345.678/0001-90, com sede na Av. Paulista, 1000, São Paulo/SP, CEP 01310-100.
           </p>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function PoliticaPrivacidade() {
       <section id="dados-coletados" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">2. Dados Coletados</h2>
         <p className="mb-3 leading-relaxed">Coletamos apenas os dados necessários para fornecer e melhorar nossos serviços:</p>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">2.1 Dados de Identificação</h3>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
           <li>Nome completo</li>
@@ -103,7 +103,7 @@ export default function PoliticaPrivacidade() {
       <section id="finalidades" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">3. Finalidades do Tratamento</h2>
         <p className="mb-3 leading-relaxed">Seus dados são utilizados exclusivamente para as seguintes finalidades, conforme autorizado pela LGPD:</p>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">3.1 Finalidades Primárias (Execução de Contrato)</h3>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
           <li>Fornecer serviços personalizados de nutrição e planejamento alimentar</li>
@@ -133,7 +133,7 @@ export default function PoliticaPrivacidade() {
       {/* Seção 4: Consentimento e Base Legal */}
       <section id="consentimento" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">4. Consentimento e Base Legal</h2>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">4.1 Bases Legais para o Tratamento (LGPD Art. 7º)</h3>
         <p className="mb-3 leading-relaxed">De acordo com a LGPD, tratamos seus dados com base em:</p>
         <ul className="list-disc list-inside space-y-2 ml-4 mb-4">
@@ -174,10 +174,10 @@ export default function PoliticaPrivacidade() {
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
           <p className="font-semibold text-blue-800">🛡️ Seus Direitos Garantidos pela LGPD</p>
           <p className="text-sm text-blue-700 mt-1">
-            A Nutri Info garante todos os direitos previstos no art. 18 da LGPD, respondendo às solicitações em até 15 dias.
+            A NutrInfo garante todos os direitos previstos no art. 18 da LGPD, respondendo às solicitações em até 15 dias.
           </p>
         </div>
-        
+
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
             <strong className="text-green-700">Confirmação de Existência</strong>
@@ -237,7 +237,7 @@ export default function PoliticaPrivacidade() {
       <section id="compartilhamento" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">6. Compartilhamento de Dados</h2>
         <p className="mb-3 leading-relaxed">Compartilhamos seus dados apenas quando necessário e com as devidas garantias de proteção:</p>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">6.1 Operadores e Prestadores de Serviços</h3>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
           <li><strong>Processadores de Pagamento:</strong> Stripe, PagSeguro (dados de faturamento apenas)</li>
@@ -272,7 +272,7 @@ export default function PoliticaPrivacidade() {
       <section id="seguranca" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">7. Medidas de Segurança (LGPD Art. 46-49)</h2>
         <p className="mb-3 leading-relaxed">Implementamos medidas técnicas e administrativas robustas para proteger seus dados:</p>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">7.1 Medidas Técnicas</h3>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
           <li><strong>Criptografia:</strong> TLS 1.3 para dados em trânsito; AES-256 para dados em repouso</li>
@@ -307,7 +307,7 @@ export default function PoliticaPrivacidade() {
       <section id="retencao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">8. Retenção de Dados (LGPD Art. 15)</h2>
         <p className="mb-3 leading-relaxed">Mantemos seus dados apenas pelo tempo necessário, conforme os princípios de necessidade e minimização:</p>
-        
+
         <div className="overflow-x-auto mb-6">
           <table className="min-w-full border-collapse border border-gray-300">
             <thead>
@@ -360,7 +360,7 @@ export default function PoliticaPrivacidade() {
       {/* Seção 9: Notificação de Violações */}
       <section id="violacao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">9. Notificação de Violações de Dados (LGPD Art. 48)</h2>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">9.1 Nosso Compromisso</h3>
         <p className="mb-3 leading-relaxed">Estamos preparados para responder rapidamente a qualquer incidente de segurança:</p>
         <ul className="list-disc list-inside space-y-2 ml-4 mb-4">
@@ -396,10 +396,10 @@ export default function PoliticaPrivacidade() {
       {/* Seção 10: Transferência Internacional */}
       <section id="transferencia" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">10. Transferência Internacional de Dados (LGPD Art. 33-36)</h2>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">10.1 Destinos de Transferência</h3>
         <p className="mb-3 leading-relaxed">Seus dados podem ser transferidos para fora do Brasil apenas para os seguintes países e com as devidas garantias:</p>
-        
+
         <div className="overflow-x-auto mb-6">
           <table className="min-w-full border-collapse border border-gray-300">
             <thead>
@@ -457,7 +457,7 @@ export default function PoliticaPrivacidade() {
         <p className="mb-3 leading-relaxed">Podemos atualizar esta Política de Privacidade para refletir:</p>
         <ul className="list-disc list-inside space-y-2 ml-4 mb-4">
           <li>Mudanças na legislação de proteção de dados (LGPD, GDPR, etc.)</li>
-          <li>Novos serviços ou funcionalidades da Nutri Info</li>
+          <li>Novos serviços ou funcionalidades da NutrInfo</li>
           <li>Melhorias em nossas práticas de segurança e privacidade</li>
           <li>Alterações em nossos parceiros e prestadores de serviços</li>
         </ul>
@@ -486,7 +486,7 @@ export default function PoliticaPrivacidade() {
       {/* Seção 12: Contato */}
       <section id="contato" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">12. Contato e Encarregado de Proteção de Dados</h2>
-        
+
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">12.1 Encarregado de Proteção de Dados (DPO)</h3>
         <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
           <p className="font-semibold text-green-800">👤 Dados do Encarregado (LGPD Art. 41)</p>
@@ -505,7 +505,7 @@ export default function PoliticaPrivacidade() {
             <h4 className="font-semibold text-gray-800 mb-2">Para Exercer Direitos (LGPD Art. 18)</h4>
             <ul className="space-y-1 text-sm">
               <li><a href="mailto:privacidade@nutriinfo.com.br" className="text-green-600 underline">privacidade@nutriinfo.com.br</a></li>
-              <li>Formulário no app: Configurações &gt; Privacidade &gt; Meus Direitos</li>
+              <li>Formulário no app: Configurações &amp;gt; Privacidade &amp;gt; Meus Direitos</li>
               <li>Telefone: +55 (11) 4000-2000 (seg-sex, 9h-18h)</li>
             </ul>
           </div>
@@ -534,7 +534,7 @@ export default function PoliticaPrivacidade() {
         </div>
 
         <p className="mt-4 text-sm text-gray-600 italic">
-          <strong>Registro ANPD:</strong> A Nutri Info Ltda. está registrada junto à ANPD sob o nº 12345/2025 e cumpre todas as obrigações de controlador de dados pessoais.
+          <strong>Registro ANPD:</strong> A NutrInfo Ltda. está registrada junto à ANPD sob o nº 12345/2025 e cumpre todas as obrigações de controlador de dados pessoais.
         </p>
       </section>
 

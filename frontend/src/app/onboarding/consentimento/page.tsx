@@ -21,7 +21,7 @@ export default function OnboardingConsentimento() {
       <div className="max-w-3xl mx-auto">
         {/* Logo ou título do app (opcional) */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-green-600">Nutri Info</h1>
+          <h1 className="text-3xl font-bold text-green-600">NutrInfo</h1>
           <p className="text-gray-600 mt-2">Sua jornada para uma alimentação saudável começa aqui</p>
         </div>
 

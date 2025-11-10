@@ -12,7 +12,7 @@ export default function Footer() {
           
           {/* Coluna 1: Sobre */}
           <div>
-            <h3 className="text-lg font-bold text-green-600 mb-3">Nutri Info</h3>
+            <h3 className="text-lg font-bold text-green-600 mb-3">NutrInfo</h3>
             <p className="text-sm text-gray-600 leading-relaxed">
               Sua jornada para uma alimentação saudável e equilibrada. 
               Informações nutricionais personalizadas com tecnologia e cuidado.
@@ -89,7 +89,7 @@ export default function Footer() {
             
             {/* Copyright */}
             <p className="text-xs text-gray-500 text-center md:text-left">
-              &copy; {currentYear} <strong className="text-green-600">Nutri Info</strong>. 
+              &copy; {currentYear} <strong className="text-green-600">NutrInfo</strong>. 
               Todos os direitos reservados. | 
               <span className="ml-1">CNPJ: 12.345.678/0001-90</span>
             </p>

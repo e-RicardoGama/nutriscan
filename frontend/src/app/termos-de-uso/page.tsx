@@ -8,7 +8,7 @@ export default function TermosUso() {
       <header className="mb-8 border-b pb-4">
         <h1 className="text-4xl font-bold text-green-600 mb-2">Termos de Uso</h1>
         <p className="text-sm text-gray-600">
-          <strong>Nutri Info</strong> | Atualizado em 6 de novembro de 2025
+          <strong>NutrInfo</strong> | Atualizado em 6 de novembro de 2025
         </p>
       </header>
 
@@ -34,7 +34,7 @@ export default function TermosUso() {
       <section id="introducao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">1. Introdução</h2>
         <p className="mb-3 leading-relaxed">
-          Bem-vindo à <strong>Nutri Info</strong>, uma plataforma digital (aplicativo móvel e site) dedicada a fornecer informações nutricionais personalizadas, planos de alimentação, rastreamento de hábitos saudáveis e ferramentas de suporte à nutrição. Ao acessar, registrar-se ou utilizar nossos serviços (coletivamente, &ldquo;Serviços&rdquo;), você concorda em estar vinculado a estes <strong>Termos de Uso</strong> (&ldquo;Termos&rdquo;), que formam um contrato legal entre você (&ldquo;Usuário&rdquo;, &ldquo;Você&rdquo;) e a <strong>Nutri Info Ltda.</strong> (&ldquo;Nós&rdquo;, &ldquo;Nosso&rdquo; ou &ldquo;Empresa&rdquo;), com sede na Av. Paulista, 1000, São Paulo/SP, CEP 01310-100, CNPJ 12.345.678/0001-90.
+          Bem-vindo à <strong>NutrInfo</strong>, uma plataforma digital (aplicativo móvel e site) dedicada a fornecer informações nutricionais personalizadas, planos de alimentação, rastreamento de hábitos saudáveis e ferramentas de suporte à nutrição. Ao acessar, registrar-se ou utilizar nossos serviços (coletivamente, &ldquo;Serviços&rdquo;), você concorda em estar vinculado a estes <strong>Termos de Uso</strong> (&ldquo;Termos&rdquo;), que formam um contrato legal entre você (&ldquo;Usuário&rdquo;, &ldquo;Você&rdquo;) e a <strong>NutrInfo Ltda.</strong> (&ldquo;Nós&rdquo;, &ldquo;Nosso&rdquo; ou &ldquo;Empresa&rdquo;), com sede na Av. Paulista, 1000, São Paulo/SP, CEP 01310-100, CNPJ 12.345.678/0001-90.
         </p>
         <p className="mb-3 leading-relaxed">
           Estes Termos incorporam por referência nossa <Link href="/politica-privacidade" className="text-green-600 underline hover:text-green-800">Política de Privacidade</Link>, que governa o tratamento de dados pessoais. Se você não concordar com estes Termos, não utilize nossos Serviços.
@@ -57,7 +57,7 @@ export default function TermosUso() {
       {/* Seção 3: Descrição dos Serviços */}
       <section id="servicos" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">3. Descrição dos Serviços</h2>
-        <p className="mb-3 leading-relaxed">A Nutri Info oferece:</p>
+        <p className="mb-3 leading-relaxed">A NutrInfo oferece:</p>
         <ul className="list-disc list-inside space-y-2 ml-4">
           <li><strong>Ferramentas de rastreamento:</strong> Registro de refeições, calorias, macronutrientes e metas nutricionais.</li>
           <li><strong>Planos personalizados:</strong> Recomendações baseadas em perfis de usuário (ex: vegetarianos, atletas), geradas por algoritmos e, opcionalmente, nutricionistas certificados.</li>
@@ -86,7 +86,7 @@ export default function TermosUso() {
       <section id="propriedade" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">5. Propriedade Intelectual</h2>
         <ul className="list-disc list-inside space-y-2 ml-4">
-          <li><strong>Direitos nossos:</strong> Todo conteúdo da Nutri Info (textos, designs, algoritmos, marcas como &ldquo;Nutri Info&rdquo; e logotipos) é protegido por leis de direitos autorais, marcas e patentes (Lei 9.610/1998 e tratados internacionais). Você recebe uma licença limitada, não exclusiva e revogável para uso pessoal e não comercial.</li>
+          <li><strong>Direitos nossos:</strong> Todo conteúdo da NutrInfo (textos, designs, algoritmos, marcas como &ldquo;NutrInfo&rdquo; e logotipos) é protegido por leis de direitos autorais, marcas e patentes (Lei 9.610/1998 e tratados internacionais). Você recebe uma licença limitada, não exclusiva e revogável para uso pessoal e não comercial.</li>
           <li><strong>Seus direitos:</strong> Você retém direitos sobre dados pessoais e conteúdo gerado por você (ex: diários de refeições), mas concede-nos uma licença mundial, royalty-free para usar, modificar e distribuir esses dados anonimizados para melhorar os Serviços.</li>
           <li><strong>Proibições:</strong> Não copie, distribua, modifique ou comercialize nosso conteúdo sem permissão escrita. Violações sujeitam-se a ações judiciais.</li>
         </ul>
@@ -111,7 +111,7 @@ export default function TermosUso() {
         <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
           <p className="font-semibold text-yellow-800">⚠️ Aviso Importante</p>
           <p className="text-sm text-yellow-700 mt-1">
-            As recomendações da Nutri Info não substituem orientação profissional de nutricionistas ou médicos. Consulte um profissional de saúde antes de seguir qualquer plano.
+            As recomendações da NutrInfo não substituem orientação profissional de nutricionistas ou médicos. Consulte um profissional de saúde antes de seguir qualquer plano.
           </p>
         </div>
         <ul className="list-disc list-inside space-y-2 ml-4">

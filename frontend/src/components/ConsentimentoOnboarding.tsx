@@ -120,7 +120,7 @@ export default function ConsentimentoOnboarding({
       {/* Header */}
       <div className="mb-6 text-center border-b pb-4">
         <h2 className="text-2xl font-bold text-green-600 mb-2">
-          {isModal ? 'Atualização Importante' : 'Bem-vindo à Nutri Info!'}
+          {isModal ? 'Atualização Importante' : 'Bem-vindo à NutrInfo!'}
         </h2>
         <p className="text-gray-600 text-sm">
           {isModal 
