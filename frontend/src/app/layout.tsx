@@ -11,7 +11,7 @@ import ConsentimentoWrapper from '../components/ConsentimentoWrapper';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Nutri Info",
+  title: "NutrInfo",
   description: "Fotografe seu prato e receba uma análise nutricional completa com inteligência artificial.",
   icons: { icon: "/imagens/alimentacao.jpg" },
 };
