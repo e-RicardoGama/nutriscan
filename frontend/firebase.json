@@ -1,10 +1,28 @@
 {
   "hosting": {
-    "source": ".",
+    "public": "public", 
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/_next/static/**",
+        "destination": "/_next/static/**"
+      },
+      {
+        "source": "/_next/image/**",
+        "destination": "/_next/image/**"
+      },
+      {
+        "source": "/imagens/**", 
+        "destination": "/imagens/**"
+      },
+      {
+        "source": "**",
+        "function": "ssr" 
+      }
     ],
     "frameworksBackend": {
       "region": "southamerica-east1"
