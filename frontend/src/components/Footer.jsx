@@ -36,7 +36,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/politica-privacidade" 
+                  href="/politica-de-privacidade" 
                   className="text-sm text-gray-600 hover:text-blue-600 transition-colors inline-flex items-center"
                 >
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/politica-cookies" 
+                  href="/politica-de-cookies" 
                   className="text-sm text-gray-600 hover:text-orange-600 transition-colors inline-flex items-center"
                 >
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

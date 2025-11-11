@@ -1,10 +1,10 @@
-# app/security.py - VERSÃO HÍBRIDA CORRIGIDA
+# app/security.py - VERSÃO HÍBRIDA CORRIGIDA E OTIMIZADA
 import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 import logging
 
-import bcrypt  # ✅ ADICIONAR IMPORT
+import bcrypt
 from jose import JWTError, jwt
 from dotenv import load_dotenv
 
@@ -28,7 +28,7 @@ if not SECRET_KEY:
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
-# ✅ SOLUÇÃO SEGURA
+# ✅ SOLUÇÃO SEGURA para gerar hash de senha
 def gerar_hash_senha(senha: str) -> str:
     """
     Gera hash da senha usando bcrypt diretamente.
@@ -36,18 +36,18 @@ def gerar_hash_senha(senha: str) -> str:
     """
     try:
         senha_bytes = senha.encode('utf-8')
-        
+
         # ✅ REJEITAR em vez de truncar
         if len(senha_bytes) > 72:
             raise ValueError(
                 "Senha muito longa. O bcrypt suporta no máximo 72 bytes UTF-8. "
                 f"Sua senha tem {len(senha_bytes)} bytes."
             )
-        
+
         salt = bcrypt.gensalt(rounds=12)  # ✅ Aumentar rounds para mais segurança
         hashed_bytes = bcrypt.hashpw(senha_bytes, salt)
         return hashed_bytes.decode('utf-8')
-        
+
     except ValueError as ve:
         # Re-lançar erros de validação
         raise
@@ -55,48 +55,30 @@ def gerar_hash_senha(senha: str) -> str:
         logger.error(f"Erro ao gerar hash de senha: {e}")
         raise RuntimeError("Erro interno ao processar senha")
 
+# ✅ SOLUÇÃO SEGURA para verificar senha (mantida a primeira versão)
 def verificar_senha(senha_plana: str, senha_hash: str) -> bool:
     """
     Verifica se a senha plana corresponde ao hash armazenado.
+    Rejeita senhas muito longas.
     """
     try:
         senha_bytes = senha_plana.encode('utf-8')
-        
+
         # ✅ REJEITAR em vez de truncar
         if len(senha_bytes) > 72:
             # Senha inválida por ser muito longa
             return False
-        
+
         if isinstance(senha_hash, str):
             senha_hash = senha_hash.encode('utf-8')
-        
+
         return bcrypt.checkpw(senha_bytes, senha_hash)
-        
+
     except Exception as e:
         logger.error(f"Erro ao verificar senha: {e}")
         return False
 
-
-def verificar_senha(senha_plana: str, senha_hash: str) -> bool:
-    """
-    Verifica se a senha plana corresponde ao hash armazenado
-    """
-    try:
-        # Se a senha for muito longa, truncar para 72 bytes
-        if len(senha_plana.encode('utf-8')) > 72:
-            senha_plana = senha_plana.encode('utf-8')[:72].decode('utf-8', 'ignore')
-        
-        # Converter string hash para bytes se necessário
-        if isinstance(senha_hash, str):
-            senha_hash = senha_hash.encode('utf-8')
-        
-        # Usar bcrypt diretamente
-        return bcrypt.checkpw(senha_plana.encode('utf-8'), senha_hash)
-    except Exception as e:
-        logger.error(f"Erro ao verificar senha: {e}")
-        return False
-
-# --- JWT helpers (MANTIDOS) ---
+# --- JWT helpers ---
 def criar_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """
     Cria um token JWT contendo os dados passados em 'data' e o exp como timestamp inteiro.
@@ -119,8 +101,8 @@ def decodificar_token(token: str) -> dict:
     except JWTError as e:
         raise e
 
-# --- Autenticação OAuth2 (MANTIDOS) ---
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")  # ✅ CORREÇÃO
+# --- Autenticação OAuth2 ---
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> Usuario:
     try:
