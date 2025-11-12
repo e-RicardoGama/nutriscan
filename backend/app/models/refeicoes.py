@@ -1,5 +1,5 @@
 # app/models/refeicoes.py
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum,Float
 from sqlalchemy.orm import relationship
 from app.database import Base
 import enum
@@ -37,10 +37,10 @@ class AlimentoSalvo(Base):
     refeicao_id = Column(Integer, ForeignKey("refeicoes_salvas.id"), nullable=False)
     
     nome = Column(String(255), nullable=False)
-    quantidade_estimada_g = Column(Integer)  # Usar Float se preferir
+    quantidade_estimada_g = Column(Float)  # Usar Float se preferir
     categoria_nutricional = Column(String(100))
     confianca = Column(String(50))  # 'alta', 'media', 'baixa', 'corrigido'
-    calorias_estimadas = Column(Integer)  # Usar Float se preferir
+    calorias_estimadas = Column(Float)  # Usar Float se preferir
     medida_caseira_sugerida = Column(String(100))
     
     # Relacionamentos

@@ -26,3 +26,7 @@ body {
    html {
      scroll-behavior: smooth;
    }
+
+  img {
+    background-color: transparent;
+  }

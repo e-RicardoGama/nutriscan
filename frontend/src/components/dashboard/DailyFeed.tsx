@@ -22,7 +22,7 @@ const DailyFeed: React.FC<{
   onAddMealClick: () => void;
   onViewMealClick?: (mealId: number) => void; // ao clicar na imagem abre análise
   onMealClick?: (mealId: number) => void; // clique no card inteiro (detalhes)
-}> = ({ meals, onAddMealClick, onViewMealClick, onMealClick }) => {
+}> = ({ meals, onAddMealClick, onViewMealClick }) => {
 
   // componente que exibe macros (com fallback)
   const MacrosRow: React.FC<{ p?: number | null; c?: number | null; f?: number | null }> = ({ p, c, f }) => {
@@ -100,16 +100,7 @@ const DailyFeed: React.FC<{
                 </button>
               )}
 
-              {/* Se você quiser o card inteiro clicável para outros detalhes, pode adicionar aqui */}
-              {onMealClick && (
-                <button
-                  onClick={() => onMealClick(meal.id)} // CORRIGIDO: Era 'onMealId', agora é 'onMealClick'
-                  className="mt-2 ml-4 inline-flex items-center gap-1 text-gray-600 hover:text-gray-800 text-sm font-medium"
-                  aria-label={`Ver detalhes da refeição ${meal.id}`}
-                >
-                  Ver Detalhes
-                </button>
-              )}
+              
             </div>
           </div>
         ))

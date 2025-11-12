@@ -769,7 +769,7 @@ export default function Home() {
                     className="w-full sm:w-auto cursor-pointer bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md flex items-center justify-center mx-auto"
                   >
                     <HomeIcon size={20} className="mr-2" />
-                    Voltar ao Dashboard
+                    Voltar ao Início
                   </button>
                 </div>
               )}

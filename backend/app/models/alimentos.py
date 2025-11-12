@@ -44,7 +44,3 @@ class Alimento(Base):
     un_medida_caseira = Column(String(255))
     peso_aproximado_g = Column(Float)
 
-    # --- Refeições ---
-    dieta = Column(String(255))
-    refeicao = Column(String(255))
-    status = Column(String(255))
