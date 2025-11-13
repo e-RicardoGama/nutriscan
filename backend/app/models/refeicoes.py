@@ -1,5 +1,5 @@
 # app/models/refeicoes.py
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum,Float, func
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum,Float, func, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from app.database import Base
@@ -24,8 +24,11 @@ class RefeicaoSalva(Base):
     
     analysis_result_json = Column(Text, nullable=True)
     
-    created_at = Column(DateTime(timezone=True), default=func.now())
-    updated_at = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime(timezone=True), 
+                       default=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"))
+    updated_at = Column(DateTime(timezone=True), 
+                       default=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"),
+                       onupdate=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"))
     
     # Relacionamentos
     alimentos = relationship("AlimentoSalvo", back_populates="refeicao", cascade="all, delete-orphan")
