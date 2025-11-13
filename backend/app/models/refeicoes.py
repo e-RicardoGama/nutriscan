@@ -1,5 +1,5 @@
 # app/models/refeicoes.py
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum,Float
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum,Float, func
 from sqlalchemy.orm import relationship
 from app.database import Base
 import enum
@@ -23,8 +23,8 @@ class RefeicaoSalva(Base):
     
     analysis_result_json = Column(Text, nullable=True)
     
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=func.now())  # Só na criação
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())  # Sempre que atualizar
     
     # Relacionamentos
     alimentos = relationship("AlimentoSalvo", back_populates="refeicao", cascade="all, delete-orphan")
