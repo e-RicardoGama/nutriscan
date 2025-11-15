@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import time
 import os
 import logging
+from starlette.middleware.cors import CORSMiddleware
 
 # ✅ IMPORTS DO RATE LIMITING (ANTES DA CRIAÇÃO DO APP)
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -66,6 +67,7 @@ def get_cors_origins():
             "http://127.0.0.1:3000",
             "http://127.0.0.1:8000",
             "http://0.0.0.0:3000",
+            "http://localhost:5173",
         ])
     
     return base_origins

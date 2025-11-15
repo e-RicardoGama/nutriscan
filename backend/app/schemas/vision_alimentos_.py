@@ -1,7 +1,7 @@
 # app/schemas/vision_alimentos_.py - DEFINIÇÕES FALTANTES ADICIONADAS
 
 from pydantic import BaseModel, Field 
-from typing import Optional, List
+from typing import Optional, List,Dict, Any
 from datetime import datetime 
 import enum 
 
@@ -81,9 +81,9 @@ class Recomendacoes(BaseModel):
     alternativas_saudaveis: List[str]
 
 class AnaliseCompletaResponse(BaseModel):
-    detalhes_prato: DetalhesPrato
+    detalhes_prato: Dict[str, Any]
     analise_nutricional: AnaliseNutricional
-    recomendacoes: Recomendacoes
+    recomendacoes: Dict[str, Any]
     timestamp: Optional[datetime] = None 
 
     class Config:
@@ -105,7 +105,7 @@ class AlimentoPublic(BaseModel):
 class AlimentoReconhecido(BaseModel):
     # (Mantido como no seu arquivo original)
     alimento: str
-    quantidade_estimada_g: int
+    quantidade_estimada_g: float
     justificativa_ia: str
     energia_kcal: float
     proteina_g: float
@@ -115,7 +115,7 @@ class AlimentoReconhecido(BaseModel):
 class AlimentoNaoReconhecido(BaseModel):
     # (Mantido como no seu arquivo original)
     nome_sugerido_ia: str
-    quantidade_estimada_g: int
+    quantidade_estimada_g: float
 
 # ---------------------------------------------------------------
 # NOVOS SCHEMAS (Para Salvar Refeição Editada)
@@ -202,7 +202,7 @@ class RefeicaoResumoHoje(BaseModel):
     """
     id: int
     tipo: Optional[str] = None  # Categoria da refeição (Café, Almoço, etc.)
-    kcal_estimadas: Optional[int] = None  # Total de calorias
+    kcal_estimadas: Optional[float] = None  # Total de calorias
     imagem_url: Optional[str] = None
     
     # Macronutrientes (extraídos da análise)
