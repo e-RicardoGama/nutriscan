@@ -43,6 +43,9 @@ class AlimentoSalvo(Base):
     alimento_id = Column(Integer, ForeignKey("alimentos.id"), nullable=True, index=True)
 
     nome = Column(String(255), nullable=False)
+
+    quantidade_g = Column(Float, nullable=False)
+
     quantidade_estimada_g = Column(Float)
     categoria_nutricional = Column(String(100))
     confianca = Column(String(50))  # 'alta', 'media', 'baixa', 'corrigido'
