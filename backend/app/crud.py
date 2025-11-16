@@ -1,14 +1,15 @@
-# app/crud.py - VERSÃO COMPLETA ATUALIZADA COM AUTO-APRENDIZAGEM
-from sqlalchemy.orm import Session
+# app/crud.py
+
+from sqlalchemy.orm import Session, joinedload # ✅ Adicione joinedload aqui
 from sqlalchemy import func, cast, Date
 from typing import Optional, List, Dict, Any
 import json
 from datetime import datetime, date
 from zoneinfo import ZoneInfo
-import logging # 🔹 NOVO: Import para logging
+import logging
 
 # Configuração do logging
-logger = logging.getLogger(__name__) # 🔹 NOVO: Inicialização do logger
+logger = logging.getLogger(__name__)
 
 # --- Imports Explícitos ---
 from app.models.refeicoes import RefeicaoSalva, AlimentoSalvo, RefeicaoStatus
@@ -103,15 +104,15 @@ def get_or_create_alimento_by_nome(db: Session, nome: str) -> Optional[Alimento]
             lipidios_g_100g=float(dados_ia.get("lipidios_g_100g", 0) or 0),
             fibra_g_100g=float(dados_ia.get("fibra_g_100g", 0) or 0),
             # Outros campos com defaults 0
-            ac_graxos_saturados_g=0.0,
-            ac_graxos_monoinsaturados_g=0.0,
-            ac_graxos_poliinsaturados_g=0.0,
-            colesterol_mg_100g=0.0,
-            sodio_mg_100g=0.0,
-            potassio_mg_100g=0.0,
-            calcio_mg_100g=0.0,
-            ferro_mg_100g=0.0,
-            magnesio_mg_100g=0.0,
+            ac_graxos_saturados_g=float(dados_ia.get("ac_graxos_saturados_g", 0) or 0),
+            ac_graxos_monoinsaturados_g=float(dados_ia.get("ac_graxos_monoinsaturados_g", 0) or 0),
+            ac_graxos_poliinsaturados_g=float(dados_ia.get("ac_graxos_poliinsaturados_g", 0) or 0),
+            colesterol_mg_100g=float(dados_ia.get("colesterol_mg_100g", 0) or 0),
+            sodio_mg_100g=float(dados_ia.get("sodio_mg_100g", 0) or 0),
+            potassio_mg_100g=float(dados_ia.get("potassio_mg_100g", 0) or 0),
+            calcio_mg_100g=float(dados_ia.get("calcio_mg_100g", 0) or 0),
+            ferro_mg_100g=float(dados_ia.get("ferro_mg_100g", 0) or 0),
+            magnesio_mg_100g=float(dados_ia.get("magnesio_mg_100g", 0) or 0),
             unidades=float(dados_ia.get("unidades", 1) or 1),
             un_medida_caseira=dados_ia.get("un_medida_caseira"),
             peso_aproximado_g=float(dados_ia.get("peso_aproximado_g", 100) or 100),
@@ -173,7 +174,7 @@ def create_refeicao_salva(db: Session,
             alimento_id = alimento_registro.id if alimento_registro else None
 
             if not alimento_id:
-                logger.warning(f"  ⚠️ Não foi possível obter dados para '{nome_alimento}'. Salvando sem vínculo.")
+                logger.warning(f"  ⚠️ Não foi possível obter dados para '{nome_alimento}'. Salvando AlimentoSalvo sem vínculo com a tabela 'alimentos'.")
             else:
                 logger.info(f"  ✅ Alimento vinculado (ID: {alimento_id})")
 
@@ -212,13 +213,18 @@ def create_refeicao_salva(db: Session,
         logger.error(f"❌ Erro ao salvar refeição: {e}")
         raise
 
-# --- FUNÇÕES EXISTENTES (mantidas sem alteração) ---
+# --- FUNÇÕES EXISTENTES (atualizadas com joinedload) ---
 
 def get_refeicao_salva(db: Session, meal_id: int, user_id: int) -> Optional[RefeicaoSalva]:
-    """Busca uma refeição salva pelo ID, garantindo que pertence ao usuário."""
+    """
+    Busca uma refeição salva pelo ID, garantindo que pertence ao usuário,
+    e carrega eagermente os alimentos salvos e seus detalhes nutricionais.
+    """
     return db.query(RefeicaoSalva).filter(
         RefeicaoSalva.id == meal_id,
         RefeicaoSalva.owner_id == user_id
+    ).options(
+        joinedload(RefeicaoSalva.alimentos).joinedload(AlimentoSalvo.alimento_detalhes)
     ).first()
 
 def update_refeicao_status(db: Session, db_refeicao: RefeicaoSalva, status: RefeicaoStatus) -> RefeicaoSalva:
@@ -236,10 +242,15 @@ def get_historico_refeicoes_por_usuario(db: Session, user_id: int) -> List[Refei
     ).order_by(RefeicaoSalva.created_at.desc()).all()
 
 def get_detalhe_refeicao_por_id(db: Session, meal_id: int, user_id: int) -> Optional[RefeicaoSalva]:
-    """Busca uma refeição específica e garante que ela pertence ao usuário."""
+    """
+    Busca uma refeição específica e garante que ela pertence ao usuário,
+    carregando eagermente os alimentos salvos e seus detalhes nutricionais.
+    """
     return db.query(RefeicaoSalva).filter(
         RefeicaoSalva.id == meal_id,
         RefeicaoSalva.owner_id == user_id
+    ).options(
+        joinedload(RefeicaoSalva.alimentos).joinedload(AlimentoSalvo.alimento_detalhes)
     ).first()
 
 def get_consumo_macros_hoje(db: Session, user_id: int) -> dict:

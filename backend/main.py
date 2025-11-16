@@ -19,6 +19,7 @@ from app.routers.vision_alimentos import router as vision_router
 from app.routers.auth import router as auth_router
 from app.routers.usuarios import router as usuarios_router
 from app.routers.conversoes import router as conversoes_router
+from app.routers import alimentos as alimentos_router
 
 # ✅ CARREGAR VARIÁVEIS DE AMBIENTE
 load_dotenv()
@@ -185,6 +186,7 @@ app.include_router(auth_router, prefix="/api/v1", tags=["🔐 Autenticação"])
 app.include_router(usuarios_router, prefix="/api/v1", tags=["👤 Usuários"])
 app.include_router(vision_router, prefix="/api/v1", tags=["📸 Análise de Imagem"])
 app.include_router(conversoes_router, prefix="/api/v1", tags=["🔄 Conversões"])
+app.include_router(alimentos_router.router, prefix="/api/v1", tags=["🍔 Alimentos"])
 
 # ✅ ROTAS PÚBLICAS COM RATE LIMITING
 @app.get("/", tags=["Status"])

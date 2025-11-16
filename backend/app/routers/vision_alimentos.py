@@ -171,7 +171,6 @@ async def salvar_scan_rapido_editado(
 # ==========================================================
 # ✅ ENDPOINT DE ANÁLISE DETALHADA (Substituído pela nova lógica)
 # ==========================================================
-# app/routers/vision_alimentos.py
 
 @router.post("/analisar-detalhadamente/{meal_id}",
              response_model=AnaliseCompletaResponseSchema,
@@ -182,15 +181,16 @@ async def analisar_refeicao_detalhadamente_por_id(
     current_user: Usuario = Depends(get_current_user)
 ):
     # 1. Obter a refeição e os alimentos
+    # É crucial que get_refeicao_salva carregue os relacionamentos de forma eager (ver crud.py)
     db_refeicao: Optional[RefeicaoSalva] = crud.get_refeicao_salva(db=db, meal_id=meal_id, user_id=current_user.id)
     if not db_refeicao:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Refeição não encontrada.")
-    
+
     alimentos_salvos: List[AlimentoSalvo] = db_refeicao.alimentos
     if not alimentos_salvos:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Refeição sem alimentos.")
 
-    # --- Início da Nova Lógica de Análise ---
+    # --- Início da Lógica de Análise ---
     lista_alimentos_para_ia = []  # Lista de dicts para a IA (recomendações)
     detalhes_prato_resposta = []  # Lista de schemas para a resposta
 
@@ -208,18 +208,36 @@ async def analisar_refeicao_detalhadamente_por_id(
                 print(f"Aviso: Pulando alimento '{alimento_salvo.nome}' por não ter quantidade.")
                 continue
 
-            # 3. Chamar a função
-            dados_nutricionais_db = fetch_gemini_nutritional_data(
-                alimento_nome=alimento_salvo.nome
-            )
+            # 3. ✅ MUDANÇA PRINCIPAL AQUI: Acessar os dados nutricionais do relacionamento
+            #    'alimento_detalhes' que já foi populado pelo crud.get_or_create_alimento_by_nome
+            alimento_detalhes = alimento_salvo.alimento_detalhes
 
-            # 4. FAZER OS CÁLCULOS EM PYTHON
+            if not alimento_detalhes:
+                # Este caso não deveria ocorrer se create_refeicao_salva funcionou corretamente,
+                # mas é um bom fallback para garantir que a análise não pare.
+                print(f"⚠️ Alimento '{alimento_salvo.nome}' (ID: {alimento_salvo.id}) não tem detalhes nutricionais vinculados na tabela 'alimentos'. Isso indica um problema no fluxo de criação/vinculação. Pulando este alimento para a análise de macros.")
+                continue # Pula este alimento se não há dados nutricionais vinculados
+
+            # Usar os dados já carregados do banco (TACO ou Gemini salvo anteriormente)
+            dados_nutricionais_fonte = {
+                "energia_kcal_100g": alimento_detalhes.energia_kcal_100g,
+                "proteina_g_100g": alimento_detalhes.proteina_g_100g,
+                "carboidrato_g_100g": alimento_detalhes.carboidrato_g_100g,
+                "lipidios_g_100g": alimento_detalhes.lipidios_g_100g,
+                "unidades": alimento_detalhes.unidades,
+                "un_medida_caseira": alimento_detalhes.un_medida_caseira,
+                "peso_aproximado_g": alimento_detalhes.peso_aproximado_g,
+            }
+            print(f"✅ Usando dados do banco para '{alimento_salvo.nome}' (ID Alimento: {alimento_detalhes.id})")
+
+
+            # 4. FAZER OS CÁLCULOS EM PYTHON com os dados da fonte (banco)
             ratio = alimento_salvo.quantidade_estimada_g / 100.0
 
-            calorias_item = (dados_nutricionais_db.get("energia_kcal_100g") or 0) * ratio
-            proteinas_item = (dados_nutricionais_db.get("proteina_g_100g") or 0) * ratio
-            carboidratos_item = (dados_nutricionais_db.get("carboidrato_g_100g") or 0) * ratio
-            gorduras_item = (dados_nutricionais_db.get("lipidios_g_100g") or 0) * ratio
+            calorias_item = (dados_nutricionais_fonte.get("energia_kcal_100g") or 0) * ratio
+            proteinas_item = (dados_nutricionais_fonte.get("proteina_g_100g") or 0) * ratio
+            carboidratos_item = (dados_nutricionais_fonte.get("carboidrato_g_100g") or 0) * ratio
+            gorduras_item = (dados_nutricionais_fonte.get("lipidios_g_100g") or 0) * ratio
 
             total_calorias += calorias_item
             total_proteinas += proteinas_item
@@ -232,7 +250,8 @@ async def analisar_refeicao_detalhadamente_por_id(
                     nome=alimento_salvo.nome,
                     quantidade_gramas=alimento_salvo.quantidade_estimada_g,
                     metodo_preparo="Não especificado",
-                    medida_caseira_sugerida=f"{dados_nutricionais_db.get('unidades') or 1} {dados_nutricionais_db.get('un_medida_caseira') or 'g'}"
+                    # Usar os dados da fonte (banco)
+                    medida_caseira_sugerida=f"{dados_nutricionais_fonte.get('unidades') or 1} {dados_nutricionais_fonte.get('un_medida_caseira') or 'g'}"
                 )
             )
             lista_alimentos_para_ia.append({
@@ -241,11 +260,11 @@ async def analisar_refeicao_detalhadamente_por_id(
             })
 
         if not lista_alimentos_para_ia:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nenhum alimento com quantidade válida encontrado.")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nenhum alimento com quantidade válida encontrado para análise.")
 
         print(f"--- Fim dos Cálculos. Total Kcal: {total_calorias} ---")
 
-        # 6. CHAMAR A IA APENAS PARA RECOMENDAÇÕES
+        # 6. CHAMAR A IA APENAS PARA RECOMENDAÇÕES (esta parte continua a mesma)
         totais_calculados = {
             "kcal": total_calorias,
             "protein": total_proteinas,
@@ -265,7 +284,7 @@ async def analisar_refeicao_detalhadamente_por_id(
 
         # ✅ 7. SEPARAR VITAMINAS E MINERAIS (CORREÇÃO PRINCIPAL)
         vitaminas_minerais_lista = dados_ia.get("vitaminas_minerais", [])
-        
+
         # Listas conhecidas de minerais (em minúsculas para comparação)
         minerais_conhecidos = [
             'cálcio', 'calcio', 'ferro', 'magnésio', 'magnesio', 'fósforo', 'fosforo',
@@ -278,7 +297,7 @@ async def analisar_refeicao_detalhadamente_por_id(
 
         for item in vitaminas_minerais_lista:
             texto_lower = item.lower()
-            
+
             # Se contém "vitamina" ou começa com "vit" => é vitamina
             if 'vitamina' in texto_lower or texto_lower.startswith('vit'):
                 vitaminas_separadas.append(item)

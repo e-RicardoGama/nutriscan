@@ -81,10 +81,12 @@ class Recomendacoes(BaseModel):
     alternativas_saudaveis: List[str]
 
 class AnaliseCompletaResponse(BaseModel):
-    detalhes_prato: Dict[str, Any]
+    # ✅ CORREÇÃO AQUI: Mudar de Dict[str, Any] para o schema DetalhesPrato
+    detalhes_prato: DetalhesPrato
     analise_nutricional: AnaliseNutricional
-    recomendacoes: Dict[str, Any]
-    timestamp: Optional[datetime] = None 
+    # ✅ CORREÇÃO AQUI: Mudar de Dict[str, Any] para o schema Recomendacoes
+    recomendacoes: Recomendacoes
+    timestamp: Optional[datetime] = None
 
     class Config:
         from_attributes = True
