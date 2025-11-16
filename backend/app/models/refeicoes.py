@@ -1,10 +1,9 @@
-# app/models/refeicoes.py - VERSÃO FINAL
-
+# app/models/refeicoes.py
 from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SQLEnum, Float, func, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from app.database import Base
-from app.models.alimentos import Alimento  # 🔹 IMPORTANTE: Import para relacionamento com Alimento
+from app.models.alimentos import Alimento  # 🔹 NOVO: Import para relacionamento
 import enum
 from datetime import datetime, timezone
 
@@ -37,17 +36,19 @@ class AlimentoSalvo(Base):
     __tablename__ = "alimentos_salvos"
 
     id = Column(Integer, primary_key=True, index=True)
-    refeicao_id = Column(Integer, ForeignKey("refeicoes_salvas.id"))
-    alimento_id = Column(Integer, ForeignKey("alimentos.id"), nullable=True)
-    nome = Column(String(255))
-    quantidade_estimada_g = Column(Float) # 🔹 Confirmar este nome
-    categoria_nutricional = Column(String(255), nullable=True)
-    confianca = Column(String(50), nullable=True)
+    refeicao_id = Column(Integer, ForeignKey("refeicoes_salvas.id"), nullable=False)
 
-    # 🔹 IMPORTANTE: A coluna DEVE ser 'calorias_estimadas'
-    calorias_estimadas = Column(Float, nullable=True) 
+    # 🔹 NOVO: Vínculo com a tabela alimentos (TACO + IA)
+    alimento_id = Column(Integer, ForeignKey("alimentos.id"), nullable=True, index=True)
 
-    medida_caseira_sugerida = Column(String(255), nullable=True)
+    nome = Column(String(255), nullable=False)
+    quantidade_estimada_g = Column(Float)
+    categoria_nutricional = Column(String(100))
+    confianca = Column(String(50))  # 'alta', 'media', 'baixa', 'corrigido'
+    calorias_estimadas = Column(Float)
+    medida_caseira_sugerida = Column(String(100))
 
-    refeicao = relationship("RefeicaoSalva", back_populates="alimentos_salvos")
+    # Relacionamentos
+    refeicao = relationship("RefeicaoSalva", back_populates="alimentos")
+    # 🔹 NOVO: Acesso aos dados nutricionais completos (kcal, macros, micros)
     alimento_detalhes = relationship("Alimento", back_populates="alimentos_salvos")

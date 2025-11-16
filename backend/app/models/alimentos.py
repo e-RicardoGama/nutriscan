@@ -1,14 +1,12 @@
-# app/models/alimentos.py - VERSÃO FINAL
-
+# app/models/alimentos.py - VERSÃO CORRIGIDA COM RELACIONAMENTO
 from sqlalchemy import Column, Integer, String, Float
-from sqlalchemy.orm import relationship # 🔹 IMPORTANTE: Adicionado para o relacionamento
-
-# Importa a Base do seu arquivo database.py
+from sqlalchemy.orm import relationship 
 from app.database import Base
 
 class Alimento(Base):
     """
     Modelo SQLAlchemy representando um alimento e seus nutrientes na tabela 'alimentos'.
+    Fonte: TACO (Tabela Brasileira de Composição de Alimentos) + IA (Gemini)
     """
     __tablename__ = "alimentos"
 
@@ -17,8 +15,8 @@ class Alimento(Base):
     # --- Identificação do Alimento ---
     categoria = Column(String(255), index=True)
     alimento_normalizado = Column(String(255), unique=True, index=True)
-    alimentos = Column(String(255)) # Nome original do alimento (ex: "Arroz branco cozido")
-    alimento = Column(String(255)) # Nome mais genérico (ex: "Arroz")
+    alimentos = Column(String(255))
+    alimento = Column(String(255))
 
     # --- Macronutrientes (por 100g) ---
     energia_kcal_100g = Column(Float)
@@ -46,5 +44,4 @@ class Alimento(Base):
     peso_aproximado_g = Column(Float)
 
     # 🔹 NOVO: Relacionamento reverso com AlimentoSalvo
-    # Permite acessar os AlimentosSalvos que se referem a este Alimento
     alimentos_salvos = relationship("AlimentoSalvo", back_populates="alimento_detalhes")
