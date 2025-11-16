@@ -24,8 +24,6 @@ from app.schemas.vision_alimentos_ import (
 )
 
 
-
-
 # 🔹 NOVO: Import para auto-aprendizagem (Gemini)
 from app.vision import fetch_gemini_nutritional_data
 
@@ -121,12 +119,11 @@ def get_or_create_alimento_by_nome(db: Session, nome: str) -> Optional[Alimento]
         return None
 
 # --- OPERAÇÕES CRUD ---
-
 def create_refeicao_salva(
     db: Session,
     refeicao_data: RefeicaoSalvaCreate,
     user_id: int
-) -> RefeicaoSalva:
+) -> RefeicaoSalva: # 🔹 Retorna o schema RefeicaoSalva
     """
     Cria uma nova refeição salva com seus alimentos, vinculando-os à tabela 'alimentos'.
     """
@@ -136,36 +133,126 @@ def create_refeicao_salva(
             status=RefeicaoStatus.PENDING_ANALYSIS,
             imagem_url=refeicao_data.imagem_url
         )
+
         db.add(db_refeicao)
         db.flush()  # Gera o ID antes de inserir os alimentos
 
         for alimento_data in refeicao_data.alimentos:
-            # 🔹 NOVO: Obter ou criar o alimento na tabela 'alimentos'
-            alimento_detalhes = get_or_create_alimento_by_nome(db, alimento_data.nome)
+            # 🔹 CORRIGIDO: Passar 'calorias_estimadas' para a função
+            alimento_detalhes = _get_or_create_alimento_by_nome(
+                db, 
+                alimento_data.nome,
+                alimento_data.categoria_nutricional,
+                alimento_data.confianca, # Corrigido de 'confiança' para 'confianca'
+                alimento_data.calorias_estimadas, # 🔹 CORRIGIDO: Usar calorias_estimadas
+                alimento_data.medida_caseira_sugerida
+            )
 
             alimento_dict = alimento_data.model_dump(exclude_unset=True)
 
-            # 🔹 CORREÇÃO: Remover conversão int() se o schema AlimentoSalvo espera float
-            # Assumindo que AlimentoSalvo.calorias_estimadas é float, não precisa de int()
-            # if 'calorias_estimadas' in alimento_dict:
-            #     alimento_dict['calorias_estimadas'] = int(alimento_dict['calorias_estimadas'])
+            # 🔹 CORRIGIDO: Garantir que o campo de calorias no dict é 'calorias_estimadas'
+            # Se o schema AlimentoSalvoBase já está com 'calorias_estimadas', isso já estará correto.
+            # Se o frontend ainda manda 'kcal_estimadas', você precisaria mapear aqui:
+            # if 'kcal_estimadas' in alimento_dict:
+            #     alimento_dict['calorias_estimadas'] = alimento_dict.pop('kcal_estimadas')
 
             db_alimento = AlimentoSalvo(
                 **alimento_dict,
                 refeicao_id=db_refeicao.id,
-                alimento_id=alimento_detalhes.id if alimento_detalhes else None # Vincula o ID
+                alimento_id=alimento_detalhes.id if alimento_detalhes else None
             )
+
             db.add(db_alimento)
 
         db.commit()
         db.refresh(db_refeicao)
         logger.info(f"✅ Refeição ID {db_refeicao.id} criada com sucesso para user {user_id}")
-        return db_refeicao
+
+        # 🔹 NOVO: Retornar a refeição como o schema RefeicaoSalva
+        return RefeicaoSalva.model_validate(db_refeicao) 
 
     except SQLAlchemyError as e:
         db.rollback()
         logger.error(f"❌ Erro ao salvar refeição para user {user_id}: {str(e)}")
         raise Exception(f"Erro ao salvar refeição: {str(e)}")
+    
+def _get_or_create_alimento_by_nome(
+    db: Session,
+    nome: str,
+    categoria: str,
+    confianca: str, # Corrigido de 'confiança' para 'confianca'
+    calorias_estimadas: float, # 🔹 CORRIGIDO: Usar calorias_estimadas
+    medida_caseira: Optional[str] = None
+) -> Optional[Alimento]:
+    """
+    Busca alimento existente por similaridade ou cria novo.
+    Usa threshold de 0.7 para considerar similar.
+    """
+    try:
+        nome_normalizado = normalizar_nome_alimento(nome)
+
+        alimento_existente = db.query(Alimento).filter(
+            func.similarity(func.lower(Alimento.alimento), nome_normalizado) >= 0.7
+        ).order_by(
+            func.similarity(func.lower(Alimento.alimento), nome_normalizado).desc()
+        ).first()
+
+        if alimento_existente:
+            logger.info(f"✅ Alimento encontrado: '{alimento_existente.alimento}' (similaridade com '{nome}')")
+            return alimento_existente
+
+        # 🔹 NOVO: Lógica para chamar Gemini se não encontrar alimento na base
+        # Você precisa ter a função fetch_gemini_nutritional_data implementada
+        # e o Gemini configurado.
+        gemini_data = fetch_gemini_nutritional_data(nome)
+        if gemini_data:
+            # Usar os dados do Gemini para criar o novo alimento
+            novo_alimento = Alimento(
+                categoria=gemini_data.get("categoria", categoria),
+                alimento_normalizado=nome_normalizado,
+                alimento=nome,
+                energia_kcal_100g=gemini_data.get("calorias_100g", calorias_estimadas),
+                proteina_g_100g=gemini_data.get("proteinas_100g", 0.0),
+                carboidrato_g_100g=gemini_data.get("carboidratos_100g", 0.0),
+                lipidios_g_100g=gemini_data.get("gorduras_100g", 0.0),
+                fibra_g_100g=gemini_data.get("fibras_100g", 0.0),
+                # ... outros campos do Gemini
+                un_medida_caseira=gemini_data.get("medida_caseira", medida_caseira),
+                peso_aproximado_g=gemini_data.get("peso_aproximado_g", 100.0)
+            )
+        else:
+            # Criar novo alimento com valores padrão se Gemini falhar
+            novo_alimento = Alimento(
+                categoria=categoria,
+                alimento_normalizado=nome_normalizado,
+                alimento=nome,
+                energia_kcal_100g=calorias_estimadas, # Usar as calorias estimadas do frontend
+                proteina_g_100g=0.0,
+                carboidrato_g_100g=0.0,
+                lipidios_g_100g=0.0,
+                fibra_g_100g=0.0,
+                ac_graxos_saturados_g=0.0,
+                ac_graxos_monoinsaturados_g=0.0,
+                ac_graxos_poliinsaturados_g=0.0,
+                colesterol_mg_100g=0.0,
+                sodio_mg_100g=0.0,
+                potassio_mg_100g=0.0,
+                calcio_mg_100g=0.0,
+                ferro_mg_100g=0.0,
+                magnesio_mg_100g=0.0,
+                unidades=1,
+                un_medida_caseira=medida_caseira,
+                peso_aproximado_g=100.0
+            )
+
+        db.add(novo_alimento)
+        db.flush()
+        logger.info(f"✅ Novo alimento criado: '{nome}' (ID: {novo_alimento.id})")
+        return novo_alimento
+
+    except Exception as e:
+        logger.error(f"❌ Erro ao buscar/criar alimento '{nome}': {str(e)}")
+        return None
 
 def get_refeicao_salva(db: Session, meal_id: int, user_id: int) -> Optional[RefeicaoSalva]:
     """Busca uma refeição salva pelo ID, garantindo que pertence ao usuário."""

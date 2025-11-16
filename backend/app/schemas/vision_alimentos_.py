@@ -122,48 +122,19 @@ class AlimentoNaoReconhecido(BaseModel):
 # ---------------------------------------------------------------
 
 class AlimentoSalvoBase(BaseModel):
-    nome: str = Field(..., example="Arroz branco")
-    quantidade_estimada_g: Optional[float] = Field(None, example=100.0) 
-    categoria_nutricional: Optional[str] = Field(None, example="Grão") 
-    confianca: Optional[str] = Field(None, example="corrigido") 
-    calorias_estimadas: Optional[float] = Field(None, example=130.0) 
-    medida_caseira_sugerida: Optional[str] = Field(None, example="4 colheres de sopa")
+    nome: str = Field(..., example="Arroz branco cozido")
+    quantidade_estimada_g: float = Field(..., example=150.0)
+    categoria_nutricional: Optional[str] = Field(None, example="Grão")
+    confianca: Optional[str] = Field(None, example="alta")
 
-    class Config:
-        extra = 'ignore'
+    # 🔹 CORRIGIDO: Usar 'calorias_estimadas' aqui
+    calorias_estimadas: Optional[float] = Field(None, example=195.0) 
 
-class AlimentoSalvoCreate(BaseModel):
-    nome: str
+    medida_caseira_sugerida: Optional[str] = Field(None, example="1 xícara")
 
-    # Aceita tanto quantidade_estimada_g (IA) quanto quantidade_g (interno)
-    quantidade_estimada_g: Optional[float] = None
-    quantidade_g: Optional[float] = None
+class AlimentoSalvoCreate(AlimentoSalvoBase):
+    pass # Herda de AlimentoSalvoBase
 
-    # Aceita tanto calorias_estimadas (IA) quanto kcal_estimadas (interno)
-    calorias_estimadas: Optional[float] = None
-    kcal_estimadas: Optional[float] = None
-
-    # Campos nutricionais opcionais
-    proteinas_g: Optional[float] = None
-    carboidratos_g: Optional[float] = None
-    gorduras_g: Optional[float] = None
-
-    class Config:
-        extra = 'ignore'
-
-    # Normalização automática
-    def model_post_init(self, __context):
-        # Normaliza quantidade
-        if self.quantidade_g is None and self.quantidade_estimada_g is not None:
-            self.quantidade_g = self.quantidade_estimada_g
-
-        # Normaliza calorias
-        if self.kcal_estimadas is None and self.calorias_estimadas is not None:
-            self.kcal_estimadas = self.calorias_estimadas
-
-        # Validação final
-        if self.quantidade_g is None:
-            raise ValueError("Campo 'quantidade_estimada_g' ou 'quantidade_g' deve ser informado.")
 
 class AlimentoSalvo(AlimentoSalvoBase):
     id: int
