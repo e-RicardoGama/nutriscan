@@ -132,8 +132,18 @@ class AlimentoSalvoBase(BaseModel):
     class Config:
         extra = 'ignore'
 
-class AlimentoSalvoCreate(AlimentoSalvoBase):
-    pass
+class AlimentoSalvoCreate(BaseModel):
+    nome: str
+    quantidade_g: float
+
+    # Campos nutricionais estimados (tudo como float)
+    kcal_estimadas: Optional[float] = None
+    proteinas_g: Optional[float] = None
+    carboidratos_g: Optional[float] = None
+    gorduras_g: Optional[float] = None
+
+    class Config:
+        from_attributes = True
 
 class AlimentoSalvo(AlimentoSalvoBase):
     id: int

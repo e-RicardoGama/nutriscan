@@ -21,8 +21,10 @@ from app.models.alimentos import Alimento
 from app.schemas.vision_alimentos_ import (
     RefeicaoSalvaCreate,
     AnaliseCompletaResponse as AnaliseCompletaResponseSchema,
-    AlimentoSalvaCreate # 🔹 NOVO: Import para o tipo de alimento na criação
 )
+
+
+
 
 # 🔹 NOVO: Import para auto-aprendizagem (Gemini)
 from app.vision import fetch_gemini_nutritional_data
