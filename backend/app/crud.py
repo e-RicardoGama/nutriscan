@@ -46,13 +46,6 @@ def get_or_create_alimento_by_nome(db: Session, nome: str) -> Optional[Alimento]
     """
     Tenta encontrar um alimento na tabela 'alimentos' pelo nome normalizado.
     Se não encontrar, chama o Gemini para gerar dados nutricionais e cria um novo registro.
-
-    Args:
-        db: Sessão do SQLAlchemy
-        nome: Nome do alimento detectado pela IA (ex: "pão de hambúrguer")
-
-    Returns:
-        Objeto Alimento (já persistido) ou None em caso de erro
     """
     if not nome:
         return None
@@ -60,24 +53,36 @@ def get_or_create_alimento_by_nome(db: Session, nome: str) -> Optional[Alimento]
     nome_normalizado = normalizar_nome_alimento(nome)
     logger.info(f"🔍 Procurando alimento: '{nome}' (normalizado: '{nome_normalizado}')")
 
-    # 1️⃣ Tenta achar na tabela alimentos (TACO + já criados pela IA)
-    # Busca por alimento_normalizado OU alimento (para compatibilidade com TACO)
+    # 1️⃣ Busca exata por alimento_normalizado (mais rápida)
     alimento_existente = db.query(Alimento).filter(
         func.lower(Alimento.alimento_normalizado) == nome_normalizado
     ).first()
 
+    # 2️⃣ Se não achou, busca por similaridade usando pg_trgm
     if not alimento_existente:
-        # Tenta busca mais ampla por similaridade no campo 'alimento'
-        # Usando func.lower para garantir case-insensitivity na busca
-        alimento_existente = db.query(Alimento).filter(
-            func.lower(Alimento.alimento).contains(nome_normalizado)
-        ).order_by(func.similarity(Alimento.alimento, nome_normalizado).desc()).first() # Necessita extensão pg_trgm no PostgreSQL
+        try:
+            # ✅ AGORA FUNCIONA: Usa a extensão pg_trgm que você ativou
+            alimento_existente = db.query(Alimento).filter(
+                func.lower(Alimento.alimento).contains(nome_normalizado)
+            ).order_by(
+                func.similarity(Alimento.alimento, nome)  # Usa o nome original para melhor similaridade
+                .desc()
+            ).first()
+
+            if alimento_existente:
+                logger.info(f"✅ Alimento encontrado por similaridade: '{alimento_existente.alimento}' (ID: {alimento_existente.id}) - Similaridade: {func.similarity(alimento_existente.alimento, nome)}")
+        except Exception as e:
+            # Fallback se a extensão ainda não estiver disponível
+            logger.warning(f"⚠️ Busca por similaridade falhou: {e}. Usando busca simples.")
+            alimento_existente = db.query(Alimento).filter(
+                func.lower(Alimento.alimento).ilike(f"%{nome_normalizado}%")
+            ).first()
 
     if alimento_existente:
         logger.info(f"✅ Alimento encontrado na base: '{alimento_existente.alimento}' (ID: {alimento_existente.id})")
         return alimento_existente
 
-    # 2️⃣ Não achou → chama Gemini para estimar os dados nutricionais
+    # 3️⃣ Não achou → chama Gemini para estimar os dados nutricionais
     logger.info(f"🔄 Alimento não encontrado. Consultando Gemini para: '{nome}'")
     dados_ia = fetch_gemini_nutritional_data(nome)
 
@@ -85,53 +90,38 @@ def get_or_create_alimento_by_nome(db: Session, nome: str) -> Optional[Alimento]
         logger.error(f"❌ Erro ao obter dados do Gemini para '{nome}': {dados_ia.get('erro')}")
         return None
 
-    # 3️⃣ Monta novo Alimento a partir da resposta do Gemini
-    # Garantimos defaults com .get para evitar KeyError
+    # 4️⃣ Monta e salva novo Alimento
     try:
         novo_alimento = Alimento(
-            # Identificação
-            categoria=dados_ia.get("categoria", "Outros"),  # Pode ser inferido depois
+            categoria=dados_ia.get("categoria", "Outros"),
             alimento_normalizado=nome_normalizado,
-            alimentos=nome,  # Nome original detectado
+            alimentos=nome,
             alimento=dados_ia.get("alimento", nome),
-
-            # Macronutrientes (por 100g)
             energia_kcal_100g=float(dados_ia.get("energia_kcal_100g", 0) or 0),
             proteina_g_100g=float(dados_ia.get("proteina_g_100g", 0) or 0),
             carboidrato_g_100g=float(dados_ia.get("carboidrato_g_100g", 0) or 0),
             lipidios_g_100g=float(dados_ia.get("lipidios_g_100g", 0) or 0),
             fibra_g_100g=float(dados_ia.get("fibra_g_100g", 0) or 0),
-
-            # Detalhes de gorduras (por enquanto, Gemini não retorna - deixar 0)
-            ac_graxos_saturados_g=float(dados_ia.get("ac_graxos_saturados_g", 0) or 0),
-            ac_graxos_monoinsaturados_g=float(dados_ia.get("ac_graxos_monoinsaturados_g", 0) or 0),
-            ac_graxos_poliinsaturados_g=float(dados_ia.get("ac_graxos_poliinsaturados_g", 0) or 0),
-            colesterol_mg_100g=float(dados_ia.get("colesterol_mg_100g", 0) or 0),
-
-            # Micronutrientes (por enquanto, Gemini não retorna - deixar 0)
-            # ⚠️ FUTURO: Expandir o prompt do Gemini para incluir esses campos
-            sodio_mg_100g=float(dados_ia.get("sodio_mg_100g", 0) or 0),
-            potassio_mg_100g=float(dados_ia.get("potassio_mg_100g", 0) or 0),
-            calcio_mg_100g=float(dados_ia.get("calcio_mg_100g", 0) or 0),
-            ferro_mg_100g=float(dados_ia.get("ferro_mg_100g", 0) or 0),
-            magnesio_mg_100g=float(dados_ia.get("magnesio_mg_100g", 0) or 0),
-
-            # Medidas caseiras
+            # Outros campos com defaults 0
+            ac_graxos_saturados_g=0.0,
+            ac_graxos_monoinsaturados_g=0.0,
+            ac_graxos_poliinsaturados_g=0.0,
+            colesterol_mg_100g=0.0,
+            sodio_mg_100g=0.0,
+            potassio_mg_100g=0.0,
+            calcio_mg_100g=0.0,
+            ferro_mg_100g=0.0,
+            magnesio_mg_100g=0.0,
             unidades=float(dados_ia.get("unidades", 1) or 1),
-            un_medida_caseira=dados_ia.get("un_medida_caseira", None),
+            un_medida_caseira=dados_ia.get("un_medida_caseira"),
             peso_aproximado_g=float(dados_ia.get("peso_aproximado_g", 100) or 100),
         )
 
-        # 4️⃣ Salva no banco
         db.add(novo_alimento)
         db.commit()
         db.refresh(novo_alimento)
 
         logger.info(f"✅ Novo alimento criado e salvo: '{nome}' (ID: {novo_alimento.id})")
-        logger.info(f"   📊 Dados: {novo_alimento.energia_kcal_100g} kcal/100g, "
-                   f"{novo_alimento.proteina_g_100g}g prot, "
-                   f"{novo_alimento.carboidrato_g_100g}g carbs")
-
         return novo_alimento
 
     except Exception as e:
