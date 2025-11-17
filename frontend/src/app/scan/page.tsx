@@ -778,16 +778,6 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Botão para iniciar câmera / Prévia da câmera */}
-                {!cameraAtiva && !imageUrl && (
-                  <button
-                    onClick={iniciarCamera}
-                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
-                  >
-                    📸 Iniciar Câmera
-                  </button>
-                )}
-
                 {cameraAtiva && (
                   <div className="w-full mt-4">
                     <video ref={videoRef} autoPlay playsInline className="w-full h-auto rounded-xl shadow-2xl bg-black"></video>
