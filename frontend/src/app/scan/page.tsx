@@ -665,7 +665,7 @@ export default function Home() {
             </p>
 
             {!imageUrl && (
-              <label htmlFor="upload-inicial" className="w-full sm:w-auto cursor-pointer bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-blue-600 shadow-md mt-4">
+              <label htmlFor="upload-inicial" className="w-full sm:w-auto cursor-pointer bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-600 shadow-md mt-4">
                 📸 Abrir Câmera
                 <input type="file" id="upload-inicial" accept="image/*" capture="environment" className="hidden" onChange={handleImageUpload} />
               </label>
