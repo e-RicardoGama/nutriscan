@@ -445,15 +445,18 @@ export default function Home() {
 
   const iniciarCamera = async () => {
     try {
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setCameraError('Seu navegador não suporta acesso à.');
+        return;
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: 'environment', // Câmera traseira
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-        },
+        video: true,   // <-- sem facingMode por enquanto
+        audio: false,
       });
+
       if (videoRef.current) {
-        videoRef.current.srcObject = stream; // CORRIGIDO: de 'Ref.current' para 'videoRef.current'
+        videoRef.current.srcObject = stream;
         await videoRef.current.play();
         setCameraAtiva(true);
       }
