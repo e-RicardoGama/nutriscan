@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
+import { Eye, EyeOff } from "lucide-react";
+
 // Removidas as importações de 'api' e 'AxiosError' pois não são mais necessárias aqui.
 
 export default function LoginPage() {
@@ -14,6 +16,8 @@ export default function LoginPage() {
 
   const router = useRouter();
   const { usuario, carregando, login } = useAuth(); // Pega a função login do contexto
+  const [showPassword, setShowPassword] = useState(false);
+
 
   // Redireciona se já estiver logado
   useEffect(() => {
@@ -67,21 +71,37 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Senha</label>
-            <input
-              id="password"
-              type="password"
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password" // Para acessibilidade e preenchimento automático
-            />
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Senha
+            </label>
+
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                required
+                className="w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
+
+              {/* Ícone para mostrar/ocultar senha */}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
+
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             disabled={loading}
           >
             {loading ? 'Entrando...' : 'Entrar'}
@@ -89,7 +109,7 @@ export default function LoginPage() {
         </form>
         <p className="text-sm text-center text-gray-600">
           Não tem uma conta?{' '}
-          <a href="/registrar" className="font-medium text-blue-600 hover:text-blue-500">
+          <a href="/registrar" className="font-medium text-green-600 hover:text-green-500">
             Registre-se
           </a>
         </p>
