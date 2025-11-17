@@ -1,8 +1,6 @@
 // frontend_nutri/src/app/page.tsx - VERSÃO AJUSTADA: Substitui o bloco "Análise Nutricional" por um "Resumo Nutricional" dentro do componente de análise para evitar duplicidade.
-
 "use client";
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import api from '../../services/api';
 import { useRouter } from 'next/navigation';
@@ -18,51 +16,38 @@ import {
   FoodDatabaseItem,
   ModalAlimentoData
 } from '../../interfaces/api.types';
-
-
-
 // --- UTIL: separa vitaminas e minerais a partir de uma lista mista ---
 function splitVitsAndMins(lista?: string[]) {
   if (!lista || lista.length === 0) return { vitaminas: [] as string[], minerais: [] as string[] };
-
   const mineraisConhecidos = [
     'cálcio','calcio','ferro','magnésio','magnesio','fósforo','fosforo','potássio','potassio',
     'sódio','sodio','selênio','selenio','zinco','cobre','manganês','manganes','iodo','iodeto'
   ].map(s => s.toLowerCase());
-
   const vitaminas: string[] = [];
   const minerais: string[] = [];
-
   lista.forEach(item => {
     const texto = (item || '').toLowerCase();
-
     // heurística direta para vitaminas
     if (texto.includes('vitamina') || /^vit[^\s]*/i.test(item) || texto.startsWith('b') && texto.length <= 3) {
       vitaminas.push(item);
       return;
     }
-
     // se bater com mineral conhecido => mineral
     const isMineral = mineraisConhecidos.some(m => texto.includes(m));
     if (isMineral) {
       minerais.push(item);
       return;
     }
-
     // fallback por comprimento/estrutura: nomes curtos sem espaço tendem a ser minerais (ex.: ferro, zinco)
     if (texto.length <= 12 && !texto.includes(' ')) {
       minerais.push(item);
       return;
     }
-
     // caso indeciso, joga em vitaminas (mais informativo ao usuário)
     vitaminas.push(item);
   });
-
   return { vitaminas, minerais };
 }
-
-
 // --- COMPONENTE DO ACORDEÃO (sem alterações) ---
 type AccordionItemProps = {
   title: string;
@@ -71,7 +56,6 @@ type AccordionItemProps = {
   onClick: () => void;
   colorClasses: string;
 };
-
 const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onClick, colorClasses }) => {
   return (
     <div className={`border rounded-lg shadow-sm overflow-hidden ${colorClasses}`}>
@@ -92,8 +76,6 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
     </div>
   );
 };
-
-
 // --- COMPONENTE SCANRESULTS (Com handlers e botão confirmar sempre ativo) ---
 const ScanResults = ({
   scanResult,
@@ -107,16 +89,13 @@ const ScanResults = ({
   onDelete: (index: number) => void;
 }) => {
   if (!scanResult?.resultado) return null;
-
   const { alimentos_extraidos, alertas } = scanResult.resultado;
-
   const confiancaStyles: Record<ScanRapidoAlimento['confianca'], string> = {
     alta: 'bg-green-100 text-green-800',
     media: 'bg-yellow-100 text-yellow-800',
     baixa: 'bg-red-100 text-red-800',
     corrigido: 'bg-blue-100 text-blue-800',
   };
-
   return (
     <>
       {alimentos_extraidos && alimentos_extraidos.length > 0 && (
@@ -164,14 +143,12 @@ const ScanResults = ({
                         </button>
                       </div>
                     </td>
-
                     <td className="py-3 px-4 text-sm text-gray-500 text-right">{alimento.calorias_estimadas}</td>
                     <td className="py-3 px-4 text-center">
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${confiancaStyles[alimento.confianca] || confiancaStyles.baixa}`}>
                         {alimento.confianca}
                       </span>
                     </td>
-
                   </tr>
                 ))}
               </tbody>
@@ -190,22 +167,16 @@ const ScanResults = ({
     </>
   );
 };
-
-
 // --- COMPONENTE ANALYSISRESULTS CORRIGIDO ---
 const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaResponse | null }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
-
   if (!analysisResult) {
     return null;
   }
-
   const handleAccordionClick = (id: string) => {
     setOpenAccordion(currentOpen => (currentOpen === id ? null : id));
   };
-
   const { detalhes_prato, analise_nutricional, recomendacoes } = analysisResult;
-
   // Calcula valores para o resumo que será exibido aqui — evita duplicidade com o resumo global
   const resumo = {
     kcal: analise_nutricional?.calorias_totais ?? 0,
@@ -213,11 +184,9 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
     carboidratos: analise_nutricional?.macronutrientes?.carboidratos_g ?? 0,
     gorduras: analise_nutricional?.macronutrientes?.gorduras_g ?? 0,
   };
-
   // prepara vitaminas/minerais para exibição (prefere campos separados quando disponíveis)
   let vitaminasList: string[] = [];
   let mineraisList: string[] = [];
-
   if (analise_nutricional) {
     if (analise_nutricional.vitaminas?.length || analise_nutricional.minerais?.length) {
       vitaminasList = analise_nutricional.vitaminas ?? [];
@@ -228,7 +197,6 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
       mineraisList = split.minerais;
     }
   }
-
   return (
     <div className="space-y-8 mt-6 pt-6 border-t">
       {detalhes_prato?.alimentos?.length > 0 && (
@@ -254,7 +222,6 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
           </div>
         </div>
       )}
-
       {/* --- RESUMO NUTRICIONAL --- */}
       <div className="mb-6 text-left">
         <h3 className="font-semibold text-md text-green-800 mb-2">Resumo Nutricional</h3>
@@ -272,7 +239,6 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
             </p>
           </div>
         </div>
-
         {/* Vitaminas e Minerais separados */}
         {(vitaminasList.length > 0 || mineraisList.length > 0) && (
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -288,7 +254,6 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
                 </div>
               </div>
             )}
-
             {mineraisList.length > 0 && (
               <div className="bg-amber-50 p-4 rounded-lg">
                 <h4 className="text-sm font-medium text-amber-800">Minerais</h4>
@@ -304,37 +269,34 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
           </div>
         )}
       </div>
-
       {/* Recomendações */}
       <div className="mb-6">
         <h3 className="font-semibold text-lg text-green-800 mb-3 text-left">Recomendações:</h3>
         <div className="space-y-3">
-          <AccordionItem 
-            title="Pontos Positivos" 
-            isOpen={openAccordion === 'positivos'} 
-            onClick={() => handleAccordionClick('positivos')} 
+          <AccordionItem
+            title="Pontos Positivos"
+            isOpen={openAccordion === 'positivos'}
+            onClick={() => handleAccordionClick('positivos')}
             colorClasses="bg-green-50 border-green-200 text-green-800"
           >
             <ul className="list-disc list-inside text-sm space-y-1 text-left">
               {recomendacoes.pontos_positivos.map((ponto, index) => <li key={index}>{ponto}</li>)}
             </ul>
           </AccordionItem>
-          
-          <AccordionItem 
-            title="Sugestões de Balanceamento" 
-            isOpen={openAccordion === 'balanceamento'} 
-            onClick={() => handleAccordionClick('balanceamento')} 
+          <AccordionItem
+            title="Sugestões de Balanceamento"
+            isOpen={openAccordion === 'balanceamento'}
+            onClick={() => handleAccordionClick('balanceamento')}
             colorClasses="bg-orange-50 border-orange-200 text-orange-800"
           >
             <ul className="list-disc list-inside text-sm space-y-1 text-left">
               {recomendacoes.sugestoes_balanceamento.map((sugestao, index) => <li key={index}>{sugestao}</li>)}
             </ul>
           </AccordionItem>
-          
-          <AccordionItem 
-            title="Alternativas Saudáveis" 
-            isOpen={openAccordion === 'alternativas'} 
-            onClick={() => handleAccordionClick('alternativas')} 
+          <AccordionItem
+            title="Alternativas Saudáveis"
+            isOpen={openAccordion === 'alternativas'}
+            onClick={() => handleAccordionClick('alternativas')}
             colorClasses="bg-sky-50 border-sky-200 text-sky-800"
           >
             <ul className="list-disc list-inside text-sm space-y-1 text-left">
@@ -346,44 +308,28 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
     </div>
   );
 };
-
-
 // --- COMPONENTE PRINCIPAL DA PÁGINA ---
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [fotoCapturada, setFotoCapturada] = useState<File | null>(null);
-
-  // Estados e refs para câmera ao vivo
-  const videoRef = useRef<HTMLVideoElement | null>(null); // Use useRef diretamente
-  const streamRef = useRef<MediaStream | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Use useRef diretamente
-
-  const [cameraAtiva, setCameraAtiva] = useState(false);
-  const [cameraError, setCameraError] = useState<string | null>(null);
-
   const [totais, setTotais] = useState({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
   const router = useRouter();
   const { usuario, carregando, logout } = useAuth();
-
   // Estados para o fluxo
   const [loading, setLoading] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [scanResult, setScanResult] = useState<ScanRapidoResponse | null>(null);
-
   const [loadingAnalysis, setLoadingAnalysis] = useState<boolean>(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [analysisResult, setAnalysisResult] = useState<AnaliseCompletaResponse | null>(null);
-
   const [foodDatabase, setFoodDatabase] = useState<FoodDatabaseItem[]>([]); // Guarda o food_database.json
   const [editingItem, setEditingItem] = useState<{ index: number, data: ModalAlimentoData } | null>(null); // Guarda o item sendo editado
-
   // Proteção de Rota
   useEffect(() => {
     if (!carregando && !usuario) {
       router.push('/login');
     }
   }, [usuario, carregando, router]);
-
   // Calcula os totais nutricionais
   useEffect(() => {
     if (analysisResult?.analise_nutricional) {
@@ -400,7 +346,6 @@ export default function Home() {
       setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
     }
   }, [analysisResult, scanResult]);
-
   useEffect(() => {
     // Carrega a base de dados de alimentos da pasta /public
     fetch('/food_database.json')
@@ -408,7 +353,6 @@ export default function Home() {
       .then(data => setFoodDatabase(data))
       .catch(err => console.error("Erro ao carregar food_database.json:", err));
   }, []); // O array vazio [] garante que isso rode apenas uma vez
-
   // Função para rodar o Scan Rápido
   const runScan = async (file: File) => {
     setLoading(true);
@@ -416,10 +360,8 @@ export default function Home() {
     setScanResult(null);
     setAnalysisResult(null);
     setAnalysisError(null);
-
     const formData = new FormData();
     formData.append('imagem', file);
-
     try {
       const response = await api.post<ScanRapidoResponse>('/api/v1/refeicoes/scan-rapido', formData);
       setScanResult(response.data);
@@ -437,103 +379,19 @@ export default function Home() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (fotoCapturada) {
       runScan(fotoCapturada);
     }
   }, [fotoCapturada]);
-
-
-  // Funções de controle da câmera
-  const iniciarCamera = async () => {
-    setCameraError(null); // Limpa qualquer erro anterior
-    try {
-      let stream: MediaStream | null = null;
-
-      // Tenta primeiro a câmera traseira ('environment')
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      } catch (e) {
-        console.warn('Câmera traseira não disponível ou falhou, tentando qualquer câmera.', e);
-        // Se a traseira falhar, tenta qualquer câmera disponível
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      }
-
-      if (videoRef.current && stream) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play(); // Use await para garantir que o play seja concluído
-        streamRef.current = stream;
-        setCameraAtiva(true);
-      } else if (!stream) {
-        // Se mesmo com o fallback não houver stream, significa que nenhuma câmera foi encontrada
-        throw new Error('Nenhuma câmera disponível encontrada.');
-      }
-    } catch (err: unknown) { // <--- MUDANÇA AQUI: de 'any' para 'unknown'
-      console.error('Erro ao acessar câmera:', err);
-      let errorMessage = 'Erro desconhecido ao acessar a câmera.';
-      if (err instanceof DOMException) { // Verifica se é um erro do DOM (como NotAllowedError, NotFoundError)
-        if (err.name === 'NotAllowedError') {
-          errorMessage = 'Permissão de câmera negada. Por favor, permita o acesso à câmera nas configurações do navegador.';
-        } else if (err.name === 'NotFoundError') {
-          errorMessage = 'Nenhuma câmera encontrada no dispositivo.';
-        } else {
-          errorMessage = `Erro na câmera: ${err.name}`;
-        }
-      } else if (err instanceof Error) { // Verifica se é um erro JavaScript padrão
-        errorMessage = `Erro na câmera: ${err.message}`;
-      }
-      setCameraError(errorMessage);
-      setCameraAtiva(false);
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImageUrl(URL.createObjectURL(file));
+      setFotoCapturada(file);
     }
+    event.target.value = '';
   };
-
-  const pararCamera = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
-      streamRef.current = null;
-    }
-    setCameraAtiva(false);
-  };
-
-
-  const capturarFotoDaCamera = () => {
-    if (!videoRef.current || !canvasRef.current) return;
-
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    // ajusta canvas para o tamanho do vídeo
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    // desenha o frame atual
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // converte para blob (imagem)
-    canvas.toBlob(
-      blob => {
-        if (!blob) return;
-
-        // cria um File a partir do blob, para reaproveitar seu runScan
-        const file = new File([blob], `refeicao-${Date.now()}.jpg`, {
-          type: 'image/jpeg',
-        });
-
-        // Atualiza exatamente como se tivesse vindo do input file
-        setImageUrl(URL.createObjectURL(file));
-        setFotoCapturada(file);
-
-        // opcional: podemos parar a câmera após capturar
-        pararCamera();
-      },
-      'image/jpeg',
-      0.8 // qualidade
-    );
-  };
-
   const handleClearScreen = () => {
     setImageUrl(null);
     setFotoCapturada(null);
@@ -543,7 +401,6 @@ export default function Home() {
     setAnalysisError(null);
     setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
   };
-
   const handleConfirmFood = (indexToConfirm: number) => {
     setScanResult(prevResult => {
       if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
@@ -556,10 +413,8 @@ export default function Home() {
       return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos } };
     });
   };
-
   const handleEditFood = (indexToEdit: number) => {
     const alimentoOriginal = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
-
     if (alimentoOriginal) {
       const itemParaModal = {
         ...alimentoOriginal,
@@ -575,19 +430,14 @@ export default function Home() {
       });
     }
   };
-
   const handleCloseModal = () => {
     setEditingItem(null);
   };
-
   const handleSaveEdit = (itemAtualizadoDoModal: ModalAlimentoData) => {
     if (editingItem === null) return;
-
     const indexToEdit = editingItem.index;
-
     setScanResult(prevResult => {
       if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-
       const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
         if (index === indexToEdit) {
           return {
@@ -600,9 +450,7 @@ export default function Home() {
         }
         return item;
       });
-
       const oldAlertas = prevResult.resultado.alertas || [];
-
       return {
         ...prevResult,
         resultado: {
@@ -613,10 +461,8 @@ export default function Home() {
         }
       };
     });
-
     setEditingItem(null);
   };
-
   const handleDeleteFood = (indexToDelete: number) => {
     setScanResult(prevResult => {
       if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
@@ -625,18 +471,15 @@ export default function Home() {
       return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos, resumo_nutricional: undefined, alertas: [...oldAlertas, "Item removido. Os totais de macros podem estar desatualizados."] } };
     });
   };
-
   const fetchDetailedAnalysis = async () => {
     setLoadingAnalysis(true);
     setAnalysisError(null);
     setApiError(null);
     let savedMealId: number | null = null;
-
     try {
       if (!scanResult?.resultado?.alimentos_extraidos || scanResult.resultado.alimentos_extraidos.length === 0) {
         throw new Error("Não há alimentos editados do scan rápido para salvar e analisar.");
       }
-
       // Preparar os dados
       const alimentosParaSalvar = scanResult.resultado.alimentos_extraidos.map(alimento => ({
         nome: alimento.nome,
@@ -646,69 +489,53 @@ export default function Home() {
         calorias_estimadas: alimento.calorias_estimadas,
         medida_caseira_sugerida: alimento.medida_caseira_sugerida,
       }));
-
       console.log('🔍 DEBUG: Estado fotoCapturada:', {
         existe: !!fotoCapturada,
         tipo: fotoCapturada?.type,
         tamanho: fotoCapturada?.size,
         nome: fotoCapturada?.name
       });
-
       // 2. Criar o FormData
       const formData = new FormData();
-
       // 3. Verificar se a imagem original (do state 'fotoCapturada') existe
       if (!fotoCapturada) {
         throw new Error("Imagem original (fotoCapturada) não encontrada. Tente escanear novamente.");
       }
-
       // 4. Adicionar os campos que o backend espera
       formData.append("imagem", fotoCapturada);
       formData.append("alimentos_json", JSON.stringify(alimentosParaSalvar));
-
       // 📍 ADICIONE AQUI (após criar o FormData)
       console.log('📦 DEBUG: FormData criado:', {
         temImagem: formData.has('imagem'),
         temAlimentos: formData.has('alimentos_json')
       });
-
       // ✅ CORREÇÃO: Enviar a lista DIRETAMENTE
       const saveResponse = await api.post<{ meal_id: number }>(
         '/api/v1/refeicoes/salvar-scan-editado',
-        formData  
+        formData
       );
-
       console.log('✅ DEBUG: Resposta recebida:', saveResponse.data);
-
       savedMealId = saveResponse.data.meal_id;
-
       if (!savedMealId) {
         throw new Error("Falha ao obter o ID da refeição salva.");
       }
-
       console.log('Refeição salva com ID:', savedMealId);
-
       // Agora chamar a análise detalhada
       const analysisResponse = await api.post<AnaliseCompletaResponse>(
         `/api/v1/refeicoes/analisar-detalhadamente/${savedMealId}`
       );
-
       if (analysisResponse.data && analysisResponse.data.detalhes_prato) {
         setScanResult(null);
         setAnalysisResult(analysisResponse.data);
       } else {
         throw new Error('Resposta da análise detalhada em formato inválido');
       }
-
     } catch (error) {
       console.error('Erro no fluxo de salvar e analisar:', error);
-      
       // Tratamento de erro mais detalhado
       let errorMessage = "Erro desconhecido";
-      
       if (error instanceof AxiosError) {
         console.log('Detalhes do erro Axios:', error.response?.data);
-        
         if (error.response?.status === 422) {
           // Erro de validação - mostrar detalhes
           const detail = error.response.data?.detail;
@@ -726,25 +553,20 @@ export default function Home() {
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
       setAnalysisError(errorMessage);
-
     } finally {
       setLoadingAnalysis(false);
     }
   };
-
   // Loader principal
   if (carregando) { return <div className="flex justify-center items-center min-h-screen">Carregando...</div>; }
   if (!usuario) { return null; }
-
   // JSX principal da página
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
       <Navbar onLogout={logout} />
       <main className="grow w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-4 lg:p-8">
-
           {/* --- COLUNA DA ESQUERDA (IMAGEM) --- */}
           <div className="flex flex-col text-center">
             <h3 className="text-md px-2 font-bold text-green-800">1. Fotografe seu prato</h3>
@@ -753,55 +575,12 @@ export default function Home() {
               Estou em constante aprendizado, se algo parecer incorreto,
               use os ícones para ajustar os alimentos identificados!
             </p>
-
             {!imageUrl && (
-              <div className="w-full mt-4 flex flex-col items-center gap-4">
-                {!cameraAtiva && (
-                  <button
-                    onClick={iniciarCamera}
-                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
-                  >
-                    📸 Iniciar Câmera
-                  </button>
-                )}
-
-                {cameraError && (
-                  <div className="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center text-sm">
-                    {cameraError}
-                  </div>
-                )}
-
-                {/* Exibe erro da câmera se houver */}
-                {cameraError && (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center mb-4 w-full max-w-md">
-                    {cameraError}
-                  </div>
-                )}
-
-                {cameraAtiva && (
-                  <div className="w-full mt-4">
-                    <video ref={videoRef} autoPlay playsInline className="w-full h-auto rounded-xl shadow-2xl bg-black"></video>
-                    <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mt-4"> {/* CORRIGIDO: mt-4 */}
-                      <button
-                        onClick={capturarFotoDaCamera}
-                        className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
-                      >
-                        Capturar Foto
-                      </button>
-
-                      <button
-                        onClick={pararCamera}
-                        className="w-full sm:w-auto bg-red-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-red-600 shadow-md"
-                      >
-                        Parar Câmera
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <label htmlFor="upload-inicial" className="w-full sm:w-auto cursor-pointer bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-600 shadow-md mt-4">
+                📸 Abrir Câmera
+                <input type="file" id="upload-inicial" accept="image/*" capture="environment" className="hidden" onChange={handleImageUpload} />
+              </label>
             )}
-
-
             {imageUrl && (
               <div className="w-full mt-4">
                 <div className="relative w-full max-w-lg mx-auto aspect-square bg-white rounded-xl overflow-hidden mb-6 shadow-2xl">
@@ -813,14 +592,12 @@ export default function Home() {
               </div>
             )}
           </div>
-
           {/* --- COLUNA DA DIREITA (RESULTADOS) --- */}
           <div className="flex flex-col">
             {/* ✅ TÍTULO E LEGENDA QUE SOMEM APÓS A ANÁLISE DETALHADA */}
             {scanResult && !analysisResult && (
               <>
                 <h3 className="text-md px-2 font-bold text-green-800 text-center">2. Revise os Alimentos</h3>
-
                 {/* Legenda dos ícones */}
                 <div className="flex justify-center items-center gap-4 sm:gap-6 mt-4 text-xs text-gray-500">
                   <div className="flex items-center gap-1"><Check size={16} className="text-green-600" /><span>Confirmar</span></div>
@@ -831,10 +608,8 @@ export default function Home() {
             )}
             {/* Área de Resultados */}
             <div className="w-full results-container space-y-6 mt-8">
-
               {loading && <div className="p-4 text-lg font-semibold text-gray-600 animate-pulse text-center">Analisando imagem...</div>}
               {apiError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center">{apiError}</div>}
-
               {/* ✅ MOSTRA SCAN RESULTS APENAS SE NÃO HOUVER ANALYSIS RESULT */}
               {scanResult && !analysisResult && (
                 <ScanResults
@@ -844,7 +619,6 @@ export default function Home() {
                   onDelete={handleDeleteFood}
                 />
               )}
-
               {/* Botão para Análise Detalhada - APENAS QUANDO HÁ SCAN MAS NÃO HÁ ANÁLISE */}
               {!loading && scanResult && !analysisResult && (
                 <div className="mt-6 text-center">
@@ -862,15 +636,12 @@ export default function Home() {
                   </button>
                 </div>
               )}
-
               {loadingAnalysis && <div className="p-4 text-lg font-semibold text-gray-600 animate-pulse text-center">Gerando análise detalhada...</div>}
               {analysisError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center">{analysisError}</div>}
-
               {/* ✅ ANALYSIS RESULTS SUBSTITUI O SCAN RESULTS */}
               {analysisResult && (
                 <AnalysisResults analysisResult={analysisResult} />
               )}
-
               {/* Resumo Nutricional - MOSTRA APENAS NO CASO DO SCAN RÁPIDO (evita duplicidade quando há analysisResult) */}
               {(!loading && !loadingAnalysis) && (scanResult && !analysisResult) && (
                 <div className="bg-gray-100 p-4 rounded-lg mt-8">
