@@ -355,6 +355,7 @@ export default function Home() {
 
   // Estados e refs para câmera ao vivo
   const videoRef = useRef<HTMLVideoElement | null>(null); // Use useRef diretamente
+  const streamRef = useRef<MediaStream | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null); // Use useRef diretamente
 
   const [cameraAtiva, setCameraAtiva] = useState(false);
@@ -443,38 +444,58 @@ export default function Home() {
     }
   }, [fotoCapturada]);
 
+
+  // Funções de controle da câmera
   const iniciarCamera = async () => {
+    setCameraError(null); // Limpa qualquer erro anterior
     try {
-      if (!navigator.mediaDevices?.getUserMedia) {
-        setCameraError('Seu navegador não suporta acesso à.');
-        return;
+      let stream: MediaStream | null = null;
+
+      // Tenta primeiro a câmera traseira ('environment')
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      } catch (e) {
+        console.warn('Câmera traseira não disponível ou falhou, tentando qualquer câmera.', e);
+        // Se a traseira falhar, tenta qualquer câmera disponível
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
       }
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,   // <-- sem facingMode por enquanto
-        audio: false,
-      });
-
-      if (videoRef.current) {
+      if (videoRef.current && stream) {
         videoRef.current.srcObject = stream;
-        await videoRef.current.play();
+        await videoRef.current.play(); // Use await para garantir que o play seja concluído
+        streamRef.current = stream;
         setCameraAtiva(true);
+      } else if (!stream) {
+        // Se mesmo com o fallback não houver stream, significa que nenhuma câmera foi encontrada
+        throw new Error('Nenhuma câmera disponível encontrada.');
       }
-    } catch (err) {
+    } catch (err: unknown) { // <--- MUDANÇA AQUI: de 'any' para 'unknown'
       console.error('Erro ao acessar câmera:', err);
-      setCameraError('Não foi possível acessar a câmera. Verifique permissões no navegador.');
+      let errorMessage = 'Erro desconhecido ao acessar a câmera.';
+      if (err instanceof DOMException) { // Verifica se é um erro do DOM (como NotAllowedError, NotFoundError)
+        if (err.name === 'NotAllowedError') {
+          errorMessage = 'Permissão de câmera negada. Por favor, permita o acesso à câmera nas configurações do navegador.';
+        } else if (err.name === 'NotFoundError') {
+          errorMessage = 'Nenhuma câmera encontrada no dispositivo.';
+        } else {
+          errorMessage = `Erro na câmera: ${err.name}`;
+        }
+      } else if (err instanceof Error) { // Verifica se é um erro JavaScript padrão
+        errorMessage = `Erro na câmera: ${err.message}`;
+      }
+      setCameraError(errorMessage);
       setCameraAtiva(false);
     }
   };
 
   const pararCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject as MediaStream;
-      stream.getTracks().forEach(track => track.stop());
-      videoRef.current.srcObject = null;
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
     }
     setCameraAtiva(false);
   };
+
 
   const capturarFotoDaCamera = () => {
     if (!videoRef.current || !canvasRef.current) return;
@@ -750,22 +771,27 @@ export default function Home() {
                   </div>
                 )}
 
+                {/* Exibe erro da câmera se houver */}
+                {cameraError && (
+                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center mb-4 w-full max-w-md">
+                    {cameraError}
+                  </div>
+                )}
+
+                {/* Botão para iniciar câmera / Prévia da câmera */}
+                {!cameraAtiva && !imageUrl && (
+                  <button
+                    onClick={iniciarCamera}
+                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
+                  >
+                    📸 Iniciar Câmera
+                  </button>
+                )}
+
                 {cameraAtiva && (
-                  <>
-                    <div className="relative w-full max-w-lg mx-auto aspect-square bg-black rounded-xl overflow-hidden shadow-2xl">
-                      <video
-                        ref={videoRef}
-                        className="w-full h-full object-cover"
-                        autoPlay
-                        muted
-                        playsInline
-                      />
-                    </div>
-
-                    {/* canvas oculto, só para capturar frame */}
-                    <canvas ref={canvasRef} className="hidden" />
-
-                    <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mt-">
+                  <div className="w-full mt-4">
+                    <video ref={videoRef} autoPlay playsInline className="w-full h-auto rounded-xl shadow-2xl bg-black"></video>
+                    <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mt-4"> {/* CORRIGIDO: mt-4 */}
                       <button
                         onClick={capturarFotoDaCamera}
                         className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
@@ -780,7 +806,7 @@ export default function Home() {
                         Parar Câmera
                       </button>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             )}
