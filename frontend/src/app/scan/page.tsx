@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import api from '../../services/api';
 import { useRouter } from 'next/navigation';
@@ -352,6 +352,14 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [fotoCapturada, setFotoCapturada] = useState<File | null>(null);
+
+  // Estados e refs para câmera ao vivo
+  const videoRef = useRef<HTMLVideoElement | null>(null); // Use useRef diretamente
+  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Use useRef diretamente
+
+  const [cameraAtiva, setCameraAtiva] = useState(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
+
   const [totais, setTotais] = useState({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
   const router = useRouter();
   const { usuario, carregando, logout } = useAuth();
@@ -435,13 +443,71 @@ export default function Home() {
     }
   }, [fotoCapturada]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImageUrl(URL.createObjectURL(file));
-      setFotoCapturada(file);
+  const iniciarCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: 'environment', // Câmera traseira
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream; // CORRIGIDO: de 'Ref.current' para 'videoRef.current'
+        await videoRef.current.play();
+        setCameraAtiva(true);
+      }
+    } catch (err) {
+      console.error('Erro ao acessar câmera:', err);
+      setCameraError('Não foi possível acessar a câmera. Verifique permissões no navegador.');
+      setCameraAtiva(false);
     }
-    event.target.value = '';
+  };
+
+  const pararCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+    setCameraAtiva(false);
+  };
+
+  const capturarFotoDaCamera = () => {
+    if (!videoRef.current || !canvasRef.current) return;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    // ajusta canvas para o tamanho do vídeo
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // desenha o frame atual
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // converte para blob (imagem)
+    canvas.toBlob(
+      blob => {
+        if (!blob) return;
+
+        // cria um File a partir do blob, para reaproveitar seu runScan
+        const file = new File([blob], `refeicao-${Date.now()}.jpg`, {
+          type: 'image/jpeg',
+        });
+
+        // Atualiza exatamente como se tivesse vindo do input file
+        setImageUrl(URL.createObjectURL(file));
+        setFotoCapturada(file);
+
+        // opcional: podemos parar a câmera após capturar
+        pararCamera();
+      },
+      'image/jpeg',
+      0.8 // qualidade
+    );
   };
 
   const handleClearScreen = () => {
@@ -665,11 +731,57 @@ export default function Home() {
             </p>
 
             {!imageUrl && (
-              <label htmlFor="upload-inicial" className="w-full sm:w-auto cursor-pointer bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-600 shadow-md mt-4">
-                📸 Abrir Câmera
-                <input type="file" id="upload-inicial" accept="image/*" capture="environment" className="hidden" onChange={handleImageUpload} />
-              </label>
+              <div className="w-full mt-4 flex flex-col items-center gap-4">
+                {!cameraAtiva && (
+                  <button
+                    onClick={iniciarCamera}
+                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
+                  >
+                    📸 Iniciar Câmera
+                  </button>
+                )}
+
+                {cameraError && (
+                  <div className="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center text-sm">
+                    {cameraError}
+                  </div>
+                )}
+
+                {cameraAtiva && (
+                  <>
+                    <div className="relative w-full max-w-lg mx-auto aspect-square bg-black rounded-xl overflow-hidden shadow-2xl">
+                      <video
+                        ref={videoRef}
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        playsInline
+                      />
+                    </div>
+
+                    {/* canvas oculto, só para capturar frame */}
+                    <canvas ref={canvasRef} className="hidden" />
+
+                    <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mt-">
+                      <button
+                        onClick={capturarFotoDaCamera}
+                        className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
+                      >
+                        Capturar Foto
+                      </button>
+
+                      <button
+                        onClick={pararCamera}
+                        className="w-full sm:w-auto bg-red-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-red-600 shadow-md"
+                      >
+                        Parar Câmera
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             )}
+
 
             {imageUrl && (
               <div className="w-full mt-4">
