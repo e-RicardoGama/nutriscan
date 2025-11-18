@@ -73,7 +73,6 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
   // --------------------------
   // 1. Estados locais
   // --------------------------
-  // Usando as novas propriedades da ModalAlimentoData
   const [nome, setNome] = useState(itemParaEditar?.nome || '');
   const [calorias, setCalorias] = useState(itemParaEditar?.kcal ?? 0); // Usar 'kcal' do ModalAlimentoData
   const [gramas, setGramas] = useState(itemParaEditar?.peso_g ?? 100); // Usar 'peso_g' do ModalAlimentoData
