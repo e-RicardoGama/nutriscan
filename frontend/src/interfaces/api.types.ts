@@ -121,3 +121,17 @@ export interface ModalAlimentoData {
   quantidade_estimada_g?: number;
   calorias_estimadas?: number;
 }
+
+export interface FoodItem {
+  id: number;
+  alimento: string; // Nome do alimento
+  categoria: string;
+  energia_kcal_100g?: number; // Opcional, pois pode não vir na busca inicial
+  proteina_g_100g?: number;
+  carboidrato_g_100g?: number;
+  lipidios_g_100g?: number;
+  fibra_g_100g?: number;
+  medida_caseira_unidade?: string;
+  medida_caseira_gramas_por_unidade?: number;
+  // Adicione outros campos que o backend possa retornar e que você queira tipar
+}

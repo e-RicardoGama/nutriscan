@@ -1,250 +1,156 @@
+// frontend_nutri/src/components/alimentos/EditFoodModal.jsx
+
 import React, { useState, useEffect } from 'react';
+import { X, Search } from 'lucide-react'; // Importe o ícone de busca se for usar
 
-// --- CSS Básico ---
-const styles = {
-  modalBackdrop: {
-    position: 'fixed',
-    top: 0, left: 0,
-    width: '100vw', height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-  },
-  modalContent: {
-    background: 'white',
-    padding: '24px',
-    borderRadius: '8px',
-    width: '90%',
-    maxWidth: '500px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-    position: 'relative',
-  },
-  inputGroup: { marginBottom: '16px', position: 'relative' },
-  label: { display: 'block', marginBottom: '4px', fontWeight: 600, color: '#333' },
-  input: {
-    width: '100%',
-    padding: '8px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-  },
-  autocompleteList: {
-    position: 'absolute',
-    background: 'white',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    width: '100%',
-    maxHeight: '150px',
-    overflowY: 'auto',
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-    zIndex: 1001,
-  },
-  autocompleteItem: { padding: '8px 12px', cursor: 'pointer' },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: '8px',
-    marginTop: '24px',
-  },
-  quantityContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    marginTop: '8px',
-  },
-  quantityInput: {
-    width: '100px',
-    padding: '6px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-  },
-  measureLabel: {
-    fontSize: '0.85rem',
-    color: '#555',
-    fontStyle: 'italic',
-  },
-};
+// Adicione 'onSearchFood' na desestruturação das props
+function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose, onSearchFood }) {
+  const [nome, setNome] = useState(itemParaEditar.nome);
+  const [quantidade, setQuantidade] = useState(itemParaEditar.peso_g);
+  const [categoria, setCategoria] = useState(itemParaEditar.categoria);
+  const [kcal, setKcal] = useState(itemParaEditar.kcal);
+  const [protein, setProtein] = useState(itemParaEditar.protein);
+  const [carbs, setCarbs] = useState(itemParaEditar.carbs);
+  const [fats, setFats] = useState(itemParaEditar.fats);
 
-function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
-  // --------------------------
-  // 1. Estados locais
-  // --------------------------
-  const [nome, setNome] = useState(itemParaEditar?.nome || '');
-  const [calorias, setCalorias] = useState(itemParaEditar?.kcal ?? 0);
-  const [gramas, setGramas] = useState(itemParaEditar?.peso_g ?? 100);
-  const [categoria, setCategoria] = useState(itemParaEditar?.categoria || 'Outros');
+  // Estado para o termo de busca do autocomplete
+  const [searchTerm, setSearchTerm] = useState(itemParaEditar.nome);
+  // Estado para os resultados da busca (do foodDatabase local ou da API)
+  const [suggestions, setSuggestions] = useState([]);
+  // Estado para controlar se as sugestões estão visíveis
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const [termoBusca, setTermoBusca] = useState('');
-  const [resultadosBusca, setResultadosBusca] = useState([]);
-  const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
-
-  const [medidaCaseira, setMedidaCaseira] = useState(itemParaEditar?.medida_caseira_sugerida || ''); // Inicializa com a medida sugerida
-  const [gramasPorUnidade, setGramasPorUnidade] = useState(0);
-
-  // --------------------------
-  // 2. Efeito: quando abrir modal, inicializa campos de medida caseira
-  // --------------------------
+  // Efeito para buscar sugestões quando o searchTerm muda
   useEffect(() => {
-    if (!foodDatabase || !Array.isArray(foodDatabase)) return;
-
-    const match = foodDatabase.find((item) => {
-      return item.nome === itemParaEditar?.nome;
-    });
-
-    if (match) {
-      setMedidaCaseira(
-        match.medida_caseira_unidade ||
-        match.medida_caseira ||
-        ''
-      );
-      setGramasPorUnidade(
-        match.medida_caseira_gramas_por_unidade ||
-        match.gramas_por_unidade ||
-        0
-      );
-    }
-  }, [foodDatabase, itemParaEditar]);
-
-  // --------------------------
-  // 3. Auto-complete de alimento
-  // --------------------------
-  useEffect(() => {
-    if (!foodDatabase || !Array.isArray(foodDatabase)) return;
-
-    if (!termoBusca || termoBusca.length < 2) {
-      setResultadosBusca([]);
-      setMostrarSugestoes(false);
-      return;
-    }
-
-    const termoLower = termoBusca.toLowerCase();
-    const filtrados = foodDatabase.filter((item) => {
-      const nomeItem = (item.nome || '').toLowerCase();
-      const categoriaItem = (item.categoria || '').toLowerCase();
-      return (
-        nomeItem.includes(termoLower) ||
-        categoriaItem.includes(termoLower)
-      );
-    });
-
-    setResultadosBusca(filtrados);
-    setMostrarSugestoes(true);
-  }, [termoBusca, foodDatabase]);
-
-  const handleSelecionarSugestao = (itemBanco) => {
-    setNome(itemBanco.nome || '');
-    setCategoria(itemBanco.categoria || 'Outros'); // Atualiza a categoria ao selecionar
-    // se existir essa estrutura no banco, usa:
-    if (itemBanco.calorias_por_100g) {
-      // converte para a quantidade atual em gramas
-      const kcal = (itemBanco.calorias_por_100g * gramas) / 100;
-      setCalorias(Math.round(kcal));
-    }
-    setMedidaCaseira(
-      itemBanco.medida_caseira_unidade ||
-      itemBanco.medida_caseira ||
-      ''
-    );
-    setGramasPorUnidade(
-      itemBanco.medida_caseira_gramas_por_unidade ||
-      itemBanco.gramas_por_unidade ||
-      0
-    );
-    setMostrarSugestoes(false);
-  };
-
-  // --------------------------
-  // 4. Quantidade em gramas
-  // --------------------------
-  const handleGramasChange = (e) => {
-    const valor = Number(e.target.value) || 0;
-    setGramas(valor);
-
-    // se houver informação de cal / 100g no item original ou no DB, recalcula
-    // Prioriza calorias_estimadas / quantidade_estimada_g do item original se for uma edição
-    // Caso contrário, tenta encontrar no foodDatabase
-    let baseCaloriasPor100g = 0;
-
-    if (itemParaEditar?.calorias_estimadas && itemParaEditar.quantidade_estimada_g) {
-      baseCaloriasPor100g = (itemParaEditar.calorias_estimadas * 100) / itemParaEditar.quantidade_estimada_g;
-    } else {
-      const matchedFood = foodDatabase.find(food => food.nome === nome);
-      if (matchedFood?.calorias_por_100g) {
-        baseCaloriasPor100g = matchedFood.calorias_por_100g;
+    const fetchSuggestions = async () => {
+      if (searchTerm.length < 2) {
+        setSuggestions([]);
+        setShowSuggestions(false);
+        return;
       }
-    }
 
-    if (baseCaloriasPor100g > 0) {
-      const kcal = (baseCaloriasPor100g * valor) / 100;
-      setCalorias(Math.round(kcal));
-    }
-  };
+      // Primeiro, filtra o foodDatabase local (rápido)
+      const localSuggestions = foodDatabase.filter(item =>
+        item.alimento.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.categoria.toLowerCase().includes(searchTerm.toLowerCase())
+      ).slice(0, 5); // Limita para não sobrecarregar
 
-  // --------------------------
-  // 5. Salvar alterações
-  // --------------------------
-  const handleSalvar = () => {
+      // Em seguida, chama a API de busca se a prop onSearchFood foi fornecida
+      let apiSuggestions = [];
+      if (onSearchFood) {
+        try {
+          // onSearchFood já retorna Promise<FoodItem[]>
+          const remoteItems = await onSearchFood(searchTerm);
+          // Mapeia os itens remotos para o formato FoodDatabaseItem para consistência
+          apiSuggestions = remoteItems.map(item => ({
+            id: item.id,
+            alimento: item.alimento,
+            alimento_normalizado: item.alimento.toLowerCase(), // Normaliza para busca local
+            categoria: item.categoria,
+            energia_kcal_100g: item.energia_kcal_100g || 0,
+            proteina_g_100g: item.proteina_g_100g || 0,
+            carboidrato_g_100g: item.carboidrato_g_100g || 0,
+            lipidios_g_100g: item.lipidios_g_100g || 0,
+            fibra_g_100g: item.fibra_g_100g || 0,
+            medida_caseira_unidade: item.medida_caseira_unidade || '',
+            medida_caseira_gramas_por_unidade: item.medida_caseira_gramas_por_unidade || 0,
+          }));
+        } catch (error) {
+          console.error("Erro ao buscar alimentos na API:", error);
+        }
+      }
+
+      // Combina e remove duplicatas (prioriza API se houver)
+      const combinedSuggestions = [...apiSuggestions, ...localSuggestions];
+      const uniqueSuggestions = Array.from(new Map(combinedSuggestions.map(item => [item.alimento.toLowerCase(), item])).values());
+
+      setSuggestions(uniqueSuggestions.slice(0, 10)); // Limita o total de sugestões
+      setShowSuggestions(true);
+    };
+
+    // Implementa um debounce para evitar muitas chamadas à API
+    const handler = setTimeout(() => {
+      fetchSuggestions();
+    }, 300); // Atraso de 300ms
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm, foodDatabase, onSearchFood]); // Adicione onSearchFood como dependência
+
+  // Efeito para preencher os campos quando um item é selecionado
+  useEffect(() => {
+    setNome(itemParaEditar.nome);
+    setQuantidade(itemParaEditar.peso_g);
+    setCategoria(itemParaEditar.categoria);
+    setKcal(itemParaEditar.kcal);
+    setProtein(itemParaEditar.protein);
+    setCarbs(itemParaEditar.carbs);
+    setFats(itemParaEditar.fats);
+    setSearchTerm(itemParaEditar.nome); // Atualiza o searchTerm inicial
+  }, [itemParaEditar]);
+
+  const handleSave = () => {
     const itemAtualizado = {
       ...itemParaEditar,
       nome,
-      peso_g: gramas,
-      kcal: calorias,
-      quantidade_estimada_g: gramas,
-      calorias_estimadas: calorias,
-      categoria: categoria || 'Outros', // ← Garante um valor padrão se for undefined
-      medida_caseira_sugerida: medidaCaseira,
-      protein: itemParaEditar?.protein || 0,
-      carbs: itemParaEditar?.carbs || 0,
-      fats: itemParaEditar?.fats || 0,
-      confianca: 'corrigido',
+      quantidade_estimada_g: quantidade,
+      peso_g: quantidade, // Garante consistência
+      categoria,
+      calorias_estimadas: kcal,
+      kcal,
+      protein,
+      carbs,
+      fats,
+      confianca: 'corrigido', // Marca como corrigido manualmente
     };
     onSave(itemAtualizado);
     onClose();
   };
 
-  // --------------------------
-  // 6. Render
-  // --------------------------
-  return (
-    <div style={styles.modalBackdrop}>
-      <div style={styles.modalContent}>
-        <h2 className="text-lg font-bold mb-4 text-gray-800">
-          {itemParaEditar?.index === -1 ? 'Adicionar Novo Alimento' : 'Editar Alimento'} {/* Título dinâmico */}
-        </h2>
+  const handleSuggestionClick = (suggestion) => {
+    setNome(suggestion.alimento);
+    setCategoria(suggestion.categoria);
+    // Calcula as calorias e macros para a quantidade atual (100g padrão)
+    const fator = quantidade / 100;
+    setKcal(suggestion.energia_kcal_100g * fator);
+    setProtein(suggestion.proteina_g_100g * fator);
+    setCarbs(suggestion.carboidrato_g_100g * fator);
+    setFats(suggestion.lipidios_g_100g * fator);
+    setSearchTerm(suggestion.alimento); // Atualiza o campo de busca
+    setShowSuggestions(false); // Esconde as sugestões
+  };
 
-        {/* Nome / busca */}
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Alimento</label>
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md relative">
+        <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+          <X size={24} />
+        </button>
+        <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">Editar Alimento</h2>
+
+        <div className="mb-4 relative">
+          <label htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">Nome do Alimento</label>
           <input
             type="text"
-            style={styles.input}
-            value={termoBusca || nome}
-            onChange={(e) => {
-              setTermoBusca(e.target.value);
-              setNome(e.target.value);
-            }}
-            onFocus={() => {
-              if (resultadosBusca.length > 0) setMostrarSugestoes(true);
-            }}
-            onBlur={() => setTimeout(() => setMostrarSugestoes(false), 100)} // Esconde sugestões após um pequeno delay
+            id="nome"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+            value={searchTerm} // Usa searchTerm para o input
+            onChange={(e) => setSearchTerm(e.target.value)} // Atualiza searchTerm
+            onFocus={() => setShowSuggestions(true)} // Mostra sugestões ao focar
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 100)} // Esconde sugestões ao desfocar (com delay)
           />
-          {mostrarSugestoes && resultadosBusca.length > 0 && (
-            <ul style={styles.autocompleteList}>
-              {resultadosBusca.map((item, idx) => (
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg">
+              {suggestions.map((suggestion, index) => (
                 <li
-                  key={idx}
-                  style={styles.autocompleteItem}
-                  onMouseDown={() => handleSelecionarSugestao(item)} // Usar onMouseDown para evitar que onBlur feche antes do click
+                  key={index}
+                  className="p-3 hover:bg-gray-100 cursor-pointer flex justify-between items-center"
+                  onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  <strong>{item.nome}</strong>
-                  {item.categoria && (
-                    <span style={{ fontSize: '0.8rem', color: '#666', marginLeft: 4 }}>
-                      ({item.categoria})
-                    </span>
+                  <span>{suggestion.alimento} <span className="text-xs text-gray-500">({suggestion.categoria})</span></span>
+                  {suggestion.energia_kcal_100g > 0 && (
+                    <span className="text-sm text-gray-600">{suggestion.energia_kcal_100g.toFixed(0)} kcal/100g</span>
                   )}
                 </li>
               ))}
@@ -252,70 +158,78 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
           )}
         </div>
 
-        {/* Categoria (opcional, se quiser permitir edição manual) */}
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Categoria</label>
+        <div className="mb-4">
+          <label htmlFor="quantidade" className="block text-sm font-medium text-gray-700 mb-1">Quantidade (gramas)</label>
+          <input
+            type="number"
+            id="quantidade"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+            value={quantidade}
+            onChange={(e) => setQuantidade(parseFloat(e.target.value) || 0)}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="categoria" className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
           <input
             type="text"
-            style={styles.input}
+            id="categoria"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
           />
         </div>
 
-        {/* Calorias */}
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Calorias estimadas (kcal)</label>
+        <div className="mb-4">
+          <label htmlFor="kcal" className="block text-sm font-medium text-gray-700 mb-1">Calorias (kcal)</label>
           <input
             type="number"
-            style={styles.input}
-            value={calorias}
-            onChange={(e) => setCalorias(Number(e.target.value) || 0)}
+            id="kcal"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+            value={kcal.toFixed(0)}
+            onChange={(e) => setKcal(parseFloat(e.target.value) || 0)}
           />
         </div>
 
-        {/* Quantidade e medida caseira */}
-        <div style={styles.inputGroup}>
-          <label style={styles.label}>Quantidade</label>
-          <div style={styles.quantityContainer}>
-            <div>
-              <label style={styles.label}>Em gramas</label>
-              <input
-                type="number"
-                step="10"
-                value={gramas}
-                onChange={handleGramasChange}
-                style={styles.quantityInput}
-              />
-            </div>
-            {medidaCaseira && gramasPorUnidade > 0 && (
-              <div>
-                <label style={styles.label}>Equivalência</label>
-                <div style={styles.measureLabel}>
-                  {`${(gramas / gramasPorUnidade).toFixed(1)} ${medidaCaseira}`}
-                </div>
-              </div>
-            )}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div>
+            <label htmlFor="protein" className="block text-sm font-medium text-gray-700 mb-1">Proteínas (g)</label>
+            <input
+              type="number"
+              id="protein"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+              value={protein.toFixed(1)}
+              onChange={(e) => setProtein(parseFloat(e.target.value) || 0)}
+            />
+          </div>
+          <div>
+            <label htmlFor="carbs" className="block text-sm font-medium text-gray-700 mb-1">Carboidratos (g)</label>
+            <input
+              type="number"
+              id="carbs"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+              value={carbs.toFixed(1)}
+              onChange={(e) => setCarbs(parseFloat(e.target.value) || 0)}
+            />
+          </div>
+          <div>
+            <label htmlFor="fats" className="block text-sm font-medium text-gray-700 mb-1">Gorduras (g)</label>
+            <input
+              type="number"
+              id="fats"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+              value={fats.toFixed(1)}
+              onChange={(e) => setFats(parseFloat(e.target.value) || 0)}
+            />
           </div>
         </div>
 
-        {/* Botões */}
-        <div style={styles.buttonContainer}>
-          <button
-            type="button"
-            onClick={onClose}
-            className="bg-gray-300 px-4 py-2 rounded"
-          >
-            Cancelar
-          </button>
-          <button
-            type="button"
-            onClick={handleSalvar}
-            className="bg-green-600 text-white font-bold px-4 py-2 rounded"
-          >
-            Salvar Alterações
-          </button>
-        </div>
+        <button
+          onClick={handleSave}
+          className="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md"
+        >
+          Salvar Alterações
+        </button>
       </div>
     </div>
   );

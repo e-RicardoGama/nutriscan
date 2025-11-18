@@ -14,7 +14,8 @@ import {
   ScanRapidoResponse,
   AnaliseCompletaResponse,
   FoodDatabaseItem,
-  ModalAlimentoData
+  ModalAlimentoData,
+  FoodItem
 } from '../../interfaces/api.types';
 // --- UTIL: separa vitaminas e minerais a partir de uma lista mista ---
 function splitVitsAndMins(lista?: string[]) {
@@ -622,6 +623,25 @@ export default function Home() {
       setLoadingAnalysis(false);
     }
   };
+
+  // Função para buscar alimentos no banco de dados (TACO + IA)
+  const searchFoodsFromDatabase = async (searchTerm: string): Promise<FoodItem[]> => {
+    if (searchTerm.length < 2) {
+      return []; // Não busca se digitou menos de 2 caracteres
+    }
+
+    try {
+      const response = await api.get<{ alimentos: FoodItem[] }>(
+        `/api/v1/alimentos/buscar?termo=${encodeURIComponent(searchTerm)}&limit=10`
+      );
+      return response.data.alimentos || [];
+    } catch (error) {
+      console.error('Erro ao buscar alimentos no banco:', error);
+      return []; // Retorna array vazio em caso de erro
+    }
+  };
+
+
   // Loader principal
   if (carregando) { return <div className="flex justify-center items-center min-h-screen">Carregando...</div>; }
   if (!usuario) { return null; }
@@ -758,6 +778,7 @@ export default function Home() {
           <EditFoodModal
             itemParaEditar={editingItem.data}
             foodDatabase={foodDatabase}
+            onSearchFood={searchFoodsFromDatabase}
             onSave={handleSaveEdit}
             onClose={handleCloseModal}
           />
