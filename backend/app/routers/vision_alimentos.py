@@ -89,46 +89,54 @@ async def scan_rapido(
 
 
 # --- Endpoint para Salvar Scan Editado (O seu código original, sem alterações) ---
-@router.post("/salvar-scan-editado", response_model=RefeicaoSalvaIdResponse, summary="Salva scan editado e faz upload da imagem")
+@router.post(
+    "/salvar-scan-editado",
+    response_model=RefeicaoSalvaIdResponse,
+    summary="Salva scan editado e faz upload da imagem",
+)
 async def salvar_scan_rapido_editado(
-    # 1. MUDANÇA: Recebe a imagem
     imagem: UploadFile = File(..., description="A imagem original da refeição"),
-    
-    # 2. MUDANÇA: Recebe o JSON dos alimentos como texto (string)
-    alimentos_json: str = Form(..., description="A lista de alimentos editados em formato JSON string"), 
-    
+    alimentos_json: str = Form(..., description="A lista de alimentos editados em formato JSON string"),
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user) 
+    current_user: Usuario = Depends(get_current_user)
 ):
-    
-    print("=" * 80)
-    print("🔍 DEBUG: Endpoint /salvar-scan-editado chamado")
-    print(f"📸 Imagem recebida: {imagem.filename}")
-    print(f"📏 Tipo: {imagem.content_type}")
-    print(f"📦 Tamanho: {imagem.size if hasattr(imagem, 'size') else 'desconhecido'}")
-    print(f"🍽️ Alimentos JSON (primeiros 200 chars): {alimentos_json[:200]}...")
-    print("=" * 80)
-    
-    # 3. MUDANÇA: Converter o texto JSON de volta para a lista Python
+    # Removendo prints de debug para um código mais limpo em produção
+    # print("=" * 80)
+    # print("🔍 DEBUG: Endpoint /salvar-scan-editado chamado")
+    # print(f"📸 Imagem recebida: {imagem.filename}")
+    # print(f"📏 Tipo: {imagem.content_type}")
+    # print(f"📦 Tamanho: {imagem.size if hasattr(imagem, 'size') else 'desconhecido'}")
+    # print(f"🍽️ Alimentos JSON (primeiros 200 chars): {alimentos_json[:200]}...")
+    # print("=" * 80)
+
+    # 1. Converter o texto JSON de volta para a lista Python
     try:
         alimentos_data = json.loads(alimentos_json)
-        # Valida se os dados estão no formato correto do schema
+        # 2. Valida se os dados estão no formato correto do schema AlimentoSalvoCreate
+        #    Este schema agora aceita 'categoria' via alias.
         alimentos_editados: List[AlimentoSalvoCreate] = [AlimentoSalvoCreate(**alimento) for alimento in alimentos_data]
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Formato JSON inválido para 'alimentos_json'.")
-    except Exception as e: # Pega erros de validação do Pydantic
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Erro na validação dos dados dos alimentos: {e}")
+    except json.JSONDecodeError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Formato JSON inválido para 'alimentos_json': {exc}"
+        )
+    except Exception as exc: # Pega erros de validação do Pydantic
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Erro na validação dos dados dos alimentos: {exc}"
+        )
 
     if not alimentos_editados:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="A lista de alimentos não pode estar vazia.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="A lista de alimentos não pode estar vazia."
+        )
 
-    # 4. MUDANÇA: Lógica de Upload para o Google Cloud Storage
+    # 3. Lógica de Upload para o Google Cloud Storage
     imagem_url_publica = None
     try:
-        from app.gcs_utils import upload_to_gcs
-
-        print(f"🚀 Tentando fazer upload para GCS...")
-
+        # from app.gcs_utils import upload_to_gcs # Já importado no topo
+        # print(f"🚀 Tentando fazer upload para GCS...")
         imagem_bytes = await imagem.read()
         bucket_name = "nutriscan-imagens-prod"
         extensao = imagem.filename.split('.')[-1] if '.' in imagem.filename else 'jpg'
@@ -140,32 +148,33 @@ async def salvar_scan_rapido_editado(
             destination_blob_name=file_name,
             content_type=imagem.content_type
         )
+        # print(f"✅ Upload concluído! URL: {imagem_url_publica}")
+    except Exception as exc:
+        # print(f"Erro ao fazer upload da imagem para GCS: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno ao salvar a imagem: {exc}"
+        )
 
-        print(f"✅ Upload concluído! URL: {imagem_url_publica}")
-
-    except Exception as e:
-        print(f"Erro ao fazer upload da imagem para GCS: {e}")
-        raise HTTPException(status_code=500, detail="Erro interno ao salvar a imagem.")
-
-    # 5. MUDANÇA: Passar a URL da imagem ao criar a refeição
+    # 4. Passar a URL da imagem ao criar a refeição
     refeicao_data = RefeicaoSalvaCreate(
         alimentos=alimentos_editados,
         imagem_url=imagem_url_publica # <-- Passando a URL salva!
     )
-    
+
     try:
-        db_refeicao = crud.create_refeicao_salva(db=db, refeicao_data=refeicao_data, user_id=current_user.id)
-        if not db_refeicao: 
+        db_refeicao = create_refeicao_salva(db=db, refeicao_data=refeicao_data, user_id=current_user.id)
+        if not db_refeicao:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Não foi possível criar a refeição no banco.")
-        
         return RefeicaoSalvaIdResponse(meal_id=db_refeicao.id)
-    
-    except Exception as e:
-        print(f"Erro ao salvar refeição editada user {current_user.id}: {e}") 
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro interno ao salvar a refeição.")
-    
-    print(f"✅ Refeição salva com ID: {db_refeicao.id}")
-    print("=" * 80)
+    except Exception as exc:
+        # print(f"Erro ao salvar refeição editada user {current_user.id}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno ao salvar a refeição: {exc}"
+        )
+    # print(f"✅ Refeição salva com ID: {db_refeicao.id}")
+    # print("=" * 80)
 
 
 # ==========================================================

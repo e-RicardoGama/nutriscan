@@ -221,3 +221,25 @@ class RefeicaoResumoHoje(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# --- NOVOS SCHEMAS PARA O UPLOAD EDITADO ---
+
+class AlimentoSalvoUpload(BaseModel):
+    """
+    Schema para um alimento individual que será enviado no JSON
+    durante o salvamento de um scan editado.
+    """
+    nome: str = Field(..., example="Arroz branco cozido")
+    quantidade_estimada_g: float = Field(..., example=150.0)
+    categoria_nutricional: Optional[str] = Field(None, example="Cereal")
+    confianca: Optional[str] = Field(None, example="alta")
+    calorias_estimadas: Optional[float] = Field(None, example=195.0)
+    medida_caseira_sugerida: Optional[str] = Field(None, example="1 xícara")
+
+class RefeicaoSalvaUpload(BaseModel):
+    """
+    Schema para a lista de alimentos que virá como string JSON
+    no payload do `salvar-scan-editado`.
+    """
+    alimentos: List[AlimentoSalvoUpload]
