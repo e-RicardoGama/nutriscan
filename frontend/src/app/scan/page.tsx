@@ -80,7 +80,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
 // --- COMPONENTE SCANRESULTS (Com handlers e botão confirmar sempre ativo) ---
 const ScanResults = ({
   scanResult,
-  onAddFood, // Renomeado de onConfirm
+//  onAddFood, // Renomeado de onConfirm
   onEdit,
   onDelete
 }: {
@@ -121,13 +121,6 @@ const ScanResults = ({
                     </td>
                     <td className="py-3 px-4 text-center">
                       <div className="flex justify-center items-center space-x-2">
-                        <button
-                          onClick={() => onAddFood(index)} // Alterado de onConfirm para onAddFood
-                          className="p-1 text-green-600 rounded-full hover:bg-green-100"
-                          title="Adicionar" // Alterado de "Confirmar" para "Adicionar"
-                        >
-                          <Plus size={18} />
-                        </button>
                         <button
                           onClick={() => onEdit(index)}
                           className="p-1 text-blue-600 rounded-full hover:bg-blue-100"
@@ -777,8 +770,8 @@ export default function Home() {
         {editingItem && (
           <EditFoodModal
             itemParaEditar={editingItem.data}
-            foodDatabase={foodDatabase}
-            onSearchFood={searchFoodsFromDatabase}
+            foodDatabase={foodDatabase} // Mantém o local, mas a busca principal será no backend
+            onSearchFood={searchFoodsFromDatabase} // <-- PASSA A FUNÇÃO DE BUSCA DO BACKEND
             onSave={handleSaveEdit}
             onClose={handleCloseModal}
           />

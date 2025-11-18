@@ -11,7 +11,7 @@ from app.models.alimentos import Alimento
 from app.schemas.vision_alimentos_ import AlimentoPublic # Reutilizamos o schema existente
 
 router = APIRouter(
-    prefix="/alimentos",
+    prefix="/api/v1/alimentos",
     tags=["Alimentos"]
 )
 
