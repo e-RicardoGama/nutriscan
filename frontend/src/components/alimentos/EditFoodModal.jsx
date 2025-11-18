@@ -74,9 +74,9 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
   // 1. Estados locais
   // --------------------------
   const [nome, setNome] = useState(itemParaEditar?.nome || '');
-  const [calorias, setCalorias] = useState(itemParaEditar?.kcal ?? 0); // Usar 'kcal' do ModalAlimentoData
-  const [gramas, setGramas] = useState(itemParaEditar?.peso_g ?? 100); // Usar 'peso_g' do ModalAlimentoData
-  const [categoria, setCategoria] = useState(itemParaEditar?.categoria || 'Outros'); // Adicionado para novos itens
+  const [calorias, setCalorias] = useState(itemParaEditar?.kcal ?? 0);
+  const [gramas, setGramas] = useState(itemParaEditar?.peso_g ?? 100);
+  const [categoria, setCategoria] = useState(itemParaEditar?.categoria || 'Outros');
 
   const [termoBusca, setTermoBusca] = useState('');
   const [resultadosBusca, setResultadosBusca] = useState([]);
@@ -189,19 +189,18 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
   // --------------------------
   const handleSalvar = () => {
     const itemAtualizado = {
-      ...itemParaEditar, // Mantém outras propriedades que não estão no modal
+      ...itemParaEditar,
       nome,
-      peso_g: gramas, // Usa peso_g para o modal
-      kcal: calorias, // Usa kcal para o modal
-      quantidade_estimada_g: gramas, // Para compatibilidade com ScanRapidoAlimento
-      calorias_estimadas: calorias, // Para compatibilidade com ScanRapidoAlimento
-      categoria: categoria, // Adiciona a categoria
-      medida_caseira_sugerida: medidaCaseira, // Adiciona a medida caseira sugerida
-      // protein, carbs, fats podem ser 0 ou calculados se houver dados no foodDatabase
+      peso_g: gramas,
+      kcal: calorias,
+      quantidade_estimada_g: gramas,
+      calorias_estimadas: calorias,
+      categoria: categoria || 'Outros', // ← Garante um valor padrão se for undefined
+      medida_caseira_sugerida: medidaCaseira,
       protein: itemParaEditar?.protein || 0,
       carbs: itemParaEditar?.carbs || 0,
       fats: itemParaEditar?.fats || 0,
-      confianca: 'corrigido', // Sempre 'corrigido' ao salvar pelo modal
+      confianca: 'corrigido',
     };
     onSave(itemAtualizado);
     onClose();

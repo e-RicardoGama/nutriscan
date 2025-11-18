@@ -60,9 +60,9 @@ export interface ScanRapidoAlimento {
   nome: string;
   quantidade_estimada_g: number;
   calorias_estimadas: number;
-  categoria: string;
   confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
-  medida_caseira_sugerida?: string; // Adicionado para consistência
+  categoria?: string;
+  medida_caseira_sugerida?: string;
 }
 
 export interface ScanRapidoResultado {
@@ -79,10 +79,21 @@ export interface ScanRapidoResultado {
 }
 
 export interface ScanRapidoResponse {
-  status: string;
-  modalidade: string;
-  resultado: ScanRapidoResultado;
-  timestamp: string;
+  status: string; // Obrigatório agora
+  modalidade?: string;
+  timestamp?: string;
+  resultado: {
+    modalidade?: string;
+    alimentos_extraidos: ScanRapidoAlimento[];
+    resumo_nutricional?: {
+      total_calorias: number;
+      total_proteinas_g: number;
+      total_carboidratos_g: number;
+      total_gorduras_g: number;
+    };
+    alertas?: string[];
+    erro?: string;
+  };
 }
 
 // Interface para food_database.json
@@ -99,16 +110,14 @@ export interface FoodDatabaseItem {
 // Interface para o modal de edição
 export interface ModalAlimentoData {
   nome: string;
-  // Adicione as propriedades abaixo para que o modal e o handleSaveEdit funcionem corretamente
-  quantidade_estimada_g: number; // Adicionado
-  calorias_estimadas: number;   // Adicionado
-  categoria: string;            // Adicionado
-  confianca: 'alta' | 'media' | 'baixa' | 'corrigido'; // Adicionado
-  peso_g: number;               // Adicionado (usado no modal para a quantidade em gramas)
-  kcal: number;                 // Adicionado (usado no modal para as calorias)
-  protein: number;              // Adicionado (mesmo que seja 0 inicialmente)
-  carbs: number;                // Adicionado (mesmo que seja 0 inicialmente)
-  fats: number;                 // Adicionado (mesmo que seja 0 inicialmente)
-  medida_caseira_sugerida?: string; // Adicionado
-  // Se você tiver outras propriedades que o modal ou o fluxo de edição/adição usam, adicione-as aqui.
+  peso_g: number;
+  kcal: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  categoria?: string; // ← Mude para opcional adicionando "?"
+  confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
+  medida_caseira_sugerida?: string;
+  quantidade_estimada_g?: number;
+  calorias_estimadas?: number;
 }

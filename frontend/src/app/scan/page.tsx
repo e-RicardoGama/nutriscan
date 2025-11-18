@@ -441,25 +441,48 @@ export default function Home() {
   const handleCloseModal = () => {
     setEditingItem(null);
   };
+
   const handleSaveEdit = (itemAtualizadoDoModal: ModalAlimentoData) => {
     if (editingItem === null) return;
     const indexToEdit = editingItem.index;
 
     setScanResult(prevResult => {
-      const currentAlimentos = prevResult?.resultado?.alimentos_extraidos || [];
-      let newAlimentos;
-
-      if (indexToEdit === -1) { // É um novo alimento
+      if (!prevResult) {
+        // Se não há resultado anterior, cria um novo
         const novoAlimento: ScanRapidoAlimento = {
           nome: itemAtualizadoDoModal.nome,
           quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
           calorias_estimadas: itemAtualizadoDoModal.kcal,
           confianca: 'corrigido',
-          categoria: itemAtualizadoDoModal.categoria || 'Manual', // Pode ser 'Manual' ou o que vier do modal
+          categoria: itemAtualizadoDoModal.categoria || 'Manual',
+          medida_caseira_sugerida: itemAtualizadoDoModal.medida_caseira_sugerida || '',
+        };
+        
+        return {
+          status: 'success', // Status obrigatório
+          resultado: {
+            alimentos_extraidos: [novoAlimento],
+            alertas: ["Novo alimento adicionado manualmente."]
+          }
+        };
+      }
+
+      const currentAlimentos = prevResult.resultado?.alimentos_extraidos || [];
+      let newAlimentos: ScanRapidoAlimento[];
+
+      if (indexToEdit === -1) {
+        // É um novo alimento
+        const novoAlimento: ScanRapidoAlimento = {
+          nome: itemAtualizadoDoModal.nome,
+          quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
+          calorias_estimadas: itemAtualizadoDoModal.kcal,
+          confianca: 'corrigido',
+          categoria: itemAtualizadoDoModal.categoria || 'Manual',
           medida_caseira_sugerida: itemAtualizadoDoModal.medida_caseira_sugerida || '',
         };
         newAlimentos = [...currentAlimentos, novoAlimento];
-      } else { // Editando um alimento existente
+      } else {
+        // Editando um alimento existente
         newAlimentos = currentAlimentos.map((item, index) => {
           if (index === indexToEdit) {
             return {
@@ -474,27 +497,44 @@ export default function Home() {
         });
       }
 
-      const oldAlertas = prevResult?.resultado?.alertas || [];
+      const oldAlertas = prevResult.resultado?.alertas || [];
+      
       return {
         ...prevResult,
+        status: prevResult.status, // Mantém o status existente
         resultado: {
-          ...prevResult?.resultado,
+          ...prevResult.resultado,
           alimentos_extraidos: newAlimentos,
           resumo_nutricional: undefined,
           alertas: [...oldAlertas, "Item editado/adicionado. Os totais podem estar desatualizados."]
         }
       };
     });
+    
     setEditingItem(null);
   };
+
   const handleDeleteFood = (indexToDelete: number) => {
     setScanResult(prevResult => {
       if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
+      
       const newAlimentos = prevResult.resultado.alimentos_extraidos.filter((_, index) => index !== indexToDelete);
       const oldAlertas = prevResult.resultado.alertas || [];
-      return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos, resumo_nutricional: undefined, alertas: [...oldAlertas, "Item removido. Os totais de macros podem estar desatualizados."] } };
+      
+      return {
+        ...prevResult,
+        status: prevResult.status, // Mantém o status
+        resultado: {
+          ...prevResult.resultado,
+          alimentos_extraidos: newAlimentos,
+          resumo_nutricional: undefined,
+          alertas: [...oldAlertas, "Item removido. Os totais de macros podem estar desatualizados."]
+        }
+      };
     });
   };
+
+
   const fetchDetailedAnalysis = async () => {
     setLoadingAnalysis(true);
     setAnalysisError(null);
