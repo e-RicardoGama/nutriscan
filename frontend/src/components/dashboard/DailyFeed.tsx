@@ -47,7 +47,7 @@ const DailyFeed: React.FC<{
           <button
             onClick={onAddMealClick}
             aria-label="Adicionar primeira refeição"
-            className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+            className="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
           >
             <Plus /> Adicionar primeira refeição
           </button>
@@ -93,7 +93,7 @@ const DailyFeed: React.FC<{
               {onViewMealClick && (
                 <button
                   onClick={() => onViewMealClick(meal.id)}
-                  className="mt-2 inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  className="mt-2 inline-flex items-center gap-1 text-green-600 hover:text-green-800 text-sm font-medium"
                   aria-label={`Ver análise detalhada da refeição ${meal.id}`}
                 >
                   <Eye size={16} /> Ver Análise

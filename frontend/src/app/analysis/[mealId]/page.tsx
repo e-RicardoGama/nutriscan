@@ -63,9 +63,9 @@ export default function AnalysisPage() {
         {analysis && <AnalysisResults analysisResult={analysis} />}
         <button
           onClick={() => router.push("/")}
-          className="mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          className="mt-6 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
         >
-          Voltar Início
+          Home
         </button>
       </main>
     </div>

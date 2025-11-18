@@ -725,7 +725,7 @@ export default function Home() {
                   <button
                     onClick={fetchDetailedAnalysis}
                     disabled={loadingAnalysis || !scanResult.resultado?.alimentos_extraidos?.length}
-                    className="w-full sm:w-auto cursor-pointer bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-blue-600 shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto cursor-pointer bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-blue-600 shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
                   >
                     {loadingAnalysis ? 'Gerando Análise...' : 'Gerar Análise Nutricional Completa'}
                   </button>
@@ -766,7 +766,7 @@ export default function Home() {
                     className="w-full sm:w-auto cursor-pointer bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md flex items-center justify-center mx-auto"
                   >
                     <HomeIcon size={20} className="mr-2" />
-                    Voltar ao Início
+                    Home
                   </button>
                 </div>
               )}

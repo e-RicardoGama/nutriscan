@@ -128,7 +128,7 @@ export default function DashboardHome() {
         {/* Botão de Ação Rápida (FAB) */}
         <button
           onClick={handleScanMealClick}
-          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-blue-600 transition-transform hover:scale-110 z-50"
+          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-50"
           title="Analisar nova refeição"
         >
           <Plus size={28} />
