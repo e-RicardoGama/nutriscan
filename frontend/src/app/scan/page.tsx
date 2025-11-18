@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
-import { ChevronDown, Check, Pencil, Trash2, Home as HomeIcon } from 'lucide-react';
+import { ChevronDown, Pencil, Trash2, Home as HomeIcon, Plus } from 'lucide-react'; // Adicionado 'Plus'
 import EditFoodModal from '../../components/alimentos/EditFoodModal.jsx';
 import {
   ScanRapidoAlimento,
@@ -79,12 +79,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
 // --- COMPONENTE SCANRESULTS (Com handlers e botão confirmar sempre ativo) ---
 const ScanResults = ({
   scanResult,
-  onConfirm,
+  onAddFood, // Renomeado de onConfirm
   onEdit,
   onDelete
 }: {
   scanResult: ScanRapidoResponse | null;
-  onConfirm: (index: number) => void;
+  onAddFood: (index: number) => void; // Renomeado de onConfirm
   onEdit: (index: number) => void;
   onDelete: (index: number) => void;
 }) => {
@@ -121,11 +121,11 @@ const ScanResults = ({
                     <td className="py-3 px-4 text-center">
                       <div className="flex justify-center items-center space-x-2">
                         <button
-                          onClick={() => onConfirm(index)}
+                          onClick={() => onAddFood(index)} // Alterado de onConfirm para onAddFood
                           className="p-1 text-green-600 rounded-full hover:bg-green-100"
-                          title="Confirmar"
+                          title="Adicionar" // Alterado de "Confirmar" para "Adicionar"
                         >
-                          <Check size={18} />
+                          <Plus size={18} />
                         </button>
                         <button
                           onClick={() => onEdit(index)}
@@ -401,18 +401,26 @@ export default function Home() {
     setAnalysisError(null);
     setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
   };
-  const handleConfirmFood = (indexToConfirm: number) => {
-    setScanResult(prevResult => {
-      if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-      const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
-        if (index === indexToConfirm) {
-          return { ...item, confianca: 'alta' as const };
-        }
-        return item;
-      });
-      return { ...prevResult, resultado: { ...prevResult.resultado, alimentos_extraidos: newAlimentos } };
+
+  // Função para adicionar um alimento manualmente (abre o modal com dados vazios)
+  const handleAddManualFood = () => {
+    setEditingItem({
+      index: -1, // Usamos -1 para indicar que é um novo item, não um existente
+      data: {
+        nome: '',
+        quantidade_estimada_g: 100,
+        calorias_estimadas: 0,
+        categoria: 'Outros', // Categoria padrão
+        confianca: 'corrigido',
+        peso_g: 100,
+        kcal: 0,
+        protein: 0,
+        carbs: 0,
+        fats: 0,
+      }
     });
   };
+
   const handleEditFood = (indexToEdit: number) => {
     const alimentoOriginal = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
     if (alimentoOriginal) {
@@ -436,28 +444,44 @@ export default function Home() {
   const handleSaveEdit = (itemAtualizadoDoModal: ModalAlimentoData) => {
     if (editingItem === null) return;
     const indexToEdit = editingItem.index;
+
     setScanResult(prevResult => {
-      if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-      const newAlimentos = prevResult.resultado.alimentos_extraidos.map((item, index) => {
-        if (index === indexToEdit) {
-          return {
-            ...item,
-            nome: itemAtualizadoDoModal.nome,
-            quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
-            calorias_estimadas: itemAtualizadoDoModal.kcal,
-            confianca: 'corrigido' as const,
-          };
-        }
-        return item;
-      });
-      const oldAlertas = prevResult.resultado.alertas || [];
+      const currentAlimentos = prevResult?.resultado?.alimentos_extraidos || [];
+      let newAlimentos;
+
+      if (indexToEdit === -1) { // É um novo alimento
+        const novoAlimento: ScanRapidoAlimento = {
+          nome: itemAtualizadoDoModal.nome,
+          quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
+          calorias_estimadas: itemAtualizadoDoModal.kcal,
+          confianca: 'corrigido',
+          categoria: itemAtualizadoDoModal.categoria || 'Manual', // Pode ser 'Manual' ou o que vier do modal
+          medida_caseira_sugerida: itemAtualizadoDoModal.medida_caseira_sugerida || '',
+        };
+        newAlimentos = [...currentAlimentos, novoAlimento];
+      } else { // Editando um alimento existente
+        newAlimentos = currentAlimentos.map((item, index) => {
+          if (index === indexToEdit) {
+            return {
+              ...item,
+              nome: itemAtualizadoDoModal.nome,
+              quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
+              calorias_estimadas: itemAtualizadoDoModal.kcal,
+              confianca: 'corrigido' as const,
+            };
+          }
+          return item;
+        });
+      }
+
+      const oldAlertas = prevResult?.resultado?.alertas || [];
       return {
         ...prevResult,
         resultado: {
-          ...prevResult.resultado,
+          ...prevResult?.resultado,
           alimentos_extraidos: newAlimentos,
           resumo_nutricional: undefined,
-          alertas: [...oldAlertas, "Item editado. Os totais podem estar desatualizados."]
+          alertas: [...oldAlertas, "Item editado/adicionado. Os totais podem estar desatualizados."]
         }
       };
     });
@@ -600,9 +624,20 @@ export default function Home() {
                 <h3 className="text-md px-2 font-bold text-green-800 text-center">2. Revise os Alimentos</h3>
                 {/* Legenda dos ícones */}
                 <div className="flex justify-center items-center gap-4 sm:gap-6 mt-4 text-xs text-gray-500">
-                  <div className="flex items-center gap-1"><Check size={16} className="text-green-600" /><span>Confirmar</span></div>
+                  <div className="flex items-center gap-1"><Plus size={16} className="text-green-600" /><span>Adicionar</span></div> {/* Alterado de "Confirmar" para "Adicionar" */}
                   <div className="flex items-center gap-1"><Pencil size={16} className="text-blue-600" /><span>Editar</span></div>
                   <div className="flex items-center gap-1"><Trash2 size={16} className="text-red-600" /><span>Apagar</span></div>
+                </div>
+
+                {/* Novo botão para adicionar alimento manualmente */}
+                <div className="mt-6 text-center">
+                  <button
+                    onClick={handleAddManualFood}
+                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md flex items-center justify-center mx-auto"
+                  >
+                    <Plus size={20} className="mr-2" />
+                    Adicionar Alimento Manualmente
+                  </button>
                 </div>
               </>
             )}
@@ -614,7 +649,7 @@ export default function Home() {
               {scanResult && !analysisResult && (
                 <ScanResults
                   scanResult={scanResult}
-                  onConfirm={handleConfirmFood}
+                  onAddFood={handleEditFood} // onConfirm substituído por onAddFood, que agora chama handleEditFood
                   onEdit={handleEditFood}
                   onDelete={handleDeleteFood}
                 />

@@ -73,24 +73,17 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
   // --------------------------
   // 1. Estados locais
   // --------------------------
+  // Usando as novas propriedades da ModalAlimentoData
   const [nome, setNome] = useState(itemParaEditar?.nome || '');
-  const [calorias, setCalorias] = useState(
-    // tenta usar a prop que existe, com fallback para 0
-    itemParaEditar?.calorias_estimadas ??
-    itemParaEditar?.calorias_estimadas_kcal ??
-    0
-  );
-  const [gramas, setGramas] = useState(
-    itemParaEditar?.quantidade_estimada_g ??
-    itemParaEditar?.quantidade_g ??
-    100
-  );
+  const [calorias, setCalorias] = useState(itemParaEditar?.kcal ?? 0); // Usar 'kcal' do ModalAlimentoData
+  const [gramas, setGramas] = useState(itemParaEditar?.peso_g ?? 100); // Usar 'peso_g' do ModalAlimentoData
+  const [categoria, setCategoria] = useState(itemParaEditar?.categoria || 'Outros'); // Adicionado para novos itens
 
   const [termoBusca, setTermoBusca] = useState('');
   const [resultadosBusca, setResultadosBusca] = useState([]);
   const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
 
-  const [medidaCaseira, setMedidaCaseira] = useState('');
+  const [medidaCaseira, setMedidaCaseira] = useState(itemParaEditar?.medida_caseira_sugerida || ''); // Inicializa com a medida sugerida
   const [gramasPorUnidade, setGramasPorUnidade] = useState(0);
 
   // --------------------------
@@ -100,7 +93,6 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
     if (!foodDatabase || !Array.isArray(foodDatabase)) return;
 
     const match = foodDatabase.find((item) => {
-      // tenta comparar por nome; se backend usar outro campo, pode ajustar aqui
       return item.nome === itemParaEditar?.nome;
     });
 
@@ -113,7 +105,8 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
       setGramasPorUnidade(
         match.medida_caseira_gramas_por_unidade ||
         match.gramas_por_unidade ||
-        0      );
+        0
+      );
     }
   }, [foodDatabase, itemParaEditar]);
 
@@ -145,6 +138,7 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
 
   const handleSelecionarSugestao = (itemBanco) => {
     setNome(itemBanco.nome || '');
+    setCategoria(itemBanco.categoria || 'Outros'); // Atualiza a categoria ao selecionar
     // se existir essa estrutura no banco, usa:
     if (itemBanco.calorias_por_100g) {
       // converte para a quantidade atual em gramas
@@ -172,14 +166,21 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
     setGramas(valor);
 
     // se houver informação de cal / 100g no item original ou no DB, recalcula
-    const baseCalorias =
-      itemParaEditar?.calorias_por_100g ??
-      (itemParaEditar?.calorias_estimadas && itemParaEditar.quantidade_estimada_g
-        ? (itemParaEditar.calorias_estimadas * 100) / itemParaEditar.quantidade_estimada_g
-        : null);
+    // Prioriza calorias_estimadas / quantidade_estimada_g do item original se for uma edição
+    // Caso contrário, tenta encontrar no foodDatabase
+    let baseCaloriasPor100g = 0;
 
-    if (baseCalorias) {
-      const kcal = (baseCalorias * valor) / 100;
+    if (itemParaEditar?.calorias_estimadas && itemParaEditar.quantidade_estimada_g) {
+      baseCaloriasPor100g = (itemParaEditar.calorias_estimadas * 100) / itemParaEditar.quantidade_estimada_g;
+    } else {
+      const matchedFood = foodDatabase.find(food => food.nome === nome);
+      if (matchedFood?.calorias_por_100g) {
+        baseCaloriasPor100g = matchedFood.calorias_por_100g;
+      }
+    }
+
+    if (baseCaloriasPor100g > 0) {
+      const kcal = (baseCaloriasPor100g * valor) / 100;
       setCalorias(Math.round(kcal));
     }
   };
@@ -189,10 +190,19 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
   // --------------------------
   const handleSalvar = () => {
     const itemAtualizado = {
-      ...itemParaEditar,
+      ...itemParaEditar, // Mantém outras propriedades que não estão no modal
       nome,
-      quantidade_estimada_g: gramas,
-      calorias_estimadas: calorias,
+      peso_g: gramas, // Usa peso_g para o modal
+      kcal: calorias, // Usa kcal para o modal
+      quantidade_estimada_g: gramas, // Para compatibilidade com ScanRapidoAlimento
+      calorias_estimadas: calorias, // Para compatibilidade com ScanRapidoAlimento
+      categoria: categoria, // Adiciona a categoria
+      medida_caseira_sugerida: medidaCaseira, // Adiciona a medida caseira sugerida
+      // protein, carbs, fats podem ser 0 ou calculados se houver dados no foodDatabase
+      protein: itemParaEditar?.protein || 0,
+      carbs: itemParaEditar?.carbs || 0,
+      fats: itemParaEditar?.fats || 0,
+      confianca: 'corrigido', // Sempre 'corrigido' ao salvar pelo modal
     };
     onSave(itemAtualizado);
     onClose();
@@ -205,7 +215,7 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
     <div style={styles.modalBackdrop}>
       <div style={styles.modalContent}>
         <h2 className="text-lg font-bold mb-4 text-gray-800">
-          Editar Alimento
+          {itemParaEditar?.index === -1 ? 'Adicionar Novo Alimento' : 'Editar Alimento'} {/* Título dinâmico */}
         </h2>
 
         {/* Nome / busca */}
@@ -222,6 +232,7 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
             onFocus={() => {
               if (resultadosBusca.length > 0) setMostrarSugestoes(true);
             }}
+            onBlur={() => setTimeout(() => setMostrarSugestoes(false), 100)} // Esconde sugestões após um pequeno delay
           />
           {mostrarSugestoes && resultadosBusca.length > 0 && (
             <ul style={styles.autocompleteList}>
@@ -229,7 +240,7 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
                 <li
                   key={idx}
                   style={styles.autocompleteItem}
-                  onClick={() => handleSelecionarSugestao(item)}
+                  onMouseDown={() => handleSelecionarSugestao(item)} // Usar onMouseDown para evitar que onBlur feche antes do click
                 >
                   <strong>{item.nome}</strong>
                   {item.categoria && (
@@ -241,6 +252,17 @@ function EditFoodModal({ itemParaEditar, foodDatabase, onSave, onClose }) {
               ))}
             </ul>
           )}
+        </div>
+
+        {/* Categoria (opcional, se quiser permitir edição manual) */}
+        <div style={styles.inputGroup}>
+          <label style={styles.label}>Categoria</label>
+          <input
+            type="text"
+            style={styles.input}
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+          />
         </div>
 
         {/* Calorias */}

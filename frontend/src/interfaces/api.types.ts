@@ -58,11 +58,11 @@ export interface Recomendacoes {
 // Interfaces do Scan Rápido
 export interface ScanRapidoAlimento {
   nome: string;
-  categoria: string;
   quantidade_estimada_g: number;
-  confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
   calorias_estimadas: number;
-  medida_caseira_sugerida?: string;
+  categoria: string;
+  confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
+  medida_caseira_sugerida?: string; // Adicionado para consistência
 }
 
 export interface ScanRapidoResultado {
@@ -99,11 +99,16 @@ export interface FoodDatabaseItem {
 // Interface para o modal de edição
 export interface ModalAlimentoData {
   nome: string;
-  peso_g: number;
-  kcal: number;
-  protein: number;
-  carbs: number;
-  fats: number;
-  confianca: 'alta' | 'media' | 'baixa' | 'corrigido' | string;
-  categoria?: string;
+  // Adicione as propriedades abaixo para que o modal e o handleSaveEdit funcionem corretamente
+  quantidade_estimada_g: number; // Adicionado
+  calorias_estimadas: number;   // Adicionado
+  categoria: string;            // Adicionado
+  confianca: 'alta' | 'media' | 'baixa' | 'corrigido'; // Adicionado
+  peso_g: number;               // Adicionado (usado no modal para a quantidade em gramas)
+  kcal: number;                 // Adicionado (usado no modal para as calorias)
+  protein: number;              // Adicionado (mesmo que seja 0 inicialmente)
+  carbs: number;                // Adicionado (mesmo que seja 0 inicialmente)
+  fats: number;                 // Adicionado (mesmo que seja 0 inicialmente)
+  medida_caseira_sugerida?: string; // Adicionado
+  // Se você tiver outras propriedades que o modal ou o fluxo de edição/adição usam, adicione-as aqui.
 }
