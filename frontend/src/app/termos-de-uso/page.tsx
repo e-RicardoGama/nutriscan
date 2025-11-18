@@ -1,4 +1,3 @@
-// /app/termos-de-uso/page.tsx
 import Link from 'next/link';
 
 export default function TermosUso() {
@@ -8,7 +7,7 @@ export default function TermosUso() {
       <header className="mb-8 border-b pb-4">
         <h1 className="text-4xl font-bold text-green-600 mb-2">Termos de Uso</h1>
         <p className="text-sm text-gray-600">
-          <strong>NutrInfo</strong> | Atualizado em 6 de novembro de 2025
+          <strong>NutrInfo</strong> | Atualizado em 18 de novembro de 2025
         </p>
       </header>
 
@@ -34,13 +33,18 @@ export default function TermosUso() {
       <section id="introducao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">1. Introdução</h2>
         <p className="mb-3 leading-relaxed">
-          Bem-vindo à <strong>NutrInfo</strong>, uma plataforma digital (aplicativo móvel e site) dedicada a fornecer informações nutricionais personalizadas, planos de alimentação, rastreamento de hábitos saudáveis e ferramentas de suporte à nutrição. Ao acessar, registrar-se ou utilizar nossos serviços (coletivamente, &ldquo;Serviços&rdquo;), você concorda em estar vinculado a estes <strong>Termos de Uso</strong> (&ldquo;Termos&rdquo;), que formam um contrato legal entre você (&ldquo;Usuário&rdquo;, &ldquo;Você&rdquo;) e a <strong>NutrInfo Ltda.</strong> (&ldquo;Nós&rdquo;, &ldquo;Nosso&rdquo; ou &ldquo;Empresa&rdquo;), com sede na Av. Paulista, 1000, São Paulo/SP, CEP 01310-100, CNPJ 12.345.678/0001-90.
+          Bem-vindo ao aplicativo e plataforma digital <strong>NutrInfo</strong>, desenvolvidos e operados por <strong>Ricardo Gama</strong>, pessoa física. Ao acessar, registrar-se ou utilizar nossos serviços (coletivamente, “Serviços”), você concorda em estar vinculado a estes <strong>Termos de Uso</strong> (“Termos”), que formam um contrato entre você (“Usuário”, “Você”) e <strong>Ricardo Gama</strong> (“Nós”, “Nosso”).
+        </p>
+        <p className="mb-3 leading-relaxed">
+          <strong>Controlador dos dados e responsável pelo app:</strong><br />
+          Ricardo Gama, CPF 104.195.578-22, residente na Rua Três, 159, Condomínio Buona Vita, CEP 14805-407, Araraquara/SP, Brasil.<br />
+          E-mail de contato para suporte e privacidade: <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a>.
         </p>
         <p className="mb-3 leading-relaxed">
           Estes Termos incorporam por referência nossa <Link href="/politica-privacidade" className="text-green-600 underline hover:text-green-800">Política de Privacidade</Link>, que governa o tratamento de dados pessoais. Se você não concordar com estes Termos, não utilize nossos Serviços.
         </p>
         <p className="leading-relaxed">
-          Nós nos reservamos o direito de atualizar estes Termos a qualquer momento, notificando você via e-mail, notificação no app ou banner no site, com pelo menos 30 dias de antecedência para alterações materiais. O uso contínuo após as atualizações constitui aceitação.
+          Nós poderemos atualizar estes Termos a qualquer momento. Quando houver alterações relevantes, avisaremos você pelo aplicativo, e-mail ou outro meio razoável. O uso contínuo do app após a publicação das alterações significa que você concorda com a versão atualizada.
         </p>
       </section>
 
@@ -49,7 +53,7 @@ export default function TermosUso() {
         <h2 className="text-2xl font-semibold text-green-700 mb-3">2. Elegibilidade e Registro</h2>
         <ul className="list-disc list-inside space-y-2 ml-4">
           <li><strong>Idade mínima:</strong> Você deve ter pelo menos 18 anos ou ser emancipado legalmente para usar os Serviços. Menores de idade precisam de consentimento parental ou responsável.</li>
-          <li><strong>Registro:</strong> Para acessar funcionalidades completas, crie uma conta fornecendo informações precisas (nome, e-mail, senha). Você é responsável por manter a confidencialidade de sua conta e notificar-nos imediatamente sobre qualquer uso não autorizado em <a href="mailto:suporte@nutriinfo.com.br" className="text-green-600 underline">suporte@nutriinfo.com.br</a>.</li>
+          <li><strong>Registro:</strong> Para acessar funcionalidades completas, crie uma conta fornecendo informações precisas (nome, e-mail, senha). Você é responsável por manter a confidencialidade de sua conta e notificar-nos imediatamente sobre qualquer uso não autorizado em <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a>.</li>
           <li><strong>Verificação:</strong> Podemos exigir verificação de identidade para certas funcionalidades, como planos personalizados de saúde. Contas falsas ou fraudulentas serão suspensas.</li>
         </ul>
       </section>
@@ -66,19 +70,22 @@ export default function TermosUso() {
           <li><strong>Recursos premium:</strong> Assinaturas pagas para análises avançadas, consultas virtuais e remoção de anúncios (detalhes na seção 4).</li>
         </ul>
         <p className="mt-3 text-sm text-gray-600 italic">
-          Os Serviços são fornecidos &ldquo;como estão&rdquo;, sem garantias de precisão absoluta em recomendações nutricionais, que dependem de dados fornecidos pelo usuário.
+          Os Serviços são fornecidos “como estão”, sem garantias de precisão absoluta em recomendações nutricionais, que dependem de dados fornecidos pelo usuário.
         </p>
       </section>
 
       {/* Seção 4: Pagamentos e Assinaturas */}
       <section id="pagamentos" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">4. Pagamentos e Assinaturas</h2>
+        <p className="mb-3 leading-relaxed">
+          Atualmente, alguns recursos do NutrInfo podem ser gratuitos e outros podem ser oferecidos mediante pagamento, por exemplo, assinaturas ou planos específicos. Sempre que houver cobrança, os valores, forma de pagamento e condições serão apresentados de forma clara dentro do aplicativo, antes da contratação.
+        </p>
         <ul className="list-disc list-inside space-y-2 ml-4">
-          <li><strong>Modelos de precificação:</strong> Gratuito (básico) ou premium (R$ 19,90/mês ou R$ 199,90/ano, sujeitos a alterações com notificação prévia).</li>
-          <li><strong>Processamento:</strong> Pagamentos via plataformas seguras (ex: Stripe, PagSeguro), com reembolso apenas nos primeiros 7 dias para assinaturas premium, conforme Código de Defesa do Consumidor (CDC).</li>
-          <li><strong>Renovação automática:</strong> Assinaturas renovam automaticamente, a menos que canceladas com 24 horas de antecedência via configurações do app ou <a href="mailto:faturamento@nutriinfo.com.br" className="text-green-600 underline">faturamento@nutriinfo.com.br</a>.</li>
+          <li><strong>Modelos de precificação:</strong> Gratuito (básico) ou premium (valores e condições serão detalhados no momento da oferta).</li>
+          <li><strong>Processamento:</strong> Pagamentos via plataformas seguras de terceiros (ex: Stripe, PagSeguro). Reembolsos seguirão o Código de Defesa do Consumidor (CDC) e as políticas específicas da plataforma de pagamento, informadas no momento da contratação.</li>
+          <li><strong>Renovação automática:</strong> Assinaturas podem renovar automaticamente, a menos que canceladas com antecedência, conforme as instruções fornecidas no app ou pela plataforma de pagamento.</li>
           <li><strong>Impostos:</strong> Preços incluem impostos aplicáveis; você é responsável por quaisquer taxas adicionais.</li>
-          <li><strong>Não reembolso:</strong> Conteúdo baixado ou acessado não é reembolsável.</li>
+          <li><strong>Não reembolso:</strong> Conteúdo baixado ou acessado pode não ser reembolsável, conforme as políticas aplicáveis.</li>
         </ul>
       </section>
 
@@ -86,7 +93,7 @@ export default function TermosUso() {
       <section id="propriedade" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">5. Propriedade Intelectual</h2>
         <ul className="list-disc list-inside space-y-2 ml-4">
-          <li><strong>Direitos nossos:</strong> Todo conteúdo da NutrInfo (textos, designs, algoritmos, marcas como &ldquo;NutrInfo&rdquo; e logotipos) é protegido por leis de direitos autorais, marcas e patentes (Lei 9.610/1998 e tratados internacionais). Você recebe uma licença limitada, não exclusiva e revogável para uso pessoal e não comercial.</li>
+          <li><strong>Direitos nossos:</strong> Todo conteúdo da NutrInfo (textos, designs, algoritmos, marcas como “NutrInfo” e logotipos) é protegido por leis de direitos autorais, marcas e patentes (Lei 9.610/1998 e tratados internacionais). Você recebe uma licença limitada, não exclusiva e revogável para uso pessoal e não comercial.</li>
           <li><strong>Seus direitos:</strong> Você retém direitos sobre dados pessoais e conteúdo gerado por você (ex: diários de refeições), mas concede-nos uma licença mundial, royalty-free para usar, modificar e distribuir esses dados anonimizados para melhorar os Serviços.</li>
           <li><strong>Proibições:</strong> Não copie, distribua, modifique ou comercialize nosso conteúdo sem permissão escrita. Violações sujeitam-se a ações judiciais.</li>
         </ul>
@@ -136,9 +143,9 @@ export default function TermosUso() {
         <h2 className="text-2xl font-semibold text-green-700 mb-3">9. Lei Aplicável e Resolução de Disputas</h2>
         <ul className="list-disc list-inside space-y-2 ml-4">
           <li><strong>Lei governante:</strong> Estes Termos são regidos pelas leis da República Federativa do Brasil, sem aplicação de conflitos de lei.</li>
-          <li><strong>Foro:</strong> Qualquer disputa será resolvida exclusivamente nos tribunais da Comarca de São Paulo/SP, com renúncia a qualquer outro foro.</li>
-          <li><strong>Mediação:</strong> Antes de litígio, as partes tentarão resolução amigável via mediação gratuita pelo Procon-SP.</li>
-          <li><strong>Arbitragem (opcional):</strong> Para disputas acima de R$ 20.000,00, submetem-se à Câmara de Arbitragem da FGV, conforme Lei 9.307/1996.</li>
+          <li><strong>Foro:</strong> Qualquer disputa será resolvida preferencialmente de forma amigável. Na impossibilidade de acordo, fica eleito o foro da Comarca de Araraquara/SP, Brasil, com renúncia a qualquer outro, por mais privilegiado que seja.</li>
+          <li><strong>Mediação:</strong> Antes de litígio, as partes tentarão resolução amigável, podendo buscar plataformas de resolução de conflitos online ou órgãos de defesa do consumidor.</li>
+          <li><strong>Arbitragem (opcional):</strong> Para disputas que as partes concordem, poderá ser utilizada a arbitragem, conforme a Lei 9.307/1996.</li>
         </ul>
       </section>
 
@@ -148,8 +155,8 @@ export default function TermosUso() {
         <ul className="list-disc list-inside space-y-2 ml-4">
           <li><strong>Integridade:</strong> Estes Termos, junto com a Política de Privacidade, constituem o acordo completo entre as partes, substituindo acordos anteriores.</li>
           <li><strong>Severabilidade:</strong> Se qualquer cláusula for inválida, as demais permanecem em vigor.</li>
-          <li><strong>Transferência:</strong> Podemos ceder estes Termos em caso de fusão ou aquisição, notificando você. Você não pode ceder sem nosso consentimento.</li>
-          <li><strong>Notificações:</strong> Enviadas para o e-mail cadastrado ou endereço postal oficial.</li>
+          <li><strong>Transferência:</strong> Podemos ceder estes Termos em caso de venda do aplicativo ou parte dele, notificando você. Você não pode ceder sem nosso consentimento.</li>
+          <li><strong>Notificações:</strong> Enviadas para o e-mail cadastrado ou notificação no app.</li>
           <li><strong>Força maior:</strong> Não seremos responsáveis por falhas devido a eventos imprevisíveis (ex: desastres naturais, pandemias).</li>
         </ul>
       </section>
@@ -157,12 +164,11 @@ export default function TermosUso() {
       {/* Seção 11: Contato */}
       <section id="contato" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">11. Contato</h2>
-        <p className="mb-3 leading-relaxed">Para dúvidas sobre estes Termos:</p>
+        <p className="mb-3 leading-relaxed">Para dúvidas sobre estes Termos ou sobre o uso do aplicativo:</p>
         <ul className="space-y-2">
-          <li><strong>E-mail:</strong> <a href="mailto:termos@nutriinfo.com.br" className="text-green-600 underline">termos@nutriinfo.com.br</a></li>
-          <li><strong>Telefone:</strong> +55 (11) 4000-2000</li>
-          <li><strong>Endereço:</strong> Av. Paulista, 1000, São Paulo/SP, CEP 01310-100</li>
-          <li><strong>Encarregado de Proteção de Dados (DPO):</strong> Dr. Ana Silva, <a href="mailto:dpo@nutriinfo.com.br" className="text-green-600 underline">dpo@nutriinfo.com.br</a></li>
+          <li><strong>Responsável:</strong> Ricardo Gama</li>
+          <li><strong>E-mail:</strong> <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a></li>
+          <li><strong>Endereço:</strong> Rua Três, 159, Condomínio Buona Vita, CEP 14805-407, Araraquara/SP, Brasil</li>
         </ul>
       </section>
 
@@ -175,7 +181,7 @@ export default function TermosUso() {
           Recomendamos que um advogado revise para adaptações específicas ao seu negócio.
         </p>
         <p className="mt-4">
-          <Link href="/politica-privacidade" className="text-green-600 underline hover:text-green-800">Ver Política de Privacidade</Link> | 
+          <Link href="/politica-privacidade" className="text-green-600 underline hover:text-green-800">Ver Política de Privacidade</Link> |
           <Link href="/" className="text-green-600 underline hover:text-green-800 ml-2">Voltar ao Início</Link>
         </p>
       </footer>

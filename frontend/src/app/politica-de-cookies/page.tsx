@@ -1,4 +1,3 @@
-// /app/politica-cookies/page.tsx
 import Link from 'next/link';
 
 export default function PoliticaCookies() {
@@ -8,7 +7,7 @@ export default function PoliticaCookies() {
       <header className="mb-8 border-b pb-4">
         <h1 className="text-4xl font-bold text-green-600 mb-2">Política de Cookies</h1>
         <p className="text-sm text-gray-600">
-          <strong>NutrInfo</strong> | Atualizado em 6 de novembro de 2025
+          <strong>NutrInfo</strong> | Atualizado em 18 de novembro de 2025
         </p>
       </header>
 
@@ -31,10 +30,10 @@ export default function PoliticaCookies() {
       <section id="introducao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">1. Introdução</h2>
         <p className="mb-3 leading-relaxed">
-          A <strong>NutrInfo</strong> utiliza cookies e tecnologias semelhantes para garantir o funcionamento adequado de nosso site e aplicativo, melhorar sua experiência de navegação, analisar o desempenho de nossos serviços e personalizar o conteúdo e anúncios que você vê. Esta política explica o que são cookies, como os utilizamos e como você pode gerenciá-los.
+          O <strong>NutrInfo</strong>, desenvolvido e operado por <strong>Ricardo Gama</strong> (pessoa física), utiliza cookies e tecnologias semelhantes para garantir o funcionamento adequado do site e/ou aplicativo, melhorar sua experiência de uso, analisar o desempenho dos serviços e, quando aplicável, personalizar conteúdo. Esta política explica o que são cookies, como os utilizamos e como você pode gerenciá-los.
         </p>
         <p className="mb-3 leading-relaxed">
-          Nosso uso de cookies está em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018)</strong> e o <strong>Regulamento Geral de Proteção de Dados (GDPR)</strong>.
+          Nosso uso de cookies está em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018)</strong> e demais normas brasileiras aplicáveis.
         </p>
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
           <p className="font-semibold text-blue-800">📋 Transparência e Controle</p>
@@ -58,7 +57,7 @@ export default function PoliticaCookies() {
       {/* Seção 3: Tipos de Cookies Utilizados */}
       <section id="tipos-de-cookies" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">3. Tipos de Cookies Utilizados</h2>
-        <p className="mb-3 leading-relaxed">A <strong>NutrInfo</strong> utiliza os seguintes tipos de cookies:</p>
+        <p className="mb-3 leading-relaxed">O <strong>NutrInfo</strong> utiliza os seguintes tipos de cookies:</p>
 
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">3.1 Cookies Essenciais (Estritamente Necessários)</h3>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
@@ -74,7 +73,7 @@ export default function PoliticaCookies() {
 
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">3.3 Cookies de Funcionalidade</h3>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li>Permitem que o site/app lembre suas escolhas e preferências (como idioma, região, nome de usuário) para oferecer uma experiência mais personalizada e conveniente.</li>
+          <li>Permitem que o site/app &amp;quot;lembre&amp;quot; suas escolhas e preferências (como idioma, região, nome de usuário) para oferecer uma experiência mais personalizada e conveniente.</li>
           <li><strong>Exemplos:</strong> Preferências de idioma, configurações de privacidade.</li>
         </ul>
 
@@ -109,7 +108,7 @@ export default function PoliticaCookies() {
       <section id="consentimento" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">5. Seu Consentimento</h2>
         <p className="mb-3 leading-relaxed">
-          Ao acessar e utilizar o site ou aplicativo da <strong>NutrInfo</strong>, você será apresentado a um banner de consentimento de cookies. Através dele, você pode aceitar todos os cookies, recusar os não essenciais ou gerenciar suas preferências de forma granular.
+          Ao acessar e utilizar o site ou aplicativo do <strong>NutrInfo</strong>, você será apresentado a um banner de consentimento de cookies. Através dele, você pode aceitar todos os cookies, recusar os não essenciais ou gerenciar suas preferências de forma granular.
         </p>
         <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
           <p className="font-semibold text-green-800">✅ Controle Total</p>
@@ -141,7 +140,6 @@ export default function PoliticaCookies() {
         <p className="text-sm text-gray-600">
           Consulte a seção de &amp;quot;Ajuda&amp;quot; do seu navegador para saber como gerenciar as configurações de cookies. Lembre-se que a desativação de cookies essenciais pode comprometer a funcionalidade do nosso site/app.
         </p>
-
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">6.2 Configurações do Aplicativo</h3>
         <p className="leading-relaxed">
           Em nosso aplicativo móvel, você pode acessar as &amp;quot;Configurações de Privacidade&amp;quot; para ajustar suas preferências de cookies e outras tecnologias de rastreamento.
@@ -171,12 +169,12 @@ export default function PoliticaCookies() {
       <section id="contato" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">8. Contato</h2>
         <p className="mb-3 leading-relaxed">
-          Se você tiver dúvidas sobre esta Política de Cookies ou sobre nossas práticas de privacidade, entre em contato com nosso Encarregado de Proteção de Dados (DPO) ou com nossa equipe de privacidade:
+          Se você tiver dúvidas sobre esta Política de Cookies ou sobre nossas práticas de privacidade, entre em contato com nosso responsável pela proteção de dados:
         </p>
         <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li><strong>E-mail para dúvidas sobre privacidade e cookies:</strong> <a href="mailto:privacidade@nutriinfo.com.br" className="text-green-600 underline">privacidade@nutriinfo.com.br</a></li>
-          <li><strong>E-mail do Encarregado (DPO):</strong> <a href="mailto:dpo@nutriinfo.com.br" className="text-green-600 underline">dpo@nutriinfo.com.br</a></li>
-          <li><strong>Telefone:</strong> +55 (11) 4000-2000 (seg-sex, 9h-18h)</li>
+          <li><strong>Responsável:</strong> Ricardo Gama</li>
+          <li><strong>E-mail para dúvidas sobre privacidade e cookies:</strong> <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a></li>
+          <li><strong>Endereço:</strong> Rua Três, 159, Condomínio Buona Vita, CEP 14805-407, Araraquara/SP, Brasil</li>
         </ul>
       </section>
 
@@ -184,12 +182,12 @@ export default function PoliticaCookies() {
       <footer className="mt-12 pt-6 border-t text-center text-sm text-gray-600">
         <div className="mb-4">
           <p>
-            Esta Política de Cookies foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018)</strong> e o <strong>Regulamento Geral de Proteção de Dados (GDPR)</strong>.
+            Esta Política de Cookies foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018)</strong> e demais legislações aplicáveis.
           </p>
         </div>
         <div className="mb-4">
           <p>
-            <strong>Última revisão legal:</strong> 6 de novembro de 2025 | <strong>Versão:</strong> 1.1
+            <strong>Última revisão legal:</strong> 18 de novembro de 2025 | <strong>Versão:</strong> 1.2
           </p>
           <p className="mt-2">
             Recomendamos que um advogado especializado em proteção de dados revise periodicamente para garantir conformidade contínua.

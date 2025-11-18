@@ -1,4 +1,3 @@
-// /app/politica-privacidade/page.tsx
 import Link from 'next/link';
 
 export default function PoliticaPrivacidade() {
@@ -8,7 +7,7 @@ export default function PoliticaPrivacidade() {
       <header className="mb-8 border-b pb-4">
         <h1 className="text-4xl font-bold text-green-600 mb-2">Política de Privacidade</h1>
         <p className="text-sm text-gray-600">
-          <strong>NutrInfo</strong> | Atualizado em 6 de novembro de 2025
+          <strong>NutrInfo</strong> | Atualizado em 18 de novembro de 2025
         </p>
       </header>
 
@@ -27,7 +26,7 @@ export default function PoliticaPrivacidade() {
           <li><a href="#violacao" className="text-green-600 hover:underline">9. Notificação de Violações</a></li>
           <li><a href="#transferencia" className="text-green-600 hover:underline">10. Transferência Internacional</a></li>
           <li><a href="#atualizacoes" className="text-green-600 hover:underline">11. Atualizações da Política</a></li>
-          <li><a href="#contato" className="text-green-600 hover:underline">12. Contato</a></li>
+          <li><a href="#contato" className="text-green-600 hover:underline">12. Contato e Encarregado de Proteção de Dados</a></li>
         </ul>
       </nav>
 
@@ -35,7 +34,7 @@ export default function PoliticaPrivacidade() {
       <section id="introducao" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">1. Introdução</h2>
         <p className="mb-3 leading-relaxed">
-          A <strong>NutrInfo</strong> valoriza sua privacidade e está comprometida com a proteção de seus dados pessoais, em conformidade com a <strong>LGPD (Lei Geral de Proteção de Dados Pessoais - Lei nº 13.709/2018)</strong>, <strong>GDPR (Regulamento Geral de Proteção de Dados da UE)</strong> e demais legislações aplicáveis de proteção de dados.
+          A <strong>NutrInfo</strong>, desenvolvida e operada por <strong>Ricardo Gama</strong> (pessoa física), valoriza sua privacidade e está comprometida com a proteção de seus dados pessoais, em conformidade com a <strong>LGPD (Lei Geral de Proteção de Dados Pessoais - Lei nº 13.709/2018)</strong> e demais legislações aplicáveis de proteção de dados.
         </p>
         <p className="mb-3 leading-relaxed">
           Esta <strong>Política de Privacidade</strong> detalha como coletamos, processamos, armazenamos, compartilhamos e protegemos suas informações pessoais quando você utiliza nossos serviços (aplicativo móvel, site e serviços relacionados). Ao usar a NutrInfo, você concorda com as práticas descritas nesta política.
@@ -43,7 +42,7 @@ export default function PoliticaPrivacidade() {
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
           <p className="font-semibold text-blue-800">📋 Informações Importantes</p>
           <p className="text-sm text-blue-700 mt-1">
-            Esta política se aplica a todos os usuários da NutrInfo Ltda., CNPJ 12.345.678/0001-90, com sede na Av. Paulista, 1000, São Paulo/SP, CEP 01310-100.
+            Esta política se aplica a todos os usuários do NutrInfo, cujo controlador dos dados é <strong>Ricardo Gama</strong>, pessoa física, CPF 104.195.578-22, residente na Rua Três, 159, Condomínio Buona Vita, CEP 14805-407, Araraquara/SP, Brasil.
           </p>
         </div>
       </section>
@@ -141,287 +140,140 @@ export default function PoliticaPrivacidade() {
           <li><strong>Execução de Contrato (Art. 7º, V):</strong> Para fornecer os serviços solicitados</li>
           <li><strong>Cumprimento de Obrigação Legal (Art. 7º, II):</strong> Para obrigações fiscais e regulatórias</li>
           <li><strong>Legítimo Interesse (Art. 7º, IX):</strong> Para análise de dados agregados e prevenção de fraudes</li>
-          <li><strong>Proteção da Vida ou Segurança (Art. 7º, IV):</strong> Em situações de emergência médica</li>
+          <li><strong>Proteção da Vida (Art. 7º, VII):</strong> Em situações de emergência, para proteger a vida ou incolumidade física do titular ou de terceiro</li>
         </ul>
 
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">4.2 Como Obtemos Consentimento</h3>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">4.2 Consentimento para Dados Sensíveis</h3>
         <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
-          <p className="font-semibold text-green-800">✅ Requisitos do Consentimento (LGPD Art. 8º)</p>
-          <ul className="list-disc list-inside space-y-1 ml-4 mt-2 text-sm text-green-700">
-            <li>Consentimento livre, informado e inequívoco</li>
-            <li>Específico para cada finalidade de tratamento</li>
-            <li>Com linguagem clara e precisa</li>
-            <li>Registrado com data, hora e identificação do usuário</li>
-          </ul>
+          <p className="font-semibold text-green-800">✅ Consentimento Explícito</p>
+          <p className="text-sm text-green-700 mt-1">
+            Para o tratamento de seus dados de saúde e nutrição (dados sensíveis), solicitaremos seu consentimento explícito e específico no momento da coleta, destacando as finalidades e a possibilidade de revogação.
+          </p>
         </div>
-        <p className="mb-2">O consentimento é obtido através de:</p>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li>Checkboxes específicos durante o cadastro e onboarding</li>
-          <li>Banner de cookies com opções granulares</li>
-          <li>Configurações de privacidade no perfil do usuário</li>
-          <li>Confirmação por e-mail para dados sensíveis</li>
-        </ul>
 
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">4.3 Revogação de Consentimento</h3>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">4.3 Revogação do Consentimento</h3>
         <p className="leading-relaxed">
-          Você pode revogar seu consentimento a qualquer momento, de forma facilitada e gratuita, através das configurações do app ou enviando e-mail para <a href="mailto:dpo@nutriinfo.com.br" className="text-green-600 underline">dpo@nutriinfo.com.br</a>. A revogação não afeta a legalidade do tratamento realizado anteriormente.
+          Você pode revogar seu consentimento a qualquer momento, de forma facilitada e gratuita, através das configurações do app (quando disponível) ou enviando e-mail para <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a>. A revogação não afetará a legalidade do tratamento realizado antes da retirada do consentimento.
         </p>
       </section>
 
       {/* Seção 5: Direitos dos Usuários */}
       <section id="direitos" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">5. Direitos dos Usuários (LGPD Art. 18)</h2>
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
-          <p className="font-semibold text-blue-800">🛡️ Seus Direitos Garantidos pela LGPD</p>
-          <p className="text-sm text-blue-700 mt-1">
-            A NutrInfo garante todos os direitos previstos no art. 18 da LGPD, respondendo às solicitações em até 15 dias.
-          </p>
-        </div>
-
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Confirmação de Existência</strong>
-            <p className="text-sm text-gray-600 mt-1">Saber se tratamos seus dados pessoais</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Acesso aos Dados</strong>
-            <p className="text-sm text-gray-600 mt-1">Obter cópia de todos os seus dados em formato claro</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Correção de Dados</strong>
-            <p className="text-sm text-gray-600 mt-1">Corrigir dados incompletos, inexatos ou desatualizados</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Anonimização/Pseudonimização</strong>
-            <p className="text-sm text-gray-600 mt-1">Solicitar anonimização de dados para fins estatísticos</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Bloqueio/Eliminação</strong>
-            <p className="text-sm text-gray-600 mt-1">Bloquear ou eliminar dados desnecessários ou excessivos</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Portabilidade</strong>
-            <p className="text-sm text-gray-600 mt-1">Receber seus dados em formato estruturado para outro serviço</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Informação sobre Compartilhamento</strong>
-            <p className="text-sm text-gray-600 mt-1">Saber com quem compartilhamos seus dados</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Oposição ao Tratamento</strong>
-            <p className="text-sm text-gray-600 mt-1">Opor-se a tratamentos para fins de marketing ou não essenciais</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Revogação de Consentimento</strong>
-            <p className="text-sm text-gray-600 mt-1">Cancelar consentimento dado anteriormente</p>
-          </li>
-          <li className="bg-gray-50 p-3 rounded border-l-4 border-green-500">
-            <strong className="text-green-700">Reclamação à ANPD</strong>
-            <p className="text-sm text-gray-600 mt-1">Direito de reclamar à Autoridade Nacional de Proteção de Dados</p>
-          </li>
+        <p className="mb-3 leading-relaxed">Você, como titular dos dados, possui os seguintes direitos:</p>
+        <ul className="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Confirmação e Acesso:</strong> Saber se tratamos seus dados e acessá-los.</li>
+          <li><strong>Correção:</strong> Solicitar a correção de dados incompletos, inexatos ou desatualizados.</li>
+          <li><strong>Anonimização, Bloqueio ou Eliminação:</strong> Solicitar a anonimização, bloqueio ou eliminação de dados desnecessários, excessivos ou tratados em desconformidade com a LGPD.</li>
+          <li><strong>Portabilidade:</strong> Receber seus dados em formato estruturado e transferi-los a outro fornecedor de serviço.</li>
+          <li><strong>Eliminação:</strong> Solicitar a eliminação de dados pessoais tratados com seu consentimento, exceto nas hipóteses previstas em lei.</li>
+          <li><strong>Informação sobre Compartilhamento:</strong> Obter informações sobre as entidades públicas e privadas com as quais compartilhamos seus dados.</li>
+          <li><strong>Informação sobre a Possibilidade de Não Fornecer Consentimento:</strong> Ser informado sobre as consequências de não fornecer consentimento e sobre a possibilidade de revogá-lo.</li>
+          <li><strong>Oposição:</strong> Opor-se ao tratamento de dados realizado com base em outras bases legais, em caso de descumprimento da LGPD.</li>
+          <li><strong>Revisão de Decisões Automatizadas:</strong> Solicitar a revisão de decisões tomadas unicamente com base em tratamento automatizado de dados pessoais que afetem seus interesses.</li>
         </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2 text-gray-700">5.1 Como Exercer Seus Direitos</h3>
-        <p className="mb-2 leading-relaxed">Para exercer qualquer um desses direitos:</p>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li>Acesse as <strong>Configurações de Privacidade</strong> no seu perfil do app</li>
-          <li>Envie e-mail para <a href="mailto:privacidade@nutriinfo.com.br" className="text-green-600 underline">privacidade@nutriinfo.com.br</a></li>
-          <li>Entre em contato com nosso Encarregado (DPO) em <a href="mailto:dpo@nutriinfo.com.br" className="text-green-600 underline">dpo@nutriinfo.com.br</a></li>
-        </ul>
-        <p className="text-sm text-gray-600">
-          <strong>Prazo de Resposta:</strong> Responderemos em até 15 dias, conforme LGPD Art. 19. Solicitações complexas podem levar até 30 dias, com notificação prévia.
+        <p className="mt-3 text-sm text-gray-600 italic">
+          Para exercer qualquer um desses direitos, entre em contato conosco através do e-mail <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a>. Responderemos à sua solicitação no prazo legal.
         </p>
       </section>
 
       {/* Seção 6: Compartilhamento de Dados */}
       <section id="compartilhamento" className="mb-8">
         <h2 className="text-2xl font-semibold text-green-700 mb-3">6. Compartilhamento de Dados</h2>
-        <p className="mb-3 leading-relaxed">Compartilhamos seus dados apenas quando necessário e com as devidas garantias de proteção:</p>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">6.1 Operadores e Prestadores de Serviços</h3>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li><strong>Processadores de Pagamento:</strong> Stripe, PagSeguro (dados de faturamento apenas)</li>
-          <li><strong>Hospedagem e Infraestrutura:</strong> AWS, Google Cloud (dados criptografados)</li>
-          <li><strong>Análise de Dados:</strong> Google Analytics (dados anonimizados)</li>
-          <li><strong>Suporte Técnico:</strong> Equipe interna certificada e parceiros autorizados</li>
-          <li><strong>Integrações:</strong> APIs de wearables (Fitbit, Apple Health) com seu consentimento</li>
+        <p className="mb-3 leading-relaxed">Seus dados pessoais podem ser compartilhados nas seguintes situações:</p>
+        <ul className="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Com prestadores de serviços:</strong> Para operar o app (ex: serviços de hospedagem, processamento de pagamentos, ferramentas de análise de uso). Esses terceiros são contratualmente obrigados a proteger seus dados.</li>
+          <li><strong>Com autoridades legais:</strong> Em resposta a ordens judiciais, solicitações governamentais ou para cumprir obrigações legais.</li>
+          <li><strong>Em caso de reestruturação:</strong> Se o NutrInfo for vendido, fundido ou transferido, seus dados podem ser transferidos ao novo proprietário, que deverá manter esta Política de Privacidade.</li>
+          <li><strong>Com seu consentimento:</strong> Para outras finalidades específicas, mediante seu consentimento explícito.</li>
+          <li><strong>Dados anonimizados:</strong> Podemos compartilhar dados agregados e anonimizados que não identificam você pessoalmente para fins de pesquisa, análise de mercado ou melhoria de serviços.</li>
         </ul>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">6.2 Autoridades e Órgãos Públicos</h3>
-        <p className="mb-2">Compartilhamos dados apenas quando exigido por lei ou ordem judicial:</p>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li>Autoridade Nacional de Proteção de Dados (ANPD)</li>
-          <li>Receita Federal e órgãos fiscais</li>
-          <li>Autoridades judiciais e policiais (com ordem judicial)</li>
-          <li>Ministério da Saúde (em casos de saúde pública)</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">6.3 O Que NÃO Fazemos</h3>
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
-          <p className="font-semibold text-red-800">🚫 Compromissos de Não Compartilhamento</p>
-          <ul className="list-disc list-inside space-y-1 ml-4 mt-2 text-sm text-red-700">
-            <li>Não vendemos seus dados pessoais a terceiros</li>
-            <li>Não compartilhamos dados de saúde sem consentimento explícito</li>
-            <li>Não usamos dados para publicidade sem autorização</li>
-            <li>Não transferimos dados para países sem proteção adequada sem garantias</li>
-          </ul>
+        <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
+          <p className="font-semibold text-yellow-800">⚠️ Sem Venda de Dados</p>
+          <p className="text-sm text-yellow-700 mt-1">
+            Nós não vendemos, alugamos ou comercializamos seus dados pessoais com terceiros para fins de marketing direto sem o seu consentimento explícito.
+          </p>
         </div>
       </section>
 
       {/* Seção 7: Medidas de Segurança */}
       <section id="seguranca" className="mb-8">
-        <h2 className="text-2xl font-semibold text-green-700 mb-3">7. Medidas de Segurança (LGPD Art. 46-49)</h2>
-        <p className="mb-3 leading-relaxed">Implementamos medidas técnicas e administrativas robustas para proteger seus dados:</p>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">7.1 Medidas Técnicas</h3>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li><strong>Criptografia:</strong> TLS 1.3 para dados em trânsito; AES-256 para dados em repouso</li>
-          <li><strong>Autenticação:</strong> Senhas hash com bcrypt; 2FA (autenticação de dois fatores) para contas premium</li>
-          <li><strong>Controle de Acesso:</strong> RBAC (Role-Based Access Control) e princípio do menor privilégio</li>
-          <li><strong>Monitoramento:</strong> SIEM (Security Information and Event Management) 24/7</li>
-          <li><strong>Backups:</strong> Criptografados e armazenados em data centers ISO 27001</li>
+        <h2 className="text-2xl font-semibold text-green-700 mb-3">7. Medidas de Segurança</h2>
+        <p className="mb-3 leading-relaxed">Adotamos medidas técnicas e administrativas para proteger seus dados pessoais contra acesso não autorizado, destruição, perda, alteração, comunicação ou qualquer forma de tratamento inadequado ou ilícito. Nossas medidas incluem:</p>
+        <ul className="list-disc list-inside space-y-2 ml-4">
+          <li>Criptografia de dados em trânsito e em repouso.</li>
+          <li>Controles de acesso rigorosos aos sistemas e dados.</li>
+          <li>Monitoramento contínuo de segurança.</li>
+          <li>Uso de firewalls e sistemas de detecção de intrusão.</li>
+          <li>Realização de backups regulares.</li>
+          <li>Anonimização e pseudonimização de dados sempre que possível.</li>
         </ul>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">7.2 Medidas Administrativas</h3>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li><strong>Políticas Internas:</strong> Programa de Conformidade LGPD com treinamentos anuais</li>
-          <li><strong>Auditorias:</strong> Auditorias de segurança trimestrais por terceiros certificados</li>
-          <li><strong>Contratos:</strong> DPAs (Data Processing Agreements) com todos os operadores</li>
-          <li><strong>Gestão de Incidentes:</strong> Plano de Resposta a Incidentes (IRP) aprovado pela ANPD</li>
-          <li><strong>Certificações:</strong> ISO 27001, SOC 2 Type II em processo</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">7.3 Dados Sensíveis de Saúde</h3>
-        <div className="bg-purple-50 border-l-4 border-purple-500 p-4 mb-4">
-          <p className="font-semibold text-purple-800">🔒 Proteção Especial para Dados de Saúde</p>
-          <ul className="list-disc list-inside space-y-1 ml-4 mt-2 text-sm text-purple-700">
-            <li>Acesso restrito apenas a nutricionistas certificados</li>
-            <li>Criptografia de dupla camada para dados médicos</li>
-            <li>Logs de acesso auditados mensalmente</li>
-            <li>Consentimento específico para cada consulta profissional</li>
-          </ul>
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+          <p className="font-semibold text-blue-800">🔒 Sua Segurança é Prioridade</p>
+          <p className="text-sm text-blue-700 mt-1">
+            Embora nos esforcemos para proteger seus dados, nenhuma transmissão pela internet é 100% segura. Você também tem um papel importante na proteção de sua conta, mantendo sua senha confidencial.
+          </p>
         </div>
       </section>
 
       {/* Seção 8: Retenção de Dados */}
       <section id="retencao" className="mb-8">
-        <h2 className="text-2xl font-semibold text-green-700 mb-3">8. Retenção de Dados (LGPD Art. 15)</h2>
-        <p className="mb-3 leading-relaxed">Mantemos seus dados apenas pelo tempo necessário, conforme os princípios de necessidade e minimização:</p>
-
-        <div className="overflow-x-auto mb-6">
-          <table className="min-w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-300 px-4 py-2 text-left">Tipo de Dados</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Período de Retenção</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Motivo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">Dados de Cadastro (nome, e-mail)</td>
-                <td className="border border-gray-300 px-4 py-2">24 meses após inatividade</td>
-                <td className="border border-gray-300 px-4 py-2">Execução de contrato e obrigações legais</td>
-              </tr>
-              <tr className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">Dados de Saúde Sensíveis</td>
-                <td className="border border-gray-300 px-4 py-2">Imediatamente após solicitação de exclusão</td>
-                <td className="border border-gray-300 px-4 py-2">Princípio da finalidade e consentimento</td>
-              </tr>
-              <tr className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">Dados de Pagamento</td>
-                <td className="border border-gray-300 px-4 py-2">5 anos (Lei 8.137/1990)</td>
-                <td className="border border-gray-300 px-4 py-2">Obrigações fiscais e contábeis</td>
-              </tr>
-              <tr className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">Logs de Acesso Técnico</td>
-                <td className="border border-gray-300 px-4 py-2">6 meses (Marco Civil da Internet)</td>
-                <td className="border border-gray-300 px-4 py-2">Segurança e investigação de incidentes</td>
-              </tr>
-              <tr className="hover:bg-gray-50 bg-green-50">
-                <td className="border border-gray-300 px-4 py-2 font-semibold">Dados Anonimizados</td>
-                <td className="border border-gray-300 px-4 py-2 font-semibold">Indefinidamente</td>
-                <td className="border border-gray-300 px-4 py-2 font-semibold">Melhoria de serviços e pesquisa (LGPD Art. 12)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p className="text-sm text-gray-600 mb-4">
-          <strong>Exclusão Automática:</strong> Após o período de retenção, os dados são excluídos de forma segura e irrecuperável, exceto quando exigido por lei.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">8.1 Direito ao Esquecimento</h3>
-        <p className="leading-relaxed">
-          Você pode solicitar a exclusão permanente de seus dados pessoais a qualquer momento, exceto quando houver obrigação legal de retenção. O processo é gratuito e será concluído em até 30 dias.
+        <h2 className="text-2xl font-semibold text-green-700 mb-3">8. Retenção de Dados</h2>
+        <p className="mb-3 leading-relaxed">Retemos seus dados pessoais apenas pelo tempo necessário para cumprir as finalidades para as quais foram coletados, incluindo para fins de cumprimento de obrigações legais, regulatórias, fiscais, contábeis, ou para o exercício regular de direitos em processos judiciais, administrativos ou arbitrais.</p>
+        <ul className="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Dados de cadastro:</strong> Mantidos enquanto sua conta estiver ativa e por um período adicional após o encerramento, conforme exigido por lei.</li>
+          <li><strong>Dados de saúde:</strong> Retidos enquanto forem relevantes para os serviços personalizados e com seu consentimento, sendo anonimizados ou eliminados após o término da finalidade.</li>
+          <li><strong>Dados de transação:</strong> Mantidos pelos prazos legais e fiscais aplicáveis.</li>
+        </ul>
+        <p className="mt-3 text-sm text-gray-600 italic">
+          Após o término do período de retenção, seus dados serão eliminados ou anonimizados de forma segura.
         </p>
       </section>
 
       {/* Seção 9: Notificação de Violações */}
       <section id="violacao" className="mb-8">
-        <h2 className="text-2xl font-semibold text-green-700 mb-3">9. Notificação de Violações de Dados (LGPD Art. 48)</h2>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">9.1 Nosso Compromisso</h3>
-        <p className="mb-3 leading-relaxed">Estamos preparados para responder rapidamente a qualquer incidente de segurança:</p>
-        <ul className="list-disc list-inside space-y-2 ml-4 mb-4">
-          <li><strong>Notificação à ANPD:</strong> Em até 72 horas após tomar conhecimento do incidente, conforme exigido pela LGPD</li>
-          <li><strong>Notificação aos Titulares:</strong> Imediatamente se houver risco relevante aos direitos fundamentais (máximo 5 dias úteis)</li>
-          <li><strong>Relatório Público:</strong> Divulgaremos informações sobre o incidente em nosso site e canais oficiais</li>
-          <li><strong>Medidas Corretivas:</strong> Implementaremos ações imediatas para mitigar danos e prevenir recorrências</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">9.2 O Que Você Deve Saber</h3>
-        <div className="bg-orange-50 border-l-4 border-orange-500 p-4 mb-4">
-          <p className="font-semibold text-orange-800">⚡ Procedimento em Caso de Violação</p>
-          <ul className="list-disc list-inside space-y-1 ml-4 mt-2 text-sm text-orange-700">
-            <li><strong>Se você suspeitar de uma violação:</strong> Entre em contato imediatamente com <a href="mailto:seguranca@nutriinfo.com.br" className="text-orange-600 underline">seguranca@nutriinfo.com.br</a></li>
-            <li><strong>O que notificaremos:</strong> Natureza do incidente, categorias de dados afetados, número aproximado de titulares impactados e medidas tomadas</li>
-            <li><strong>Canais de comunicação:</strong> E-mail, notificação push no app e comunicado oficial no site</li>
-            <li><strong>Suporte aos afetados:</strong> Monitoramento gratuito de crédito e assistência jurídica quando aplicável</li>
-          </ul>
-        </div>
-
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">9.3 Plano de Resposta a Incidentes</h3>
-        <p className="leading-relaxed mb-4">
-          Nossa equipe de segurança segue um Plano de Resposta a Incidentes (IRP) aprovado, que inclui:
+        <h2 className="text-2xl font-semibold text-green-700 mb-3">9. Notificação de Violações</h2>
+        <p className="mb-3 leading-relaxed">
+          Em caso de ocorrência de incidente de segurança que possa acarretar risco ou dano relevante aos seus dados pessoais, envidaremos esforços razoáveis para comunicar os usuários afetados e a Autoridade Nacional de Proteção de Dados (ANPD), quando aplicável, em prazo adequado, conforme exigido pela LGPD.
         </p>
-        <ul className="list-disc list-inside space-y-1 ml-4 mb-4">
-          <li>Detecção e classificação do incidente em até 2 horas</li>
-          <li>Contenção e mitigação em até 24 horas</li>
-          <li>Análise forense completa em até 7 dias</li>
-          <li>Relatório final à ANPD em até 30 dias</li>
-        </ul>
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+          <p className="font-semibold text-red-800">🚨 Reporte de Incidentes</p>
+          <p className="text-sm text-red-700 mt-1">
+            Se você identificar qualquer vulnerabilidade ou suspeita de incidente de segurança, por favor, entre em contato imediatamente pelo e-mail <a href="mailto:gamadados@gmail.com" className="text-red-600 underline">gamadados@gmail.com</a>.
+          </p>
+        </div>
       </section>
 
       {/* Seção 10: Transferência Internacional */}
       <section id="transferencia" className="mb-8">
-        <h2 className="text-2xl font-semibold text-green-700 mb-3">10. Transferência Internacional de Dados (LGPD Art. 33-36)</h2>
+        <h2 className="text-2xl font-semibold text-green-700 mb-3">10. Transferência Internacional de Dados</h2>
+        <p className="mb-3 leading-relaxed">
+          Para a operação do NutrInfo, podemos utilizar serviços de terceiros que podem processar ou armazenar dados em servidores localizados fora do Brasil. Nesses casos, a transferência internacional de dados é realizada em conformidade com a LGPD, garantindo que os países ou organizações internacionais destinatárias proporcionem um nível de proteção de dados adequado ou que sejam adotadas garantias contratuais e técnicas apropriadas.
+        </p>
 
-        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">10.1 Destinos de Transferência</h3>
-        <p className="mb-3 leading-relaxed">Seus dados podem ser transferidos para fora do Brasil apenas para os seguintes países e com as devidas garantias:</p>
-
-        <div className="overflow-x-auto mb-6">
-          <table className="min-w-full border-collapse border border-gray-300">
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">10.1 Principais Destinos e Garantias</h3>
+        <div className="overflow-x-auto mb-4">
+          <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border border-gray-300 px-4 py-2 text-left">País/Região</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Destino</th>
                 <th className="border border-gray-300 px-4 py-2 text-left">Tipo de Dados</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Garantia de Proteção</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Finalidade</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Base Legal / Garantia</th>
+                <th className="border border-gray-300 px-4 py-2 text-left">Exemplos de Serviços</th>
               </tr>
             </thead>
             <tbody>
               <tr className="hover:bg-gray-50">
                 <td className="border border-gray-300 px-4 py-2">Estados Unidos</td>
-                <td className="border border-gray-300 px-4 py-2">Dados técnicos e de pagamento</td>
-                <td className="border border-gray-300 px-4 py-2">Cláusulas Contratuais Padrão (SCCs) + Privacy Shield</td>
-                <td className="border border-gray-300 px-4 py-2">Processamento Stripe, AWS</td>
+                <td className="border border-gray-300 px-4 py-2">Dados de identificação, técnicos, uso, pagamento</td>
+                <td className="border border-gray-300 px-4 py-2">Cláusulas Contratuais Padrão (SCCs), Consentimento</td>
+                <td className="border border-gray-300 px-4 py-2">Hospedagem (Vercel, AWS), Analytics (Google Analytics), Pagamento (Stripe)</td>
               </tr>
               <tr className="hover:bg-gray-50">
                 <td className="border border-gray-300 px-4 py-2">União Europeia</td>
                 <td className="border border-gray-300 px-4 py-2">Dados de análise agregada</td>
-                <td className="border border-gray-300 px-4 py-2">Adequação (GDPR) + Binding Corporate Rules</td>
-                <td className="border border-gray-300 px-4 py-2">Google Analytics, pesquisa</td>
+                <td className="border border-gray-300 px-4 py-2">Decisão de Adequação (GDPR)</td>
+                <td className="border border-gray-300 px-4 py-2">Ferramentas de pesquisa e análise</td>
               </tr>
               <tr className="hover:bg-gray-50 bg-red-50">
                 <td className="border border-gray-300 px-4 py-2 font-semibold">Dados de Saúde</td>
@@ -434,19 +286,17 @@ export default function PoliticaPrivacidade() {
         </div>
 
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">10.2 Garantias de Proteção</h3>
-        <p className="mb-3 leading-relaxed">Para todas as transferências internacionais, garantimos:</p>
+        <p className="mb-3 leading-relaxed">Para todas as transferências internacionais, garantimos que:</p>
         <ul className="list-disc list-inside space-y-2 ml-4 mb-4">
-          <li><strong>Cláusulas Contratuais Padrão:</strong> Contratos aprovados pela ANPD e adequados ao GDPR</li>
-          <li><strong>Regras Corporativas Vinculativas:</strong> Para transferências dentro do mesmo grupo econômico</li>
-          <li><strong>Certificações:</strong> Privacy Shield Framework e outras certificações reconhecidas</li>
-          <li><strong>Auditorias:</strong> Verificação anual da conformidade dos destinatários</li>
-          <li><strong>Consentimento Específico:</strong> Para transferências de dados sensíveis, quando aplicável</li>
+          <li>São utilizados apenas parceiros que oferecem garantias de conformidade com a LGPD e outras leis de proteção de dados.</li>
+          <li>São aplicadas cláusulas contratuais padrão ou outras ferramentas legais que assegurem um nível de proteção de dados equivalente ao brasileiro.</li>
+          <li>Seu consentimento explícito será solicitado para transferências de dados sensíveis, quando aplicável.</li>
         </ul>
 
         <div className="bg-purple-50 border-l-4 border-purple-500 p-4 mb-4">
           <p className="font-semibold text-purple-800">🌍 Seu Direito de Saber</p>
           <p className="text-sm text-purple-700 mt-1">
-            Você pode solicitar a lista completa de destinatários internacionais e cópia dos contratos de transferência através de <a href="mailto:dpo@nutriinfo.com.br" className="text-purple-600 underline">dpo@nutriinfo.com.br</a>.
+            Você pode solicitar mais informações sobre as transferências internacionais de dados e as garantias adotadas através do e-mail <a href="mailto:gamadados@gmail.com" className="text-purple-600 underline">gamadados@gmail.com</a>.
           </p>
         </div>
       </section>
@@ -456,7 +306,7 @@ export default function PoliticaPrivacidade() {
         <h2 className="text-2xl font-semibold text-green-700 mb-3">11. Atualizações da Política</h2>
         <p className="mb-3 leading-relaxed">Podemos atualizar esta Política de Privacidade para refletir:</p>
         <ul className="list-disc list-inside space-y-2 ml-4 mb-4">
-          <li>Mudanças na legislação de proteção de dados (LGPD, GDPR, etc.)</li>
+          <li>Mudanças na legislação de proteção de dados (LGPD, etc.)</li>
           <li>Novos serviços ou funcionalidades da NutrInfo</li>
           <li>Melhorias em nossas práticas de segurança e privacidade</li>
           <li>Alterações em nossos parceiros e prestadores de serviços</li>
@@ -475,11 +325,11 @@ export default function PoliticaPrivacidade() {
 
         <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">11.2 Versões Anteriores</h3>
         <p className="leading-relaxed">
-          Todas as versões anteriores desta Política estão arquivadas e disponíveis para consulta em: <Link href="/privacidade/historico" className="text-green-600 underline hover:text-green-800">nutriinfo.com.br/privacidade/historico</Link>. Você pode solicitar cópia de qualquer versão específica.
+          Todas as versões anteriores desta Política, se houver, estarão arquivadas e disponíveis para consulta mediante solicitação em <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a>.
         </p>
 
         <p className="mt-4 text-sm text-gray-600 bg-gray-50 p-3 rounded">
-          <strong>Última Atualização Significativa:</strong> 6 de novembro de 2025 - Inclusão de novas garantias para transferências internacionais e aprimoramento das medidas de segurança para dados de saúde.
+          <strong>Última Atualização Significativa:</strong> 18 de novembro de 2025 - Adaptação para pessoa física, atualização de dados de contato e simplificação de algumas cláusulas.
         </p>
       </section>
 
@@ -491,11 +341,12 @@ export default function PoliticaPrivacidade() {
         <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
           <p className="font-semibold text-green-800">👤 Dados do Encarregado (LGPD Art. 41)</p>
           <ul className="list-disc list-inside space-y-1 ml-4 mt-2 text-sm text-green-700">
-            <li><strong>Nome:</strong> Dra. Ana Silva, CRN 12345</li>
-            <li><strong>Cargo:</strong> Encarregada de Proteção de Dados (DPO)</li>
-            <li><strong>E-mail:</strong> <a href="mailto:dpo@nutriinfo.com.br" className="text-green-600 underline">dpo@nutriinfo.com.br</a></li>
-            <li><strong>Telefone:</strong> +55 (11) 4000-2000 (ramal 200 - Departamento de Privacidade)</li>
-            <li><strong>Endereço:</strong> Av. Paulista, 1000, 10º andar, São Paulo/SP, CEP 01310-100</li>
+            <li><strong>Nome do Controlador e Encarregado:</strong> Ricardo Gama</li>
+            <li><strong>E-mail:</strong> <a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a></li>
+            <li><strong>Endereço:</strong> Rua Três, 159, Condomínio Buona Vita, CEP 14805-407, Araraquara/SP, Brasil</li>
+            <li>
+              No momento, não há um DPO formalmente nomeado além do próprio controlador. Todas as demandas de privacidade são tratadas diretamente por Ricardo Gama.
+            </li>
           </ul>
         </div>
 
@@ -504,17 +355,15 @@ export default function PoliticaPrivacidade() {
           <div className="bg-gray-50 p-4 rounded-lg">
             <h4 className="font-semibold text-gray-800 mb-2">Para Exercer Direitos (LGPD Art. 18)</h4>
             <ul className="space-y-1 text-sm">
-              <li><a href="mailto:privacidade@nutriinfo.com.br" className="text-green-600 underline">privacidade@nutriinfo.com.br</a></li>
-              <li>Formulário no app: Configurações &amp;gt; Privacidade &amp;gt; Meus Direitos</li>
-              <li>Telefone: +55 (11) 4000-2000 (seg-sex, 9h-18h)</li>
+              <li><a href="mailto:gamadados@gmail.com" className="text-green-600 underline">gamadados@gmail.com</a></li>
+              <li>Formulário no app: Configurações &gt; Privacidade &gt; Meus Direitos (se disponível)</li>
             </ul>
           </div>
           <div className="bg-gray-50 p-4 rounded-lg">
             <h4 className="font-semibold text-gray-800 mb-2">Para Incidentes de Segurança</h4>
             <ul className="space-y-1 text-sm">
-              <li><a href="mailto:seguranca@nutriinfo.com.br" className="text-red-600 underline">seguranca@nutriinfo.com.br</a></li>
-              <li>Linha direta 24/7: +55 (11) 4000-2001</li>
-              <li>Portal de denúncias: <Link href="/denuncias" className="text-green-600 underline hover:text-green-800">nutriinfo.com.br/denuncias</Link></li>
+              <li><a href="mailto:gamadados@gmail.com" className="text-red-600 underline">gamadados@gmail.com</a></li>
+              <li>Reporte de vulnerabilidades: Utilize o e-mail acima para comunicação imediata.</li>
             </ul>
           </div>
         </div>
@@ -534,7 +383,7 @@ export default function PoliticaPrivacidade() {
         </div>
 
         <p className="mt-4 text-sm text-gray-600 italic">
-          <strong>Registro ANPD:</strong> A NutrInfo Ltda. está registrada junto à ANPD sob o nº 12345/2025 e cumpre todas as obrigações de controlador de dados pessoais.
+          <strong>Conformidade LGPD:</strong> O NutrInfo, operado por Ricardo Gama, busca cumprir todas as obrigações de controlador de dados pessoais, conforme a LGPD.
         </p>
       </section>
 
@@ -542,12 +391,12 @@ export default function PoliticaPrivacidade() {
       <footer className="mt-12 pt-6 border-t text-center text-sm text-gray-600">
         <div className="mb-4">
           <p>
-            Esta Política de Privacidade foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018)</strong>, <strong>Regulamento Geral de Proteção de Dados (GDPR)</strong> e demais legislações aplicáveis.
+            Esta Política de Privacidade foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018)</strong> e demais legislações aplicáveis.
           </p>
         </div>
         <div className="mb-4">
           <p>
-            <strong>Última revisão legal:</strong> 6 de novembro de 2025 | <strong>Versão:</strong> 2.1
+            <strong>Última revisão legal:</strong> 18 de novembro de 2025 | <strong>Versão:</strong> 2.2
           </p>
           <p className="mt-2">
             Recomendamos que um advogado especializado em proteção de dados revise periodicamente para garantir conformidade contínua.
@@ -556,7 +405,7 @@ export default function PoliticaPrivacidade() {
         <div className="space-x-4">
           <Link href="/termos-de-uso" className="text-green-600 underline hover:text-green-800">Termos de Uso</Link>
           <Link href="/" className="text-green-600 underline hover:text-green-800">Voltar ao Início</Link>
-          <a href="mailto:suporte@nutriinfo.com.br" className="text-green-600 underline hover:text-green-800">Precisa de Ajuda?</a>
+          <a href="mailto:gamadados@gmail.com" className="text-green-600 underline hover:text-green-800">Precisa de Ajuda?</a>
         </div>
       </footer>
     </main>

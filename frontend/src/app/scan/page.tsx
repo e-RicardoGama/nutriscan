@@ -78,14 +78,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
   );
 };
 // --- COMPONENTE SCANRESULTS (Com handlers e botão confirmar sempre ativo) ---
+// --- COMPONENTE SCANRESULTS CORRIGIDO ---
 const ScanResults = ({
   scanResult,
-//  onAddFood, // Renomeado de onConfirm
   onEdit,
   onDelete
 }: {
   scanResult: ScanRapidoResponse | null;
-  onAddFood: (index: number) => void; // Renomeado de onConfirm
   onEdit: (index: number) => void;
   onDelete: (index: number) => void;
 }) => {
@@ -161,6 +160,7 @@ const ScanResults = ({
     </>
   );
 };
+
 // --- COMPONENTE ANALYSISRESULTS CORRIGIDO ---
 const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaResponse | null }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -396,21 +396,22 @@ export default function Home() {
     setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
   };
 
-  // Função para adicionar um alimento manualmente (abre o modal com dados vazios)
+  // Função para adicionar um alimento manualmente
   const handleAddManualFood = () => {
     setEditingItem({
-      index: -1, // Usamos -1 para indicar que é um novo item, não um existente
+      index: -1,
       data: {
         nome: '',
         quantidade_estimada_g: 100,
         calorias_estimadas: 0,
-        categoria: 'Outros', // Categoria padrão
+        categoria: 'Outros',
         confianca: 'corrigido',
         peso_g: 100,
         kcal: 0,
         protein: 0,
         carbs: 0,
         fats: 0,
+        medida_caseira_sugerida: '', // ADICIONE ESTA LINHA
       }
     });
   };
@@ -418,13 +419,14 @@ export default function Home() {
   const handleEditFood = (indexToEdit: number) => {
     const alimentoOriginal = scanResult?.resultado?.alimentos_extraidos?.[indexToEdit];
     if (alimentoOriginal) {
-      const itemParaModal = {
+      const itemParaModal: ModalAlimentoData = {
         ...alimentoOriginal,
         peso_g: alimentoOriginal.quantidade_estimada_g,
         kcal: alimentoOriginal.calorias_estimadas,
         protein: 0,
         carbs: 0,
-        fats: 0
+        fats: 0,
+        medida_caseira_sugerida: alimentoOriginal.medida_caseira_sugerida || '', // ADICIONE ESTA LINHA
       };
       setEditingItem({
         index: indexToEdit,
@@ -432,6 +434,7 @@ export default function Home() {
       });
     }
   };
+
   const handleCloseModal = () => {
     setEditingItem(null);
   };
@@ -617,20 +620,29 @@ export default function Home() {
     }
   };
 
-  // Função para buscar alimentos no banco de dados (TACO + IA)
-  const searchFoodsFromDatabase = async (searchTerm: string): Promise<FoodItem[]> => {
+  // Função para buscar alimentos no backend com suporte a IA
+  const searchFoodsFromDatabase = async (searchTerm: string, incluirIA: boolean = true): Promise<FoodItem[]> => {
     if (searchTerm.length < 2) {
-      return []; // Não busca se digitou menos de 2 caracteres
+      return [];
     }
-
     try {
-      const response = await api.get<{ alimentos: FoodItem[] }>(
-        `/api/v1/alimentos/buscar?termo=${encodeURIComponent(searchTerm)}&limit=10`
+      // Use o novo endpoint que inclui IA
+      const response = await api.get<FoodItem[]>(
+        `/api/v1/alimentos/buscar-completo?q=${encodeURIComponent(searchTerm)}&incluir_ia=${incluirIA}&limit=10`
       );
-      return response.data.alimentos || [];
+      return response.data || [];
     } catch (error) {
-      console.error('Erro ao buscar alimentos no banco:', error);
-      return []; // Retorna array vazio em caso de erro
+      console.error('Erro ao buscar alimentos:', error);
+      // Fallback para o endpoint original
+      try {
+        const response = await api.get<FoodItem[]>(
+          `/api/v1/alimentos/buscar?q=${encodeURIComponent(searchTerm)}&limit=10`
+        );
+        return response.data || [];
+      } catch (fallbackError) {
+        console.error('Erro no fallback de busca:', fallbackError);
+        return [];
+      }
     }
   };
 
@@ -702,7 +714,6 @@ export default function Home() {
               {scanResult && !analysisResult && (
                 <ScanResults
                   scanResult={scanResult}
-                  onAddFood={handleEditFood} // onConfirm substituído por onAddFood, que agora chama handleEditFood
                   onEdit={handleEditFood}
                   onDelete={handleDeleteFood}
                 />
@@ -770,8 +781,8 @@ export default function Home() {
         {editingItem && (
           <EditFoodModal
             itemParaEditar={editingItem.data}
-            foodDatabase={foodDatabase} // Mantém o local, mas a busca principal será no backend
-            onSearchFood={searchFoodsFromDatabase} // <-- PASSA A FUNÇÃO DE BUSCA DO BACKEND
+            foodDatabase={foodDatabase} // Pode manter, mas a busca principal será via onSearchFood
+            onSearchFood={searchFoodsFromDatabase} // <-- ESSENCIAL: PASSA A FUNÇÃO DE BUSCA
             onSave={handleSaveEdit}
             onClose={handleCloseModal}
           />

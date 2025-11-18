@@ -115,23 +115,24 @@ export interface ModalAlimentoData {
   protein: number;
   carbs: number;
   fats: number;
-  categoria?: string; // ← Mude para opcional adicionando "?"
+  categoria?: string;
   confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
-  medida_caseira_sugerida?: string;
+  medida_caseira_sugerida?: string; // Certifique-se que esta linha existe
   quantidade_estimada_g?: number;
   calorias_estimadas?: number;
 }
 
+// Adicione esta propriedade à interface FoodItem
 export interface FoodItem {
   id: number;
-  alimento: string; // Nome do alimento
+  alimento: string;
   categoria: string;
-  energia_kcal_100g?: number; // Opcional, pois pode não vir na busca inicial
+  energia_kcal_100g?: number;
   proteina_g_100g?: number;
   carboidrato_g_100g?: number;
   lipidios_g_100g?: number;
   fibra_g_100g?: number;
   medida_caseira_unidade?: string;
   medida_caseira_gramas_por_unidade?: number;
-  // Adicione outros campos que o backend possa retornar e que você queira tipar
+  origem?: 'banco' | 'ia'; // Nova propriedade para identificar a origem
 }
