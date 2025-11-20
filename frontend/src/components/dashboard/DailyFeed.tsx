@@ -43,7 +43,7 @@ const DailyFeed: React.FC<{
     <div className="space-y-4">
       {meals.length === 0 ? (
         <div className="p-6 bg-white rounded-lg shadow-md text-center">
-          <p className="text-lg font-semibold text-gray-700 mb-4">Nenhuma refeição registrada hoje</p>
+          <p className="text-sm font-semibold text-gray-700 mb-4">Nenhuma refeição registrada hoje</p>
           <button
             onClick={onAddMealClick}
             aria-label="Adicionar primeira refeição"
@@ -78,30 +78,33 @@ const DailyFeed: React.FC<{
             </div>
 
             <div className="ml-4 flex-1">
-              {/* Nome exibido: prioriza suggested_name, depois tipo */}
-              <h4 className="font-semibold text-lg text-gray-800">
+
+              {/* Nome exibido */}
+              <h4 className="font-semibold text-sm text-gray-800">
                 {meal.suggested_name ?? meal.tipo ?? 'Refeição'}
               </h4>
 
               {/* Calorias */}
-              <p className="text-gray-600">Aprox. {typeof meal.kcal_estimadas === 'number' ? `${meal.kcal_estimadas} kcal` : '—'}</p>
+              <p className="text-xs text-gray-600">
+                Aprox. {typeof meal.kcal_estimadas === 'number' ? `${meal.kcal_estimadas} kcal` : '—'}
+              </p>
 
               {/* Macros (proteínas, carbs, gorduras) */}
               <MacrosRow p={meal.proteinas_g ?? null} c={meal.carboidratos_g ?? null} f={meal.gorduras_g ?? null} />
 
-              {/* Novo botão para Ver Análise Detalhada */}
+              {/* Botão Ver Análise */}
               {onViewMealClick && (
                 <button
                   onClick={() => onViewMealClick(meal.id)}
-                  className="mt-2 inline-flex items-center gap-1 text-green-600 hover:text-green-800 text-sm font-medium"
+                  className="mt-2 inline-flex items-center gap-1 text-green-800 hover:text-green-800 text-xs font-medium"
                   aria-label={`Ver análise detalhada da refeição ${meal.id}`}
                 >
-                  <Eye size={16} /> Ver Análise
+                  <Eye size={14} /> Ver Análise
                 </button>
               )}
 
-              
             </div>
+
           </div>
         ))
       )}

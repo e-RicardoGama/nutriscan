@@ -13,22 +13,18 @@ interface DailyTotals {
 }
 
 // Sub-componente para um único círculo (Sem alterações)
-const TotalCircle: React.FC<{
-  label: string;
-  value: number;
-  unit: string;
-  colors: string; // Classes do Tailwind
-}> = ({ label, value, unit, colors }) => {
+const TotalCircle = ({ label, value, unit, colors }) => {
   return (
-    <div className={`flex flex-col items-center justify-center p-4 w-32 h-32 md:w-36 md:h-36 rounded-full shadow-md ${colors}`}>
-      <span className="text-2xl md:text-3xl font-bold">
-        {value.toFixed(0)}
-      </span>
-      <span className="text-sm font-semibold">{label}</span>
-      <span className="text-xs uppercase">{unit}</span>
+    <div className="flex flex-col items-center">
+      <div className={`w-20 h-20 rounded-full flex flex-col items-center justify-center ${colors}`}>
+        <span className="text-lg font-semibold">{value}</span>
+        <span className="text-xs">{unit}</span>
+      </div>
+      <p className="mt-2 text-xs text-gray-700 font-medium">{label}</p>
     </div>
   );
 };
+
 
 // Componente principal que agrupa os círculos
 const GoalCircles: React.FC<{ totals: DailyTotals }> = ({ totals }) => {

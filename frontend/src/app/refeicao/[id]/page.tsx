@@ -69,7 +69,7 @@ export default function DetalheRefeicaoPage() {
     return (
       <div className="flex flex-col min-h-screen">
         <Navbar onLogout={logout} />
-        <div className="flex-grow flex justify-center items-center">
+        <div className="grow flex justify-center items-center">
           <Loader2 className="animate-spin" size={48} />
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function DetalheRefeicaoPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar onLogout={logout} />
-      <main className="flex-grow w-full max-w-4xl mx-auto p-4 lg:p-8">
+      <main className="grow w-full max-w-4xl mx-auto p-4 lg:p-8">
         
         <div className="mb-6 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-green-800">Análise da Refeição #{mealId}</h1>
@@ -95,7 +95,7 @@ export default function DetalheRefeicaoPage() {
         </div>
         
         {loading && (
-           <div className="flex-grow flex justify-center items-center p-10">
+           <div className="grow flex justify-center items-center p-10">
                 <Loader2 className="animate-spin" size={32} />
            </div>
         )}

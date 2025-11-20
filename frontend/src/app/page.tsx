@@ -41,7 +41,7 @@ export default function DashboardHome() {
   // Proteção de Rota
   useEffect(() => {
     if (!carregando && !usuario) {
-      router.push('/login');
+      router.push('/publico');
     }
   }, [usuario, carregando, router]);
 
@@ -107,7 +107,7 @@ export default function DashboardHome() {
         {!loadingData && !error && (
           <>
             {/* Círculos de Totais Consumidos */}
-            <h2 className="text-2xl font-bold text-green-800 mb-4">Consumo de Hoje</h2>
+            <h2 className="text-lg font-semibold text-green-800 mb-3">Consumo de Hoje</h2>
             {totals ? (
               <GoalCircles totals={totals} />
             ) : (
@@ -115,7 +115,7 @@ export default function DashboardHome() {
             )}
 
             {/* Feed Visual de Refeições */}
-            <h2 className="text-2xl font-bold text-green-800 mt-10 mb-4">Suas Refeições</h2>
+            <h2 className="text-lg font-semibold text-green-800 mt-8 mb-3">Suas Refeições</h2>
             <DailyFeed 
               meals={todaysMeals} 
               onAddMealClick={handleScanMealClick}
@@ -127,12 +127,14 @@ export default function DashboardHome() {
 
         {/* Botão de Ação Rápida (FAB) */}
         <button
-          onClick={handleScanMealClick}
-          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-50"
-          title="Analisar nova refeição"
-        >
-          <Plus size={28} />
-        </button>
+        onClick={handleScanMealClick}
+        className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 bg-green-700 text-white rounded-full px-4 py-3 shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-50 flex items-center gap-2"
+        title="Analisar nova refeição"
+      >
+        <Plus size={18} />
+        <span className="text-sm font-medium">Nova Refeição</span>
+      </button>
+
       </main>
     </div>
   );

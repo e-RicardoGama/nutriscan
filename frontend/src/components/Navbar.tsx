@@ -83,28 +83,38 @@ export default function Navbar({ onLogout }: NavbarProps) {
               <div className="flex items-center gap-2 sm:gap-3">
                 {!usuario ? (
                   <>
-                    {/* ✅ CORREÇÃO 2: Rotas corretas para login e cadastro */}
                     <button
-                      onClick={() => router.push("/login")}  // ← Corrigido de "/auth" para "/login"
-                      className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold"
+                      onClick={() => router.push("/login")}
+                      className="bg-green-600 text-white px-3 py-1.5 rounded-lg hover:bg-green-700 transition font-semibold"
                     >
                       Entrar
                     </button>
                     <button
-                      onClick={() => router.push("/registrar")}  // ← Corrigido de "/cadastro" para "/registrar"
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
+                      onClick={() => router.push("/registrar")}
+                      className="bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition font-semibold"
                     >
                       Cadastrar
                     </button>
                   </>
                 ) : (
-                  <button
-                    onClick={onLogout || handleLogout}
-                    className="text-red-600 font-semibold hover:underline"
-                  >
-                    Sair
-                  </button>
+                  <>
+                    {/* ✅ Botão Home — só aparece se o usuário estiver autenticado */}
+                    <button
+                      onClick={() => router.push("/")}
+                      className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 transition text-sm font-medium"
+                    >
+                      Home
+                    </button>
+
+                    <button
+                      onClick={onLogout || handleLogout}
+                      className="bg-blue-600 text-white px-3 py-1.5 rounded-md hover:bg-blue-700 transition text-sm font-medium"
+                    >
+                      Sair
+                    </button>
+                  </>
                 )}
+
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
-import { ChevronDown, Pencil, Trash2, Home as HomeIcon, Plus } from 'lucide-react'; // Adicionado 'Plus'
+import { ChevronDown, Pencil, Trash2,  Plus } from 'lucide-react'; // Adicionado 'Plus'
 import EditFoodModal from '../../components/alimentos/EditFoodModal.jsx';
 import {
   ScanRapidoAlimento,
@@ -675,7 +675,7 @@ export default function Home() {
                 <div className="relative w-full max-w-lg mx-auto aspect-square bg-white rounded-xl overflow-hidden mb-6 shadow-2xl">
                   <Image src={imageUrl} alt="Prato a ser analisado" fill className="object-cover" />
                 </div>
-                <button onClick={handleClearScreen} className="w-full sm:w-auto bg-red-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-red-600 shadow-md">
+                <button onClick={handleClearScreen} className="w-full sm:w-auto bg-red-500 text-white font-bold px-3 py-1.5 rounded-lg transition hover:bg-red-600 shadow-md">
                   Limpar Foto
                 </button>
               </div>
@@ -698,9 +698,9 @@ export default function Home() {
                 <div className="mt-6 text-center">
                   <button
                     onClick={handleAddManualFood}
-                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md flex items-center justify-center mx-auto"
+                    className="w-full sm:w-auto bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition hover:bg-green-700 shadow-md flex items-center justify-center mx-auto"
                   >
-                    <Plus size={20} className="mr-2" />
+                    <Plus size={10} className="mr-2" />
                     Adicionar Alimento Manualmente
                   </button>
                 </div>
@@ -729,7 +729,7 @@ export default function Home() {
                   <button
                     onClick={fetchDetailedAnalysis}
                     disabled={loadingAnalysis || !scanResult.resultado?.alimentos_extraidos?.length}
-                    className="w-full sm:w-auto cursor-pointer bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-blue-600 shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto cursor-pointer bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition hover:bg-blue-600 shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
                   >
                     {loadingAnalysis ? 'Gerando Análise...' : 'Gerar Análise Nutricional Completa'}
                   </button>
@@ -766,12 +766,11 @@ export default function Home() {
               {analysisResult && !loadingAnalysis && (
                 <div className="mt-10 text-center">
                   <button
-                    onClick={() => router.push('/')} // <-- Navega para a Home
-                    className="w-full sm:w-auto cursor-pointer bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition hover:bg-green-700 shadow-md flex items-center justify-center mx-auto"
-                  >
-                    <HomeIcon size={20} className="mr-2" />
-                    Home
-                  </button>
+                      onClick={() => router.push("/")}
+                      className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 transition text-sm font-medium"
+                    >
+                      Home
+                    </button>
                 </div>
               )}
             </div>
