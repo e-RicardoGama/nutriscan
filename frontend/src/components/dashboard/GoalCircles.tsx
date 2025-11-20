@@ -12,8 +12,16 @@ interface DailyTotals {
   total_gorduras_g: number; // <-- Adicionado _g
 }
 
+interface TotalCircleProps {
+  label: string;
+  value: number;
+  unit: string;
+  colors: string;
+}
+
+
 // Sub-componente para um único círculo (Sem alterações)
-const TotalCircle = ({ label, value, unit, colors }) => {
+const TotalCircle: React.FC<TotalCircleProps> = ({ label, value, unit, colors }) => {
   return (
     <div className="flex flex-col items-center">
       <div className={`w-20 h-20 rounded-full flex flex-col items-center justify-center ${colors}`}>
@@ -24,6 +32,7 @@ const TotalCircle = ({ label, value, unit, colors }) => {
     </div>
   );
 };
+
 
 
 // Componente principal que agrupa os círculos
