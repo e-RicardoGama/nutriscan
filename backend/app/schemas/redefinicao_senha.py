@@ -6,7 +6,11 @@ from typing import Optional
 from uuid import UUID
 
 class SolicitarRedefinicao(BaseModel):
-    email: EmailStr = Field(..., description="Email do usuário que esqueceu a senha")
+    email: EmailStr = Field(
+        ..., 
+        description="Email do usuário que esqueceu a senha",
+        examples=["usuario@exemplo.com"]
+    )
 
 class TokenRedefinicaoResponse(BaseModel):
     token: str
@@ -14,19 +18,26 @@ class TokenRedefinicaoResponse(BaseModel):
     email: str
 
 class RedefinirSenha(BaseModel):
-    token: str = Field(..., description="Token recebido por email")
-    nova_senha: str = Field(..., min_length=8, description="Nova senha (mínimo 8 caracteres)")
-    confirmar_senha: str = Field(..., description="Confirmação da nova senha")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "token": "abc123-def456-ghi789",
-                "nova_senha": "NovaSenhaSegura123!",
-                "confirmar_senha": "NovaSenhaSegura123!"
-            }
-        }
+    token: str = Field(
+        ..., 
+        description="Token recebido por email",
+        examples=["abc123-def456-ghi789"]
+    )
+    nova_senha: str = Field(
+        ..., 
+        min_length=8, 
+        description="Nova senha (mínimo 8 caracteres)",
+        examples=["NovaSenhaSegura123!"]
+    )
+    confirmar_senha: str = Field(
+        ..., 
+        description="Confirmação da nova senha",
+        examples=["NovaSenhaSegura123!"]
+    )
 
 class RedefinicaoConcluida(BaseModel):
-    mensagem: str = "Senha redefinida com sucesso"
-    email: str
+    mensagem: str = Field(
+        default="Senha redefinida com sucesso",
+        examples=["Senha redefinida com sucesso"]
+    )
+    email: str = Field(..., examples=["usuario@exemplo.com"])
