@@ -55,7 +55,7 @@ def enviar_email_redefinicao(destinatario: str, link: str):
     """
 
     message = Mail(
-        from_email=Email("no-reply@em2710.nutri.api.br", "NutrInfo"),
+        from_email=EMAIL_FROM,
         to_emails=destinatario,
         subject="Redefinição de senha – NutrInfo",
         html_content=html,
