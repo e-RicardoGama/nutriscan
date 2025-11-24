@@ -17,6 +17,7 @@ class TokenRedefinicaoResponse(BaseModel):
     expiracao: datetime
     email: str
 
+
 class RedefinirSenha(BaseModel):
     token: str = Field(
         ..., 
@@ -25,12 +26,13 @@ class RedefinirSenha(BaseModel):
     )
     nova_senha: str = Field(
         ..., 
-        min_length=8, 
+        min_length=8, # <--- JÁ EXISTE
         description="Nova senha (mínimo 8 caracteres)",
         examples=["NovaSenhaSegura123!"]
     )
-    confirmar_senha: str = Field(
+    confirmar_senha: str = Field( # <--- ADICIONAR min_length=8 AQUI
         ..., 
+        min_length=8, # ADICIONADO
         description="Confirmação da nova senha",
         examples=["NovaSenhaSegura123!"]
     )
