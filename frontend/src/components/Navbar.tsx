@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../context/AuthContext";
-import { Sun, Sunset, Moon } from "lucide-react";
 
 type NavbarProps = {
   onLogout?: () => void;
@@ -22,28 +21,6 @@ export default function Navbar({ onLogout }: NavbarProps) {
     }
   };
 
-  let saudacao = "";
-  let iconeSaudacao = null;
-  let nomeParaSaudacao = "";
-
-  if (usuario) {
-    const hora = new Date().getHours();
-    
-    // ✅ Define a saudação baseada na hora
-    if (hora < 12) {
-      saudacao = "Bom dia";
-      iconeSaudacao = <Sun className="w-5 h-5" />;
-    } else if (hora < 18) {
-      saudacao = "Boa tarde";
-      iconeSaudacao = <Sunset className="w-5 h-5" />;
-    } else {
-      saudacao = "Boa noite";
-      iconeSaudacao = <Moon className="w-5 h-5" />;
-    }
-    
-    // ✅ Define o nome para saudação: apelido tem prioridade
-    nomeParaSaudacao = usuario.apelido || usuario.nome;
-  }
 
   return (
     <nav className="sticky top-0 z-50 bg-transparent">
@@ -59,24 +36,14 @@ export default function Navbar({ onLogout }: NavbarProps) {
                 onClick={() => router.push("/")}
               >
                 <Image
-                  src="/imagens/alimentacao.jpg"
+                  src="/imagens/logo.jpg"
                   alt="Logo Pratos Saudáveis"
-                  width={30}
-                  height={30}
+                  width={150}
+                  height={130}
                   priority={true}  // ← Adicione esta linha
                   className="object-contain"
                 />
-                <div className="flex flex-col md:flex-row md:items-baseline md:gap-2">
-                  <h1 className="text-lg md:text-xl font-bold text-green-800">
-                    Nutrindo seu bem-estar
-                  </h1>
-                  {usuario && (
-                    <span className="text-xs md:text-sm font-semibold text-green-800 flex items-center gap-1">
-                      {/* ✅ CORREÇÃO 1: Usar nomeParaSaudacao em vez de usuario.nome */}
-                      {saudacao}, {nomeParaSaudacao}! {iconeSaudacao}
-                    </span>
-                  )}
-                </div>
+
               </div>
 
               {/* Ações */}
