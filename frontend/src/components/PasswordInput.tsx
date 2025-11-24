@@ -7,7 +7,9 @@ interface PasswordInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  disabled?: boolean;   //  ✅ ADICIONE ISTO
 }
+
 
 export default function PasswordInput({ id, label, value, onChange, required = false }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +34,7 @@ export default function PasswordInput({ id, label, value, onChange, required = f
           onChange={onChange}
           required={required}
           autoComplete={getAutocomplete()} // ✅ Resolve warning do DOM
+          
           className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 pr-10"
         />
         <button

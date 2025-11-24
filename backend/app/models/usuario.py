@@ -1,5 +1,6 @@
-# app/models/usuario.py
-from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, TIMESTAMP, func, Float, Boolean
+# app/models/usuario.py - VERSÃO ATUALIZADA COM ENDEREÇO DETALHADO
+
+from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, TIMESTAMP, func, Float, Boolean, Date
 from app.database import Base
 from sqlalchemy.orm import relationship
 
@@ -8,20 +9,51 @@ class Usuario(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False)
-    apelido = Column(String, nullable=True)  # ✅ NOVO CAMPO ADICIONADO
+    apelido = Column(String, nullable=True)
     email = Column(String, unique=True, index=True, nullable=False)
     senha_hash = Column(String, nullable=False)
     email_verificado = Column(Boolean, default=False)
-    
-    # ✅ Campo 'is_active' mantido
     is_active = Column(Boolean, default=True)
 
-    # Relacionamento com refeições salvas
+    data_nascimento = Column(Date, nullable=True) # Data de nascimento
+    cep = Column(String(9), nullable=True) # CEP, ex: "12345-678"
+
+    # ✅ NOVAS COLUNAS DETALHADAS PARA ENDEREÇO
+    logradouro = Column(String, nullable=True) # Ex: Rua Exemplo
+    numero = Column(String, nullable=True) # Ex: 123
+    complemento = Column(String, nullable=True) # Ex: Apto 401
+    bairro = Column(String, nullable=True)
+    cidade = Column(String, nullable=True)
+    estado = Column(String(2), nullable=True) # UF, ex: SP
+
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+    updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
+
     refeicoes_salvas = relationship(
-        "RefeicaoSalva", 
-        back_populates="owner", 
+        "RefeicaoSalva",
+        back_populates="owner",
         cascade="all, delete-orphan"
     )
+    tokens_redefinicao = relationship(
+        "TokenRedefinicaoSenha",
+        back_populates="usuario",
+        cascade="all, delete-orphan"
+    )
+
+class TokenRedefinicaoSenha(Base):
+    __tablename__ = "tokens_redefinicao_senha"
+
+    id = Column(Integer, primary_key=True, index=True)
+    usuario_id = Column(Integer, ForeignKey("usuarios.id", ondelete="CASCADE"), nullable=False, index=True)
+    token = Column(String, nullable=False, index=True, unique=True)
+    expiracao = Column(TIMESTAMP(timezone=True), nullable=False)
+    usado = Column(Boolean, default=False)
+    created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
+
+    usuario = relationship("Usuario", back_populates="tokens_redefinicao")
+
+    def esta_expirado(self) -> bool:
+        return func.now() > self.expiracao
 
 class DadosUsuario(Base):
     __tablename__ = "dados_usuarios"
@@ -37,19 +69,16 @@ class DadosUsuario(Base):
     dieta_preferida = Column(String, nullable=True)
     objetivo = Column(String, nullable=True)
 
-    # Metas nutricionais
     kcal_meta = Column(Float, nullable=True)
     proteina_g_meta = Column(Float, nullable=True)
     carboidrato_g_meta = Column(Float, nullable=True)
     lipidios_g_meta = Column(Float, nullable=True)
     fibras_g_meta = Column(Float, nullable=True)
 
-    role = Column(String, default="user", nullable=False) # Valores: "user" ou "admin"
-
+    role = Column(String, default="user", nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
 
-    # Relacionamento de volta para o usuário
     usuario = relationship("Usuario")
 
 class HistoricoUsuario(Base):
@@ -75,5 +104,4 @@ class HistoricoUsuario(Base):
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
 
-    # Relacionamento de volta para o usuário
     usuario = relationship("Usuario")
