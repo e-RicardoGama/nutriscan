@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import time
 import os
 import logging
@@ -22,7 +22,7 @@ from app.routers.conversoes import router as conversoes_router
 from app.routers import alimentos as alimentos_router
 
 # ✅ CARREGAR VARIÁVEIS DE AMBIENTE
-load_dotenv()
+#load_dotenv()
 
 # ✅ CONFIGURAR LOGGING
 logging.basicConfig(
