@@ -55,11 +55,12 @@ def enviar_email_redefinicao(destinatario: str, link: str):
     """
 
     message = Mail(
-        from_email=Email("no-reply@em2710.nutri.api.br","NutrInfo"),
+        from_email=Email(EMAIL_FROM, "NutrInfo"),
         to_emails=destinatario,
         subject="Redefinição de senha – NutrInfo",
         html_content=html,
     )
+
 
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
