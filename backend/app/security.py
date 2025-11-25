@@ -159,6 +159,7 @@ def criar_token_redefinicao(usuario: Usuario, db: Session, expiracao_horas: int 
     db.refresh(token_obj)
     return token
 
+
 def validar_token_redefinicao(token: str, db: Session) -> Optional[Usuario]:
     """
     Valida um token de redefinição e retorna o usuário associado se válido.
@@ -170,15 +171,28 @@ def validar_token_redefinicao(token: str, db: Session) -> Optional[Usuario]:
     ).first()
 
     if not token_obj:
+        logger.info("validar_token_redefinicao: token não encontrado (possível inválido).")
         return None
 
-    # Verificar expiração (usando o método do modelo)
-    if token_obj.esta_expirado():
+    # Comparação em Python usando timezone-aware datetimes
+    try:
+        if token_obj.expiracao is None:
+            logger.info("validar_token_redefinicao: token sem data de expiração (inválido). token_id=%s", token_obj.id)
+            return None
+
+        if datetime.now(timezone.utc) > token_obj.expiracao:
+            logger.info("validar_token_redefinicao: token expirado. token_id=%s", token_obj.id)
+            return None
+
+        # Marcar como usado (transação simples)
+        token_obj.usado = True
+        db.commit()
+        db.refresh(token_obj)
+
+        return token_obj.usuario
+
+    except Exception as e:
+        logger.exception("Erro ao validar token de redefinição: %s", e)
+        db.rollback()
         return None
 
-    # Marcar como usado
-    token_obj.usado = True
-    db.commit()
-
-    # Retornar o usuário associado
-    return token_obj.usuario

@@ -3,6 +3,7 @@
 from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, TIMESTAMP, func, Float, Boolean, Date
 from app.database import Base
 from sqlalchemy.orm import relationship
+from datetime import datetime, timezone
 
 class Usuario(Base):
     __tablename__ = "usuarios"
@@ -53,7 +54,21 @@ class TokenRedefinicaoSenha(Base):
     usuario = relationship("Usuario", back_populates="tokens_redefinicao")
 
     def esta_expirado(self) -> bool:
-        return func.now() > self.expiracao
+        """
+        Retorna True se a data de expiração já passou.
+        Usa timezone-aware datetime (UTC).
+        """
+        try:
+            if self.expiracao is None:
+                return True
+            now_utc = datetime.now(timezone.utc)
+            # self.expiracao vem do SQLAlchemy como timezone-aware datetime
+            return now_utc > self.expiracao
+        except Exception as e:
+            # Se algo inesperado ocorrer, trate como expirado por segurança
+            import logging
+            logging.getLogger(__name__).exception("Erro ao avaliar expiração do token: %s", e)
+            return True
 
 class DadosUsuario(Base):
     __tablename__ = "dados_usuarios"
