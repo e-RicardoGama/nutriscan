@@ -5,7 +5,7 @@ import "./globals.css";
 import { AuthProvider } from "../context/AuthContext";
 import { Suspense } from "react";
 import ServiceWorkerClient from "../ServiceWorkerClient";
-//import Footer from "../components/Footer";
+import Footer from "../components/Footer";
 import ConsentimentoWrapper from '../components/ConsentimentoWrapper';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ConsentimentoWrapper />
             
             {/* Rodapé global */}
-            
+            <Footer />
           </AuthProvider>
         </Suspense>
       </body>
