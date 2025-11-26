@@ -1,10 +1,14 @@
 # app/crud.py
-# VERSÃO OTIMIZADA - SUBSTITUA TODO O ARQUIVO
 
+import os
+import json
+import redis
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func, cast, Date
 from typing import Optional, List, Dict, Any
-import json
+from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_exception_type
+import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import time
 import threading
 from datetime import datetime, date, timedelta
@@ -20,6 +24,63 @@ from app.models.usuario import Usuario
 from app.models.alimentos import Alimento
 from app.schemas.vision_alimentos_ import RefeicaoSalvaCreate
 from app.vision import fetch_gemini_nutritional_data, gerar_recomendacoes_detalhadas_ia
+
+# Configuração do Redis
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379") # Pega do ambiente ou usa localhost para dev
+redis_client = None
+
+def get_redis_client():
+    """Retorna uma instância do cliente Redis, inicializando se necessário."""
+    global redis_client
+    if redis_client is None:
+        try:
+            redis_client = redis.from_url(REDIS_URL, decode_responses=True)
+            redis_client.ping() # Testa a conexão
+            print("Conexão com Redis estabelecida com sucesso!")
+        except redis.exceptions.ConnectionError as e:
+            print(f"Erro ao conectar ao Redis: {e}. O cache Redis não será utilizado.")
+            redis_client = None # Garante que não tentaremos usar um cliente falho
+    return redis_client
+
+
+REDIS_CACHE_TTL_SECONDS = 3600 # 1 hora de cache para alimentos comuns
+
+def set_cache(key: str, value: Any, ttl: int = REDIS_CACHE_TTL_SECONDS) -> None:
+    """Salva um valor no cache Redis."""
+    client = get_redis_client()
+    if client:
+        try:
+            # Redis armazena strings, então convertemos o valor para JSON
+            client.setex(key, ttl, json.dumps(value))
+            # print(f"Cache set para chave: {key}") # Para debug, pode remover depois
+        except Exception as e:
+            print(f"Erro ao salvar no cache Redis para chave {key}: {e}")
+
+def get_cache(key: str) -> Optional[Any]:
+    """Recupera um valor do cache Redis."""
+    client = get_redis_client()
+    if client:
+        try:
+            cached_value = client.get(key)
+            if cached_value:
+                # Se encontrou, decodifica de JSON para o tipo Python original
+                # print(f"Cache hit para chave: {key}") # Para debug, pode remover depois
+                return json.loads(cached_value)
+            # print(f"Cache miss para chave: {key}") # Para debug, pode remover depois
+        except Exception as e:
+            print(f"Erro ao recuperar do cache Redis para chave {key}: {e}")
+    return None
+
+def delete_cache(key: str) -> None:
+    """Remove um valor do cache Redis."""
+    client = get_redis_client()
+    if client:
+        try:
+            client.delete(key)
+            # print(f"Cache deletado para chave: {key}") # Para debug, pode remover depois
+        except Exception as e:
+            print(f"Erro ao deletar do cache Redis para chave {key}: {e}")
+
 
 # --- CACHE E RATE LIMITING ---
 _cache_lock = threading.RLock()
@@ -65,42 +126,65 @@ def bulk_get_alimentos_data(db: Session, nomes_alimentos: List[str]) -> Dict[str
     return {normalizar_nome_alimento(alimento.alimento): alimento for alimento in alimentos}
 
 def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo: bool = True) -> Optional[Alimento]:
-    """Versão otimizada com cache e rate limiting"""
+    """Versão otimizada com cache Redis, cache em memória e rate limiting."""
     nome_normalizado = normalizar_nome_alimento(nome)
-    
-    # 1. Verifica cache primeiro (MUITO RÁPIDO)
+    cache_key = f"alimento:{nome_normalizado}" # Chave para o cache Redis
+
+    # 1. Tenta buscar no cache Redis (primeira e mais rápida verificação)
+    cached_redis_data = get_cache(cache_key)
+    if cached_redis_data is not None:
+        # Se encontrou no Redis, tenta reconstruir o objeto Alimento
+        # Isso é importante porque o Redis armazena JSON, não objetos SQLAlchemy
+        try:
+            # Assumimos que cached_redis_data é um dicionário com os atributos do Alimento
+            # Criamos uma instância temporária de Alimento para retornar
+            alimento_from_cache = Alimento(**cached_redis_data)
+            logger.info(f"✅ Cache Redis hit: '{nome}'")
+            return alimento_from_cache
+        except Exception as e:
+            logger.error(f"❌ Erro ao desserializar alimento do Redis para '{nome}': {e}. Invalidando cache.")
+            delete_cache(cache_key) # Invalida o cache se houver erro de desserialização
+            # Continua para buscar no banco de dados
+
+    # 2. Tenta buscar no cache em memória (fallback para Redis indisponível ou erro)
+    # Mantemos o cache em memória como uma camada secundária, mas o Redis é prioritário
     with _cache_lock:
         if nome_normalizado in _alimento_cache:
-            cached = _alimento_cache[nome_normalizado]
-            if cached is not None:
-                logger.info(f"✅ Cache hit: '{nome}'")
-                return cached
-    
-    # 2. Busca no banco
+            cached_in_memory = _alimento_cache[nome_normalizado]
+            if cached_in_memory is not None:
+                logger.info(f"✅ Cache em memória hit: '{nome}'")
+                return cached_in_memory
+
+    # 3. Busca no banco de dados
     alimento_existente = db.query(Alimento).filter(
         func.lower(Alimento.alimento_normalizado) == nome_normalizado
     ).first()
-    
+
     if alimento_existente:
+        # Se encontrou no banco, salva no cache em memória e no Redis
         with _cache_lock:
             _alimento_cache[nome_normalizado] = alimento_existente
+        set_cache(cache_key, alimento_existente.to_dict()) # Salva no Redis (convertendo para dict)
+        logger.info(f"✅ Alimento encontrado no DB e cacheado: '{nome}'")
         return alimento_existente
-    
-    # 3. Se não encontrou e pode criar novo, chama Gemini
+
+    # 4. Se não encontrou e pode criar novo, chama Gemini
     if criar_novo:
         logger.info(f"🔄 Alimento não encontrado. Consultando Gemini para: '{nome}'")
-        
+
         # Rate limiting para não sobrecarregar a API
         rate_limited_gemini_call()
-        
+
         dados_ia = fetch_gemini_nutritional_data(nome)
-        
+
         if "erro" in dados_ia:
             logger.error(f"❌ Erro ao obter dados do Gemini para '{nome}': {dados_ia.get('erro')}")
+            # Cacheia a ausência para evitar chamadas repetidas ao Gemini para o mesmo alimento não encontrado
             with _cache_lock:
                 _alimento_cache[nome_normalizado] = None
+            set_cache(cache_key, None) # Cacheia a ausência no Redis também
             return None
-        
+
         # Cria novo alimento
         try:
             novo_alimento = Alimento(
@@ -126,26 +210,32 @@ def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo:
                 un_medida_caseira=dados_ia.get("un_medida_caseira"),
                 peso_aproximado_g=float(dados_ia.get("peso_aproximado_g", 100) or 100),
             )
-            
+
             db.add(novo_alimento)
             db.commit()
             db.refresh(novo_alimento)
-            
+
+            # Salva o novo alimento no cache em memória e no Redis
             with _cache_lock:
                 _alimento_cache[nome_normalizado] = novo_alimento
-                
+            set_cache(cache_key, novo_alimento.to_dict()) # Salva no Redis
+
             logger.info(f"✅ Novo alimento criado e salvo: '{nome}' (ID: {novo_alimento.id})")
             return novo_alimento
-            
+
         except Exception as e:
             logger.error(f"❌ Erro ao criar novo alimento '{nome}': {e}")
             db.rollback()
+            # Cacheia a ausência em caso de erro na criação
             with _cache_lock:
                 _alimento_cache[nome_normalizado] = None
+            set_cache(cache_key, None) # Cacheia a ausência no Redis
             return None
-    
+
+    # Se não encontrou em nenhum lugar e não pode criar, cacheia a ausência
     with _cache_lock:
         _alimento_cache[nome_normalizado] = None
+    set_cache(cache_key, None) # Cacheia a ausência no Redis
     return None
 
 # --- CRUD OTIMIZADO PARA REFEIÇÕES ---
