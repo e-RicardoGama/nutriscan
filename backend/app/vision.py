@@ -164,7 +164,6 @@ def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 max_output_tokens=1000,
-                timeout=20 # Timeout mais agressivo para scan rápido
             )
         )
         api_time = time.time() - api_start
@@ -231,7 +230,6 @@ def fetch_gemini_nutritional_data(alimento_nome: str) -> Dict[str, Any]:
             response_mime_type="application/json",
             temperature=0.1,
             max_output_tokens=500,
-            timeout=15 # Timeout mais agressivo para dados nutricionais
         )
         # Usar o gemini_model já configurado globalmente
         response = gemini_model.generate_content(prompt, generation_config=config)
@@ -306,7 +304,6 @@ Forneça APENAS um objeto JSON com as seguintes chaves:
             generation_config=genai.types.GenerationConfig(
                 temperature=0.2,
                 max_output_tokens=800,
-                timeout=25 # Mantido em 25s, pode ser ajustado se necessário
             )
         )
         api_time = time.time() - api_start
@@ -362,7 +359,6 @@ def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 max_output_tokens=1500,
-                timeout=30 # Timeout mais agressivo para análise detalhada
             )
         )
         api_time = time.time() - api_start
@@ -395,7 +391,7 @@ async def fetch_gemini_nutritional_data_parallel(alimento_nome: str) -> Dict[str
     start_time = time.time()
     loop = asyncio.get_event_loop()
     try:
-        # A função fetch_gemini_nutritional_data já usa o gemini_model global e tem timeout
+        # A função fetch_gemini_nutritional_data já usa o gemini_model global 
         resultado = await loop.run_in_executor(executor, fetch_gemini_nutritional_data, alimento_nome)
         total_time = time.time() - start_time
         logger.info(f"✅ [PARALELO] '{alimento_nome}' em {total_time:.3f}s")
@@ -455,7 +451,6 @@ def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 max_output_tokens=800,
-                timeout=15 # Timeout mais agressivo para análise simples
             )
         )
         api_time = time.time() - api_start
