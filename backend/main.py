@@ -263,3 +263,4 @@ async def shutdown_event():
     """Executado quando a aplicação é encerrada"""
     logger.info("👋 AppNutri API encerrando...")
     logger.info("✅ Shutdown concluído com sucesso!")
+

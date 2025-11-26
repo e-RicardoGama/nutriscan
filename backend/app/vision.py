@@ -1,19 +1,31 @@
-# app/vision.py - VERSÃO FINAL E LIMPA
+# app/vision.py - VERSÃO COM LOGS GARANTIDOS
 # Este ficheiro APENAS fala com a API do Gemini.
-# Ele NÃO importa 'sqlalchemy', 'Session', 'crud' ou 'models'.
 
 import os
 import json
 import re
 import logging
+import asyncio
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, Any, List
 import google.generativeai as genai
 from PIL import Image
 from io import BytesIO
 
-# Configuração do logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# 🔥 CONFIGURAÇÃO ROBUSTA DE LOGGING
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Se não tiver handlers, adiciona um
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+logger.info("🔧 vision.py carregado - logging configurado")
 
 # Configuração da API Key
 try:
@@ -21,23 +33,37 @@ try:
     if not api_key:
         raise ValueError("A variável de ambiente GEMINI_API_KEY não está definida.")
     genai.configure(api_key=api_key)
-    # Use o nome do seu modelo (ex: 'models/gemini-1.5-flash' ou 'models/gemini-2.5-flash')
-    gemini_model = genai.GenerativeModel('models/gemini-2.5-flash') 
+    gemini_model = genai.GenerativeModel('models/gemini-2.5-flash')
+    logger.info("✅ API Gemini configurada com sucesso")
 except Exception as e:
-    logger.error(f"Erro ao configurar a API do Gemini: {e}")
+    logger.error(f"❌ Erro ao configurar a API do Gemini: {e}")
     gemini_model = None
 
-# Função auxiliar para extrair JSON
+# Executor para operações de I/O
+executor = ThreadPoolExecutor(max_workers=3)
+logger.info(f"🔄 ThreadPoolExecutor iniciado com {executor._max_workers} workers")
+
+# Rate limiting para Gemini
+_last_gemini_call = 0
+GEMINI_RATE_LIMIT = 0.3
+
+def rate_limited_gemini_call():
+    global _last_gemini_call
+    now = time.time()
+    elapsed = now - _last_gemini_call
+    if elapsed < GEMINI_RATE_LIMIT:
+        time.sleep(GEMINI_RATE_LIMIT - elapsed)
+    _last_gemini_call = time.time()
+
 def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
-    """ Extrai um objeto JSON de uma resposta de texto, limpando ```json e outros. """
     if not texto_resposta:
-        logger.error("Resposta vazia recebida do modelo de IA.")
+        logger.error("❌ Resposta vazia recebida do modelo de IA.")
         return {"erro": "Resposta vazia do modelo de IA"}
     try:
         cleaned = re.sub(r'^```json\s*|\s*```$', '', texto_resposta.strip(), flags=re.IGNORECASE | re.DOTALL)
         return json.loads(cleaned)
     except json.JSONDecodeError:
-        logger.warning("Falha ao parsear JSON diretamente. Tentando extrair de texto.")
+        logger.warning("⚠️ Falha ao parsear JSON diretamente. Tentando extrair de texto.")
         json_match = re.search(r'\{.*\}', texto_resposta, re.DOTALL)
         if json_match:
             try:
@@ -45,41 +71,88 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
                 cleaned_match = re.sub(r'^```json\s*|\s*```$', '', json_str.strip(), flags=re.IGNORECASE | re.DOTALL)
                 return json.loads(cleaned_match)
             except json.JSONDecodeError as e_inner:
-                logger.error(f"Falha ao parsear JSON extraído: {e_inner}\nTexto original:\n{texto_resposta}")
+                logger.error(f"❌ Falha ao parsear JSON extraído: {e_inner}")
                 return {"erro": "Resposta não contém JSON válido."}
-        logger.error(f"Nenhum JSON encontrado na resposta.\nTexto original:\n{texto_resposta}")
+        logger.error("❌ Nenhum JSON encontrado na resposta.")
         return {"erro": "Nenhum JSON válido encontrado na resposta."}
 
-
-# Função 1: Scan Rápido (A sua função original, mantida)
+# =================================================================
+# ✅ FUNÇÃO 1: Scan Rápido (COM LOGS GARANTIDOS)
+# =================================================================
 def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
-    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+    """Scan rápido com métricas detalhadas de tempo"""
+    if not gemini_model: 
+        logger.error("🚫 Gemini não configurado")
+        return {"erro": "API do Gemini não configurada."}
+    
+    start_time = time.time()
+    logger.info("⏱️ [SCAN RÁPIDO] === INICIANDO ===")
+    
     try:
-        if not conteudo_imagem: return {"erro": "Imagem vazia"}
-        prompt_scan = """SCAN RÁPIDO. Retorne APENAS JSON: {"alimentos_extraidos": [{"nome", "categoria" (nutricional), "quantidade_estimada_g", "confianca" ('alta'|'media'|'baixa'), "calorias_estimadas"}], "resumo_nutricional": {"total_calorias", "total_proteinas_g", "total_carboidratos_g", "total_gorduras_g"}, "alertas": []}"""
-        logger.info("Processando SCAN rápido...")
+        if not conteudo_imagem: 
+            logger.error("🚫 Imagem vazia")
+            return {"erro": "Imagem vazia"}
+        
+        # Fase 1: Carregar imagem
+        load_start = time.time()
         img = Image.open(BytesIO(conteudo_imagem))
-        response = gemini_model.generate_content([prompt_scan, img], generation_config=genai.types.GenerationConfig(temperature=0.1))
-        if not response.text: return {"erro": "Resposta vazia da API"}
-        logger.info(f"Resposta bruta Gemini (scan rápido): {response.text}")
+        load_time = time.time() - load_start
+        logger.info(f"📸 [SCAN RÁPIDO] Imagem carregada: {load_time:.3f}s")
+        
+        # Fase 2: Chamar API Gemini
+        api_start = time.time()
+        prompt_scan = """SCAN RÁPIDO. Retorne APENAS JSON: {"alimentos_extraidos": [{"nome", "categoria" (nutricional), "quantidade_estimada_g", "confianca" ('alta'|'media'|'baixa'), "calorias_estimadas"}], "resumo_nutricional": {"total_calorias", "total_proteinas_g", "total_carboidratos_g", "total_gorduras_g"}, "alertas": []}"""
+        
+        response = gemini_model.generate_content(
+            [prompt_scan, img], 
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.1,
+                max_output_tokens=1000,
+                timeout=30
+            )
+        )
+        api_time = time.time() - api_start
+        logger.info(f"🤖 [SCAN RÁPIDO] Gemini respondeu: {api_time:.3f}s")
+        
+        if not response.text: 
+            total_time = time.time() - start_time
+            logger.error(f"🚫 [SCAN RÁPIDO] Resposta vazia - Total: {total_time:.3f}s")
+            return {"erro": "Resposta vazia da API"}
+        
+        # Fase 3: Processar resposta
+        json_start = time.time()
         resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (scan rápido): {resultado}")
+        json_time = time.time() - json_start
+        
+        total_time = time.time() - start_time
+        
+        # 🔥 RELATÓRIO DE PERFORMANCE (SEMPRE MOSTRA)
+        alimentos_count = len(resultado.get('alimentos_extraidos', []))
+        logger.info("📊 [SCAN RÁPIDO] === RELATÓRIO ===")
+        logger.info(f"   ⏳ Carregamento: {load_time:.3f}s")
+        logger.info(f"   ⏳ API Gemini: {api_time:.3f}s")
+        logger.info(f"   ⏳ Processamento: {json_time:.3f}s")
+        logger.info(f"   🎯 TOTAL: {total_time:.3f}s")
+        logger.info(f"   🍽️ Alimentos: {alimentos_count}")
+        logger.info("✅ [SCAN RÁPIDO] === CONCLUÍDO ===")
+        
         return resultado
+        
     except Exception as e:
-        logger.error(f"Erro no scan rápido: {e}")
+        total_time = time.time() - start_time
+        logger.error(f"💥 [SCAN RÁPIDO] ERRO em {total_time:.3f}s: {str(e)}")
         return {"erro": f"Falha no scan rápido: {str(e)}"}
 
-
 # =================================================================
-# ✅ FUNÇÃO 2: Obter dados nutricionais de 1 alimento (para auto-aprendizagem)
+# ✅ FUNÇÃO 2: Dados nutricionais (COM LOGS GARANTIDOS)
 # =================================================================
 def fetch_gemini_nutritional_data(alimento_nome: str) -> Dict[str, Any]:
-    """
-    Chama o Gemini para obter dados nutricionais de um NOVO alimento.
-    """
-    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+    if not gemini_model: 
+        logger.error("🚫 Gemini não configurado")
+        return {"erro": "API do Gemini não configurada."}
 
-    logger.info(f"-> Consultando Gemini para novos dados de: '{alimento_nome}'")
+    start_time = time.time()
+    logger.info(f"⏱️ [DADOS NUTRI] Consultando: '{alimento_nome}'")
 
     prompt = f"""
     Você é um assistente de banco de dados nutricional.
@@ -100,33 +173,68 @@ def fetch_gemini_nutritional_data(alimento_nome: str) -> Dict[str, Any]:
     """
     
     try:
-        config = genai.GenerationConfig(response_mime_type="application/json")
+        # Rate limiting
+        rate_start = time.time()
+        rate_limited_gemini_call()
+        rate_time = time.time() - rate_start
+        logger.info(f"⏳ [DADOS NUTRI] Rate limiting: {rate_time:.3f}s")
+        
+        # Chamada API
+        api_start = time.time()
+        config = genai.GenerationConfig(
+            response_mime_type="application/json",
+            temperature=0.1,
+            max_output_tokens=500,
+            timeout=20
+        )
+        
         response = gemini_model.generate_content(prompt, generation_config=config)
+        api_time = time.time() - api_start
+        logger.info(f"🤖 [DADOS NUTRI] Gemini respondeu: {api_time:.3f}s")
+        
+        # Processar resposta
+        json_start = time.time()
         dados_nutricionais = json.loads(response.text)
-        logger.info(f"INFO: Gemini respondeu com dados para '{alimento_nome}'.")
+        json_time = time.time() - json_start
+        
+        total_time = time.time() - start_time
+        
+        # 🔥 RELATÓRIO DE PERFORMANCE
+        logger.info(f"📊 [DADOS NUTRI] '{alimento_nome}':")
+        logger.info(f"   ⏳ Rate limit: {rate_time:.3f}s")
+        logger.info(f"   ⏳ API: {api_time:.3f}s")
+        logger.info(f"   ⏳ JSON: {json_time:.3f}s")
+        logger.info(f"   🎯 TOTAL: {total_time:.3f}s")
+        logger.info(f"✅ [DADOS NUTRI] '{alimento_nome}' concluído")
+        
         return dados_nutricionais
         
     except Exception as e:
-        logger.error(f"ERRO: Falha ao consultar o Gemini para dados nutricionais: {e}")
+        total_time = time.time() - start_time
+        logger.error(f"💥 [DADOS NUTRI] '{alimento_nome}' ERRO em {total_time:.3f}s: {str(e)}")
         return {"erro": f"Falha ao obter dados para {alimento_nome}."}
 
 # =================================================================
-# ✅ FUNÇÃO 3: Obter APENAS recomendações
+# ✅ FUNÇÃO 3: Recomendações (COM LOGS GARANTIDOS)
 # =================================================================
 def gerar_recomendacoes_detalhadas_ia(
     lista_alimentos: List[Dict[str, Any]], 
     totais: Dict[str, float]
 ) -> Dict[str, Any]:
-    """
-    Recebe a lista de alimentos e os TOTAIS CALCULADOS (pelo Python).
-    Usa o Gemini para gerar APENAS as recomendações e vitaminas.
-    """
-    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+    if not gemini_model: 
+        logger.error("🚫 Gemini não configurado")
+        return {"erro": "API do Gemini não configurada."}
+
+    start_time = time.time()
+    num_alimentos = len(lista_alimentos)
+    logger.info(f"⏱️ [RECOMENDAÇÕES] Iniciando para {num_alimentos} alimentos")
 
     if not lista_alimentos:
-        logger.error("Tentativa de analisar lista de alimentos vazia.")
+        logger.error("🚫 Lista de alimentos vazia")
         return {"erro": "A lista de alimentos para análise está vazia."}
 
+    # Preparar dados
+    prep_start = time.time()
     alimentos_str = "\n".join([f"- {item['nome']}: {item['quantidade_gramas']}g" for item in lista_alimentos])
     totais_str = f"""
     - Calorias Totais: {totais.get('kcal', 0):.0f} kcal
@@ -134,6 +242,8 @@ def gerar_recomendacoes_detalhadas_ia(
     - Carboidratos Totais: {totais.get('carbs', 0):.1f} g
     - Gorduras Totais: {totais.get('fats', 0):.1f} g
     """
+    prep_time = time.time() - prep_start
+    logger.info(f"📋 [RECOMENDAÇÕES] Dados preparados: {prep_time:.3f}s")
 
     prompt_lista = f"""Você é um nutricionista especialista. Analise esta refeição com base nos alimentos e nos seus totais nutricionais.
     
@@ -154,56 +264,245 @@ Forneça APENAS um objeto JSON com as seguintes chaves:
 }}
 """
     try:
-        logger.info(f"-> Enviando lista de alimentos para obter RECOMENDAÇÕES...")
-        response = gemini_model.generate_content(prompt_lista)
+        # Rate limiting
+        rate_start = time.time()
+        rate_limited_gemini_call()
+        rate_time = time.time() - rate_start
         
-        logger.info(f"Resposta bruta Gemini (recomendações): {response.text}")
+        # Chamada API
+        api_start = time.time()
+        response = gemini_model.generate_content(
+            prompt_lista,
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.2,
+                max_output_tokens=800,
+                timeout=25
+            )
+        )
+        api_time = time.time() - api_start
+        logger.info(f"🤖 [RECOMENDAÇÕES] Gemini respondeu: {api_time:.3f}s")
+        
+        # Processar resposta
+        json_start = time.time()
         resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (recomendações): {resultado}")
+        json_time = time.time() - json_start
+        
+        total_time = time.time() - start_time
+        
+        # 🔥 RELATÓRIO DE PERFORMANCE
+        logger.info("📊 [RECOMENDAÇÕES] == RELATÓRIO ==")
+        logger.info(f"   ⏳ Preparação: {prep_time:.3f}s")
+        logger.info(f"   ⏳ Rate limit: {rate_time:.3f}s")
+        logger.info(f"   ⏳ API: {api_time:.3f}s")
+        logger.info(f"   ⏳ JSON: {json_time:.3f}s")
+        logger.info(f"   🎯 TOTAL: {total_time:.3f}s")
+        logger.info(f"   🍽️ Alimentos: {num_alimentos}")
+        logger.info(f"   🔥 Calorias: {totais.get('kcal', 0):.0f}")
+        logger.info("✅ [RECOMENDAÇÕES] == CONCLUÍDO ==")
 
         return resultado
         
     except Exception as e:
-        logger.error(f"ERRO: Falha na comunicação com a API do Gemini (recomendações): {e}")
+        total_time = time.time() - start_time
+        logger.error(f"💥 [RECOMENDAÇÕES] ERRO em {total_time:.3f}s: {str(e)}")
         return {"erro": "Desculpe, não foi possível gerar as recomendações no momento."}
-    
 
-# Função para análise detalhada DE IMAGEM (sem alterações)
+# =================================================================
+# ✅ FUNÇÃO 4: Análise detalhada (COM LOGS GARANTIDOS)
+# =================================================================
 def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
-    # ... (código da função analisar_imagem_do_prato_detalhado) ...
-    model = genai.GenerativeModel('models/gemini-2.5-flash') # Ou gemini-1.5-flash
+    if not gemini_model:
+        logger.error("🚫 Gemini não configurado")
+        return {"erro": "API do Gemini não configurada."}
+    
+    start_time = time.time()
+    logger.info("⏱️ [ANÁLISE DETALHADA] === INICIANDO ===")
+    
+    model = genai.GenerativeModel('models/gemini-2.5-flash')
     prompt_detalhado = """Você é um nutricionista especialista. Analise esta foto de comida e forneça um relatório estruturado em JSON com as seguintes seções:
 {
   "detalhes_prato": { "alimentos": [ { "nome": "string", "quantidade_gramas": "number", "metodo_preparo": "string", "categoria": "string (ex: Fruta, Grão, Carne Vermelha)" } ] },
   "analise_nutricional": { "calorias_totais": "number", "macronutrientes": { "proteinas_g": "number", "carboidratos_g": "number", "gorduras_g": "number" }, "vitaminas_minerais": ["string"] },
   "recomendacoes": { "pontos_positivos": ["string"], "sugestoes_balanceamento": ["string"], "alternativas_saudaveis": ["string"] }
 } Forneça APENAS o JSON, sem texto adicional."""
+    
     try:
-        logger.info("-> Enviando imagem para análise detalhada...")
+        # Carregar imagem
+        load_start = time.time()
         img = Image.open(BytesIO(conteudo_imagem))
-        response = model.generate_content([prompt_detalhado, img])
-        logger.info(f"Resposta bruta Gemini (detalhada img): {response.text}")
+        load_time = time.time() - load_start
+        logger.info(f"📸 [ANÁLISE DETALHADA] Imagem carregada: {load_time:.3f}s")
+        
+        # Chamada API
+        api_start = time.time()
+        response = model.generate_content(
+            [prompt_detalhado, img],
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.1,
+                max_output_tokens=1500,
+                timeout=45
+            )
+        )
+        api_time = time.time() - api_start
+        logger.info(f"🤖 [ANÁLISE DETALHADA] Gemini respondeu: {api_time:.3f}s")
+        
+        # Processar resposta
+        json_start = time.time()
         resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (detalhada img): {resultado}")
+        json_time = time.time() - json_start
+        
+        total_time = time.time() - start_time
+        
+        # 🔥 RELATÓRIO DE PERFORMANCE
+        alimentos_count = len(resultado.get('detalhes_prato', {}).get('alimentos', []))
+        logger.info("📊 [ANÁLISE DETALHADA] == RELATÓRIO ==")
+        logger.info(f"   ⏳ Carregamento: {load_time:.3f}s")
+        logger.info(f"   ⏳ API Gemini: {api_time:.3f}s")
+        logger.info(f"   ⏳ Processamento: {json_time:.3f}s")
+        logger.info(f"   🎯 TOTAL: {total_time:.3f}s")
+        logger.info(f"   🍽️ Alimentos: {alimentos_count}")
+        logger.info("✅ [ANÁLISE DETALHADA] == CONCLUÍDO ==")
+        
         return resultado
+        
     except Exception as e:
-        logger.error(f"ERRO Gemini (detalhada img): {e}")
+        total_time = time.time() - start_time
+        logger.error(f"💥 [ANÁLISE DETALHADA] ERRO em {total_time:.3f}s: {str(e)}")
         return {"erro": "Falha na análise detalhada da imagem."}
 
+# =================================================================
+# FUNÇÕES ASSÍNCRONAS (mantidas da versão anterior)
+# =================================================================
 
-# Função para análise simples DE IMAGEM (sem alterações)
-def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
-    # ... (código da função analisar_imagem_do_prato) ...
-    model = genai.GenerativeModel('models/gemini-2.5-flash')
-    prompt = """Analise a imagem. Identifique cada alimento, estime a quantidade em gramas (g) e justifique. Retorne JSON: { "foods": [ { "name", "quantity_g", "justification" } ] }"""
+async def fetch_gemini_nutritional_data_parallel(alimento_nome: str) -> Dict[str, Any]:
+    start_time = time.time()
+    loop = asyncio.get_event_loop()
     try:
-        logger.info("-> Enviando imagem para análise simples...")
-        img = Image.open(BytesIO(conteudo_imagem))
-        response = model.generate_content([prompt, img])
-        logger.info(f"Resposta bruta Gemini (simples img): {response.text}")
-        resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (simples img): {resultado}")
+        resultado = await loop.run_in_executor(executor, fetch_gemini_nutritional_data, alimento_nome)
+        total_time = time.time() - start_time
+        logger.info(f"✅ [PARALELO] '{alimento_nome}' em {total_time:.3f}s")
         return resultado
     except Exception as e:
-        logger.error(f"ERRO Gemini (simples img): {e}")
+        total_time = time.time() - start_time
+        logger.error(f"❌ [PARALELO] '{alimento_nome}' ERRO em {total_time:.3f}s: {e}")
+        return {"erro": f"Falha na consulta paralela: {str(e)}"}
+
+async def processar_alimentos_em_parallel(nomes_alimentos: List[str]) -> List[Dict[str, Any]]:
+    if not nomes_alimentos:
+        return []
+    
+    start_time = time.time()
+    logger.info(f"🔄 [PARALELO] Iniciando {len(nomes_alimentos)} alimentos")
+    
+    max_concurrent = min(3, len(nomes_alimentos))
+    semaphore = asyncio.Semaphore(max_concurrent)
+    
+    async def bounded_fetch(nome):
+        async with semaphore:
+            return await fetch_gemini_nutritional_data_parallel(nome)
+    
+    parallel_start = time.time()
+    tasks = [bounded_fetch(nome) for nome in nomes_alimentos]
+    resultados = await asyncio.gather(*tasks, return_exceptions=True)
+    parallel_time = time.time() - parallel_start
+    
+    total_time = time.time() - start_time
+    
+    resultados_validos = [r for r in resultados if isinstance(r, dict) and "erro" not in r]
+    
+    logger.info(f"📊 [PARALELO] RELATÓRIO:")
+    logger.info(f"   ⏳ Tempo paralelo: {parallel_time:.3f}s")
+    logger.info(f"   🎯 Tempo total: {total_time:.3f}s")
+    logger.info(f"   ✅ Sucessos: {len(resultados_validos)}/{len(nomes_alimentos)}")
+    logger.info(f"   🚀 Speedup: ~{(len(nomes_alimentos)/max_concurrent):.1f}x")
+    
+    return resultados_validos
+
+# Funções restantes mantidas da versão anterior...
+def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
+    if not gemini_model:
+        return {"erro": "API do Gemini não configurada."}
+    
+    start_time = time.time()
+    logger.info("⏱️ [ANÁLISE SIMPLES] Iniciando...")
+    
+    model = genai.GenerativeModel('models/gemini-2.5-flash')
+    prompt = """Analise a imagem. Identifique cada alimento, estime a quantidade em gramas (g) e justifique. Retorne JSON: { "foods": [ { "name", "quantity_g", "justification" } ] }"""
+    
+    try:
+        load_start = time.time()
+        img = Image.open(BytesIO(conteudo_imagem))
+        load_time = time.time() - load_start
+        
+        api_start = time.time()
+        response = model.generate_content(
+            [prompt, img],
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.1,
+                max_output_tokens=800,
+                timeout=20
+            )
+        )
+        api_time = time.time() - api_start
+        
+        json_start = time.time()
+        resultado = extrair_json_da_resposta(response.text)
+        json_time = time.time() - json_start
+        
+        total_time = time.time() - start_time
+        
+        alimentos_count = len(resultado.get('foods', []))
+        logger.info("📊 [ANÁLISE SIMPLES] RELATÓRIO:")
+        logger.info(f"   ⏳ Carregamento: {load_time:.3f}s")
+        logger.info(f"   ⏳ API: {api_time:.3f}s")
+        logger.info(f"   ⏳ JSON: {json_time:.3f}s")
+        logger.info(f"   🎯 TOTAL: {total_time:.3f}s")
+        logger.info(f"   🍽️ Alimentos: {alimentos_count}")
+        
+        return resultado
+        
+    except Exception as e:
+        total_time = time.time() - start_time
+        logger.error(f"💥 [ANÁLISE SIMPLES] ERRO em {total_time:.3f}s: {str(e)}")
         return {"erro": "Falha ao analisar imagem (simples)."}
+
+async def processar_multiplas_imagens_parallel(conteudos_imagens: List[bytes]) -> List[Dict[str, Any]]:
+    if not gemini_model:
+        return [{"erro": "API do Gemini não configurada."} for _ in conteudos_imagens]
+    
+    start_time = time.time()
+    logger.info(f"🔄 [BATCH IMAGENS] Iniciando {len(conteudos_imagens)} imagens")
+    
+    async def processar_imagem(conteudo):
+        loop = asyncio.get_event_loop()
+        try:
+            return await loop.run_in_executor(executor, escanear_prato_extrair_alimentos, conteudo)
+        except Exception as e:
+            logger.error(f"💥 Erro no processamento de imagem: {e}")
+            return {"erro": f"Falha no processamento: {str(e)}"}
+    
+    semaphore = asyncio.Semaphore(2)
+    
+    async def bounded_process(conteudo):
+        async with semaphore:
+            return await processar_imagem(conteudo)
+    
+    batch_start = time.time()
+    tasks = [bounded_process(conteudo) for conteudo in conteudos_imagens]
+    resultados = await asyncio.gather(*tasks, return_exceptions=True)
+    batch_time = time.time() - batch_start
+    
+    total_time = time.time() - start_time
+    
+    sucessos = sum(1 for r in resultados if isinstance(r, dict) and "erro" not in r)
+    logger.info(f"📊 [BATCH IMAGENS] RELATÓRIO:")
+    logger.info(f"   ⏳ Tempo batch: {batch_time:.3f}s")
+    logger.info(f"   🎯 Tempo total: {total_time:.3f}s")
+    logger.info(f"   ✅ Sucessos: {sucessos}/{len(conteudos_imagens)}")
+    logger.info(f"   📈 Throughput: {len(conteudos_imagens)/total_time:.2f} img/s")
+    
+    return resultados
+
+def cleanup():
+    executor.shutdown(wait=False)
+    logger.info("🧹 Recursos do vision.py liberados")

@@ -15,9 +15,11 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 # ✅ SOLUÇÃO SIMPLES: Neon.tech geralmente funciona sem config SSL explícita
 engine = create_engine(
     DATABASE_URL,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    # ✅ REMOVA completamente connect_args para Neon.tech
+    pool_size=20,           # Aumente conforme necessidade
+    max_overflow=30,        # Conexões extras sob demanda
+    pool_pre_ping=True,     # Verifica conexões antes de usar
+    pool_recycle=3600,      # Recicla conexões a cada 1h
+    echo=False              # DESLIGUE em produção
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
