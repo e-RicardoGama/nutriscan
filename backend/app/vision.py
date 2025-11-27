@@ -57,6 +57,17 @@ logger.info(f"🔄 ThreadPoolExecutor iniciado com {executor._max_workers} worke
 _last_gemini_call = 0
 GEMINI_RATE_LIMIT = 0.3
 
+def get_text_from_response(response):
+    if hasattr(response, "text") and response.text:
+        return response.text
+    
+    try:
+        return response.candidates[0].content.parts[0].text
+    except Exception:
+        logger.error("❌ Não foi possível extrair texto da resposta Gemini.")
+        return None
+
+
 # --- FUNÇÃO DE OTIMIZAÇÃO DE IMAGEM ---
 def optimize_image(image_bytes: bytes, max_size: tuple = (1024, 1024), quality: int = 85) -> bytes:
     """
@@ -226,13 +237,13 @@ def fetch_gemini_nutritional_data(alimento_nome: str) -> Dict[str, Any]:
         logger.info(f"⏳ [DADOS NUTRI] Rate limiting: {rate_time:.3f}s")
         # Chamada API
         api_start = time.time()
-        config = genai.GenerationConfig(
+        config = genai.types.GenerationConfig(
             response_mime_type="application/json",
             temperature=0.1,
             max_output_tokens=500,
         )
-        # Usar o gemini_model já configurado globalmente
         response = gemini_model.generate_content(prompt, generation_config=config)
+
         api_time = time.time() - api_start
         logger.info(f"🤖 [DADOS NUTRI] Gemini respondeu: {api_time:.3f}s")
         # Processar resposta

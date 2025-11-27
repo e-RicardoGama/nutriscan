@@ -80,17 +80,23 @@ async def scan_rapido(
     db: Session = Depends(get_db), 
     current_user: Usuario = Depends(get_current_user)
 ):
-    # 🔥 ADICIONE ESTE LOG
     logger.info("🎯 [ENDPOINT] /scan-rapido CHAMADO!")
     
     if not imagem.content_type.startswith('image/'):
         logger.error("🚫 [ENDPOINT] Arquivo não é imagem")
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Arquivo deve ser uma imagem")
+        raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem")
     
     try:
         logger.info("📸 [ENDPOINT] Lendo imagem...")
         imagem_bytes = await imagem.read()
         logger.info(f"📦 [ENDPOINT] Imagem lida: {len(imagem_bytes)} bytes")
+        
+        # 🔥 VALIDAÇÃO ANTES de enviar para o Gemini
+        if len(imagem_bytes) == 0:
+            raise HTTPException(status_code=400, detail="Imagem vazia")
+            
+        if len(imagem_bytes) > 10 * 1024 * 1024:  # 10MB
+            raise HTTPException(status_code=400, detail="Imagem muito grande")
         
         logger.info("🤖 [ENDPOINT] Chamando escanear_prato_extrair_alimentos...")
         resultado_scan = escanear_prato_extrair_alimentos(imagem_bytes)
@@ -99,11 +105,16 @@ async def scan_rapido(
         
         if not isinstance(resultado_scan, dict):
             logger.error("🚫 [ENDPOINT] Resultado não é dict")
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Formato inesperado da análise de scan.")
+            raise HTTPException(status_code=500, detail="Formato inesperado da análise")
+        
+        # 🔥 TRATAMENTO ESPECÍFICO PARA BLOQUEIO POR SEGURANÇA
+        if "erro" in resultado_scan and "bloqueada" in resultado_scan["erro"].lower():
+            logger.error(f"🚫 [ENDPOINT] Conteúdo bloqueado: {resultado_scan['erro']}")
+            raise HTTPException(status_code=400, detail=resultado_scan["erro"])
         
         if "erro" in resultado_scan:
             logger.error(f"🚫 [ENDPOINT] Erro no resultado: {resultado_scan['erro']}")
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=resultado_scan["erro"])
+            raise HTTPException(status_code=500, detail=resultado_scan["erro"])
         
         logger.info("🎉 [ENDPOINT] Scan concluído com sucesso!")
         return ScanRapidoResponse(
@@ -118,7 +129,7 @@ async def scan_rapido(
         raise
     except Exception as e:
         logger.error(f"💥 [ENDPOINT] Exception: {str(e)}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro no scan: consulte os logs.")
+        raise HTTPException(status_code=500, detail="Erro no scan: consulte os logs.")
     
 # ---------------------------------------------------------------
 # ENDPOINT 1: SALVAR SCAN EDITADO
