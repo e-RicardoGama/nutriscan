@@ -154,20 +154,67 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
 # =================================================================
 def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
     """
-    Função corrigida para scan de imagem com Gemini.
-    Desabilita filtros de segurança para evitar bloqueios em imagens de comida.
+    Função para escanear imagem com Gemini, com safety settings ajustados e tratamento robusto de respostas.
+    Retorna um dicionário com 'sucesso', 'erro' (se houver), 'bloqueada' (se aplicável) e 'conteudo' (se sucesso).
     """
     try:
-        # Configure o modelo (substitua 'gemini-2.5-flash' pelo seu modelo preferido)
-        # Certifique-se de que a API Key está configurada, por exemplo:
-        # genai.configure(api_key="SUA_API_KEY")
+        # Configurar a API Key do Gemini (usando variável de ambiente)
+        # Certifique-se de que GEMINI_API_KEY está definida no seu ambiente Cloud Run.
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         model = genai.GenerativeModel('gemini-2.5-flash')
 
-        # Carregue a imagem
+        # Carregue a imagem usando PIL para lidar com diferentes formatos
         image = Image.open(io.BytesIO(imagem_bytes))
 
-        # Configure safety settings: desabilite ou ajuste thresholds
-        # Definimos BLOCK_NONE para todas as categorias para evitar bloqueios em imagens de comida.
+        # Prompt otimizado para evitar bloqueios e focar em análise nutricional neutra.
+        # É CRUCIAL instruir o modelo a retornar APENAS JSON.
+        prompt = """
+        Você é um assistente de nutrição especializado em análise de pratos.
+        Analise a imagem fornecida de um prato de comida.
+        Identifique todos os alimentos visíveis e comuns (frutas, vegetais, grãos, proteínas, laticínios, etc.).
+        Ignore qualquer elemento não comestível ou não relacionado a comida.
+        Para cada alimento identificado, forneça as seguintes informações em português:
+        - "nome": Nome do alimento (ex: "Arroz branco", "Peito de frango grelhado", "Brócolis cozido").
+        - "porcao_estimada_g": Quantidade estimada em gramas (apenas o número).
+        - "calorias_por_100g": Calorias por 100 gramas (apenas o número).
+        - "proteina_g_por_100g": Proteína em gramas por 100 gramas (apenas o número).
+        - "carboidrato_g_por_100g": Carboidrato em gramas por 100 gramas (apenas o número).
+        - "gordura_g_por_100g": Gordura em gramas por 100 gramas (apenas o número).
+        - "fibra_g_por_100g": Fibra em gramas por 100 gramas (apenas o número).
+
+        Sua resposta DEVE ser um objeto JSON válido, contendo uma chave "alimentos" que é uma lista de objetos,
+        onde cada objeto representa um alimento com as chaves especificadas acima.
+        Se nenhum alimento for detectado ou se a imagem não for de comida, retorne:
+        {"alimentos": [], "observacoes": "Nenhum alimento detectado ou imagem não é de comida."}
+
+        Exemplo de formato JSON esperado:
+        {
+          "alimentos": [
+            {
+              "nome": "Arroz branco",
+              "porcao_estimada_g": 150,
+              "calorias_por_100g": 130,
+              "proteina_g_por_100g": 2.7,
+              "carboidrato_g_por_100g": 28.2,
+              "gordura_g_por_100g": 0.3,
+              "fibra_g_por_100g": 0.4
+            },
+            {
+              "nome": "Peito de frango grelhado",
+              "porcao_estimada_g": 120,
+              "calorias_por_100g": 165,
+              "proteina_g_por_100g": 31,
+              "carboidrato_g_por_100g": 0,
+              "gordura_g_por_100g": 3.6,
+              "fibra_g_por_100g": 0
+            }
+          ],
+          "observacoes": "Análise detalhada dos componentes do prato."
+        }
+        """
+
+        # Configuração de segurança: BLOCK_NONE para desabilitar filtros para todas as categorias.
+        # Isso é o mais permissivo possível e deve resolver os bloqueios em imagens de comida.
         safety_settings = [
             {"category": HarmCategory.HARM_CATEGORY_HARASSMENT, "threshold": HarmBlockThreshold.BLOCK_NONE},
             {"category": HarmCategory.HARM_CATEGORY_HATE_SPEECH, "threshold": HarmBlockThreshold.BLOCK_NONE},
@@ -175,57 +222,59 @@ def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
             {"category": HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, "threshold": HarmBlockThreshold.BLOCK_NONE}
         ]
 
-        # Prompt para análise de prato (ajuste conforme necessário)
-        # É crucial que o prompt instrua o Gemini a retornar um JSON válido.
-        prompt = """
-        Analise esta imagem de um prato de comida. Identifique os alimentos visíveis, estime porções e forneça uma análise nutricional básica.
-        Retorne estritamente em formato JSON, sem nenhum texto adicional antes ou depois do JSON.
-        Exemplo de formato JSON:
-        {"alimentos": [{"nome": "Arroz", "porcao": "150g", "calorias": "195kcal"}, {"nome": "Feijão", "porcao": "100g", "calorias": "76kcal"}], "total_calorias": "271kcal", "observacoes": "Prato balanceado com carboidratos e proteínas."}
-        """
-
-        # Chame o Gemini com imagem e safety settings
+        logger.info("Chamando Gemini API com safety_settings=BLOCK_NONE.")
         response = model.generate_content(
-            [prompt, image],
+            [prompt, image], # Passa o objeto PIL.Image diretamente
             generation_config=genai.types.GenerationConfig(
                 temperature=0.7,
                 top_p=1.0,
                 top_k=40,
                 max_output_tokens=1024,
             ),
-            safety_settings=safety_settings,
-            stream=False  # Use stream=False para resposta única
+            safety_settings=safety_settings, # Garante que os settings são passados aqui
+            stream=False
         )
 
-        # Verifique se a resposta foi bloqueada ou está vazia
+        # --- TRATAMENTO ROBUSTO DE RESPOSTA ---
+        if not response.candidates:
+            # Se não há candidatos, a resposta foi bloqueada ou houve um erro grave.
+            logger.warning("Gemini não retornou candidatos. Verificando prompt_feedback para bloqueio.")
+
+            if hasattr(response, 'prompt_feedback') and response.prompt_feedback.safety_ratings:
+                blocked_categories = [
+                    f"{rating.category.name}: {rating.probability.name}" 
+                    for rating in response.prompt_feedback.safety_ratings 
+                    if rating.probability >= HarmBlockThreshold.BLOCK_LOW # Captura qualquer bloqueio
+                ]
+                if blocked_categories:
+                    logger.error(f"Resposta do Gemini bloqueada por prompt_feedback. Categorias: {', '.join(blocked_categories)}")
+                    return {"sucesso": False, "erro": f"Conteúdo da imagem bloqueado pelo Gemini: {', '.join(blocked_categories)}", "bloqueada": True}
+
+            logger.error("Gemini não retornou candidatos e não há feedback de segurança explícito. Resposta vazia.")
+            return {"sucesso": False, "erro": "Resposta vazia do Gemini. Pode ser um problema interno do modelo ou prompt.", "bloqueada": False}
+
+        # Se há candidatos, mas o texto está vazio (o que não deveria acontecer com BLOCK_NONE se houver conteúdo)
         if not response.parts:
-            # Se não há partes na resposta, pode ter sido bloqueada ou vazia
-            blocked_details = response.candidates[0].safety_ratings if response.candidates else []
-            is_blocked = any(rating.probability == genai.types.HarmProbability.BLOCKED for rating in blocked_details)
+            logger.warning("Gemini retornou candidatos, mas sem partes de texto. Pode ser um problema de geração.")
+            return {"sucesso": False, "erro": "Gemini não gerou conteúdo de texto válido.", "bloqueada": False}
 
-            if is_blocked:
-                # Logar os detalhes do bloqueio para depuração
-                # logger.warning(f"Gemini response blocked. Details: {blocked_details}")
-                return {"erro": "Resposta bloqueada por filtros de segurança do Gemini. Verifique o conteúdo da imagem.", "bloqueada": True}
-            else:
-                # Resposta vazia por outro motivo
-                # logger.warning("Gemini returned an empty response without explicit blocking.")
-                return {"erro": "Resposta vazia do Gemini. Pode ser um problema interno do modelo ou prompt.", "bloqueada": False}
-
-        # Tente acessar o texto da resposta
+        # Se chegou aqui, há texto na resposta.
         content = response.text
+        logger.info(f"Conteúdo bruto do Gemini recebido (primeiros 200 chars): {content[:200]}...")
 
-        # Tente parsear o JSON. O Gemini pode retornar texto que não é JSON.
+        # Tente parsear o JSON.
         try:
             resultado_json = json.loads(content)
+            logger.info("JSON do Gemini parseado com sucesso.")
             return {"sucesso": True, "conteudo": resultado_json}
         except json.JSONDecodeError:
-            # logger.error(f"Gemini returned non-JSON content: {content}")
-            return {"erro": "A resposta do Gemini não é um JSON válido.", "conteudo_bruto": content, "sucesso": False}
+            logger.error(f"Gemini retornou conteúdo não-JSON ou JSON malformado: {content}", exc_info=True)
+            return {"sucesso": False, "erro": "A resposta do Gemini não é um JSON válido.", "conteudo_bruto": content, "bloqueada": False}
 
     except Exception as e:
-        # logger.error(f"Erro inesperado na função escanear_prato_extrair_alimentos: {e}")
-        return {"erro": f"Erro no scan: {str(e)}", "sucesso": False}
+        logger.error(f"Erro inesperado na função escanear_prato_extrair_alimentos: {e}", exc_info=True)
+        return {"sucesso": False, "erro": f"Erro no scan: {str(e)}", "bloqueada": False}
+
 
 # =================================================================
 # ✅ FUNÇÃO 2: Dados nutricionais (COM LOGS GARANTIDOS)

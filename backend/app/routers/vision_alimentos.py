@@ -76,68 +76,62 @@ async def teste_simples():
 # ---------------------------------------------------------------
 @router.post("/scan-rapido", response_model=ScanRapidoResponse, summary="Realiza scan rápido")
 async def scan_rapido(
-    imagem: UploadFile = File(...),
-    db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    imagem: UploadFile = File(..., description="Imagem da refeição (JPEG/PNG, máx 10MB)"),
+    db: Session = Depends(get_db), # Mantenha se for usar o DB para algo, senão remova
+    current_user: Usuario = Depends(get_current_user) # Mantenha para autenticação
 ):
     logger.info("🎯 [ENDPOINT] /scan-rapido CHAMADO!")
 
-    if not imagem.content_type.startswith('image/'):
-        logger.error("🚫 [ENDPOINT] Arquivo não é imagem")
-        raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem")
-
     try:
-        logger.info("📸 [ENDPOINT] Lendo imagem...")
+        # Lê a imagem UMA ÚNICA VEZ
         imagem_bytes = await imagem.read()
         logger.info(f"📦 [ENDPOINT] Imagem lida: {len(imagem_bytes)} bytes")
 
         # 🔥 VALIDAÇÃO ANTES de enviar para o Gemini
+        if not imagem.content_type.startswith('image/'):
+            logger.error("🚫 [ENDPOINT] Arquivo não é imagem")
+            raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem")
+
         if len(imagem_bytes) == 0:
+            logger.error("🚫 [ENDPOINT] Imagem vazia")
             raise HTTPException(status_code=400, detail="Imagem vazia")
+
         if len(imagem_bytes) > 10 * 1024 * 1024:  # 10MB
-            raise HTTPException(status_code=400, detail="Imagem muito grande")
+            logger.error("🚫 [ENDPOINT] Imagem muito grande")
+            raise HTTPException(status_code=400, detail="Imagem muito grande (máx. 10MB)")
 
         logger.info("🤖 [ENDPOINT] Chamando escanear_prato_extrair_alimentos...")
         resultado_scan = escanear_prato_extrair_alimentos(imagem_bytes)
 
-        logger.info(f"✅ [ENDPOINT] Resultado recebido: {type(resultado_scan)}")
+        logger.info(f"✅ [ENDPOINT] Resultado recebido da função de scan: {resultado_scan.get('sucesso')}")
 
-        if not isinstance(resultado_scan, dict):
-            logger.error("🚫 [ENDPOINT] Resultado não é dict")
-            raise HTTPException(status_code=500, detail="Formato inesperado da análise")
-
-        # 🔥 TRATAMENTO ESPECÍFICO PARA BLOQUEIO POR SEGURANÇA OU ERRO INTERNO DO GEMINI
-        if "erro" in resultado_scan:
-            if resultado_scan.get("bloqueada"): # Verifica se a chave 'bloqueada' é True
+        # TRATAMENTO DOS RESULTADOS DA FUNÇÃO DE VISÃO
+        if not resultado_scan.get("sucesso"):
+            if resultado_scan.get("bloqueada"):
                 logger.warning(f"🚫 [ENDPOINT] Conteúdo bloqueado pelo Gemini: {resultado_scan['erro']}")
-                # Retorna 400 Bad Request porque o problema é com o conteúdo enviado
                 raise HTTPException(status_code=400, detail=resultado_scan["erro"])
             else:
-                # Outros erros da função escanear_prato_extrair_alimentos (ex: JSON inválido, erro inesperado)
+                # Outros erros (JSON inválido, erro interno do Gemini, etc.)
                 logger.error(f"🚫 [ENDPOINT] Erro no resultado do scan: {resultado_scan['erro']}")
                 raise HTTPException(status_code=500, detail=resultado_scan["erro"])
 
-        # Se chegou aqui, não houve erro na função escanear_prato_extrair_alimentos
-        # E o resultado deve conter "sucesso": True e "conteudo"
-        if not resultado_scan.get("sucesso"):
-            logger.error(f"🚫 [ENDPOINT] Falha no scan: {resultado_scan.get('erro', 'Desconhecido')}")
-            raise HTTPException(status_code=500, detail="Falha no scan rápido")
-
+        # Se chegou aqui, o scan foi um sucesso
         logger.info("🎉 [ENDPOINT] Scan concluído com sucesso!")
         return ScanRapidoResponse(
             status="sucesso", 
             modalidade="scan_rapido",
-            resultado=resultado_scan["conteudo"], # Retorna apenas o conteúdo JSON do Gemini
+            resultado=resultado_scan["conteudo"], # Passa o conteúdo JSON parseado
             timestamp=datetime.now().isoformat()
         )
 
     except HTTPException: 
-        logger.error("🚫 [ENDPOINT] HTTPException levantada")
+        # Captura HTTPExceptions que já foram levantadas (ex: 400, 500) e as re-levanta
+        logger.warning("🚫 [ENDPOINT] HTTPException levantada e re-levantada.")
         raise
     except Exception as e:
-        logger.error(f"💥 [ENDPOINT] Exception: {str(e)}")
-        raise HTTPException(status_code=500, detail="Erro no scan: consulte os logs.")
-    
+        logger.error(f"💥 [ENDPOINT] Erro inesperado no endpoint /scan-rapido: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Erro no scan: consulte os logs do servidor para mais detalhes.")
+   
 # ---------------------------------------------------------------
 # ENDPOINT 1: SALVAR SCAN EDITADO
 # ---------------------------------------------------------------
