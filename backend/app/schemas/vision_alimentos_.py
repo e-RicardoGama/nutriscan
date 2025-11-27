@@ -80,7 +80,7 @@ class Recomendacoes(BaseModel):
     sugestoes_balanceamento: List[str]
     alternativas_saudaveis: List[str]
 
-class AnaliseCompletaResponse(BaseModel):
+class AnaliseCompletaResponseSchema(BaseModel):
     # ✅ CORREÇÃO AQUI: Mudar de Dict[str, Any] para o schema DetalhesPrato
     detalhes_prato: DetalhesPrato
     analise_nutricional: AnaliseNutricional
