@@ -74,56 +74,63 @@ async def teste_simples():
 # ---------------------------------------------------------------
 # ENDPOINT 0: SCAN RÁPIDO
 # ---------------------------------------------------------------
-@router.post("/scan-rapido", response_model=ScanRapidoResponse, summary="Realiza scan rápido") 
+@router.post("/scan-rapido", response_model=ScanRapidoResponse, summary="Realiza scan rápido")
 async def scan_rapido(
     imagem: UploadFile = File(...),
-    db: Session = Depends(get_db), 
+    db: Session = Depends(get_db),
     current_user: Usuario = Depends(get_current_user)
 ):
     logger.info("🎯 [ENDPOINT] /scan-rapido CHAMADO!")
-    
+
     if not imagem.content_type.startswith('image/'):
         logger.error("🚫 [ENDPOINT] Arquivo não é imagem")
         raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem")
-    
+
     try:
         logger.info("📸 [ENDPOINT] Lendo imagem...")
         imagem_bytes = await imagem.read()
         logger.info(f"📦 [ENDPOINT] Imagem lida: {len(imagem_bytes)} bytes")
-        
+
         # 🔥 VALIDAÇÃO ANTES de enviar para o Gemini
         if len(imagem_bytes) == 0:
             raise HTTPException(status_code=400, detail="Imagem vazia")
-            
         if len(imagem_bytes) > 10 * 1024 * 1024:  # 10MB
             raise HTTPException(status_code=400, detail="Imagem muito grande")
-        
+
         logger.info("🤖 [ENDPOINT] Chamando escanear_prato_extrair_alimentos...")
         resultado_scan = escanear_prato_extrair_alimentos(imagem_bytes)
-        
+
         logger.info(f"✅ [ENDPOINT] Resultado recebido: {type(resultado_scan)}")
-        
+
         if not isinstance(resultado_scan, dict):
             logger.error("🚫 [ENDPOINT] Resultado não é dict")
             raise HTTPException(status_code=500, detail="Formato inesperado da análise")
-        
-        # 🔥 TRATAMENTO ESPECÍFICO PARA BLOQUEIO POR SEGURANÇA
-        if "erro" in resultado_scan and "bloqueada" in resultado_scan["erro"].lower():
-            logger.error(f"🚫 [ENDPOINT] Conteúdo bloqueado: {resultado_scan['erro']}")
-            raise HTTPException(status_code=400, detail=resultado_scan["erro"])
-        
+
+        # 🔥 TRATAMENTO ESPECÍFICO PARA BLOQUEIO POR SEGURANÇA OU ERRO INTERNO DO GEMINI
         if "erro" in resultado_scan:
-            logger.error(f"🚫 [ENDPOINT] Erro no resultado: {resultado_scan['erro']}")
-            raise HTTPException(status_code=500, detail=resultado_scan["erro"])
-        
+            if resultado_scan.get("bloqueada"): # Verifica se a chave 'bloqueada' é True
+                logger.warning(f"🚫 [ENDPOINT] Conteúdo bloqueado pelo Gemini: {resultado_scan['erro']}")
+                # Retorna 400 Bad Request porque o problema é com o conteúdo enviado
+                raise HTTPException(status_code=400, detail=resultado_scan["erro"])
+            else:
+                # Outros erros da função escanear_prato_extrair_alimentos (ex: JSON inválido, erro inesperado)
+                logger.error(f"🚫 [ENDPOINT] Erro no resultado do scan: {resultado_scan['erro']}")
+                raise HTTPException(status_code=500, detail=resultado_scan["erro"])
+
+        # Se chegou aqui, não houve erro na função escanear_prato_extrair_alimentos
+        # E o resultado deve conter "sucesso": True e "conteudo"
+        if not resultado_scan.get("sucesso"):
+            logger.error(f"🚫 [ENDPOINT] Falha no scan: {resultado_scan.get('erro', 'Desconhecido')}")
+            raise HTTPException(status_code=500, detail="Falha no scan rápido")
+
         logger.info("🎉 [ENDPOINT] Scan concluído com sucesso!")
         return ScanRapidoResponse(
             status="sucesso", 
             modalidade="scan_rapido",
-            resultado=resultado_scan, 
+            resultado=resultado_scan["conteudo"], # Retorna apenas o conteúdo JSON do Gemini
             timestamp=datetime.now().isoformat()
         )
-        
+
     except HTTPException: 
         logger.error("🚫 [ENDPOINT] HTTPException levantada")
         raise

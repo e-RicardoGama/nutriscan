@@ -2,6 +2,7 @@
 # Este ficheiro APENAS fala com a API do Gemini.
 
 import os
+import io
 import json
 import re
 import logging
@@ -151,57 +152,80 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
 # =================================================================
 # ✅ FUNÇÃO 1: Scan Rápido (COM LOGS GARANTIDOS)
 # =================================================================
-def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
-    """Scan rápido com métricas detalhadas de tempo"""
-    if not gemini_model: 
-        logger.error("🚫 Gemini não configurado")
-        return {"erro": "API do Gemini não configurada."}
-    start_time = time.time()
-    logger.info("⏱️ [SCAN RÁPIDO] === INICIANDO ===")
+def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
+    """
+    Função corrigida para scan de imagem com Gemini.
+    Desabilita filtros de segurança para evitar bloqueios em imagens de comida.
+    """
     try:
-        if not conteudo_imagem: 
-            logger.error("🚫 Imagem vazia")
-            return {"erro": "Imagem vazia"}
-        # Fase 1: Carregar imagem
-        load_start = time.time()
-        img = Image.open(BytesIO(conteudo_imagem))
-        load_time = time.time() - load_start
-        logger.info(f"📸 [SCAN RÁPIDO] Imagem carregada: {load_time:.3f}s")
-        # Fase 2: Chamar API Gemini
-        api_start = time.time()
-        prompt_scan = """SCAN RÁPIDO. Retorne APENAS JSON: {"alimentos_extraidos": [{"nome", "categoria" (nutricional), "quantidade_estimada_g", "confianca" ('alta'|'media'|'baixa'), "calorias_estimadas"}], "resumo_nutricional": {"total_calorias", "total_proteinas_g", "total_carboidratos_g", "total_gorduras_g"}, "alertas": []}"""
-        response = gemini_model.generate_content(
-            [prompt_scan, img], 
+        # Configure o modelo (substitua 'gemini-2.5-flash' pelo seu modelo preferido)
+        # Certifique-se de que a API Key está configurada, por exemplo:
+        # genai.configure(api_key="SUA_API_KEY")
+        model = genai.GenerativeModel('gemini-2.5-flash')
+
+        # Carregue a imagem
+        image = Image.open(io.BytesIO(imagem_bytes))
+
+        # Configure safety settings: desabilite ou ajuste thresholds
+        # Definimos BLOCK_NONE para todas as categorias para evitar bloqueios em imagens de comida.
+        safety_settings = [
+            {"category": HarmCategory.HARM_CATEGORY_HARASSMENT, "threshold": HarmBlockThreshold.BLOCK_NONE},
+            {"category": HarmCategory.HARM_CATEGORY_HATE_SPEECH, "threshold": HarmBlockThreshold.BLOCK_NONE},
+            {"category": HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, "threshold": HarmBlockThreshold.BLOCK_NONE},
+            {"category": HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, "threshold": HarmBlockThreshold.BLOCK_NONE}
+        ]
+
+        # Prompt para análise de prato (ajuste conforme necessário)
+        # É crucial que o prompt instrua o Gemini a retornar um JSON válido.
+        prompt = """
+        Analise esta imagem de um prato de comida. Identifique os alimentos visíveis, estime porções e forneça uma análise nutricional básica.
+        Retorne estritamente em formato JSON, sem nenhum texto adicional antes ou depois do JSON.
+        Exemplo de formato JSON:
+        {"alimentos": [{"nome": "Arroz", "porcao": "150g", "calorias": "195kcal"}, {"nome": "Feijão", "porcao": "100g", "calorias": "76kcal"}], "total_calorias": "271kcal", "observacoes": "Prato balanceado com carboidratos e proteínas."}
+        """
+
+        # Chame o Gemini com imagem e safety settings
+        response = model.generate_content(
+            [prompt, image],
             generation_config=genai.types.GenerationConfig(
-                temperature=0.1,
-                max_output_tokens=1000,
-            )
+                temperature=0.7,
+                top_p=1.0,
+                top_k=40,
+                max_output_tokens=1024,
+            ),
+            safety_settings=safety_settings,
+            stream=False  # Use stream=False para resposta única
         )
-        api_time = time.time() - api_start
-        logger.info(f"🤖 [SCAN RÁPIDO] Gemini respondeu: {api_time:.3f}s")
-        if not response.text: 
-            total_time = time.time() - start_time
-            logger.error(f"🚫 [SCAN RÁPIDO] Resposta vazia - Total: {total_time:.3f}s")
-            return {"erro": "Resposta vazia da API"}
-        # Fase 3: Processar resposta
-        json_start = time.time()
-        resultado = extrair_json_da_resposta(response.text)
-        json_time = time.time() - json_start
-        total_time = time.time() - start_time
-        # 🔥 RELATÓRIO DE PERFORMANCE (SEMPRE MOSTRA)
-        alimentos_count = len(resultado.get('alimentos_extraidos', []))
-        logger.info("📊 [SCAN RÁPIDO] === RELATÓRIO ===")
-        logger.info(f"   ⏳ Carregamento: {load_time:.3f}s")
-        logger.info(f"   ⏳ API Gemini: {api_time:.3f}s")
-        logger.info(f"   ⏳ Processamento: {json_time:.3f}s")
-        logger.info(f"   🎯 TOTAL: {total_time:.3f}s")
-        logger.info(f"   🍽️ Alimentos: {alimentos_count}")
-        logger.info("✅ [SCAN RÁPIDO] === CONCLUÍDO ===")
-        return resultado
+
+        # Verifique se a resposta foi bloqueada ou está vazia
+        if not response.parts:
+            # Se não há partes na resposta, pode ter sido bloqueada ou vazia
+            blocked_details = response.candidates[0].safety_ratings if response.candidates else []
+            is_blocked = any(rating.probability == genai.types.HarmProbability.BLOCKED for rating in blocked_details)
+
+            if is_blocked:
+                # Logar os detalhes do bloqueio para depuração
+                # logger.warning(f"Gemini response blocked. Details: {blocked_details}")
+                return {"erro": "Resposta bloqueada por filtros de segurança do Gemini. Verifique o conteúdo da imagem.", "bloqueada": True}
+            else:
+                # Resposta vazia por outro motivo
+                # logger.warning("Gemini returned an empty response without explicit blocking.")
+                return {"erro": "Resposta vazia do Gemini. Pode ser um problema interno do modelo ou prompt.", "bloqueada": False}
+
+        # Tente acessar o texto da resposta
+        content = response.text
+
+        # Tente parsear o JSON. O Gemini pode retornar texto que não é JSON.
+        try:
+            resultado_json = json.loads(content)
+            return {"sucesso": True, "conteudo": resultado_json}
+        except json.JSONDecodeError:
+            # logger.error(f"Gemini returned non-JSON content: {content}")
+            return {"erro": "A resposta do Gemini não é um JSON válido.", "conteudo_bruto": content, "sucesso": False}
+
     except Exception as e:
-        total_time = time.time() - start_time
-        logger.error(f"💥 [SCAN RÁPIDO] ERRO em {total_time:.3f}s: {str(e)}")
-        return {"erro": f"Falha no scan rápido: {str(e)}"}
+        # logger.error(f"Erro inesperado na função escanear_prato_extrair_alimentos: {e}")
+        return {"erro": f"Erro no scan: {str(e)}", "sucesso": False}
 
 # =================================================================
 # ✅ FUNÇÃO 2: Dados nutricionais (COM LOGS GARANTIDOS)
