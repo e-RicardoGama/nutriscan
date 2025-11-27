@@ -265,38 +265,194 @@ async def salvar_scan_rapido_editado(
 # ---------------------------------------------------------------
 # ENDPOINT 2: ANÁLISE DETALHADA ASSÍNCRONA (OTIMIZADA)
 # ---------------------------------------------------------------
-@router.post("/analisar-detalhadamente/{meal_id}", 
+@router.post("/analisar-detalhadamente/{meal_id}",
              response_model=AnaliseCompletaResponseSchema,
-             summary="Inicia análise assíncrona")
+             summary="Analisa refeição salva por ID")
 async def analisar_refeicao_detalhadamente_por_id(
     meal_id: int,
-    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     current_user: Usuario = Depends(get_current_user)
 ):
-    # Validação rápida
-    db_refeicao = crud.get_refeicao_salva(db=db, meal_id=meal_id, user_id=current_user.id)
+    # 1. Obter a refeição e os alimentos
+    # É crucial que get_refeicao_salva carregue os relacionamentos de forma eager (ver crud.py)
+    db_refeicao: Optional[RefeicaoSalva] = crud.get_refeicao_salva(db=db, meal_id=meal_id, user_id=current_user.id)
     if not db_refeicao:
-        raise HTTPException(status_code=404, detail="Refeição não encontrada.")
-    
-    # Resposta imediata ao usuário
-    response_base = AnaliseCompletaResponseSchema(
-        detalhes_prato=DetalhesPrato(alimentos=[]),
-        analise_nutricional=AnaliseNutricional(
-            calorias_totais=0,
-            macronutrientes=Macronutrientes(proteinas_g=0, carboidratos_g=0, gorduras_g=0)
-        ),
-        recomendacoes=Recomendacoes(
-            pontos_positivos=["Análise em andamento..."],
-            sugestoes_balanceamento=[],
-            alternativas_saudaveis=[]
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Refeição não encontrada.")
+
+    alimentos_salvos: List[AlimentoSalvo] = db_refeicao.alimentos
+    if not alimentos_salvos:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Refeição sem alimentos.")
+
+    # --- Início da Lógica de Análise ---
+    lista_alimentos_para_ia = []  # Lista de dicts para a IA (recomendações)
+    detalhes_prato_resposta = []  # Lista de schemas para a resposta
+
+    total_calorias = 0.0
+    total_proteinas = 0.0
+    total_carboidratos = 0.0
+    total_gorduras = 0.0
+
+    print(f"--- Iniciando Análise Detalhada (com Auto-Aprendizagem) para Refeição ID: {meal_id} ---")
+
+    try:
+        # 2. Loop por cada alimento salvo
+        for alimento_salvo in alimentos_salvos:
+            if alimento_salvo.quantidade_estimada_g is None or alimento_salvo.quantidade_estimada_g <= 0:
+                print(f"Aviso: Pulando alimento '{alimento_salvo.nome}' por não ter quantidade.")
+                continue
+
+            # 3. ✅ MUDANÇA PRINCIPAL AQUI: Acessar os dados nutricionais do relacionamento
+            #    'alimento_detalhes' que já foi populado pelo crud.get_or_create_alimento_by_nome
+            alimento_detalhes = alimento_salvo.alimento_detalhes
+
+            if not alimento_detalhes:
+                # Este caso não deveria ocorrer se create_refeicao_salva funcionou corretamente,
+                # mas é um bom fallback para garantir que a análise não pare.
+                print(f"⚠️ Alimento '{alimento_salvo.nome}' (ID: {alimento_salvo.id}) não tem detalhes nutricionais vinculados na tabela 'alimentos'. Isso indica um problema no fluxo de criação/vinculação. Pulando este alimento para a análise de macros.")
+                continue # Pula este alimento se não há dados nutricionais vinculados
+
+            # Usar os dados já carregados do banco (TACO ou Gemini salvo anteriormente)
+            dados_nutricionais_fonte = {
+                "energia_kcal_100g": alimento_detalhes.energia_kcal_100g,
+                "proteina_g_100g": alimento_detalhes.proteina_g_100g,
+                "carboidrato_g_100g": alimento_detalhes.carboidrato_g_100g,
+                "lipidios_g_100g": alimento_detalhes.lipidios_g_100g,
+                "unidades": alimento_detalhes.unidades,
+                "un_medida_caseira": alimento_detalhes.un_medida_caseira,
+                "peso_aproximado_g": alimento_detalhes.peso_aproximado_g,
+            }
+            print(f"✅ Usando dados do banco para '{alimento_salvo.nome}' (ID Alimento: {alimento_detalhes.id})")
+
+
+            # 4. FAZER OS CÁLCULOS EM PYTHON com os dados da fonte (banco)
+            ratio = alimento_salvo.quantidade_estimada_g / 100.0
+
+            calorias_item = (dados_nutricionais_fonte.get("energia_kcal_100g") or 0) * ratio
+            proteinas_item = (dados_nutricionais_fonte.get("proteina_g_100g") or 0) * ratio
+            carboidratos_item = (dados_nutricionais_fonte.get("carboidrato_g_100g") or 0) * ratio
+            gorduras_item = (dados_nutricionais_fonte.get("lipidios_g_100g") or 0) * ratio
+
+            total_calorias += calorias_item
+            total_proteinas += proteinas_item
+            total_carboidratos += carboidratos_item
+            total_gorduras += gorduras_item
+
+            # 5. Preparar listas para a resposta e para a IA
+            detalhes_prato_resposta.append(
+                AlimentoDetalhado(
+                    nome=alimento_salvo.nome,
+                    quantidade_gramas=alimento_salvo.quantidade_estimada_g,
+                    metodo_preparo="Não especificado",
+                    # Usar os dados da fonte (banco)
+                    medida_caseira_sugerida=f"{dados_nutricionais_fonte.get('unidades') or 1} {dados_nutricionais_fonte.get('un_medida_caseira') or 'g'}"
+                )
+            )
+            lista_alimentos_para_ia.append({
+                "nome": alimento_salvo.nome,
+                "quantidade_gramas": alimento_salvo.quantidade_estimada_g
+            })
+
+        if not lista_alimentos_para_ia:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nenhum alimento com quantidade válida encontrado para análise.")
+
+        print(f"--- Fim dos Cálculos. Total Kcal: {total_calorias} ---")
+
+        # 6. CHAMAR A IA APENAS PARA RECOMENDAÇÕES (esta parte continua a mesma)
+        totais_calculados = {
+            "kcal": total_calorias,
+            "protein": total_proteinas,
+            "carbs": total_carboidratos,
+            "fats": total_gorduras
+        }
+
+        # Chama a função síncrona do vision.py
+        dados_ia = gerar_recomendacoes_detalhadas_ia(
+            lista_alimentos=lista_alimentos_para_ia,
+            totais=totais_calculados
         )
-    )
-    
-    # Processa em background
-    background_tasks.add_task(processar_analise_background, meal_id, current_user.id)
-    
-    return response_base
+
+        if "erro" in dados_ia:
+            print(f"AVISO: Falha ao gerar recomendações da IA: {dados_ia['erro']}")
+            dados_ia = {}  # Zera para os 'gets' abaixo funcionarem
+
+        # ✅ 7. SEPARAR VITAMINAS E MINERAIS (CORREÇÃO PRINCIPAL)
+        vitaminas_minerais_lista = dados_ia.get("vitaminas_minerais", [])
+
+        # Listas conhecidas de minerais (em minúsculas para comparação)
+        minerais_conhecidos = [
+            'cálcio', 'calcio', 'ferro', 'magnésio', 'magnesio', 'fósforo', 'fosforo',
+            'potássio', 'potassio', 'sódio', 'sodio', 'selênio', 'selenio', 'zinco',
+            'cobre', 'manganês', 'manganes', 'iodo', 'iodeto'
+        ]
+
+        vitaminas_separadas = []
+        minerais_separados = []
+
+        for item in vitaminas_minerais_lista:
+            texto_lower = item.lower()
+
+            # Se contém "vitamina" ou começa com "vit" => é vitamina
+            if 'vitamina' in texto_lower or texto_lower.startswith('vit'):
+                vitaminas_separadas.append(item)
+            # Se é um mineral conhecido => é mineral
+            elif any(mineral in texto_lower for mineral in minerais_conhecidos):
+                minerais_separados.append(item)
+            # Fallback: se for curto e sem espaço, provavelmente é mineral
+            elif len(texto_lower) <= 12 and ' ' not in texto_lower:
+                minerais_separados.append(item)
+            # Caso contrário, joga em vitaminas
+            else:
+                vitaminas_separadas.append(item)
+
+        print(f"DEBUG - Vitaminas separadas: {vitaminas_separadas}")
+        print(f"DEBUG - Minerais separados: {minerais_separados}")
+
+        # 8. Montar e retornar a resposta final COM VITAMINAS E MINERAIS SEPARADOS
+        resultado_analise = AnaliseCompletaResponseSchema(
+            detalhes_prato=DetalhesPrato(
+                alimentos=detalhes_prato_resposta
+            ),
+            analise_nutricional=AnaliseNutricional(
+                calorias_totais=round(total_calorias),
+                macronutrientes=Macronutrientes(
+                    proteinas_g=round(total_proteinas, 1),
+                    carboidratos_g=round(total_carboidratos, 1),
+                    gorduras_g=round(total_gorduras, 1)
+                ),
+                # ✅ CORREÇÃO: Passar as listas separadas
+                vitaminas=vitaminas_separadas if vitaminas_separadas else None,
+                minerais=minerais_separados if minerais_separados else None
+            ),
+            recomendacoes=Recomendacoes(
+                pontos_positivos=dados_ia.get("recomendacoes", {}).get("pontos_positivos", ["Análise concluída."]),
+                sugestoes_balanceamento=dados_ia.get("recomendacoes", {}).get("sugestoes_balanceamento", ["Não foi possível gerar sugestões."]),
+                alternativas_saudaveis=dados_ia.get("recomendacoes", {}).get("alternativas_saudaveis", [])
+            )
+        )
+
+        # 9. Salvar o resultado da análise no banco
+        try:
+            analysis_dict = resultado_analise.dict() if hasattr(resultado_analise, 'dict') else resultado_analise.model_dump()
+            db_refeicao.analysis_result_json = json.dumps(analysis_dict, ensure_ascii=False)
+            db.commit()
+        except Exception as e:
+            print(f"Erro ao salvar análise no banco: {e}")
+
+        # Atualizar o status
+        crud.update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_COMPLETE)
+        return resultado_analise
+
+    except Exception as e:
+        print(f"Erro análise detalhada refeição {meal_id} user {current_user.id}: {e}")
+        try:
+            crud.update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_FAILED)
+        except Exception as db_e:
+            print(f"Erro ao atualizar status FALHA refeição {meal_id}: {db_e}")
+        if isinstance(e, HTTPException):
+            raise e
+        else:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro ao realizar a análise detalhada: {e}")
+
 
 # ✅ FUNÇÃO DE BACKGROUND
 async def processar_analise_background(meal_id: int, user_id: int):
