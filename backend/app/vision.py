@@ -53,21 +53,107 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
 
 # Função 1: Scan Rápido (A sua função original, mantida)
 def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
-    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+    """
+    Executa o scan rápido da imagem e SEMPRE retorna neste formato:
+
+    {
+        "sucesso": bool,
+        "erro": str | None,
+        "bloqueada": bool,
+        "conteudo": dict | None   # JSON com alimentos_extraidos, resumo_nutricional, alertas, etc.
+    }
+    """
+    # 1) Falta de modelo
+    if not gemini_model:
+        return {
+            "sucesso": False,
+            "erro": "API do Gemini não configurada.",
+            "bloqueada": False,
+            "conteudo": None,
+        }
+
     try:
-        if not conteudo_imagem: return {"erro": "Imagem vazia"}
-        prompt_scan = """SCAN RÁPIDO. Retorne APENAS JSON: {"alimentos_extraidos": [{"nome", "categoria" (nutricional), "quantidade_estimada_g", "confianca" ('alta'|'media'|'baixa'), "calorias_estimadas"}], "resumo_nutricional": {"total_calorias", "total_proteinas_g", "total_carboidratos_g", "total_gorduras_g"}, "alertas": []}"""
+        # 2) Falta de imagem
+        if not conteudo_imagem:
+            return {
+                "sucesso": False,
+                "erro": "Imagem vazia",
+                "bloqueada": False,
+                "conteudo": None,
+            }
+
+        prompt_scan = """
+        SCAN RÁPIDO.
+        Retorne APENAS JSON neste formato exato:
+
+        {
+          "alimentos_extraidos": [
+            {
+              "nome": "string",
+              "categoria": "string (nutricional)",
+              "quantidade_estimada_g": "number",
+              "confianca": "alta" | "media" | "baixa",
+              "calorias_estimadas": "number"
+            }
+          ],
+          "resumo_nutricional": {
+            "total_calorias": "number",
+            "total_proteinas_g": "number",
+            "total_carboidratos_g": "number",
+            "total_gorduras_g": "number"
+          },
+          "alertas": ["string"]
+        }
+
+        NADA de texto fora do JSON.
+        """
+
         logger.info("Processando SCAN rápido...")
         img = Image.open(BytesIO(conteudo_imagem))
-        response = gemini_model.generate_content([prompt_scan, img], generation_config=genai.types.GenerationConfig(temperature=0.1))
-        if not response.text: return {"erro": "Resposta vazia da API"}
+
+        response = gemini_model.generate_content(
+            [prompt_scan, img],
+            generation_config=genai.types.GenerationConfig(temperature=0.1),
+        )
+
+        # 3) Verificação básica da resposta
+        if not getattr(response, "text", None):
+            return {
+                "sucesso": False,
+                "erro": "Resposta vazia da API do Gemini.",
+                "bloqueada": False,
+                "conteudo": None,
+            }
+
         logger.info(f"Resposta bruta Gemini (scan rápido): {response.text}")
-        resultado = extrair_json_da_resposta(response.text)
-        logger.info(f"Resultado processado (scan rápido): {resultado}")
-        return resultado
+        resultado_json = extrair_json_da_resposta(response.text)
+        logger.info(f"Resultado processado (scan rápido): {resultado_json}")
+
+        # 4) Se a função de extração já sinalizou erro
+        if isinstance(resultado_json, dict) and "erro" in resultado_json:
+            return {
+                "sucesso": False,
+                "erro": resultado_json["erro"],
+                "bloqueada": False,
+                "conteudo": None,
+            }
+
+        # 5) Sucesso
+        return {
+            "sucesso": True,
+            "erro": None,
+            "bloqueada": False,
+            "conteudo": resultado_json,
+        }
+
     except Exception as e:
-        logger.error(f"Erro no scan rápido: {e}")
-        return {"erro": f"Falha no scan rápido: {str(e)}"}
+        logger.error(f"Erro no scan rápido: {e}", exc_info=True)
+        return {
+            "sucesso": False,
+            "erro": f"Falha no scan rápido: {str(e)}",
+            "bloqueada": False,
+            "conteudo": None,
+        }
 
 
 # =================================================================

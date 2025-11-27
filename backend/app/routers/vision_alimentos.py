@@ -112,18 +112,31 @@ async def scan_rapido(
         # ------------------------------------------------------
         logger.debug(f"🔎 [ENDPOINT] Resultado bruto do scan (DEBUG): {resultado_scan}")
 
-        # ------------------------------------------------------
+                # ------------------------------------------------------
         # 5) Validação da estrutura de resultado_scan
         # ------------------------------------------------------
         if not isinstance(resultado_scan, dict):
-            logger.error("❌ [ENDPOINT] resultado_scan não é um dicionário válido")
-            raise HTTPException(status_code=500, detail="Erro interno: resposta inválida do serviço de visão")
+            logger.error(
+                "❌ [ENDPOINT] resultado_scan não é um dicionário válido "
+                f"(tipo={type(resultado_scan)}) -> {resultado_scan}"
+            )
+            raise HTTPException(
+                status_code=500,
+                detail="Erro interno: resposta inválida do serviço de visão"
+            )
 
         # Chaves mínimas esperadas
-        for chave in ["sucesso", "erro", "bloqueada", "conteudo"]:
-            if chave not in resultado_scan:
-                logger.error(f"❌ [ENDPOINT] Chave ausente em resultado_scan: {chave}")
-                raise HTTPException(status_code=500, detail="Erro interno: resposta incompleta do serviço de visão")
+        chaves_esperadas = ["sucesso", "erro", "bloqueada", "conteudo"]
+        faltando = [c for c in chaves_esperadas if c not in resultado_scan]
+        if faltando:
+            logger.error(
+                f"❌ [ENDPOINT] Chaves ausentes em resultado_scan: {faltando} | "
+                f"resultado_scan={resultado_scan}"
+            )
+            raise HTTPException(
+                status_code=500,
+                detail="Erro interno: resposta incompleta do serviço de visão"
+            )
 
         # ------------------------------------------------------
         # 6) Tratamento dos erros vindos do Gemini
@@ -131,7 +144,9 @@ async def scan_rapido(
         if not resultado_scan.get("sucesso"):
             # Conteúdo bloqueado
             if resultado_scan.get("bloqueada"):
-                logger.warning(f"🚫 [ENDPOINT] Conteúdo bloqueado pelo Gemini: {resultado_scan.get('erro')}")
+                logger.warning(
+                    f"🚫 [ENDPOINT] Conteúdo bloqueado pelo Gemini: {resultado_scan.get('erro')}"
+                )
                 raise HTTPException(status_code=400, detail="Conteúdo bloqueado")
 
             # Erro interno do Gemini / parsing / JSON vazio
@@ -140,6 +155,7 @@ async def scan_rapido(
                 status_code=500,
                 detail="Não foi possível processar a imagem. Tente novamente."
             )
+
 
         # ------------------------------------------------------
         # 7) Validação do conteúdo final
