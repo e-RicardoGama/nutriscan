@@ -153,19 +153,13 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
 # ✅ FUNÇÃO 1: Scan Rápido (COM LOGS GARANTIDOS)
 # =================================================================
 def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
-    """
-    Versão revisada e robusta da função de scan com Gemini.
-    Retorna: {sucesso, erro, bloqueada, conteudo}
-    """
     try:
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         model = genai.GenerativeModel("gemini-2.5-flash")
 
-        # Carregar imagem (com erro tratado)
         try:
             image = Image.open(io.BytesIO(imagem_bytes))
         except Exception:
-            logger.error("❌ Não foi possível abrir a imagem com PIL.")
             return {
                 "sucesso": False,
                 "erro": "Arquivo não é uma imagem válida.",
@@ -173,11 +167,9 @@ def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
             }
 
         prompt = """
-        Você é um assistente de nutrição especializado...
-        (seu prompt permanece exatamente igual)
+        (seu prompt aqui sem alterações)
         """
 
-        # Configurações
         safety_settings = [
             {"category": HarmCategory.HARM_CATEGORY_HARASSMENT,          "threshold": HarmBlockThreshold.BLOCK_NONE},
             {"category": HarmCategory.HARM_CATEGORY_HATE_SPEECH,         "threshold": HarmBlockThreshold.BLOCK_NONE},
@@ -185,64 +177,43 @@ def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
             {"category": HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,   "threshold": HarmBlockThreshold.BLOCK_NONE},
         ]
 
-        logger.info("Chamando Gemini API com segurança BLOCK_NONE...")
+        logger.info("Chamando Gemini API...")
 
-        # Timeout de 15 segundos
-        with genai.types.Timeout(15):
-            response = model.generate_content(
-                [prompt, image],
-                generation_config=genai.types.GenerationConfig(
-                    temperature=0.3,
-                    max_output_tokens=1024
-                ),
-                safety_settings=safety_settings,
-                stream=False
-            )
+        # ✔ sem Timeout inválido
+        response = model.generate_content(
+            [prompt, image],
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.3,
+                max_output_tokens=1024
+            ),
+            safety_settings=safety_settings,
+            stream=False
+        )
 
-        # DEBUG completo
-        logger.debug(f"🔎 Resposta bruta do Gemini: {response}")
+        logger.debug(f"Resposta bruta Gemini (DEBUG): {response}")
 
-        # ------------------------
-        # 1. Validar candidatos
-        # ------------------------
+        # 1) Validar candidatos
         if not response.candidates:
-            logger.error("❌ Gemini retornou 0 candidatos.")
-
-            if getattr(response, "prompt_feedback", None):
-                if getattr(response.prompt_feedback, "blocked", False):
-                    logger.error("🚫 Conteúdo bloqueado pelo Gemini.")
-                    return {
-                        "sucesso": False,
-                        "erro": "Conteúdo bloqueado pelo Gemini.",
-                        "bloqueada": True
-                    }
-
             return {
                 "sucesso": False,
                 "erro": "Resposta vazia do Gemini.",
                 "bloqueada": False
             }
 
-        # ------------------------
-        # 2. Validar texto gerado
-        # ------------------------
+        # 2) Validar texto
         texto = (response.text or "").strip()
 
         if not texto:
-            logger.error("❌ Gemini retornou candidatos mas nenhum texto.")
             return {
                 "sucesso": False,
-                "erro": "Gemini não gerou texto.",
+                "erro": "Gemini não gerou conteúdo.",
                 "bloqueada": False
             }
 
-        # ------------------------
-        # 3. Tentar parsear JSON
-        # ------------------------
+        # 3) JSON
         try:
             resultado_json = json.loads(texto)
-        except json.JSONDecodeError:
-            logger.error("❌ Conteúdo não é JSON válido.")
+        except:
             return {
                 "sucesso": False,
                 "erro": "A resposta do Gemini não é JSON válido.",
@@ -250,18 +221,15 @@ def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> dict:
                 "bloqueada": False
             }
 
-        logger.info("✅ JSON parseado com sucesso pelo Gemini.")
         return {"sucesso": True, "conteudo": resultado_json}
 
     except Exception as e:
-        logger.error(f"💥 Erro inesperado na função de visão: {e}", exc_info=True)
+        logger.error(f"Erro inesperado: {e}", exc_info=True)
         return {
             "sucesso": False,
-            "erro": f"Erro inesperado: {e}",
+            "erro": str(e),
             "bloqueada": False
         }
-
-
 
 # =================================================================
 # ✅ FUNÇÃO 2: Dados nutricionais (COM LOGS GARANTIDOS)
