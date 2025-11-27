@@ -80,16 +80,22 @@ class Recomendacoes(BaseModel):
     sugestoes_balanceamento: List[str]
     alternativas_saudaveis: List[str]
 
-class AnaliseCompletaResponseSchema(BaseModel):
-    # ✅ CORREÇÃO AQUI: Mudar de Dict[str, Any] para o schema DetalhesPrato
+# ---------------------------------------------------------------
+# ANALISE COMPLETA – O SCHEMA DE RESPOSTA FINAL
+# ---------------------------------------------------------------
+
+class AnaliseCompletaResponse(BaseModel):
+    """
+    Schema completo para a resposta da análise detalhada de uma refeição.
+    Combina todos os aspectos da análise: detalhes do prato, nutrição e recomendações.
+    """
     detalhes_prato: DetalhesPrato
     analise_nutricional: AnaliseNutricional
-    # ✅ CORREÇÃO AQUI: Mudar de Dict[str, Any] para o schema Recomendacoes
     recomendacoes: Recomendacoes
-    timestamp: Optional[datetime] = None
+    timestamp: Optional[datetime] = Field(default_factory=datetime.now) # Adiciona um timestamp padrão
 
     class Config:
-        from_attributes = True
+        from_attributes = True # Permite criar o modelo a partir de atributos de objetos ORM
 
 class AlimentoPublic(BaseModel):
     id: int

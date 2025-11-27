@@ -22,7 +22,16 @@ logger = logging.getLogger(__name__)
 from app.models.refeicoes import RefeicaoSalva, AlimentoSalvo, RefeicaoStatus
 from app.models.usuario import Usuario
 from app.models.alimentos import Alimento
-from app.schemas.vision_alimentos_ import RefeicaoSalvaCreate
+from app.schemas.vision_alimentos_ import (
+    RefeicaoSalvaCreate,
+    AnaliseCompletaResponse as AnaliseCompletaResponseSchema,
+    DetalhesPrato,
+    AnaliseNutricional,
+    Macronutrientes,
+    Recomendacoes,
+    AlimentoDetalhado
+)
+
 from app.vision import fetch_gemini_nutritional_data, gerar_recomendacoes_detalhadas_ia
 
 # Configuração do Redis
