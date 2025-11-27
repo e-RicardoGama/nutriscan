@@ -331,6 +331,64 @@ def escanear_prato_extrair_alimentos(imagem_bytes: bytes) -> Dict[str, Any]:
         elapsed = time.time() - start
         logger.debug(f"escanear_prato_extrair_alimentos tempo: {elapsed:.3f}s")
 
+# =================================================================
+# ✅ FUNÇÃO 3: Obter APENAS recomendações
+# =================================================================
+def gerar_recomendacoes_detalhadas_ia(
+    lista_alimentos: List[Dict[str, Any]], 
+    totais: Dict[str, float]
+) -> Dict[str, Any]:
+    """
+    Recebe a lista de alimentos e os TOTAIS CALCULADOS (pelo Python).
+    Usa o Gemini para gerar APENAS as recomendações e vitaminas.
+    """
+    if not gemini_model: return {"erro": "API do Gemini não configurada."}
+
+    if not lista_alimentos:
+        logger.error("Tentativa de analisar lista de alimentos vazia.")
+        return {"erro": "A lista de alimentos para análise está vazia."}
+
+    alimentos_str = "\n".join([f"- {item['nome']}: {item['quantidade_gramas']}g" for item in lista_alimentos])
+    totais_str = f"""
+    - Calorias Totais: {totais.get('kcal', 0):.0f} kcal
+    - Proteínas Totais: {totais.get('protein', 0):.1f} g
+    - Carboidratos Totais: {totais.get('carbs', 0):.1f} g
+    - Gorduras Totais: {totais.get('fats', 0):.1f} g
+    """
+
+    prompt_lista = f"""Você é um nutricionista especialista. Analise esta refeição com base nos alimentos e nos seus totais nutricionais.
+    
+Lista de Alimentos:
+{alimentos_str}
+
+Totais Nutricionais da Refeição:
+{totais_str}
+
+Forneça APENAS um objeto JSON com as seguintes chaves:
+{{
+  "vitaminas_minerais": ["string (principais vitaminas e minerais inferidos da lista de alimentos)"], 
+  "recomendacoes": {{ 
+    "pontos_positivos": ["string (aspectos bons da combinação)"], 
+    "sugestoes_balanceamento": ["string (o que poderia melhorar com base nos totais e alimentos)"], 
+    "alternativas_saudaveis": ["string (sugestões de trocas)"] 
+  }}
+}}
+"""
+    try:
+        logger.info(f"-> Enviando lista de alimentos para obter RECOMENDAÇÕES...")
+        response = gemini_model.generate_content(prompt_lista)
+        
+        logger.info(f"Resposta bruta Gemini (recomendações): {response.text}")
+        resultado = extrair_json_da_resposta(response.text)
+        logger.info(f"Resultado processado (recomendações): {resultado}")
+
+        return resultado
+        
+    except Exception as e:
+        logger.error(f"ERRO: Falha na comunicação com a API do Gemini (recomendações): {e}")
+        return {"erro": "Desculpe, não foi possível gerar as recomendações no momento."}
+
+
 def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> Dict[str, Any]:
     """Versão mais completa / detalhada — retorna JSON com 'detalhes_prato' etc."""
     if not gemini_model:
