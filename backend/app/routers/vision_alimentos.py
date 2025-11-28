@@ -430,13 +430,17 @@ async def analisar_refeicao_detalhadamente_por_id(
             )
         )
 
-        # 9. Salvar o resultado da análise no banco
+        # 9. Salvar o resultado da análise no banco (Pydantic v2 Correto)
         try:
-            analysis_dict = resultado_analise.dict() if hasattr(resultado_analise, 'dict') else resultado_analise.model_dump()
-            db_refeicao.analysis_result_json = json.dumps(analysis_dict, ensure_ascii=False)
+            analysis_dict = resultado_analise.model_dump()  # Pydantic v2
+            db_refeicao.analysis_result_json = json.dumps(
+                analysis_dict,
+                ensure_ascii=False,
+                indent=2
+            )
             db.commit()
         except Exception as e:
-            print(f"Erro ao salvar análise no banco: {e}")
+            logger.error(f"Erro ao salvar análise no banco (meal_id={meal_id}): {e}")
 
         # Atualizar o status
         crud.update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_COMPLETE)
