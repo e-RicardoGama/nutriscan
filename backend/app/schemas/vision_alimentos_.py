@@ -141,3 +141,24 @@ class RefeicaoResumoHoje(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# ---------------------------------------------------------------
+# ANALISE COMPLETA – O SCHEMA DE RESPOSTA FINAL
+# ---------------------------------------------------------------
+
+class AlimentoPublic(BaseModel):
+    id: int
+    alimento: str
+    alimento_normalizado: str
+    categoria: str
+    energia_kcal_100g: Optional[float] = None
+    proteina_g_100g: Optional[float] = None
+    carboidrato_g_100g: Optional[float] = None
+    lipidios_g_100g: Optional[float] = None
+    fibra_g_100g: Optional[float] = None
+    medida_caseira_unidade: Optional[str] = None
+    medida_caseira_gramas_por_unidade: Optional[float] = None
+
+    class Config:
+        from_attributes = True # ou orm_mode = True para Pydantic v1
