@@ -10,7 +10,7 @@ import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import time
 import threading
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 import logging
 
@@ -462,9 +462,9 @@ def get_refeicao_salva(db: Session, meal_id: int, user_id: int) -> Optional[Refe
         joinedload(RefeicaoSalva.alimentos).joinedload(AlimentoSalvo.alimento_detalhes)
     ).first()
 
-def update_refeicao_status(db: Session, db_refeicao: RefeicaoSalva, status: RefeicaoStatus) -> RefeicaoSalva:
+def update_refeicao_status(db: Session, db_refeicao: RefeicaoSalva, status: RefeicaoStatus):
     db_refeicao.status = status
-    db_refeicao.updated_at = datetime.now()
+    db_refeicao.updated_at = datetime.now(timezone.utc)  
     db.commit()
     db.refresh(db_refeicao)
     return db_refeicao
@@ -595,3 +595,10 @@ def enriquecer_refeicao_com_analise(refeicao: RefeicaoSalva) -> dict:
         resultado["tipo"] = "Lanche da Madrugada"
 
     return resultado
+
+def salvar_analise(db, refeicao, analysis_result):
+    refeicao.analysis_result_json = json.dumps(analysis_result, default=str)
+    db.commit()
+    db.refresh(refeicao)
+    return refeicao
+
