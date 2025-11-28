@@ -1,17 +1,16 @@
 # app/crud.py
-
 import os
 import json
 import redis
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func, cast, Date
+from sqlalchemy import func
 from typing import Optional, List, Dict, Any
 from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_exception_type
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import time
 import threading
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import logging
 
@@ -35,7 +34,7 @@ from app.schemas.vision_alimentos_ import (
 from app.vision import fetch_gemini_nutritional_data, gerar_recomendacoes_detalhadas_ia
 
 # Configuração do Redis
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379") # Pega do ambiente ou usa localhost para dev
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")  # Pega do ambiente ou usa localhost para dev
 redis_client = None
 
 def get_redis_client():
@@ -44,15 +43,15 @@ def get_redis_client():
     if redis_client is None:
         try:
             redis_client = redis.from_url(REDIS_URL, decode_responses=True)
-            redis_client.ping() # Testa a conexão
+            redis_client.ping()  # Testa a conexão
             print("Conexão com Redis estabelecida com sucesso!")
         except redis.exceptions.ConnectionError as e:
             print(f"Erro ao conectar ao Redis: {e}. O cache Redis não será utilizado.")
-            redis_client = None # Garante que não tentaremos usar um cliente falho
+            redis_client = None  # Garante que não tentaremos usar um cliente falho
     return redis_client
 
 
-REDIS_CACHE_TTL_SECONDS = 3600 # 1 hora de cache para alimentos comuns
+REDIS_CACHE_TTL_SECONDS = 3600  # 1 hora de cache para alimentos comuns
 
 def set_cache(key: str, value: Any, ttl: int = REDIS_CACHE_TTL_SECONDS) -> None:
     """Salva um valor no cache Redis."""
@@ -60,8 +59,7 @@ def set_cache(key: str, value: Any, ttl: int = REDIS_CACHE_TTL_SECONDS) -> None:
     if client:
         try:
             # Redis armazena strings, então convertemos o valor para JSON
-            client.setex(key, ttl, json.dumps(value))
-            # print(f"Cache set para chave: {key}") # Para debug, pode remover depois
+            client.setex(key, ttl, json.dumps(value, default=str))
         except Exception as e:
             print(f"Erro ao salvar no cache Redis para chave {key}: {e}")
 
@@ -71,11 +69,8 @@ def get_cache(key: str) -> Optional[Any]:
     if client:
         try:
             cached_value = client.get(key)
-            if cached_value:
-                # Se encontrou, decodifica de JSON para o tipo Python original
-                # print(f"Cache hit para chave: {key}") # Para debug, pode remover depois
+            if cached_value is not None:
                 return json.loads(cached_value)
-            # print(f"Cache miss para chave: {key}") # Para debug, pode remover depois
         except Exception as e:
             print(f"Erro ao recuperar do cache Redis para chave {key}: {e}")
     return None
@@ -86,14 +81,13 @@ def delete_cache(key: str) -> None:
     if client:
         try:
             client.delete(key)
-            # print(f"Cache deletado para chave: {key}") # Para debug, pode remover depois
         except Exception as e:
             print(f"Erro ao deletar do cache Redis para chave {key}: {e}")
 
 
 # --- CACHE E RATE LIMITING ---
 _cache_lock = threading.RLock()
-_alimento_cache = {}
+_alimento_cache: Dict[str, Optional[Alimento]] = {}
 _last_gemini_call = 0
 GEMINI_RATE_LIMIT = 0.5  # 500ms entre chamadas
 
@@ -127,42 +121,43 @@ def bulk_get_alimentos_data(db: Session, nomes_alimentos: List[str]) -> Dict[str
         return {}
     
     nomes_normalizados = [normalizar_nome_alimento(nome) for nome in nomes_alimentos]
-    
+    # Consulta usando lower comparando com a coluna alimento_normalizado
     alimentos = db.query(Alimento).filter(
         func.lower(Alimento.alimento_normalizado).in_([n.lower() for n in nomes_normalizados])
     ).all()
-    
-    return {normalizar_nome_alimento(alimento.alimento): alimento for alimento in alimentos}
+    # Mapeia pela chave normalizada (alimento_normalizado)
+    return {normalizar_nome_alimento(alimento.alimento_normalizado): alimento for alimento in alimentos}
 
 def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo: bool = True) -> Optional[Alimento]:
     """Versão otimizada com cache Redis, cache em memória e rate limiting."""
     nome_normalizado = normalizar_nome_alimento(nome)
-    cache_key = f"alimento:{nome_normalizado}" # Chave para o cache Redis
+    cache_key = f"alimento:{nome_normalizado}"  # Chave para o cache Redis
 
     # 1. Tenta buscar no cache Redis (primeira e mais rápida verificação)
     cached_redis_data = get_cache(cache_key)
     if cached_redis_data is not None:
-        # Se encontrou no Redis, tenta reconstruir o objeto Alimento
-        # Isso é importante porque o Redis armazena JSON, não objetos SQLAlchemy
         try:
-            # Assumimos que cached_redis_data é um dicionário com os atributos do Alimento
-            # Criamos uma instância temporária de Alimento para retornar
+            # Tentamos recriar um objeto Alimento apenas com os campos retornados do cache.
+            # Se cached_redis_data for None (indica ausência), retornar None.
+            if cached_redis_data is None:
+                return None
+            # Caso o cache contenha um dicionário com os campos do Alimento:
             alimento_from_cache = Alimento(**cached_redis_data)
             logger.info(f"✅ Cache Redis hit: '{nome}'")
             return alimento_from_cache
         except Exception as e:
             logger.error(f"❌ Erro ao desserializar alimento do Redis para '{nome}': {e}. Invalidando cache.")
-            delete_cache(cache_key) # Invalida o cache se houver erro de desserialização
-            # Continua para buscar no banco de dados
+            delete_cache(cache_key)  # Invalida o cache se houver erro de desserialização
 
     # 2. Tenta buscar no cache em memória (fallback para Redis indisponível ou erro)
-    # Mantemos o cache em memória como uma camada secundária, mas o Redis é prioritário
     with _cache_lock:
         if nome_normalizado in _alimento_cache:
             cached_in_memory = _alimento_cache[nome_normalizado]
             if cached_in_memory is not None:
                 logger.info(f"✅ Cache em memória hit: '{nome}'")
                 return cached_in_memory
+            else:
+                return None
 
     # 3. Busca no banco de dados
     alimento_existente = db.query(Alimento).filter(
@@ -173,7 +168,19 @@ def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo:
         # Se encontrou no banco, salva no cache em memória e no Redis
         with _cache_lock:
             _alimento_cache[nome_normalizado] = alimento_existente
-        set_cache(cache_key, alimento_existente.to_dict()) # Salva no Redis (convertendo para dict)
+        try:
+            set_cache(cache_key, alimento_existente.to_dict())
+        except Exception:
+            # se to_dict não existir, tente serializar campos básicos
+            try:
+                set_cache(cache_key, {
+                    "id": alimento_existente.id,
+                    "alimento": getattr(alimento_existente, "alimento", None),
+                    "alimento_normalizado": getattr(alimento_existente, "alimento_normalizado", None),
+                    "energia_kcal_100g": getattr(alimento_existente, "energia_kcal_100g", None),
+                })
+            except Exception:
+                pass
         logger.info(f"✅ Alimento encontrado no DB e cacheado: '{nome}'")
         return alimento_existente
 
@@ -186,20 +193,19 @@ def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo:
 
         dados_ia = fetch_gemini_nutritional_data(nome)
 
-        if "erro" in dados_ia:
-            logger.error(f"❌ Erro ao obter dados do Gemini para '{nome}': {dados_ia.get('erro')}")
+        if not dados_ia or "erro" in dados_ia:
+            logger.error(f"❌ Erro ao obter dados do Gemini para '{nome}': {dados_ia.get('erro') if isinstance(dados_ia, dict) else dados_ia}")
             # Cacheia a ausência para evitar chamadas repetidas ao Gemini para o mesmo alimento não encontrado
             with _cache_lock:
                 _alimento_cache[nome_normalizado] = None
-            set_cache(cache_key, None) # Cacheia a ausência no Redis também
+            set_cache(cache_key, None)  # Cacheia a ausência no Redis também
             return None
 
-        # Cria novo alimento
+        # Cria novo alimento (observe: usamos o campo correto 'alimento' — **não** 'alimentos')
         try:
             novo_alimento = Alimento(
                 categoria=dados_ia.get("categoria", "Outros"),
                 alimento_normalizado=nome_normalizado,
-                alimentos=nome,
                 alimento=dados_ia.get("alimento", nome),
                 energia_kcal_100g=float(dados_ia.get("energia_kcal_100g", 0) or 0),
                 proteina_g_100g=float(dados_ia.get("proteina_g_100g", 0) or 0),
@@ -227,7 +233,18 @@ def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo:
             # Salva o novo alimento no cache em memória e no Redis
             with _cache_lock:
                 _alimento_cache[nome_normalizado] = novo_alimento
-            set_cache(cache_key, novo_alimento.to_dict()) # Salva no Redis
+            try:
+                set_cache(cache_key, novo_alimento.to_dict())
+            except Exception:
+                try:
+                    set_cache(cache_key, {
+                        "id": novo_alimento.id,
+                        "alimento": novo_alimento.alimento,
+                        "alimento_normalizado": novo_alimento.alimento_normalizado,
+                        "energia_kcal_100g": novo_alimento.energia_kcal_100g,
+                    })
+                except Exception:
+                    pass
 
             logger.info(f"✅ Novo alimento criado e salvo: '{nome}' (ID: {novo_alimento.id})")
             return novo_alimento
@@ -238,13 +255,13 @@ def get_or_create_alimento_by_nome_optimized(db: Session, nome: str, criar_novo:
             # Cacheia a ausência em caso de erro na criação
             with _cache_lock:
                 _alimento_cache[nome_normalizado] = None
-            set_cache(cache_key, None) # Cacheia a ausência no Redis
+            set_cache(cache_key, None)  # Cacheia a ausência no Redis
             return None
 
     # Se não encontrou em nenhum lugar e não pode criar, cacheia a ausência
     with _cache_lock:
         _alimento_cache[nome_normalizado] = None
-    set_cache(cache_key, None) # Cacheia a ausência no Redis
+    set_cache(cache_key, None)  # Cacheia a ausência no Redis
     return None
 
 # --- CRUD OTIMIZADO PARA REFEIÇÕES ---
@@ -265,10 +282,11 @@ def create_refeicao_salva(db: Session, refeicao_data: RefeicaoSalvaCreate, user_
     # 2️⃣ BULK LOADING: Busca todos os alimentos de uma vez
     todos_nomes = [alimento.nome for alimento in refeicao_data.alimentos]
     alimentos_map = bulk_get_alimentos_data(db, todos_nomes)
-    
+
     # 3️⃣ Processa cada alimento com dados já carregados
     alimentos_processados = []
     for i, alimento_data in enumerate(refeicao_data.alimentos):
+        nome_alimento = ""
         try:
             if hasattr(alimento_data, 'model_dump'):
                 payload = alimento_data.model_dump()
@@ -276,17 +294,18 @@ def create_refeicao_salva(db: Session, refeicao_data: RefeicaoSalvaCreate, user_
                 payload = alimento_data.dict()
 
             nome_alimento = payload.get("nome", "")
-            
+            nome_normalizado = normalizar_nome_alimento(nome_alimento)
+
             # Busca no cache/map primeiro
-            alimento_registro = alimentos_map.get(normalizar_nome_alimento(nome_alimento))
-            
+            alimento_registro = alimentos_map.get(nome_normalizado)
+
             # Se não encontrou, tenta criar (com cache)
             if not alimento_registro:
                 alimento_registro = get_or_create_alimento_by_nome_optimized(db, nome_alimento, criar_novo=True)
-            
+
             alimento_id = alimento_registro.id if alimento_registro else None
 
-            # Cria AlimentoSalvo
+            # Cria AlimentoSalvo (payload deve conter os campos esperados pelo model)
             db_alimento_salvo = AlimentoSalvo(
                 **payload,
                 refeicao_id=db_refeicao.id,
@@ -322,7 +341,7 @@ async def processar_analise_completa(db: Session, meal_id: int, user_id: int):
     """Processa a análise completa em background"""
     try:
         logger.info(f"🔄 Iniciando análise em background para meal_id: {meal_id}")
-        
+
         db_refeicao = get_refeicao_salva(db=db, meal_id=meal_id, user_id=user_id)
         if not db_refeicao:
             logger.error(f"❌ Refeição {meal_id} não encontrada para análise em background")
@@ -333,10 +352,10 @@ async def processar_analise_completa(db: Session, meal_id: int, user_id: int):
             logger.error(f"❌ Refeição {meal_id} sem alimentos para análise")
             return
 
-        # Lógica de análise (igual à sua versão anterior, mas mais rápida)
+        # Lógica de análise
         lista_alimentos_para_ia = []
         detalhes_prato_resposta = []
-        
+
         total_calorias = 0.0
         total_proteinas = 0.0
         total_carboidratos = 0.0
@@ -348,6 +367,7 @@ async def processar_analise_completa(db: Session, meal_id: int, user_id: int):
 
             alimento_detalhes = alimento_salvo.alimento_detalhes
             if not alimento_detalhes:
+                # Se não houver detalhes nutricionais, pular (evita crash)
                 continue
 
             # Cálculos rápidos
@@ -363,13 +383,18 @@ async def processar_analise_completa(db: Session, meal_id: int, user_id: int):
                 "metodo_preparo": "Não especificado",
                 "medida_caseira_sugerida": f"{alimento_detalhes.unidades or 1} {alimento_detalhes.un_medida_caseira or 'g'}"
             })
-            
+
             lista_alimentos_para_ia.append({
                 "nome": alimento_salvo.nome,
                 "quantidade_gramas": alimento_salvo.quantidade_estimada_g
             })
 
-        # Gera recomendações
+        if not lista_alimentos_para_ia:
+            logger.warning(f"⚠️ Nenhum alimento válido para análise em meal_id {meal_id}")
+            update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_FAILED)
+            return
+
+        # Gera recomendações via IA (síncrono)
         totais_calculados = {
             "kcal": total_calorias,
             "protein": total_proteinas,
@@ -382,12 +407,7 @@ async def processar_analise_completa(db: Session, meal_id: int, user_id: int):
             totais=totais_calculados
         )
 
-        # Monta resposta final
-        from app.schemas.vision_alimentos_ import (
-            AnaliseCompletaResponseSchema, DetalhesPrato, AnaliseNutricional, 
-            Macronutrientes, Recomendacoes, AlimentoDetalhado
-        )
-
+        # Monta resposta final com os schemas
         resultado_analise = AnaliseCompletaResponseSchema(
             detalhes_prato=DetalhesPrato(
                 alimentos=[AlimentoDetalhado(**item) for item in detalhes_prato_resposta]
@@ -409,15 +429,28 @@ async def processar_analise_completa(db: Session, meal_id: int, user_id: int):
 
         # Salva no banco
         analysis_dict = resultado_analise.model_dump()
-        db_refeicao.analysis_result_json = json.dumps(analysis_dict, ensure_ascii=False)
+        db_refeicao.analysis_result_json = json.dumps(analysis_dict, ensure_ascii=False, default=str)
+
+        # Commit + refresh antes de atualizar status
+        db.commit()
+        db.refresh(db_refeicao)
+
+        # atualiza status para complete corretamente
         update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_COMPLETE)
-        
+
         logger.info(f"✅ Análise em background concluída para meal_id: {meal_id}")
 
     except Exception as e:
-        logger.error(f"❌ Erro na análise em background para meal_id {meal_id}: {e}")
+        logger.error(f"❌ Erro na análise em background para meal_id {meal_id}: {e}", exc_info=True)
+        try:
+            db.rollback()
+        except Exception:
+            pass
         if 'db_refeicao' in locals():
-            update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_FAILED)
+            try:
+                update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_FAILED)
+            except Exception as status_err:
+                logger.error(f"Erro ao marcar refeição como FAILED (meal_id={meal_id}): {status_err}")
 
 # --- FUNÇÕES EXISTENTES (MANTIDAS) ---
 
@@ -529,7 +562,7 @@ def enriquecer_refeicao_com_analise(refeicao: RefeicaoSalva) -> dict:
         alimentos_vinculados = 0
         alimentos_sem_vinculo = 0
         alimentos_principais = []
-        
+
         for alimento in refeicao.alimentos[:3]:
             alimentos_principais.append(alimento.nome)
             if alimento.alimento_id:
