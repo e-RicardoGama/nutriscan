@@ -436,11 +436,14 @@ async def analisar_refeicao_detalhadamente_por_id(
             db_refeicao.analysis_result_json = json.dumps(
                 analysis_dict,
                 ensure_ascii=False,
-                indent=2
+                indent=2,
+                default=str 
             )
             db.commit()
+            db.refresh(db_refeicao)
         except Exception as e:
             logger.error(f"Erro ao salvar análise no banco (meal_id={meal_id}): {e}")
+
 
         # Atualizar o status
         crud.update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_COMPLETE)

@@ -597,7 +597,12 @@ def enriquecer_refeicao_com_analise(refeicao: RefeicaoSalva) -> dict:
     return resultado
 
 def salvar_analise(db, refeicao, analysis_result):
-    refeicao.analysis_result_json = json.dumps(analysis_result, default=str)
+    refeicao.analysis_result_json = json.dumps(
+        analysis_result,
+        ensure_ascii=False,
+        default=str
+    )
+
     db.commit()
     db.refresh(refeicao)
     return refeicao

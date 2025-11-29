@@ -9,6 +9,8 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import { ChevronDown, Pencil, Trash2,  Plus } from 'lucide-react'; // Adicionado 'Plus'
 import EditFoodModal from '../../components/alimentos/EditFoodModal.jsx';
+import imageCompression from "browser-image-compression";
+
 import {
   ScanRapidoAlimento,
   ScanRapidoResponse,
@@ -378,14 +380,43 @@ export default function Home() {
       runScan(fotoCapturada);
     }
   }, [fotoCapturada]);
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
+    if (!file) return;
+
+    try {
+      // 🔥 CONFIGURAÇÕES DE COMPRESSÃO (Seguras, ótimas e rápidas)
+      const options = {
+        maxSizeMB: 1,              // máximo 1MB (o backend aceita tranquilo)
+        maxWidthOrHeight: 1600,    // mantém qualidade alta para IA
+        useWebWorker: true,
+        fileType: "image/jpeg",    // garante boa compressão
+      };
+
+      console.log("📸 Imagem original:", file.size / 1024 / 1024, "MB");
+
+      // 🔧 Comprime a imagem
+      const compressedFile = await imageCompression(file, options);
+
+      console.log("📉 Imagem comprimida:", compressedFile.size / 1024 / 1024, "MB");
+
+      // Atualiza pré-visualização
+      setImageUrl(URL.createObjectURL(compressedFile));
+
+      // Envia sempre a versão comprimida
+      setFotoCapturada(compressedFile);
+    } catch (error) {
+      console.error("Erro ao comprimir imagem:", error);
+      // fallback: usa a imagem original
       setImageUrl(URL.createObjectURL(file));
       setFotoCapturada(file);
     }
-    event.target.value = '';
+
+    // Reseta input
+    event.target.value = "";
   };
+
   const handleClearScreen = () => {
     setImageUrl(null);
     setFotoCapturada(null);
