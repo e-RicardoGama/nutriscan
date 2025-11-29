@@ -1,604 +1,375 @@
 # app/routers/vision_alimentos.py
-# VERSÃO OTIMIZADA - SUBSTITUA TODO O ARQUIVO
+"""
+Router otimizado para endpoints de visão (scan, salvar scan editado, análise detalhada, histórico, resumo).
+Substitua completamente o arquivo antigo por este.
+"""
 
 from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, status, Form, BackgroundTasks
 from sqlalchemy.orm import Session
-from sqlalchemy import func 
-from typing import List, Any, Dict, Optional
+from typing import List, Optional, Any
 from datetime import datetime
 import json
 import uuid
-import asyncio
-import time
 import logging
-from app.gcs_utils import upload_to_gcs
 
-# --- Imports Explícitos ---
 from app.database import get_db
 from app import crud
-from app.models.alimentos import Alimento
-from app.models.usuario import Usuario 
-from app.models.refeicoes import RefeicaoSalva, AlimentoSalvo, RefeicaoStatus
 from app.security import get_current_user
-from app.crud import (
-    create_refeicao_salva,
-    get_refeicao_salva, 
-    update_refeicao_status,
-    get_historico_refeicoes_por_usuario,
-    get_detalhe_refeicao_por_id,
-    get_consumo_macros_hoje,
-    get_refeicoes_hoje_por_usuario,
-    processar_analise_completa  # ✅ NOVO
-)
+from app.gcs_utils import upload_to_gcs  # função que você já usa no projeto
 
-# Importa schemas
-from app.schemas.vision_alimentos_ import ( 
-    AnaliseCompletaResponse as AnaliseCompletaResponseSchema, 
-    AlimentoSalvoCreate,
-    RefeicaoSalvaIdResponse,
+# Schemas / Models (explicit imports)
+from app.schemas.vision_alimentos_ import (
     ScanRapidoResponse,
+    RefeicaoSalvaIdResponse,
+    AnaliseCompletaResponse as AnaliseCompletaResponseSchema,
     RefeicaoSalvaCreate,
-    AlimentoDetalhado, 
-    DetalhesPrato, 
-    AnaliseNutricional, 
-    Macronutrientes, 
-    Recomendacoes,
+    AlimentoSalvoCreate,
     RefeicaoHistoricoItem,
     ResumoDiarioResponse,
     RefeicaoResumoHoje,
 )
 
-from app.vision import (
-    escanear_prato_extrair_alimentos,
-    gerar_recomendacoes_detalhadas_ia
-)
+from app.models.usuario import Usuario
+from app.models.refeicoes import RefeicaoSalva, RefeicaoStatus, AlimentoSalvo
 
-# Configuração de logging
 logger = logging.getLogger(__name__)
-
-router = APIRouter(
-    prefix="/refeicoes",
-    tags=["Refeições e Análise (Vision)"]
-)
+router = APIRouter(prefix="/refeicoes", tags=["Refeições e Análise (Vision)"])
 
 
-# ---------------------------------------------------------------
-# ENDPOINT 0: SCAN RÁPIDO
-# ---------------------------------------------------------------
-@router.post("/scan-rapido", response_model=ScanRapidoResponse, summary="Realiza scan rápido")
+# ----------------------
+# Helpers internos
+# ----------------------
+def _json_dumps_safe(obj: Any) -> str:
+    """
+    Serialização JSON segura para gravar em DB. Usa default=str para objetos não-serializáveis
+    (ex: datetime).
+    """
+    return json.dumps(obj, ensure_ascii=False, default=str)
+
+
+def _enqueue_background_analysis(background_tasks: BackgroundTasks, meal_id: int, user_id: int):
+    """
+    Agenda uma background task que abrirá uma nova sessão DB e chamará a função de análise.
+    Fazemos isso para isolar a sessão SQLAlchemy da request atual.
+    """
+    # A função real que será executada em background é definida abaixo (processar_analise_background)
+    background_tasks.add_task(processar_analise_background, meal_id, user_id)
+
+
+async def processar_analise_background(meal_id: int, user_id: int):
+    """
+    Abre uma sessão local e invoca a função de CRUD que processa a análise completa.
+    Essa função é segura para rodar em background.
+    """
+    from app.database import SessionLocal
+    db = SessionLocal()
+    try:
+        # crud.processar_analise_completa pode ser async; suportamos ambos (await se coroutine)
+        result = crud.processar_analise_completa(db=db, meal_id=meal_id, user_id=user_id)
+        # Se for coroutine (async fn), await
+        if hasattr(result, "__await__"):
+            await result
+    except Exception as e:
+        logger.error(f"Erro na background task de análise (meal_id={meal_id}): {e}", exc_info=True)
+        # tenta marcar como falha se possível
+        try:
+            refeicao = crud.get_refeicao_salva(db=db, meal_id=meal_id, user_id=user_id)
+            if refeicao:
+                crud.update_refeicao_status(db=db, db_refeicao=refeicao, status=RefeicaoStatus.ANALYSIS_FAILED)
+        except Exception:
+            logger.warning("Falha ao marcar refeição como FAILED em background", exc_info=True)
+    finally:
+        db.close()
+
+
+# ----------------------
+# Endpoint: scan rápido
+# ----------------------
+@router.post("/scan-rapido", response_model=ScanRapidoResponse, summary="Realiza scan rápido (extrai alimentos da imagem)")
 async def scan_rapido(
     imagem: UploadFile = File(..., description="Imagem da refeição (JPEG/PNG, máx 10MB)"),
-    db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
 ):
-    logger.info("🎯 [ENDPOINT] /scan-rapido CHAMADO!")
-
+    """
+    Endpoint minimalista que chama seu serviço de visão (escanear_prato_extrair_alimentos) e retorna o resultado.
+    Ele não grava nada no banco — apenas processa a imagem e responde.
+    """
+    logger.info("[scan-rapido] chamado")
     try:
-        # ------------------------------------------------------
-        # 1) Ler imagem
-        # ------------------------------------------------------
         imagem_bytes = await imagem.read()
-        logger.info(f"📦 [ENDPOINT] Imagem lida: {len(imagem_bytes)} bytes")
+        logger.debug(f"[scan-rapido] bytes lidos: {len(imagem_bytes)}")
 
-        # ------------------------------------------------------
-        # 2) Validações de imagem
-        # ------------------------------------------------------
-        if not imagem.content_type or not imagem.content_type.startswith('image/'):
-            logger.error("🚫 [ENDPOINT] Arquivo não é imagem")
-            raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem")
+        if not imagem.content_type or not imagem.content_type.startswith("image/"):
+            raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem.")
 
         if len(imagem_bytes) == 0:
-            logger.error("🚫 [ENDPOINT] Imagem vazia")
-            raise HTTPException(status_code=400, detail="Imagem vazia")
+            raise HTTPException(status_code=400, detail="Imagem vazia.")
 
+        # limite claro: 10MB
         if len(imagem_bytes) > 10 * 1024 * 1024:
-            logger.error("🚫 [ENDPOINT] Imagem muito grande")
-            raise HTTPException(status_code=400, detail="Imagem muito grande (máx. 10MB)")
+            raise HTTPException(status_code=400, detail="Imagem muito grande (máx. 10MB).")
 
-        # ------------------------------------------------------
-        # 3) Chamada NÃO BLOQUEANTE ao processamento de visão
-        # ------------------------------------------------------
-        logger.info("🤖 [ENDPOINT] Chamando escanear_prato_extrair_alimentos...")
+        # Chama a função do vision.py — ela deve ser síncrona ou já encapsulada por você
+        from app.vision import escanear_prato_extrair_alimentos
 
-        loop = asyncio.get_running_loop()
-        resultado_scan = await loop.run_in_executor(
-            None, 
-            escanear_prato_extrair_alimentos, 
-            imagem_bytes
-        )
+        # escanear_prato_extrair_alimentos espera bytes e retorna dict com estrutura esperada
+        resultado_scan = escanear_prato_extrair_alimentos(imagem_bytes)
 
-        # ------------------------------------------------------
-        # 4) LOG DEBUG seguro do retorno bruto
-        # ------------------------------------------------------
-        logger.debug(f"🔎 [ENDPOINT] Resultado bruto do scan (DEBUG): {resultado_scan}")
-
-                # ------------------------------------------------------
-        # 5) Validação da estrutura de resultado_scan
-        # ------------------------------------------------------
         if not isinstance(resultado_scan, dict):
-            logger.error(
-                "❌ [ENDPOINT] resultado_scan não é um dicionário válido "
-                f"(tipo={type(resultado_scan)}) -> {resultado_scan}"
-            )
-            raise HTTPException(
-                status_code=500,
-                detail="Erro interno: resposta inválida do serviço de visão"
-            )
+            logger.error("[scan-rapido] resposta inválida do serviço de visão")
+            raise HTTPException(status_code=500, detail="Erro interno no processamento da imagem.")
 
-        # Chaves mínimas esperadas
-        chaves_esperadas = ["sucesso", "erro", "bloqueada", "conteudo"]
-        faltando = [c for c in chaves_esperadas if c not in resultado_scan]
-        if faltando:
-            logger.error(
-                f"❌ [ENDPOINT] Chaves ausentes em resultado_scan: {faltando} | "
-                f"resultado_scan={resultado_scan}"
-            )
-            raise HTTPException(
-                status_code=500,
-                detail="Erro interno: resposta incompleta do serviço de visão"
-            )
-
-        # ------------------------------------------------------
-        # 6) Tratamento dos erros vindos do Gemini
-        # ------------------------------------------------------
-        if not resultado_scan.get("sucesso"):
-            # Conteúdo bloqueado
-            if resultado_scan.get("bloqueada"):
-                logger.warning(
-                    f"🚫 [ENDPOINT] Conteúdo bloqueado pelo Gemini: {resultado_scan.get('erro')}"
-                )
-                raise HTTPException(status_code=400, detail="Conteúdo bloqueado")
-
-            # Erro interno do Gemini / parsing / JSON vazio
-            logger.error(f"💥 [ENDPOINT] Erro no scan: {resultado_scan.get('erro')}")
-            raise HTTPException(
-                status_code=500,
-                detail="Não foi possível processar a imagem. Tente novamente."
-            )
-
-
-        # ------------------------------------------------------
-        # 7) Validação do conteúdo final
-        # ------------------------------------------------------
-        conteudo = resultado_scan.get("conteudo")
-        if conteudo is None:
-            logger.error("❌ [ENDPOINT] Conteúdo ausente apesar de sucesso=True")
-            raise HTTPException(status_code=500, detail="Erro interno: conteúdo ausente do serviço de visão")
-
-        # ------------------------------------------------------
-        # 8) Sucesso — retorno final
-        logger.info("🎉 [ENDPOINT] Scan concluído com sucesso!")
-
+        # Normalizar retorno para o schema ScanRapidoResponse (venta de compatibilidade)
         return ScanRapidoResponse(
             status="sucesso",
             modalidade="scan_rapido",
-            resultado=conteudo,
+            resultado=resultado_scan,
             timestamp=datetime.now().isoformat()
         )
 
     except HTTPException:
-        logger.warning("⚠️ [ENDPOINT] HTTPException re-levantada.")
         raise
-
     except Exception as e:
-        logger.error(
-            f"💥 [ENDPOINT] Erro inesperado no endpoint /scan-rapido: {str(e)}",
-            exc_info=True
-        )
-        raise HTTPException(
-            status_code=500,
-            detail="Erro inesperado. Consulte os logs do servidor."
-        )
-    
-# ---------------------------------------------------------------
-# ENDPOINT 1: SALVAR SCAN EDITADO
-# ---------------------------------------------------------------
-@router.post(
-    "/salvar-scan-editado",
-    response_model=RefeicaoSalvaIdResponse,
-    summary="Salva scan editado e faz upload da imagem",
-)
+        logger.error(f"[scan-rapido] erro inesperado: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Erro inesperado no scan rápido.")
+
+
+# ----------------------
+# Endpoint: salvar scan editado
+# ----------------------
+@router.post("/salvar-scan-editado", response_model=RefeicaoSalvaIdResponse, summary="Salva scan editado (envia imagem + lista de alimentos)")
 async def salvar_scan_rapido_editado(
-    imagem: UploadFile = File(..., description="A imagem original da refeição"),
-    alimentos_json: str = Form(..., description="A lista de alimentos editados em formato JSON string"),
+    imagem: UploadFile = File(..., description="Imagem original da refeição"),
+    alimentos_json: str = Form(..., description="Lista de alimentos (JSON string)"),
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
+    background_tasks: BackgroundTasks = None
 ):
+    """
+    Recebe imagem + alimentos (editados) e cria o registro de refeição.
+    - Faz upload da imagem para GCS (upload_to_gcs) e grava a refeição + alimentos.
+    - Opcionalmente agenda a análise em background.
+    """
+    logger.info(f"[salvar-scan-editado] user_id={current_user.id} - iniciando")
+
+    # Validação do JSON recebido
     try:
-        alimentos_data = json.loads(alimentos_json)
-        alimentos_editados: List[AlimentoSalvoCreate] = [AlimentoSalvoCreate(**alimento) for alimento in alimentos_data]
-    except json.JSONDecodeError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Formato JSON inválido para 'alimentos_json': {exc}"
-        )
+        alimentos_parsed = json.loads(alimentos_json)
+        if not isinstance(alimentos_parsed, list):
+            raise ValueError("alimentos_json deve ser uma lista JSON")
+        alimentos_objs = [AlimentoSalvoCreate(**item) for item in alimentos_parsed]
     except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Erro na validação dos dados dos alimentos: {exc}"
-        )
+        logger.warning("[salvar-scan-editado] payload de alimentos inválido", exc_info=True)
+        raise HTTPException(status_code=400, detail=f"Formato inválido para alimentos_json: {exc}")
 
-    if not alimentos_editados:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="A lista de alimentos não pode estar vazia."
-        )
-
-    # Upload para GCS
-    imagem_url_publica = None
+    # Upload de imagem
     try:
         imagem_bytes = await imagem.read()
-        bucket_name = "nutriscan-imagens-prod"
-        extensao = imagem.filename.split('.')[-1] if '.' in imagem.filename else 'jpg'
-        file_name = f"refeicoes/{current_user.id}_{uuid.uuid4().hex}.{extensao}"
+        if not imagem_bytes:
+            raise HTTPException(status_code=400, detail="Imagem vazia.")
 
-        imagem_url_publica = upload_to_gcs(
+        # nome de arquivo seguro
+        extensao = imagem.filename.split(".")[-1] if ("." in imagem.filename) else "jpg"
+        file_name = f"refeicoes/{current_user.id}_{uuid.uuid4().hex}.{extensao}"
+        bucket_name = "nutriscan-imagens-prod"  # ajuste conforme seu ambiente
+
+        imagem_url = upload_to_gcs(
             bucket_name=bucket_name,
             file_bytes=imagem_bytes,
             destination_blob_name=file_name,
             content_type=imagem.content_type
         )
+
+    except HTTPException:
+        raise
     except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro interno ao salvar a imagem: {exc}"
-        )
+        logger.error(f"[salvar-scan-editado] erro no upload: {exc}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Erro ao fazer upload da imagem: {exc}")
 
-    # Criar refeição
-    refeicao_data = RefeicaoSalvaCreate(
-        alimentos=alimentos_editados,
-        imagem_url=imagem_url_publica
-    )
-
+    # Monta schema RefeicaoSalvaCreate e grava com CRUD
     try:
-        db_refeicao = create_refeicao_salva(db=db, refeicao_data=refeicao_data, user_id=current_user.id)
-        if not db_refeicao:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Não foi possível criar a refeição no banco.")
-        return RefeicaoSalvaIdResponse(meal_id=db_refeicao.id)
-    except Exception as exc:
-        logger.error(f"Erro ao salvar refeição editada user {current_user.id}: {exc}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro interno ao salvar a refeição: {exc}"
+        refeicao_payload = RefeicaoSalvaCreate(
+            alimentos=alimentos_objs,
+            imagem_url=imagem_url
         )
+        db_refeicao = crud.create_refeicao_salva(db=db, refeicao_data=refeicao_payload, user_id=current_user.id)
+        if not db_refeicao or not getattr(db_refeicao, "id", None):
+            logger.error("[salvar-scan-editado] create_refeicao_salva retornou sem ID")
+            raise HTTPException(status_code=500, detail="Não foi possível criar a refeição no banco.")
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.error(f"[salvar-scan-editado] erro ao criar refeição: {exc}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Erro ao salvar a refeição: {exc}")
 
-# ---------------------------------------------------------------
-# ENDPOINT 2: ANÁLISE DETALHADA ASSÍNCRONA (OTIMIZADA)
-# ---------------------------------------------------------------
+    # Opcional: agenda a análise em background (recomendado)
+    try:
+        if background_tasks is not None:
+            _enqueue_background_analysis(background_tasks, db_refeicao.id, current_user.id)
+        else:
+            # se não foi passado BackgroundTasks, tentamos iniciar de forma não-bloqueante
+            # (isso não deve ocorrer em FastAPI normal; BackgroundTasks é a forma correta)
+            pass
+    except Exception as exc:
+        logger.warning(f"[salvar-scan-editado] falha ao agendar análise em background: {exc}", exc_info=True)
+
+    logger.info(f"[salvar-scan-editado] refeição criada meal_id={db_refeicao.id}")
+    return RefeicaoSalvaIdResponse(meal_id=db_refeicao.id)
+
+
+# ----------------------
+# Endpoint: analisar detalhadamente (sync)
+# ----------------------
 @router.post("/analisar-detalhadamente/{meal_id}",
              response_model=AnaliseCompletaResponseSchema,
-             summary="Analisa refeição salva por ID")
+             summary="Executa análise detalhada para a refeição (usa dados no DB)")
 async def analisar_refeicao_detalhadamente_por_id(
     meal_id: int,
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
 ):
-    # 1. Obter a refeição e os alimentos
-    # É crucial que get_refeicao_salva carregue os relacionamentos de forma eager (ver crud.py)
+    """
+    Executa a análise detalhada utilizando os alimentos já salvos na refeição.
+    Essa rota tenta processar na hora (síncrono). Se for muito pesada, prefira /analise-status
+    e agende via background (quando salvar).
+    """
+    logger.info(f"[analisar-detalhadamente] meal_id={meal_id} user_id={current_user.id}")
+
+    # Recupera refeição com relacionamentos carregados
     db_refeicao: Optional[RefeicaoSalva] = crud.get_refeicao_salva(db=db, meal_id=meal_id, user_id=current_user.id)
     if not db_refeicao:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Refeição não encontrada.")
+        logger.debug("[analisar-detalhadamente] refeição não encontrada")
+        raise HTTPException(status_code=404, detail="Refeição não encontrada.")
 
-    alimentos_salvos: List[AlimentoSalvo] = db_refeicao.alimentos
-    if not alimentos_salvos:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Refeição sem alimentos.")
-
-    # --- Início da Lógica de Análise ---
-    lista_alimentos_para_ia = []  # Lista de dicts para a IA (recomendações)
-    detalhes_prato_resposta = []  # Lista de schemas para a resposta
-
-    total_calorias = 0.0
-    total_proteinas = 0.0
-    total_carboidratos = 0.0
-    total_gorduras = 0.0
-
-    print(f"--- Iniciando Análise Detalhada (com Auto-Aprendizagem) para Refeição ID: {meal_id} ---")
+    if not db_refeicao.alimentos or len(db_refeicao.alimentos) == 0:
+        raise HTTPException(status_code=400, detail="Refeição sem alimentos para análise.")
 
     try:
-        # 2. Loop por cada alimento salvo
-        for alimento_salvo in alimentos_salvos:
-            if alimento_salvo.quantidade_estimada_g is None or alimento_salvo.quantidade_estimada_g <= 0:
-                print(f"Aviso: Pulando alimento '{alimento_salvo.nome}' por não ter quantidade.")
-                continue
+        # Chama a implementação centralizada de análise (no crud)
+        # Pode ser sync ou async; lidamos com ambas
+        result = crud.processar_analise_completa(db=db, meal_id=meal_id, user_id=current_user.id)
+        if hasattr(result, "__await__"):
+            # se for coroutine
+            await result
 
-            # 3. ✅ MUDANÇA PRINCIPAL AQUI: Acessar os dados nutricionais do relacionamento
-            #    'alimento_detalhes' que já foi populado pelo crud.get_or_create_alimento_by_nome
-            alimento_detalhes = alimento_salvo.alimento_detalhes
+        # Recarrega o registro do DB
+        db.refresh(db_refeicao)
 
-            if not alimento_detalhes:
-                # Este caso não deveria ocorrer se create_refeicao_salva funcionou corretamente,
-                # mas é um bom fallback para garantir que a análise não pare.
-                print(f"⚠️ Alimento '{alimento_salvo.nome}' (ID: {alimento_salvo.id}) não tem detalhes nutricionais vinculados na tabela 'alimentos'. Isso indica um problema no fluxo de criação/vinculação. Pulando este alimento para a análise de macros.")
-                continue # Pula este alimento se não há dados nutricionais vinculados
+        if not db_refeicao.analysis_result_json:
+            # algo deu errado durante a gravação
+            raise HTTPException(status_code=500, detail="Análise não foi salva corretamente no banco.")
 
-            # Usar os dados já carregados do banco (TACO ou Gemini salvo anteriormente)
-            dados_nutricionais_fonte = {
-                "energia_kcal_100g": alimento_detalhes.energia_kcal_100g,
-                "proteina_g_100g": alimento_detalhes.proteina_g_100g,
-                "carboidrato_g_100g": alimento_detalhes.carboidrato_g_100g,
-                "lipidios_g_100g": alimento_detalhes.lipidios_g_100g,
-                "unidades": alimento_detalhes.unidades,
-                "un_medida_caseira": alimento_detalhes.un_medida_caseira,
-                "peso_aproximado_g": alimento_detalhes.peso_aproximado_g,
-            }
-            print(f"✅ Usando dados do banco para '{alimento_salvo.nome}' (ID Alimento: {alimento_detalhes.id})")
+        # Carrega JSON seguro e valida via schema
+        analytic_data = json.loads(db_refeicao.analysis_result_json)
+        return AnaliseCompletaResponseSchema(**analytic_data)
 
-
-            # 4. FAZER OS CÁLCULOS EM PYTHON com os dados da fonte (banco)
-            ratio = alimento_salvo.quantidade_estimada_g / 100.0
-
-            calorias_item = (dados_nutricionais_fonte.get("energia_kcal_100g") or 0) * ratio
-            proteinas_item = (dados_nutricionais_fonte.get("proteina_g_100g") or 0) * ratio
-            carboidratos_item = (dados_nutricionais_fonte.get("carboidrato_g_100g") or 0) * ratio
-            gorduras_item = (dados_nutricionais_fonte.get("lipidios_g_100g") or 0) * ratio
-
-            total_calorias += calorias_item
-            total_proteinas += proteinas_item
-            total_carboidratos += carboidratos_item
-            total_gorduras += gorduras_item
-
-            # 5. Preparar listas para a resposta e para a IA
-            detalhes_prato_resposta.append(
-                AlimentoDetalhado(
-                    nome=alimento_salvo.nome,
-                    quantidade_gramas=alimento_salvo.quantidade_estimada_g,
-                    metodo_preparo="Não especificado",
-                    # Usar os dados da fonte (banco)
-                    medida_caseira_sugerida=f"{dados_nutricionais_fonte.get('unidades') or 1} {dados_nutricionais_fonte.get('un_medida_caseira') or 'g'}"
-                )
-            )
-            lista_alimentos_para_ia.append({
-                "nome": alimento_salvo.nome,
-                "quantidade_gramas": alimento_salvo.quantidade_estimada_g
-            })
-
-        if not lista_alimentos_para_ia:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nenhum alimento com quantidade válida encontrado para análise.")
-
-        print(f"--- Fim dos Cálculos. Total Kcal: {total_calorias} ---")
-
-        # 6. CHAMAR A IA APENAS PARA RECOMENDAÇÕES (esta parte continua a mesma)
-        totais_calculados = {
-            "kcal": total_calorias,
-            "protein": total_proteinas,
-            "carbs": total_carboidratos,
-            "fats": total_gorduras
-        }
-
-        # Chama a função síncrona do vision.py
-        dados_ia = gerar_recomendacoes_detalhadas_ia(
-            lista_alimentos=lista_alimentos_para_ia,
-            totais=totais_calculados
-        )
-
-        if "erro" in dados_ia:
-            print(f"AVISO: Falha ao gerar recomendações da IA: {dados_ia['erro']}")
-            dados_ia = {}  # Zera para os 'gets' abaixo funcionarem
-
-        # ✅ 7. SEPARAR VITAMINAS E MINERAIS (CORREÇÃO PRINCIPAL)
-        vitaminas_minerais_lista = dados_ia.get("vitaminas_minerais", [])
-
-        # Listas conhecidas de minerais (em minúsculas para comparação)
-        minerais_conhecidos = [
-            'cálcio', 'calcio', 'ferro', 'magnésio', 'magnesio', 'fósforo', 'fosforo',
-            'potássio', 'potassio', 'sódio', 'sodio', 'selênio', 'selenio', 'zinco',
-            'cobre', 'manganês', 'manganes', 'iodo', 'iodeto'
-        ]
-
-        vitaminas_separadas = []
-        minerais_separados = []
-
-        for item in vitaminas_minerais_lista:
-            texto_lower = item.lower()
-
-            # Se contém "vitamina" ou começa com "vit" => é vitamina
-            if 'vitamina' in texto_lower or texto_lower.startswith('vit'):
-                vitaminas_separadas.append(item)
-            # Se é um mineral conhecido => é mineral
-            elif any(mineral in texto_lower for mineral in minerais_conhecidos):
-                minerais_separados.append(item)
-            # Fallback: se for curto e sem espaço, provavelmente é mineral
-            elif len(texto_lower) <= 12 and ' ' not in texto_lower:
-                minerais_separados.append(item)
-            # Caso contrário, joga em vitaminas
-            else:
-                vitaminas_separadas.append(item)
-
-        print(f"DEBUG - Vitaminas separadas: {vitaminas_separadas}")
-        print(f"DEBUG - Minerais separados: {minerais_separados}")
-
-        # 8. Montar e retornar a resposta final COM VITAMINAS E MINERAIS SEPARADOS
-        resultado_analise = AnaliseCompletaResponseSchema(
-            detalhes_prato=DetalhesPrato(
-                alimentos=detalhes_prato_resposta
-            ),
-            analise_nutricional=AnaliseNutricional(
-                calorias_totais=round(total_calorias),
-                macronutrientes=Macronutrientes(
-                    proteinas_g=round(total_proteinas, 1),
-                    carboidratos_g=round(total_carboidratos, 1),
-                    gorduras_g=round(total_gorduras, 1)
-                ),
-                # ✅ CORREÇÃO: Passar as listas separadas
-                vitaminas=vitaminas_separadas if vitaminas_separadas else None,
-                minerais=minerais_separados if minerais_separados else None
-            ),
-            recomendacoes=Recomendacoes(
-                pontos_positivos=dados_ia.get("recomendacoes", {}).get("pontos_positivos", ["Análise concluída."]),
-                sugestoes_balanceamento=dados_ia.get("recomendacoes", {}).get("sugestoes_balanceamento", ["Não foi possível gerar sugestões."]),
-                alternativas_saudaveis=dados_ia.get("recomendacoes", {}).get("alternativas_saudaveis", [])
-            )
-        )
-
-        # 9. Salvar o resultado da análise no banco (Pydantic v2 Correto)
-        try:
-            analysis_dict = resultado_analise.model_dump()  # Pydantic v2
-            db_refeicao.analysis_result_json = json.dumps(
-                analysis_dict,
-                ensure_ascii=False,
-                indent=2,
-                default=str 
-            )
-            db.commit()
-            db.refresh(db_refeicao)
-        except Exception as e:
-            logger.error(f"Erro ao salvar análise no banco (meal_id={meal_id}): {e}")
-
-
-        # Atualizar o status
-        crud.update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_COMPLETE)
-        return resultado_analise
-
-    except Exception as e:
-        print(f"Erro análise detalhada refeição {meal_id} user {current_user.id}: {e}")
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.error(f"[analisar-detalhadamente] erro ao analisar meal_id={meal_id}: {exc}", exc_info=True)
+        # Marca como falha
         try:
             crud.update_refeicao_status(db=db, db_refeicao=db_refeicao, status=RefeicaoStatus.ANALYSIS_FAILED)
-        except Exception as db_e:
-            print(f"Erro ao atualizar status FALHA refeição {meal_id}: {db_e}")
-        if isinstance(e, HTTPException):
-            raise e
-        else:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro ao realizar a análise detalhada: {e}")
+        except Exception:
+            logger.warning("[analisar-detalhadamente] falha ao marcar status FAILED", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Erro ao realizar análise detalhada: {exc}")
 
 
-# ✅ FUNÇÃO DE BACKGROUND
-async def processar_analise_background(meal_id: int, user_id: int):
-    """Processa a análise pesada em background"""
-    from app.database import SessionLocal
-    db = SessionLocal()
-    try:
-        await processar_analise_completa(db, meal_id, user_id)
-    except Exception as e:
-        logger.error(f"Erro em background task para meal_id {meal_id}: {e}")
-    finally:
-        db.close()
-
-# ---------------------------------------------------------------
-# ENDPOINT 3: STATUS DA ANÁLISE
-# ---------------------------------------------------------------
-@router.get("/analise-status/{meal_id}")
+# ----------------------
+# Endpoint: analisar status (polling)
+# ----------------------
+@router.get("/analise-status/{meal_id}", summary="Retorna o status da análise para polling")
 async def get_analise_status(
-    meal_id: int, 
+    meal_id: int,
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
 ):
-    """Permite ao frontend verificar o progresso"""
     refeicao = db.query(RefeicaoSalva).filter(
         RefeicaoSalva.id == meal_id,
         RefeicaoSalva.owner_id == current_user.id
     ).first()
-    
     if not refeicao:
-        return {"status": "not_found"}
-    
+        raise HTTPException(status_code=404, detail="Refeição não encontrada.")
+
     return {
         "status": refeicao.status,
         "progresso": "complete" if refeicao.status == RefeicaoStatus.ANALYSIS_COMPLETE else "processing",
-        "tem_analise": refeicao.analysis_result_json is not None
+        "tem_analise": bool(refeicao.analysis_result_json)
     }
 
-# ---------------------------------------------------------------
-# ENDPOINT 4: GET HISTÓRICO
-# ---------------------------------------------------------------
-@router.get(
-    "/historico", 
-    response_model=List[RefeicaoHistoricoItem],
-    summary="Lista o histórico de refeições (resumo) do usuário"
-)
+
+# ----------------------
+# Endpoint: histórico (resumos)
+# ----------------------
+@router.get("/historico", response_model=List[RefeicaoHistoricoItem], summary="Lista histórico de refeições (resumo)")
 def get_historico_refeicoes(
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
 ):
-    refeicoes_db = crud.get_historico_refeicoes_por_usuario(db, user_id=current_user.id)
-    resultado_historico = []
-    
-    for refeicao in refeicoes_db:
+    refeicoes_db = crud.get_historico_refeicoes_por_usuario(db=db, user_id=current_user.id)
+    resultado = []
+    for r in refeicoes_db:
         total_calorias = None
-        if refeicao.analysis_result_json:
-            try:
-                analise_data = json.loads(refeicao.analysis_result_json)
-                total_calorias = analise_data.get("analise_nutricional", {}).get("calorias_totais")
-            except:
-                pass 
+        try:
+            if r.analysis_result_json:
+                parsed = json.loads(r.analysis_result_json)
+                total_calorias = parsed.get("analise_nutricional", {}).get("calorias_totais")
+        except Exception:
+            logger.debug(f"[historico] falha ao parsear analysis_result_json para id={r.id}", exc_info=False)
+        resultado.append(RefeicaoHistoricoItem(
+            id=r.id,
+            data_criacao=r.created_at,
+            imagem_url=r.imagem_url,
+            total_calorias=total_calorias
+        ))
+    return resultado
 
-        resultado_historico.append(
-            RefeicaoHistoricoItem(
-                id=refeicao.id,
-                data_criacao=refeicao.created_at,
-                imagem_url=refeicao.imagem_url,
-                total_calorias=total_calorias
-            )
-        )
-    return resultado_historico
 
-# ---------------------------------------------------------------
-# ENDPOINT 5: GET DETALHE
-# ---------------------------------------------------------------
-@router.get(
-    "/detalhe/{meal_id}", 
-    response_model=AnaliseCompletaResponseSchema,
-    summary="Busca uma análise detalhada completa pelo ID"
-)
+# ----------------------
+# Endpoint: detalhe (retorna análise completa)
+# ----------------------
+@router.get("/detalhe/{meal_id}", response_model=AnaliseCompletaResponseSchema, summary="Retorna análise salva por ID")
 def get_detalhe_refeicao(
     meal_id: int,
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
 ):
-    refeicao = crud.get_detalhe_refeicao_por_id(db, meal_id=meal_id, user_id=current_user.id)
+    refeicao = crud.get_detalhe_refeicao_por_id(db=db, meal_id=meal_id, user_id=current_user.id)
     if not refeicao:
         raise HTTPException(status_code=404, detail="Refeição não encontrada ou não pertence a este usuário.")
 
     if not refeicao.analysis_result_json:
         raise HTTPException(status_code=404, detail="A análise detalhada para esta refeição ainda não foi gerada ou falhou.")
-        
+
     try:
         analise_salva = json.loads(refeicao.analysis_result_json)
         return AnaliseCompletaResponseSchema(**analise_salva)
-    except Exception as e:
-        logger.error(f"Erro ao carregar JSON da análise: {e}")
+    except Exception as exc:
+        logger.error(f"[detalhe] erro ao carregar JSON da análise meal_id={meal_id}: {exc}", exc_info=True)
         raise HTTPException(status_code=500, detail="Erro ao ler dados da análise salva.")
 
-# ---------------------------------------------------------------
-# ENDPOINT 6: GET RESUMO DIÁRIO
-# ---------------------------------------------------------------
-@router.get(
-    "/resumo-diario", 
-    response_model=ResumoDiarioResponse,
-    summary="Calcula o consumo total de macros do usuário para hoje"
-)
+
+# ----------------------
+# Endpoint: resumo diário / refeições hoje
+# ----------------------
+@router.get("/resumo-diario", response_model=ResumoDiarioResponse, summary="Consumo de macros hoje")
 def get_resumo_diario(
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
 ):
-    resumo_dict = crud.get_consumo_macros_hoje(db, user_id=current_user.id)
-    
-    if not resumo_dict:
-        return ResumoDiarioResponse(
-            total_calorias=0,
-            total_proteinas_g=0,
-            total_carboidratos_g=0,
-            total_gorduras_g=0
-        )
+    resumo = crud.get_consumo_macros_hoje(db=db, user_id=current_user.id)
+    if not resumo:
+        return ResumoDiarioResponse(total_calorias=0, total_proteinas_g=0, total_carboidratos_g=0, total_gorduras_g=0)
+    return ResumoDiarioResponse(**resumo)
 
-    return ResumoDiarioResponse(**resumo_dict)
 
-# ---------------------------------------------------------------
-# ENDPOINT 7: GET LISTA DE REFEIÇÕES DE HOJE
-# ---------------------------------------------------------------
-@router.get(
-    "/refeicoes-hoje",
-    response_model=List[RefeicaoResumoHoje],
-    summary="Lista as refeições (enriquecidas) do usuário para hoje"
-)
+@router.get("/refeicoes-hoje", response_model=List[RefeicaoResumoHoje], summary="Lista refeições do dia (enriquecidas)")
 def get_refeicoes_hoje(
     db: Session = Depends(get_db),
-    current_user: Usuario = Depends(get_current_user)
+    current_user: Usuario = Depends(get_current_user),
 ):
-    refeicoes_db = crud.get_refeicoes_hoje_por_usuario(db, user_id=current_user.id)
-    
-    resultado_lista = []
-    for refeicao in refeicoes_db:
-        dados_enriquecidos = crud.enriquecer_refeicao_com_analise(refeicao)
-        resultado_lista.append(RefeicaoResumoHoje(**dados_enriquecidos))
-    
-    return resultado_lista
+    refeicoes_db = crud.get_refeicoes_hoje_por_usuario(db=db, user_id=current_user.id)
+    resultado = []
+    for r in refeicoes_db:
+        dados = crud.enriquecer_refeicao_com_analise(r)
+        resultado.append(RefeicaoResumoHoje(**dados))
+    return resultado
