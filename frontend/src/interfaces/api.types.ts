@@ -84,12 +84,13 @@ export interface ScanRapidoResponse {
   erro: string | null;
   bloqueada: boolean;
 
-  status?: string; 
-  resultado: { 
-    modalidade?: string; 
+  status?: string;
+  resultado: {
+    modalidade?: string;
     alimentos_extraidos: ScanRapidoAlimento[];
     alertas: string[];
-    resumo_nutricional: {
+    // Mude esta linha para permitir que seja opcional ou null
+    resumo_nutricional?: { // Adicione o '?' para torná-lo opcional
       total_calorias: number;
       macronutrientes_estimados: {
         total_proteinas_g: number;
@@ -97,9 +98,9 @@ export interface ScanRapidoResponse {
         total_gorduras_g: number;
       };
       vitaminas_minerais_estimados: string[];
-    };
-  } | null; 
-  timestamp: string; 
+    } | null; // Adicione '| null' para permitir explicitamente null
+  } | null;
+  timestamp: string;
 }
 
 

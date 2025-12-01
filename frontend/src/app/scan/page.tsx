@@ -508,7 +508,7 @@ export default function Home() {
           resultado: {
             alimentos_extraidos: [novoAlimento],
             alertas: ["Novo alimento adicionado manualmente."],
-            resumo_nutricional: undefined,
+            resumo_nutricional: null,
           }
         };
       }
@@ -552,7 +552,7 @@ export default function Home() {
         resultado: {
           ...prevResult.resultado,
           alimentos_extraidos: newAlimentos,
-          resumo_nutricional: undefined,
+          resumo_nutricional: null,
           alertas: [...oldAlertas, "Item editado/adicionado. Os totais podem estar desatualizados."]
         }
       };
@@ -573,7 +573,7 @@ export default function Home() {
         resultado: {
           ...prevResult.resultado,
           alimentos_extraidos: newAlimentos,
-          resumo_nutricional: undefined,
+          resumo_nutricional: null,
           alertas: [...oldAlertas, "Item removido. Os totais de macros podem estar desatualizados."]
         }
       };
