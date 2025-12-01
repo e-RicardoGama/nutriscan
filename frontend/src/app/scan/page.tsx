@@ -1,4 +1,4 @@
-// frontend_nutri/src/app/page.tsx - VERSÃO AJUSTADA: Substitui o bloco "Análise Nutricional" por um "Resumo Nutricional" dentro do componente de análise para evitar duplicidade.
+// frontend/src/app/scan/page.tsx
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
-import { ChevronDown, Pencil, Trash2,  Plus } from 'lucide-react'; // Adicionado 'Plus'
+import { ChevronDown, Pencil, Trash2, Plus } from 'lucide-react';
 import EditFoodModal from '../../components/alimentos/EditFoodModal.jsx';
 import imageCompression from "browser-image-compression";
 
@@ -19,6 +19,7 @@ import {
   ModalAlimentoData,
   FoodItem
 } from '../../interfaces/api.types';
+
 // --- UTIL: separa vitaminas e minerais a partir de uma lista mista ---
 function splitVitsAndMins(lista?: string[]) {
   if (!lista || lista.length === 0) return { vitaminas: [] as string[], minerais: [] as string[] };
@@ -51,6 +52,7 @@ function splitVitsAndMins(lista?: string[]) {
   });
   return { vitaminas, minerais };
 }
+
 // --- COMPONENTE DO ACORDEÃO (sem alterações) ---
 type AccordionItemProps = {
   title: string;
@@ -79,8 +81,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
     </div>
   );
 };
+
 // --- COMPONENTE SCANRESULTS (Com handlers e botão confirmar sempre ativo) ---
-// --- COMPONENTE SCANRESULTS CORRIGIDO ---
 const ScanResults = ({
   scanResult,
   onEdit,
@@ -304,6 +306,7 @@ const AnalysisResults = ({ analysisResult }: { analysisResult: AnaliseCompletaRe
     </div>
   );
 };
+
 // --- COMPONENTE PRINCIPAL DA PÁGINA ---
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -311,6 +314,11 @@ export default function Home() {
   const [totais, setTotais] = useState({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
   const router = useRouter();
   const { usuario, carregando, logout } = useAuth();
+  console.log("🔍 Auth State:", {
+    usuario: usuario ? usuario.nome : "null",
+    carregando
+  });
+
   // Estados para o fluxo
   const [loading, setLoading] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -320,40 +328,54 @@ export default function Home() {
   const [analysisResult, setAnalysisResult] = useState<AnaliseCompletaResponse | null>(null);
   const [foodDatabase, setFoodDatabase] = useState<FoodDatabaseItem[]>([]); // Guarda o food_database.json
   const [editingItem, setEditingItem] = useState<{ index: number, data: ModalAlimentoData } | null>(null); // Guarda o item sendo editado
+
   // Proteção de Rota
   useEffect(() => {
     if (!carregando && !usuario) {
       router.push('/login');
     }
   }, [usuario, carregando, router]);
+
   // Calcula os totais nutricionais
-  useEffect(() => {
+useEffect(() => {
     if (analysisResult?.analise_nutricional) {
+      // Quando a análise completa já chegou (tem macronutrientes)
       const { calorias_totais, macronutrientes } = analysisResult.analise_nutricional;
-      setTotais({ kcal: calorias_totais || 0, protein: macronutrientes?.proteinas_g || 0, carbs: macronutrientes?.carboidratos_g || 0, fats: macronutrientes?.gorduras_g || 0 });
+      setTotais({
+        kcal: calorias_totais || 0,
+        protein: macronutrientes?.proteinas_g || 0,
+        carbs: macronutrientes?.carboidratos_g || 0,
+        fats: macronutrientes?.gorduras_g || 0,
+      });
     } else if (scanResult?.resultado?.resumo_nutricional) {
-      const { total_calorias, macronutrientes_estimados } = scanResult.resultado.resumo_nutricional!;
-      const {
-        total_proteinas_g,
-        total_carboidratos_g,
-        total_gorduras_g
-      } = macronutrientes_estimados;
+      // ---- RESUMO NUTRICIONAL DO SCAN RÁPIDO ----
+      const resumo = scanResult.resultado.resumo_nutricional;
+      const total_calorias = resumo.total_calorias ?? 0; // Usa nullish coalescing
+
+      // Acessa os macronutrientes com optional chaining e nullish coalescing
+      const total_proteinas_g = resumo.macronutrientes_estimados?.total_proteinas_g ?? 0;
+      const total_carboidratos_g = resumo.macronutrientes_estimados?.total_carboidratos_g ?? 0;
+      const total_gorduras_g = resumo.macronutrientes_estimados?.total_gorduras_g ?? 0;
 
       setTotais({
-        kcal: total_calorias || 0,
-        protein: total_proteinas_g || 0,
-        carbs: total_carboidratos_g || 0,
-        fats: total_gorduras_g || 0
+        kcal: total_calorias,
+        protein: total_proteinas_g,
+        carbs: total_carboidratos_g,
+        fats: total_gorduras_g,
       });
-
     } else if (scanResult?.resultado?.alimentos_extraidos) {
-      let kcal = 0;
-      scanResult.resultado.alimentos_extraidos.forEach(alimento => { kcal += alimento.calorias_estimadas || 0; });
-      setTotais({ kcal: kcal, protein: 0, carbs: 0, fats: 0 });
+      // Fallback: se não tem resumo nutricional, soma apenas as calorias dos alimentos extraídos
+      const kcal = scanResult.resultado.alimentos_extraidos.reduce(
+        (soma, alimento) => soma + (alimento.calorias_estimadas || 0),
+        0
+      );
+      setTotais({ kcal, protein: 0, carbs: 0, fats: 0 });
     } else {
+      // Se não há nenhum resultado, zera tudo
       setTotais({ kcal: 0, protein: 0, carbs: 0, fats: 0 });
     }
   }, [analysisResult, scanResult]);
+
   useEffect(() => {
     // Carrega a base de dados de alimentos da pasta /public
     fetch('/food_database.json')
@@ -361,6 +383,7 @@ export default function Home() {
       .then(data => setFoodDatabase(data))
       .catch(err => console.error("Erro ao carregar food_database.json:", err));
   }, []); // O array vazio [] garante que isso rode apenas uma vez
+
   // Função para rodar o Scan Rápido
   const runScan = async (file: File) => {
     setLoading(true);
@@ -371,7 +394,13 @@ export default function Home() {
     const formData = new FormData();
     formData.append('imagem', file);
     try {
-      const response = await api.post<ScanRapidoResponse>('/api/v1/refeicoes/scan-rapido', formData);
+      const response = await api.post<ScanRapidoResponse>('/refeicoes/scan-rapido', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log("Frontend - Resposta do Scan Rápido recebida:", response.data);
       setScanResult(response.data);
     } catch (error) {
       const defaultErrorMessage = "Ocorreu um erro ao escanear a imagem.";
@@ -387,6 +416,7 @@ export default function Home() {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (fotoCapturada) {
       runScan(fotoCapturada);
@@ -454,7 +484,7 @@ export default function Home() {
         protein: 0,
         carbs: 0,
         fats: 0,
-        medida_caseira_sugerida: '', // ADICIONE ESTA LINHA
+        medida_caseira_sugerida: '',
       }
     });
   };
@@ -469,7 +499,7 @@ export default function Home() {
         protein: 0,
         carbs: 0,
         fats: 0,
-        medida_caseira_sugerida: alimentoOriginal.medida_caseira_sugerida || '', // ADICIONE ESTA LINHA
+        medida_caseira_sugerida: alimentoOriginal.medida_caseira_sugerida || '',
       };
       setEditingItem({
         index: indexToEdit,
@@ -559,14 +589,13 @@ export default function Home() {
     });
   };
 
-
   const handleDeleteFood = (indexToDelete: number) => {
     setScanResult(prevResult => {
       if (!prevResult?.resultado?.alimentos_extraidos) return prevResult;
-      
+
       const newAlimentos = prevResult.resultado.alimentos_extraidos.filter((_, index) => index !== indexToDelete);
       const oldAlertas = prevResult.resultado.alertas || [];
-      
+
       return {
         ...prevResult,
         status: prevResult.status, // Mantém o status
@@ -580,8 +609,12 @@ export default function Home() {
     });
   };
 
-
   const fetchDetailedAnalysis = async () => {
+    console.log('🔍 Estado antes de salvar:', {
+      fotoCapturada: !!fotoCapturada,
+      alimentos: scanResult?.resultado?.alimentos_extraidos?.length || 0,
+      scanResult: scanResult
+    });
     setLoadingAnalysis(true);
     setAnalysisError(null);
     setApiError(null);
@@ -695,10 +728,10 @@ export default function Home() {
     }
   };
 
-
   // Loader principal
   if (carregando) { return <div className="flex justify-center items-center min-h-screen">Carregando...</div>; }
   if (!usuario) { return null; }
+
   // JSX principal da página
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans">
@@ -738,7 +771,7 @@ export default function Home() {
                 <h3 className="text-md px-2 font-bold text-green-800 text-center">2. Revise os Alimentos</h3>
                 {/* Legenda dos ícones */}
                 <div className="flex justify-center items-center gap-4 sm:gap-6 mt-4 text-xs text-gray-500">
-                  <div className="flex items-center gap-1"><Plus size={16} className="text-green-600" /><span>Adicionar</span></div> {/* Alterado de "Confirmar" para "Adicionar" */}
+                  <div className="flex items-center gap-1"><Plus size={16} className="text-green-600" /><span>Adicionar</span></div>
                   <div className="flex items-center gap-1"><Pencil size={16} className="text-blue-600" /><span>Editar</span></div>
                   <div className="flex items-center gap-1"><Trash2 size={16} className="text-red-600" /><span>Apagar</span></div>
                 </div>
@@ -755,6 +788,7 @@ export default function Home() {
                 </div>
               </>
             )}
+
             {/* Área de Resultados */}
             <div className="w-full results-container space-y-6 mt-8">
               {loading && <div className="p-4 text-lg font-semibold text-gray-600 animate-pulse text-center">Analisando imagem...</div>}
@@ -810,7 +844,6 @@ export default function Home() {
                   </div>
                 </div>
               )}
-              {/* ✅ 2. ADICIONAR O BOTÃO DE VOLTAR AQUI */}
               {/* Este botão só aparece se a análise detalhada foi concluída */}
               {analysisResult && !loadingAnalysis && (
                 <div className="mt-10 text-center">
@@ -825,12 +858,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* 4. ADICIONE O MODAL AQUI */}
         {editingItem && (
           <EditFoodModal
             itemParaEditar={editingItem.data}
-            foodDatabase={foodDatabase} // Pode manter, mas a busca principal será via onSearchFood
-            onSearchFood={searchFoodsFromDatabase} // <-- ESSENCIAL: PASSA A FUNÇÃO DE BUSCA
+            foodDatabase={foodDatabase}
+            onSearchFood={searchFoodsFromDatabase}
             onSave={handleSaveEdit}
             onClose={handleCloseModal}
           />

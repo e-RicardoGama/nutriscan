@@ -87,26 +87,31 @@ def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
         Retorne APENAS JSON neste formato exato:
 
         {
-          "alimentos_extraidos": [
+        "alimentos_extraidos": [
             {
-              "nome": "string",
-              "categoria": "string (nutricional)",
-              "quantidade_estimada_g": "number",
-              "confianca": "alta" | "media" | "baixa",
-              "calorias_estimadas": "number"
+            "nome": "string",
+            "categoria": "string (nutricional)",
+            "quantidade_estimada_g": "number",
+            "confianca": "alta" | "media" | "baixa",
+            "calorias_estimadas": "number",
+            "medida_caseira_sugerida": "string"  // <-- DIFERENÇA 1
             }
-          ],
-          "resumo_nutricional": {
+        ],
+        "resumo_nutricional": {
             "total_calorias": "number",
+            "macronutrientes_estimados": {  // <-- DIFERENÇA 2: Objeto aninhado
             "total_proteinas_g": "number",
             "total_carboidratos_g": "number",
             "total_gorduras_g": "number"
-          },
-          "alertas": ["string"]
+            },
+            "vitaminas_minerais_estimados": ["string"]  // <-- DIFERENÇA 3
+        },
+        "alertas": ["string"]
         }
 
         NADA de texto fora do JSON.
         """
+
 
         logger.info("Processando SCAN rápido...")
         img = Image.open(BytesIO(conteudo_imagem))

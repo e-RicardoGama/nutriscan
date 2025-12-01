@@ -31,9 +31,27 @@ class ScanRapidoAlimento(BaseModel):
 class ScanRapidoResultado(BaseModel):
     modalidade: Optional[str] = None
     alimentos_extraidos: Optional[List[ScanRapidoAlimento]] = None
-    resumo_nutricional: Optional[Dict[str, Any]] = None
+    resumo_nutricional: Optional[Dict[str, Any]] = None # <-- AQUI ESTÁ O PROBLEMA PRINCIPAL
     alertas: Optional[List[str]] = None
     erro: Optional[str] = None
+
+class ScanRapidoResponse(BaseModel):
+    status: str
+    modalidade: str
+    resultado: Dict[str, Any]   # <-- E AQUI, não usa ScanRapidoResultado
+    timestamp: str
+
+class ScanRapidoResponse(BaseModel):
+    sucesso: bool = Field(description="Indica se a operação foi bem-sucedida")
+    erro: Optional[str] = Field(default=None, description="Mensagem de erro, se houver")
+    bloqueada: bool = Field(default=False, description="Indica se a requisição foi bloqueada por segurança")
+    status: str = Field(description="Status da operação (ex: 'processando', 'concluido')")
+    modalidade: str = Field(description="Modalidade do scan (ex: 'rapido')")
+    resultado: ScanRapidoResultado = Field(description="Detalhes do resultado do scan") # <-- AGORA USA O SCHEMA DETALHADO
+    timestamp: str = Field(description="Timestamp da resposta")
+
+    class Config:
+        from_attributes = True
 
 class ScanRapidoResponse(BaseModel):
     status: str
@@ -43,6 +61,18 @@ class ScanRapidoResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+# Define a estrutura esperada para os macronutrientes estimados
+class MacronutrientesEstimados(BaseModel):
+    total_proteinas_g: float = Field(default=0.0, description="Total de proteínas em gramas")
+    total_carboidratos_g: float = Field(default=0.0, description="Total de carboidratos em gramas")
+    total_gorduras_g: float = Field(default=0.0, description="Total de gorduras em gramas")
+
+# Define a estrutura esperada para o resumo nutricional
+class ResumoNutricional(BaseModel):
+    total_calorias: float = Field(default=0.0, description="Total de calorias estimadas")
+    macronutrientes_estimados: MacronutrientesEstimados = Field(default_factory=MacronutrientesEstimados, description="Macronutrientes estimados")
+    vitaminas_minerais_estimados: List[str] = Field(default_factory=list, description="Lista de vitaminas e minerais estimados")
 
 
 # ---------------------------------------------------------------

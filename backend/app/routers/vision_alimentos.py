@@ -27,10 +27,16 @@ from app.schemas.vision_alimentos_ import (
     RefeicaoHistoricoItem,
     ResumoDiarioResponse,
     RefeicaoResumoHoje,
+    ResumoNutricional,
+    MacronutrientesEstimados,
+    ScanRapidoAlimento,
+    ScanRapidoResultado
+    
 )
 
 from app.models.usuario import Usuario
 from app.models.refeicoes import RefeicaoSalva, RefeicaoStatus, AlimentoSalvo
+from app.vision import escanear_prato_extrair_alimentos
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/refeicoes", tags=["Refeições e Análise (Vision)"])
@@ -85,53 +91,78 @@ async def processar_analise_background(meal_id: int, user_id: int):
 # ----------------------
 # Endpoint: scan rápido
 # ----------------------
-@router.post("/scan-rapido", response_model=ScanRapidoResponse, summary="Realiza scan rápido (extrai alimentos da imagem)")
-async def scan_rapido(
-    imagem: UploadFile = File(..., description="Imagem da refeição (JPEG/PNG, máx 10MB)"),
-):
+@router.post("/scan-rapido", response_model=ScanRapidoResponse, status_code=status.HTTP_200_OK)
+async def scan_rapido_endpoint(imagem: UploadFile = File(...)):
     """
-    Endpoint minimalista que chama seu serviço de visão (escanear_prato_extrair_alimentos) e retorna o resultado.
-    Ele não grava nada no banco — apenas processa a imagem e responde.
+    Endpoint para realizar um scan rápido de uma imagem de refeição.
+    Retorna alimentos extraídos e um resumo nutricional estimado.
     """
-    logger.info("[scan-rapido] chamado")
     try:
-        imagem_bytes = await imagem.read()
-        logger.debug(f"[scan-rapido] bytes lidos: {len(imagem_bytes)}")
+        conteudo_imagem = await imagem.read()
 
-        if not imagem.content_type or not imagem.content_type.startswith("image/"):
-            raise HTTPException(status_code=400, detail="Arquivo deve ser uma imagem.")
+        # Chama a função do vision.py para interagir com o Gemini
+        ia_response = escanear_prato_extrair_alimentos(conteudo_imagem)
 
-        if len(imagem_bytes) == 0:
-            raise HTTPException(status_code=400, detail="Imagem vazia.")
+        if not ia_response["sucesso"]:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=ia_response.get("erro", "Erro desconhecido no processamento da imagem pela IA.")
+            )
 
-        # limite claro: 10MB
-        if len(imagem_bytes) > 10 * 1024 * 1024:
-            raise HTTPException(status_code=400, detail="Imagem muito grande (máx. 10MB).")
+        # Extrai o conteúdo principal da resposta da IA
+        conteudo_ia = ia_response.get("conteudo", {})
 
-        # Chama a função do vision.py — ela deve ser síncrona ou já encapsulada por você
-        from app.vision import escanear_prato_extrair_alimentos
+        # Preenche com valores padrão se o Gemini não retornar tudo
+        # Isso garante que o Pydantic receba uma estrutura completa
+        resumo_nutricional_ia = conteudo_ia.get("resumo_nutricional", {})
+        macronutrientes_ia = resumo_nutricional_ia.get("macronutrientes_estimados", {})
 
-        # escanear_prato_extrair_alimentos espera bytes e retorna dict com estrutura esperada
-        resultado_scan = escanear_prato_extrair_alimentos(imagem_bytes)
-
-        if not isinstance(resultado_scan, dict):
-            logger.error("[scan-rapido] resposta inválida do serviço de visão")
-            raise HTTPException(status_code=500, detail="Erro interno no processamento da imagem.")
-
-        # Normalizar retorno para o schema ScanRapidoResponse (venta de compatibilidade)
-        return ScanRapidoResponse(
-            status="sucesso",
-            modalidade="scan_rapido",
-            resultado=resultado_scan,
-            timestamp=datetime.now().isoformat()
+        # Cria uma instância de ResumoNutricional com defaults ou valores da IA
+        resumo_nutricional_final = ResumoNutricional(
+            total_calorias=resumo_nutricional_ia.get("total_calorias", 0.0),
+            macronutrientes_estimados=MacronutrientesEstimados(
+                total_proteinas_g=macronutrientes_ia.get("total_proteinas_g", 0.0),
+                total_carboidratos_g=macronutrientes_ia.get("total_carboidratos_g", 0.0),
+                total_gorduras_g=macronutrientes_ia.get("total_gorduras_g", 0.0),
+            ),
+            vitaminas_minerais_estimados=resumo_nutricional_ia.get("vitaminas_minerais_estimados", []),
         )
 
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"[scan-rapido] erro inesperado: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail="Erro inesperado no scan rápido.")
+        # Cria uma instância de ScanRapidoResultado com defaults ou valores da IA
+        resultado_final = ScanRapidoResultado(
+            modalidade=conteudo_ia.get("modalidade", "rapido"),
+            alimentos_extraidos=[
+                ScanRapidoAlimento(**alimento) for alimento in conteudo_ia.get("alimentos_extraidos", [])
+            ],
+            resumo_nutricional=resumo_nutricional_final,
+            alertas=conteudo_ia.get("alertas", []),
+            erro=conteudo_ia.get("erro", None),
+        )
 
+        # Constrói a resposta final usando o ScanRapidoResponse
+        response_data = ScanRapidoResponse(
+            sucesso=True,
+            erro=None,
+            bloqueada=False,
+            status="concluido",
+            modalidade="rapido",
+            resultado=resultado_final,
+            timestamp=datetime.now().isoformat(),
+        )
+
+        return response_data
+
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        # Log do erro para depuração
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Erro inesperado no endpoint /scan-rapido: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno do servidor: {str(e)}"
+        )
 
 # ----------------------
 # Endpoint: salvar scan editado
