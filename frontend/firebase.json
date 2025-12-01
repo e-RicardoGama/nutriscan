@@ -6,8 +6,17 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "ssg"
+      }
+    ],
     "frameworksBackend": {
       "region": "southamerica-east1"
     }
+  },
+  "functions": {
+    "source": "."
   }
 }
