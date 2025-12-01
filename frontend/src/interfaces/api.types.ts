@@ -57,6 +57,7 @@ export interface Recomendacoes {
 
 // Interfaces do Scan Rápido
 export interface ScanRapidoAlimento {
+  id?: string;
   nome: string;
   quantidade_estimada_g: number;
   calorias_estimadas: number;
@@ -79,22 +80,28 @@ export interface ScanRapidoResultado {
 }
 
 export interface ScanRapidoResponse {
-  status: string; // Obrigatório agora
-  modalidade?: string;
-  timestamp?: string;
-  resultado: {
-    modalidade?: string;
+  sucesso: boolean;
+  erro: string | null;
+  bloqueada: boolean;
+
+  status?: string; 
+  resultado: { 
+    modalidade?: string; 
     alimentos_extraidos: ScanRapidoAlimento[];
-    resumo_nutricional?: {
+    alertas: string[];
+    resumo_nutricional: {
       total_calorias: number;
-      total_proteinas_g: number;
-      total_carboidratos_g: number;
-      total_gorduras_g: number;
+      macronutrientes_estimados: {
+        total_proteinas_g: number;
+        total_carboidratos_g: number;
+        total_gorduras_g: number;
+      };
+      vitaminas_minerais_estimados: string[];
     };
-    alertas?: string[];
-    erro?: string;
-  };
+  } | null; 
+  timestamp: string; 
 }
+
 
 // Interface para food_database.json
 export interface FoodDatabaseItem {
@@ -135,4 +142,11 @@ export interface FoodItem {
   medida_caseira_unidade?: string;
   medida_caseira_gramas_por_unidade?: number;
   origem?: 'banco' | 'ia'; // Nova propriedade para identificar a origem
+}
+
+// Adicione esta interface
+export interface EditableFoodItem {
+  id: string; // ID único para o frontend, pode ser gerado se o backend não fornecer
+  data: ScanRapidoAlimento; // Os dados do alimento
+  original: ScanRapidoAlimento; // Uma cópia dos dados originais para reverter edições
 }

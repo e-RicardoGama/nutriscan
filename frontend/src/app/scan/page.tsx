@@ -332,8 +332,20 @@ export default function Home() {
       const { calorias_totais, macronutrientes } = analysisResult.analise_nutricional;
       setTotais({ kcal: calorias_totais || 0, protein: macronutrientes?.proteinas_g || 0, carbs: macronutrientes?.carboidratos_g || 0, fats: macronutrientes?.gorduras_g || 0 });
     } else if (scanResult?.resultado?.resumo_nutricional) {
-      const { total_calorias, total_proteinas_g, total_carboidratos_g, total_gorduras_g } = scanResult.resultado.resumo_nutricional!;
-      setTotais({ kcal: total_calorias || 0, protein: total_proteinas_g || 0, carbs: total_carboidratos_g || 0, fats: total_gorduras_g || 0 });
+      const { total_calorias, macronutrientes_estimados } = scanResult.resultado.resumo_nutricional!;
+      const {
+        total_proteinas_g,
+        total_carboidratos_g,
+        total_gorduras_g
+      } = macronutrientes_estimados;
+
+      setTotais({
+        kcal: total_calorias || 0,
+        protein: total_proteinas_g || 0,
+        carbs: total_carboidratos_g || 0,
+        fats: total_gorduras_g || 0
+      });
+
     } else if (scanResult?.resultado?.alimentos_extraidos) {
       let kcal = 0;
       scanResult.resultado.alimentos_extraidos.forEach(alimento => { kcal += alimento.calorias_estimadas || 0; });
@@ -475,8 +487,9 @@ export default function Home() {
     const indexToEdit = editingItem.index;
 
     setScanResult(prevResult => {
+
+      // CASO 1 — não havia resultado antes
       if (!prevResult) {
-        // Se não há resultado anterior, cria um novo
         const novoAlimento: ScanRapidoAlimento = {
           nome: itemAtualizadoDoModal.nome,
           quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
@@ -485,21 +498,26 @@ export default function Home() {
           categoria: itemAtualizadoDoModal.categoria || 'Manual',
           medida_caseira_sugerida: itemAtualizadoDoModal.medida_caseira_sugerida || '',
         };
-        
+
         return {
-          status: 'success', // Status obrigatório
+          sucesso: true,
+          erro: null,
+          bloqueada: false,
+          status: 'success',
+          timestamp: new Date().toISOString(),
           resultado: {
             alimentos_extraidos: [novoAlimento],
-            alertas: ["Novo alimento adicionado manualmente."]
+            alertas: ["Novo alimento adicionado manualmente."],
+            resumo_nutricional: undefined,
           }
         };
       }
 
+      // CASO 2 — já existe resultado (edição ou adição)
       const currentAlimentos = prevResult.resultado?.alimentos_extraidos || [];
       let newAlimentos: ScanRapidoAlimento[];
 
       if (indexToEdit === -1) {
-        // É um novo alimento
         const novoAlimento: ScanRapidoAlimento = {
           nome: itemAtualizadoDoModal.nome,
           quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
@@ -509,8 +527,8 @@ export default function Home() {
           medida_caseira_sugerida: itemAtualizadoDoModal.medida_caseira_sugerida || '',
         };
         newAlimentos = [...currentAlimentos, novoAlimento];
+
       } else {
-        // Editando um alimento existente
         newAlimentos = currentAlimentos.map((item, index) => {
           if (index === indexToEdit) {
             return {
@@ -518,7 +536,7 @@ export default function Home() {
               nome: itemAtualizadoDoModal.nome,
               quantidade_estimada_g: itemAtualizadoDoModal.peso_g,
               calorias_estimadas: itemAtualizadoDoModal.kcal,
-              confianca: 'corrigido' as const,
+              confianca: 'corrigido',
             };
           }
           return item;
@@ -526,10 +544,11 @@ export default function Home() {
       }
 
       const oldAlertas = prevResult.resultado?.alertas || [];
-      
+
       return {
         ...prevResult,
-        status: prevResult.status, // Mantém o status existente
+        status: prevResult.status ?? 'success',
+        timestamp: prevResult.timestamp ?? new Date().toISOString(),
         resultado: {
           ...prevResult.resultado,
           alimentos_extraidos: newAlimentos,
@@ -538,9 +557,8 @@ export default function Home() {
         }
       };
     });
-    
-    setEditingItem(null);
   };
+
 
   const handleDeleteFood = (indexToDelete: number) => {
     setScanResult(prevResult => {
