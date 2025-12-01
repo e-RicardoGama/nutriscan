@@ -394,7 +394,7 @@ useEffect(() => {
     const formData = new FormData();
     formData.append('imagem', file);
     try {
-      const response = await api.post<ScanRapidoResponse>('/refeicoes/scan-rapido', formData, {
+      const response = await api.post<ScanRapidoResponse>('/api/v1/refeicoes/scan-rapido', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
