@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": ".next/static",
+    "public": "out",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,14 +9,12 @@
     "rewrites": [
       {
         "source": "**",
-        "function": "ssg"
+        "destination": "/index.html"
       }
     ],
     "frameworksBackend": {
       "region": "southamerica-east1"
     }
-  },
-  "functions": {
-    "source": "."
   }
 }
+
