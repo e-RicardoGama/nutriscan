@@ -23,6 +23,7 @@ const nextConfig = {
   // ========================================
   output: 'export', // Habilita a exportação estática
   distDir: 'out', // Define o diretório de saída para 'out'
+  images: { unoptimized: true },
   
   // ========================================
   // Variáveis de ambiente públicas
