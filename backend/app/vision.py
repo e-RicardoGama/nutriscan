@@ -19,11 +19,20 @@ logger = logging.getLogger(__name__)
 try:
     # app/vision.py
     api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+
     if not api_key:
-        raise ValueError("A variável de ambiente GEMINI_API_KEY não está definida.")
-    genai.configure(api_key=api_key)
-    # Use o nome do seu modelo (ex: 'models/gemini-1.5-flash' ou 'models/gemini-2.5-flash')
-    gemini_model = genai.GenerativeModel('models/gemini-1.5-flash') 
+        logger.error("ERRO: Nenhuma API KEY encontrada (GEMINI_API_KEY ou GOOGLE_API_KEY)")
+        gemini_model = None
+    else:
+        try:
+            genai.configure(api_key=api_key)
+            # CORREÇÃO: Usando o modelo 1.5 Flash que é o correto e rápido
+            gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+            logger.info("Modelo Gemini 1.5 Flash configurado com sucesso.")
+        except Exception as e:
+            logger.error(f"Erro ao configurar a API do Gemini: {e}")
+            gemini_model = None
+
 except Exception as e:
     logger.error(f"Erro ao configurar a API do Gemini: {e}")
     gemini_model = None
@@ -54,6 +63,9 @@ def extrair_json_da_resposta(texto_resposta: str) -> Dict[str, Any]:
 
 # Função 1: Scan Rápido (A sua função original, mantida)
 def escanear_prato_extrair_alimentos(conteudo_imagem: bytes) -> Dict[str, Any]:
+    if gemini_model is None:
+        return {"sucesso": False, "erro": "Servidor backend não configurado com API Key da IA."}
+    
     """
     Executa o scan rápido da imagem e SEMPRE retorna neste formato:
 
