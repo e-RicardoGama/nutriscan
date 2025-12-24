@@ -1,33 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ========================================
-  // Headers customizados
-  // ========================================
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Service-Worker-Allowed',
-            value: '/'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          }
-        ],
-      },
-    ]
-  },
+  
   // ========================================
   // ESLint
   // ========================================
@@ -48,8 +21,9 @@ const nextConfig = {
   // ========================================
   // Configuração para exportação estática
   // ========================================
-  //output: 'export', // Habilita a exportação estática
-  //distDir: 'out', // Define o diretório de saída para 'out'
+  output: 'export', // Habilita a exportação estática
+  distDir: 'out', // Define o diretório de saída para 'out'
+  
   // ========================================
   // Variáveis de ambiente públicas
   // ========================================

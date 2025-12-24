@@ -1,6 +1,8 @@
 // src/app/analysis/[mealId]/page.tsx
 "use client";
 
+export const dynamicParams = false;
+
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 // ✅ CORREÇÃO: Adicionado um '../' a mais em cada caminho
@@ -70,4 +72,8 @@ export default function AnalysisPage() {
       </main>
     </div>
   );
+}
+
+export function generateStaticParams() {
+  return []; 
 }
