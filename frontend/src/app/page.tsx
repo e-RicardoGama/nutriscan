@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
+import { AxiosError } from 'axios';
 import Navbar from '../components/Navbar';
 import GoalCircles from '../components/dashboard/GoalCircles';
 import DailyFeed from '../components/dashboard/DailyFeed';
@@ -52,16 +53,55 @@ export default function DashboardHome() {
         try {
           setLoadingData(true);
           setError(null);
-          
-          const totalsResponse = await api.get<DailyTotals>('/api/v1/refeicoes/resumo-diario');
-          const mealsResponse = await api.get<MealSummary[]>('/api/v1/refeicoes/refeicoes-hoje');
 
-          setTotals(totalsResponse.data);
-          setTodaysMeals(mealsResponse.data);
+          // Requisição 1: Resumo Diário
+          const totalsResponse = await api.get<DailyTotals>('/api/v1/refeicoes/resumo-diario');
+          // ✅ Adicionar verificação para garantir que a data existe antes de setar
+          if (totalsResponse.data) {
+            setTotals(totalsResponse.data);
+          } else {
+            console.warn("Resposta vazia ou inválida para resumo-diario.");
+            setTotals({ total_calorias: 0, total_proteinas_g: 0, total_carboidratos_g: 0, total_gorduras_g: 0 }); // Define um default
+          }
+
+          // Requisição 2: Refeições de Hoje
+          const mealsResponse = await api.get<MealSummary[]>('/api/v1/refeicoes/refeicoes-hoje');
+          // ✅ Adicionar verificação para garantir que a data existe antes de setar
+          if (mealsResponse.data) {
+            setTodaysMeals(mealsResponse.data);
+          } else {
+            console.warn("Resposta vazia ou inválida para refeicoes-hoje.");
+            setTodaysMeals([]); // Define um default
+          }
 
         } catch (err) {
           console.error("Erro ao buscar dados do dashboard:", err);
-          setError("Não foi possível carregar seu resumo. Tente novamente.");
+          let errorMessage = "Não foi possível carregar seu resumo. Tente novamente.";
+
+          if (err instanceof AxiosError) {
+            // Se for um erro do Axios, podemos tentar extrair mais detalhes
+            if (err.response) {
+              // O servidor respondeu com um status diferente de 2xx
+              console.error("Detalhes do erro do backend:", err.response.data);
+              if (typeof err.response.data === 'object' && err.response.data !== null && 'detail' in err.response.data) {
+                errorMessage = `Erro do servidor: ${err.response.data.detail}`;
+              } else if (typeof err.response.data === 'string') {
+                errorMessage = `Erro do servidor: ${err.response.data}`;
+              } else {
+                errorMessage = `Erro do servidor: Status ${err.response.status}`;
+              }
+            } else if (err.request) {
+              // A requisição foi feita, mas nenhuma resposta foi recebida
+              errorMessage = "Não foi possível conectar ao servidor. Verifique sua conexão ou se o backend está online.";
+            } else {
+              // Algo aconteceu na configuração da requisição que disparou um erro
+              errorMessage = `Erro na requisição: ${err.message}`;
+            }
+          } else if (err instanceof Error) {
+            // Outros erros de JavaScript
+            errorMessage = `Erro inesperado: ${err.message}`;
+          }
+          setError(errorMessage);
         } finally {
           setLoadingData(false);
         }

@@ -155,13 +155,15 @@ async def scan_rapido_endpoint(imagem: UploadFile = File(...)):
     except HTTPException as e:
         raise e
     except Exception as e:
-        # Log do erro para depuração
         import logging
+        import traceback
         logger = logging.getLogger(__name__)
-        logger.error(f"Erro inesperado no endpoint /scan-rapido: {e}", exc_info=True)
+        # Isso vai imprimir o erro completo com a linha exata no log do Cloud Run
+        error_msg = traceback.format_exc()
+        logger.error(f"DETALHE DO ERRO: {error_msg}") 
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro interno do servidor: {str(e)}"
+            detail=f"Erro interno: {str(e)}"
         )
 
 # ----------------------

@@ -391,27 +391,21 @@ useEffect(() => {
     setScanResult(null);
     setAnalysisResult(null);
     setAnalysisError(null);
+
     const formData = new FormData();
+    // O nome 'imagem' está correto, pois bate com o seu backend Python
     formData.append('imagem', file);
+
     try {
       const response = await api.post<ScanRapidoResponse>('/api/v1/refeicoes/scan-rapido', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        // REMOVIDO: 'Content-Type': 'multipart/form-data'
+        // O Axios identificará o FormData e configurará o header correto sozinho.
       });
 
       console.log("Frontend - Resposta do Scan Rápido recebida:", response.data);
       setScanResult(response.data);
-    } catch (error) {
-      const defaultErrorMessage = "Ocorreu um erro ao escanear a imagem.";
-      if (error instanceof AxiosError) {
-        const detail = error.response?.data?.detail;
-        setApiError(typeof detail === 'string' ? detail : error.message || defaultErrorMessage);
-      } else if (error instanceof Error) {
-        setApiError(error.message);
-      } else {
-        setApiError(defaultErrorMessage);
-      }
+    } catch { // <--- Deixe vazio se não for usar o objeto de erro
+      setApiError("Ocorreu um erro ao escanear a imagem.");
     } finally {
       setLoading(false);
     }

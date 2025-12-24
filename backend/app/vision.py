@@ -17,12 +17,13 @@ logger = logging.getLogger(__name__)
 
 # Configuração da API Key
 try:
-    api_key = os.getenv("GEMINI_API_KEY")
+    # app/vision.py
+    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise ValueError("A variável de ambiente GEMINI_API_KEY não está definida.")
     genai.configure(api_key=api_key)
     # Use o nome do seu modelo (ex: 'models/gemini-1.5-flash' ou 'models/gemini-2.5-flash')
-    gemini_model = genai.GenerativeModel('models/gemini-2.5-flash') 
+    gemini_model = genai.GenerativeModel('models/gemini-1.5-flash') 
 except Exception as e:
     logger.error(f"Erro ao configurar a API do Gemini: {e}")
     gemini_model = None
@@ -262,7 +263,7 @@ Forneça APENAS um objeto JSON com as seguintes chaves:
 # Função para análise detalhada DE IMAGEM (sem alterações)
 def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
     # ... (código da função analisar_imagem_do_prato_detalhado) ...
-    model = genai.GenerativeModel('models/gemini-2.5-flash') # Ou gemini-1.5-flash
+    model = genai.GenerativeModel('models/gemini-1.5-flash') # Ou gemini-1.5-flash
     prompt_detalhado = """Você é um nutricionista especialista. Analise esta foto de comida e forneça um relatório estruturado em JSON com as seguintes seções:
 {
   "detalhes_prato": { "alimentos": [ { "nome": "string", "quantidade_gramas": "number", "metodo_preparo": "string", "categoria": "string (ex: Fruta, Grão, Carne Vermelha)" } ] },
@@ -285,7 +286,7 @@ def analisar_imagem_do_prato_detalhado(conteudo_imagem: bytes) -> dict:
 # Função para análise simples DE IMAGEM (sem alterações)
 def analisar_imagem_do_prato(conteudo_imagem: bytes) -> dict:
     # ... (código da função analisar_imagem_do_prato) ...
-    model = genai.GenerativeModel('models/gemini-2.5-flash')
+    model = genai.GenerativeModel('models/gemini-1.5-flash')
     prompt = """Analise a imagem. Identifique cada alimento, estime a quantidade em gramas (g) e justifique. Retorne JSON: { "foods": [ { "name", "quantity_g", "justification" } ] }"""
     try:
         logger.info("-> Enviando imagem para análise simples...")

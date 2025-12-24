@@ -48,8 +48,8 @@ const nextConfig = {
   // ========================================
   // Configuração para exportação estática
   // ========================================
-  output: 'export', // Habilita a exportação estática
-  distDir: 'out', // Define o diretório de saída para 'out'
+  //output: 'export', // Habilita a exportação estática
+  //distDir: 'out', // Define o diretório de saída para 'out'
   // ========================================
   // Variáveis de ambiente públicas
   // ========================================
