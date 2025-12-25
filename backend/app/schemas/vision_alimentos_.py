@@ -37,11 +37,11 @@ class ResumoNutricional(BaseModel):
 
 class ScanRapidoAlimento(BaseModel):
     nome: str
-    categoria: str = "Não classificado"  # Se a IA não enviar, assume esse texto
-    quantidade_estimada_g: float = 0.0    # Se a IA não enviar, assume 0.0
-    confianca: str = "baixa"              # Valor padrão de segurança
-    calorias_estimadas: float = 0.0       # Valor padrão de segurança
-    medida_caseira_sugerida: Optional[str] = None
+    categoria: str = "Não classificado"
+    quantidade_estimada_g: float = 0.0
+    confianca: str = "baixa"
+    calorias_estimadas: float = 0.0
+    medida_caseira_sugerida: Optional[str] = None # Já está correto
 
 class ScanRapidoResultado(BaseModel):
     modalidade: Optional[str] = None
