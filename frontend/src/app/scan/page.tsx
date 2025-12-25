@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import api from '../../services/api';
 import { useRouter } from 'next/navigation';
-import { AxiosError } from 'axios';
+import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import { ChevronDown, Pencil, Trash2, Plus } from 'lucide-react';
@@ -450,7 +450,7 @@ useEffect(() => {
     }
 
     // Reseta input
-    event.target.value = "";
+    event.target.value = null;
   };
 
   const handleClearScreen = () => {
@@ -609,14 +609,17 @@ useEffect(() => {
       alimentos: scanResult?.resultado?.alimentos_extraidos?.length || 0,
       scanResult: scanResult
     });
+
     setLoadingAnalysis(true);
     setAnalysisError(null);
     setApiError(null);
     let savedMealId: number | null = null;
+
     try {
       if (!scanResult?.resultado?.alimentos_extraidos || scanResult.resultado.alimentos_extraidos.length === 0) {
         throw new Error("Não há alimentos editados do scan rápido para salvar e analisar.");
       }
+
       // Preparar os dados
       const alimentosParaSalvar = scanResult.resultado.alimentos_extraidos.map(alimento => ({
         nome: alimento.nome,
@@ -626,53 +629,67 @@ useEffect(() => {
         calorias_estimadas: alimento.calorias_estimadas,
         medida_caseira_sugerida: alimento.medida_caseira_sugerida,
       }));
+
       console.log('🔍 DEBUG: Estado fotoCapturada:', {
         existe: !!fotoCapturada,
         tipo: fotoCapturada?.type,
         tamanho: fotoCapturada?.size,
         nome: fotoCapturada?.name
       });
+
       // 2. Criar o FormData
       const formData = new FormData();
-      // 3. Verificar se a imagem original (do state 'fotoCapturada') existe
+
+      // 3. Verificar se a imagem original existe
       if (!fotoCapturada) {
         throw new Error("Imagem original (fotoCapturada) não encontrada. Tente escanear novamente.");
       }
+
       // 4. Adicionar os campos que o backend espera
       formData.append("imagem", fotoCapturada);
       formData.append("alimentos_json", JSON.stringify(alimentosParaSalvar));
-      // 📍 ADICIONE AQUI (após criar o FormData)
+
       console.log('📦 DEBUG: FormData criado:', {
         temImagem: formData.has('imagem'),
         temAlimentos: formData.has('alimentos_json')
       });
+
       // ✅ CORREÇÃO: Enviar a lista DIRETAMENTE
       const saveResponse = await api.post<{ meal_id: number }>(
         '/api/v1/refeicoes/salvar-scan-editado',
         formData
       );
+
       console.log('✅ DEBUG: Resposta recebida:', saveResponse.data);
       savedMealId = saveResponse.data.meal_id;
+
       if (!savedMealId) {
         throw new Error("Falha ao obter o ID da refeição salva.");
       }
+
       console.log('Refeição salva com ID:', savedMealId);
+
       // Agora chamar a análise detalhada
       const analysisResponse = await api.post<AnaliseCompletaResponse>(
         `/api/v1/refeicoes/analisar-detalhadamente/${savedMealId}`
       );
+
       if (analysisResponse.data && analysisResponse.data.detalhes_prato) {
         setScanResult(null);
         setAnalysisResult(analysisResponse.data);
       } else {
         throw new Error('Resposta da análise detalhada em formato inválido');
       }
+
     } catch (error) {
       console.error('Erro no fluxo de salvar e analisar:', error);
-      // Tratamento de erro mais detalhado
+
+      // ✅ CORREÇÃO: Tratamento de erro aprimorado
       let errorMessage = "Erro desconhecido";
-      if (error instanceof AxiosError) {
+
+      if (axios.isAxiosError(error)) {
         console.log('Detalhes do erro Axios:', error.response?.data);
+
         if (error.response?.status === 422) {
           // Erro de validação - mostrar detalhes
           const detail = error.response.data?.detail;
@@ -689,12 +706,16 @@ useEffect(() => {
         }
       } else if (error instanceof Error) {
         errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
       }
+
       setAnalysisError(errorMessage);
     } finally {
       setLoadingAnalysis(false);
     }
   };
+
 
   // Função para buscar alimentos no backend com suporte a IA
   const searchFoodsFromDatabase = async (searchTerm: string, incluirIA: boolean = true): Promise<FoodItem[]> => {

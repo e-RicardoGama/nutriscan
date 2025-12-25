@@ -69,12 +69,15 @@ async def processar_analise_background(meal_id: int, user_id: int):
     """
     from app.database import SessionLocal
     db = SessionLocal()
+    current_user: Usuario = Depends(get_current_user),
+    
     try:
         # crud.processar_analise_completa pode ser async; suportamos ambos (await se coroutine)
-        result = crud.processar_analise_completa(db=db, meal_id=meal_id, user_id=user_id)
-        # Se for coroutine (async fn), await
-        if hasattr(result, "__await__"):
+        result = crud.processar_analise_completa(db=db, meal_id=meal_id, user_id=current_user.id)
+        if result is not None and hasattr(result, "__await__"):
             await result
+
+
     except Exception as e:
         logger.error(f"Erro na background task de análise (meal_id={meal_id}): {e}", exc_info=True)
         # tenta marcar como falha se possível
@@ -170,12 +173,15 @@ async def scan_rapido_endpoint(imagem: UploadFile = File(...)):
             timestamp=datetime.now().isoformat()
         )
 
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"ERRO NO ENDPOINT: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro ao processar dados: {str(e)}"
+            detail="Erro interno no processamento"
         )
+
     
 # ----------------------
 # Endpoint: salvar scan editado

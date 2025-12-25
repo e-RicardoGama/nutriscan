@@ -1,34 +1,43 @@
 # app/schemas/vision_alimentos_.py
-# VERSÃO CORRIGIDA E OTIMIZADA
+# VERSÃO CORRIGIDA E COMPLETA - SEM IMPORT CIRCULAR
 
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import enum
 
-# Enum RefeicaoStatus
-try:
-    from app.models.refeicoes import RefeicaoStatus
-except ImportError: # Usar ImportError para módulos, não exceções genéricas
-    class RefeicaoStatus(str, enum.Enum):
-        PENDING_ANALYSIS = "pending_analysis"
-        ANALYSIS_COMPLETE = "analysis_complete"
-        ANALYSIS_FAILED = "analysis_failed"
-
 # ---------------------------------------------------------------
-# SCHEMAS BASE (MOVIDOS PARA CIMA PARA SEREM USADOS ANTES)
+# ENUMS LOCAIS (EVITA IMPORT CIRCULAR)
 # ---------------------------------------------------------------
 
-# Define a estrutura esperada para os macronutrientes estimados
+class RefeicaoStatus(str, enum.Enum):
+    PENDING_ANALYSIS = "pending_analysis"
+    ANALYSIS_COMPLETE = "analysis_complete"
+    ANALYSIS_FAILED = "analysis_failed"
+
+# ---------------------------------------------------------------
+# SCHEMAS BASE
+# ---------------------------------------------------------------
+
+class AlimentoExtraido(BaseModel):
+    nome: str
+    quantidade_estimada_g: Optional[float] = None
+    categoria: Optional[str] = None
+    confianca: Optional[str] = None
+    calorias_estimadas: Optional[float] = None
+    medida_caseira_sugerida: Optional[str] = None
+
 class MacronutrientesEstimados(BaseModel):
     total_proteinas_g: float = Field(default=0.0, description="Total de proteínas em gramas")
     total_carboidratos_g: float = Field(default=0.0, description="Total de carboidratos em gramas")
     total_gorduras_g: float = Field(default=0.0, description="Total de gorduras em gramas")
 
-# Define a estrutura esperada para o resumo nutricional
 class ResumoNutricional(BaseModel):
     total_calorias: float = Field(default=0.0, description="Total de calorias estimadas")
-    macronutrientes_estimados: MacronutrientesEstimados = Field(default_factory=MacronutrientesEstimados, description="Macronutrientes estimados")
+    macronutrientes_estimados: MacronutrientesEstimados = Field(
+        default_factory=MacronutrientesEstimados,
+        description="Macronutrientes estimados"
+    )
     vitaminas_minerais_estimados: List[str] = Field(default_factory=list, description="Lista de vitaminas e minerais estimados")
 
 # ---------------------------------------------------------------
@@ -36,7 +45,7 @@ class ResumoNutricional(BaseModel):
 # ---------------------------------------------------------------
 
 class ScanRapidoAlimento(BaseModel):
-    nome: str = "Alimento" # Adicione defaults em tudo
+    nome: str = "Alimento"
     categoria: str = "Outros"
     quantidade_estimada_g: float = 0.0
     confianca: str = "baixa"
@@ -45,15 +54,23 @@ class ScanRapidoAlimento(BaseModel):
 
 class ScanRapidoResultado(BaseModel):
     modalidade: Optional[str] = None
-    alimentos_extraidos: List[ScanRapidoAlimento] = Field(default_factory=list, description="Lista de alimentos extraídos") # ✅ CORRIGIDO: default_factory para lista vazia
-    resumo_nutricional: ResumoNutricional = Field(default_factory=ResumoNutricional, description="Resumo nutricional do scan") # ✅ CORRIGIDO: Usando ResumoNutricional e default_factory
-    alertas: List[str] = Field(default_factory=list, description="Alertas ou observações") # ✅ CORRIGIDO: default_factory para lista vazia
+    alimentos_extraidos: List[ScanRapidoAlimento] = Field(
+        default_factory=list,
+        description="Lista de alimentos extraídos"
+    )
+    resumo_nutricional: Optional[ResumoNutricional] = None
+    alertas: List[str] = Field(
+        default_factory=list,
+        description="Alertas ou observações"
+    )
     erro: Optional[str] = None
 
 class ScanRapidoResponse(BaseModel):
     status: str
     modalidade: str
-    resultado: ScanRapidoResultado = Field(description="Detalhes do resultado do scan") # ✅ CORRIGIDO: Usando ScanRapidoResultado
+    resultado: ScanRapidoResultado = Field(
+        description="Detalhes do resultado do scan"
+    )
     timestamp: str
 
     class Config:
@@ -70,28 +87,28 @@ class AlimentoDetalhado(BaseModel):
     medida_caseira_sugerida: Optional[str] = None
 
 class DetalhesPrato(BaseModel):
-    alimentos: List[AlimentoDetalhado] = Field(default_factory=list) # Adicionado default_factory
+    alimentos: List[AlimentoDetalhado] = Field(default_factory=list)
 
 class Macronutrientes(BaseModel):
-    proteinas_g: float = Field(default=0.0) # Adicionado default
-    carboidratos_g: float = Field(default=0.0) # Adicionado default
-    gorduras_g: float = Field(default=0.0) # Adicionado default
+    proteinas_g: float = Field(default=0.0)
+    carboidratos_g: float = Field(default=0.0)
+    gorduras_g: float = Field(default=0.0)
 
 class AnaliseNutricional(BaseModel):
-    calorias_totais: float = Field(default=0.0) # Adicionado default
-    macronutrientes: Macronutrientes = Field(default_factory=Macronutrientes) # Adicionado default_factory
-    vitaminas: List[str] = Field(default_factory=list) # Adicionado default_factory
-    minerais: List[str] = Field(default_factory=list) # Adicionado default_factory
+    calorias_totais: float = Field(default=0.0)
+    macronutrientes: Macronutrientes = Field(default_factory=Macronutrientes)
+    vitaminas: List[str] = Field(default_factory=list)
+    minerais: List[str] = Field(default_factory=list)
 
 class Recomendacoes(BaseModel):
-    pontos_positivos: List[str] = Field(default_factory=list) # Adicionado default_factory
-    sugestoes_balanceamento: List[str] = Field(default_factory=list) # Adicionado default_factory
-    alternativas_saudaveis: List[str] = Field(default_factory=list) # Adicionado default_factory
+    pontos_positivos: List[str] = Field(default_factory=list)
+    sugestoes_balanceamento: List[str] = Field(default_factory=list)
+    alternativas_saudaveis: List[str] = Field(default_factory=list)
 
 class AnaliseCompletaResponse(BaseModel):
-    detalhes_prato: DetalhesPrato = Field(default_factory=DetalhesPrato) # Adicionado default_factory
-    analise_nutricional: AnaliseNutricional = Field(default_factory=AnaliseNutricional) # Adicionado default_factory
-    recomendacoes: Recomendacoes = Field(default_factory=Recomendacoes) # Adicionado default_factory
+    detalhes_prato: DetalhesPrato = Field(default_factory=DetalhesPrato)
+    analise_nutricional: AnaliseNutricional = Field(default_factory=AnaliseNutricional)
+    recomendacoes: Recomendacoes = Field(default_factory=Recomendacoes)
     timestamp: Optional[datetime] = Field(default_factory=datetime.now)
 
     class Config:
@@ -120,6 +137,36 @@ class RefeicaoSalvaIdResponse(BaseModel):
     meal_id: int
 
 # ---------------------------------------------------------------
+# SCHEMAS DE RESPOSTA PARA CONSULTA
+# ---------------------------------------------------------------
+
+class AlimentoSalvoResponse(BaseModel):
+    id: int
+    nome: str
+    quantidade_estimada_g: float
+    categoria_nutricional: Optional[str] = None
+    confianca: Optional[str] = None
+    calorias_estimadas: Optional[float] = None
+    medida_caseira_sugerida: Optional[str] = None
+    alimento_id: Optional[int] = None
+
+    class Config:
+        from_attributes = True
+
+class RefeicaoSalvaResponse(BaseModel):
+    id: int
+    owner_id: int
+    status: RefeicaoStatus
+    imagem_url: Optional[str] = None
+    analysis_result_json: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    alimentos: List[AlimentoSalvoResponse] = Field(default_factory=list)
+
+    class Config:
+        from_attributes = True
+
+# ---------------------------------------------------------------
 # HISTÓRICO / LISTA DE HOJE
 # ---------------------------------------------------------------
 
@@ -134,10 +181,10 @@ class RefeicaoHistoricoItem(BaseModel):
         populate_by_name = True
 
 class ResumoDiarioResponse(BaseModel):
-    total_calorias: float = Field(default=0.0) # Adicionado default
-    total_proteinas_g: float = Field(default=0.0) # Adicionado default
-    total_carboidratos_g: float = Field(default=0.0) # Adicionado default
-    total_gorduras_g: float = Field(default=0.0) # Adicionado default
+    total_calorias: float = Field(default=0.0)
+    total_proteinas_g: float = Field(default=0.0)
+    total_carboidratos_g: float = Field(default=0.0)
+    total_gorduras_g: float = Field(default=0.0)
 
 class RefeicaoResumoHoje(BaseModel):
     id: int
@@ -169,5 +216,6 @@ class AlimentoPublic(BaseModel):
     fibra_g_100g: Optional[float] = None
     medida_caseira_unidade: Optional[str] = None
     medida_caseira_gramas_por_unidade: Optional[float] = None
+
     class Config:
-        from_attributes = True # ou orm_mode = True para Pydantic v1
+        from_attributes = True
