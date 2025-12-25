@@ -1,0 +1,153 @@
+// Interfaces completas e consolidadas
+export interface AnaliseCompletaResponse {
+  id?: number;
+  usuario_id?: number;
+  imagem_url?: string | null;
+  data_criacao?: string;
+  total_calorias?: number | null;
+  total_proteinas?: number | null;
+  total_carboidratos?: number | null;
+  total_gorduras?: number | null;
+  alimentos?: AlimentoDetectado[];
+  detalhes_prato: { alimentos: AlimentoDetalhado[] };
+  analise_nutricional: AnaliseNutricional;
+  recomendacoes: Recomendacoes;
+  timestamp?: string;
+}
+
+// Alimento detectado (para histórico)
+export interface AlimentoDetectado {
+  id: number;
+  nome: string;
+  quantidade_estimada: string | null;
+  calorias: number | null;
+  proteinas: number | null;
+  carboidratos: number | null;
+  gorduras: number | null;
+  confianca: number | null;
+}
+
+// Alimento detalhado (para análise completa)
+export interface AlimentoDetalhado {
+  nome: string;
+  quantidade_gramas: number;
+  metodo_preparo: string;
+  medida_caseira_sugerida?: string;
+}
+
+export interface Macronutrientes {
+  proteinas_g: number;
+  carboidratos_g: number;
+  gorduras_g: number;
+}
+
+export interface AnaliseNutricional {
+  calorias_totais: number;
+  macronutrientes: Macronutrientes;
+  vitaminas_minerais?: string[];
+  vitaminas?: string[];
+  minerais?: string[];
+}
+
+export interface Recomendacoes {
+  pontos_positivos: string[];
+  sugestoes_balanceamento: string[];
+  alternativas_saudaveis: string[];
+}
+
+// Interfaces do Scan Rápido
+export interface ScanRapidoAlimento {
+  id?: string;
+  nome: string;
+  quantidade_estimada_g: number;
+  calorias_estimadas: number;
+  confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
+  categoria?: string;
+  medida_caseira_sugerida?: string;
+}
+
+export interface ScanRapidoResultado {
+  modalidade?: string;
+  alimentos_extraidos?: ScanRapidoAlimento[];
+  resumo_nutricional?: {
+    total_calorias: number;
+    total_proteinas_g: number;
+    total_carboidratos_g: number;
+    total_gorduras_g: number;
+  };
+  alertas?: string[];
+  erro?: string;
+}
+
+export interface ScanRapidoResponse {
+  sucesso: boolean;
+  erro: string | null;
+  bloqueada: boolean;
+
+  status?: string;
+  resultado: {
+    modalidade?: string;
+    alimentos_extraidos: ScanRapidoAlimento[];
+    alertas: string[];
+    // Mude esta linha para permitir que seja opcional ou null
+    resumo_nutricional?: { // Adicione o '?' para torná-lo opcional
+      total_calorias: number;
+      macronutrientes_estimados: {
+        total_proteinas_g: number;
+        total_carboidratos_g: number;
+        total_gorduras_g: number;
+      };
+      vitaminas_minerais_estimados: string[];
+    } | null; // Adicione '| null' para permitir explicitamente null
+  } | null;
+  timestamp: string;
+}
+
+
+// Interface para food_database.json
+export interface FoodDatabaseItem {
+  alimento: string;
+  un_medida_caseira: string;
+  peso_aproximado_g: number;
+  energia_kcal_100g: number;
+  proteina_g_100g: number;
+  carboidrato_g_100g: number;
+  lipidios_g_100g: number;
+}
+
+// Interface para o modal de edição
+export interface ModalAlimentoData {
+  nome: string;
+  peso_g: number;
+  kcal: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  categoria?: string;
+  confianca: 'alta' | 'media' | 'baixa' | 'corrigido';
+  medida_caseira_sugerida?: string; // Certifique-se que esta linha existe
+  quantidade_estimada_g?: number;
+  calorias_estimadas?: number;
+}
+
+// Adicione esta propriedade à interface FoodItem
+export interface FoodItem {
+  id: number;
+  alimento: string;
+  categoria: string;
+  energia_kcal_100g?: number;
+  proteina_g_100g?: number;
+  carboidrato_g_100g?: number;
+  lipidios_g_100g?: number;
+  fibra_g_100g?: number;
+  medida_caseira_unidade?: string;
+  medida_caseira_gramas_por_unidade?: number;
+  origem?: 'banco' | 'ia'; // Nova propriedade para identificar a origem
+}
+
+// Adicione esta interface
+export interface EditableFoodItem {
+  id: string; // ID único para o frontend, pode ser gerado se o backend não fornecer
+  data: ScanRapidoAlimento; // Os dados do alimento
+  original: ScanRapidoAlimento; // Uma cópia dos dados originais para reverter edições
+}

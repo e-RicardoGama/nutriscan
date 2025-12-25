@@ -1,0 +1,28 @@
+steps:
+  # Etapa 1: Constrói a imagem do contêiner
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--no-cache', '-t', 'gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA', '.']
+    dir: 'backend'
+  # Etapa 2: Envia a imagem para o registro de contêineres do Google
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA']
+  # Etapa 3: Faz o deploy no Cloud Run com TODAS as variáveis
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'nutriscan-backend'
+      - '--image=gcr.io/$PROJECT_ID/nutriscan-backend:$COMMIT_SHA'
+      - '--region=southamerica-east1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      # Conecta os segredos do Secret Manager
+      - '--set-secrets=DATABASE_URL=DATABASE_URL:latest,GEMINI_API_KEY=GEMINI_API_KEY:latest'
+      # Define as variáveis de ambiente diretamente
+      - '--set-env-vars=SECRET_KEY=c94a01fa5a52c4308234259d6cf653baa1078c6223b93175a784181ae9642d2f,ALGORITHM=HS256,ACCESS_TOKEN_EXPIRE_MINUTES=30,REDIS_URL=redis://<IP_DO_REDIS>:6379' # <-- ADICIONADO REDIS_URL AQUI
+      # Conecta o serviço Cloud Run ao conector VPC para acessar o Memorystore
+      - '--vpc-connector=projects/$PROJECT_ID/locations/southamerica-east1/connectors/nutriscan-redis-connector' # <-- ADICIONADO O CONECTOR VPC AQUI
+      - '--quiet'
+options:
+  logging: CLOUD_LOGGING_ONLY
