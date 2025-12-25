@@ -36,12 +36,12 @@ class ResumoNutricional(BaseModel):
 # ---------------------------------------------------------------
 
 class ScanRapidoAlimento(BaseModel):
-    nome: str
-    categoria: str = "Não classificado"
+    nome: str = "Alimento" # Adicione defaults em tudo
+    categoria: str = "Outros"
     quantidade_estimada_g: float = 0.0
     confianca: str = "baixa"
     calorias_estimadas: float = 0.0
-    medida_caseira_sugerida: Optional[str] = None # Já está correto
+    medida_caseira_sugerida: Optional[str] = None
 
 class ScanRapidoResultado(BaseModel):
     modalidade: Optional[str] = None

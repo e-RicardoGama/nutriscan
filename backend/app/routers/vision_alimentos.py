@@ -94,103 +94,89 @@ async def processar_analise_background(meal_id: int, user_id: int):
 @router.post("/scan-rapido", response_model=ScanRapidoResponse, status_code=status.HTTP_200_OK)
 async def scan_rapido_endpoint(imagem: UploadFile = File(...)):
     """
-    Endpoint otimizado para realizar um scan rápido de uma imagem de refeição.
-    Inclui tratamento robusto para variações de dados retornados pela IA.
+    Endpoint com parsing ultra-robusto para evitar erros de validação da IA.
     """
     try:
         conteudo_imagem = await imagem.read()
 
-        # Chama a função do vision.py para interagir com o Gemini
+        # 1. Chamada à IA
         ia_response = escanear_prato_extrair_alimentos(conteudo_imagem)
 
         if not ia_response.get("sucesso"):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=ia_response.get("erro", "Erro no processamento da imagem pela IA.")
+                detail=ia_response.get("erro", "Erro no processamento da IA.")
             )
 
-        # Extrai o conteúdo principal da resposta da IA
         conteudo_ia = ia_response.get("conteudo", {})
-        
-        # --- PARSING SEGURO DOS DADOS DA IA ---
-        
-        # 1. Extração segura do resumo e macros
-        resumo_ia = conteudo_ia.get("resumo_nutricional", {})
-        macros_ia = resumo_ia.get("macronutrientes_estimados", {})
 
-        # Função auxiliar para garantir que valores numéricos sejam float, mesmo se vierem como string
-        def safe_float(value, default=0.0):
+        # --- FUNÇÕES AUXILIARES DE LIMPEZA ---
+        def to_float(val) -> float:
             try:
-                return float(value) if value is not None else default
+                if isinstance(val, str):
+                    val = val.replace(',', '.')
+                return float(val)
             except (ValueError, TypeError):
-                return default
+                return 0.0
 
-        # 2. Construção dos Macronutrientes
-        macronutrientes_final = MacronutrientesEstimados(
-            total_proteinas_g=safe_float(macros_ia.get("total_proteinas_g")),
-            total_carboidratos_g=safe_float(macros_ia.get("total_carboidratos_g")),
-            total_gorduras_g=safe_float(macros_ia.get("total_gorduras_g")),
+        # --- CONSTRUÇÃO DOS SUB-OBJECTOS (Dicionários primeiro para validar depois) ---
+        
+        # Resumo Nutricional
+        resumo_raw = conteudo_ia.get("resumo_nutricional", {})
+        macros_raw = resumo_raw.get("macronutrientes_estimados", {})
+
+        macros_obj = MacronutrientesEstimados(
+            total_proteinas_g=to_float(macros_raw.get("total_proteinas_g")),
+            total_carboidratos_g=to_float(macros_raw.get("total_carboidratos_g")),
+            total_gorduras_g=to_float(macros_raw.get("total_gorduras_g"))
         )
 
-        # 3. Construção do Resumo Nutricional
-        resumo_nutricional_final = ResumoNutricional(
-            total_calorias=safe_float(resumo_ia.get("total_calorias")),
-            macronutrientes_estimados=macronutrientes_final,
-            vitaminas_minerais_estimados=resumo_ia.get("vitaminas_minerais_estimados", []),
+        resumo_obj = ResumoNutricional(
+            total_calorias=to_float(resumo_raw.get("total_calorias")),
+            macronutrientes_estimados=macros_obj,
+            vitaminas_minerais_estimados=resumo_raw.get("vitaminas_minerais_estimados") if isinstance(resumo_raw.get("vitaminas_minerais_estimados"), list) else []
         )
 
-        # 4. Construção da lista de alimentos (com tratamento de erro individual por item)
-        alimentos_list = []
+        # Alimentos Extraídos (Processamento Seguro Individual)
+        lista_alimentos = []
         for item in conteudo_ia.get("alimentos_extraidos", []):
+            if not isinstance(item, dict): continue
             try:
-                # Se o item não for um dicionário, pula
-                if not isinstance(item, dict): continue
-                
-                # Criamos o objeto garantindo que campos numéricos não quebrem a validação
-                alimento_obj = ScanRapidoAlimento(
-                    nome=str(item.get("nome", "Alimento não identificado")),
+                lista_alimentos.append(ScanRapidoAlimento(
+                    nome=str(item.get("nome", "Alimento")),
                     categoria=str(item.get("categoria", "Outros")),
-                    quantidade_estimada_g=safe_float(item.get("quantidade_estimada_g")),
+                    quantidade_estimada_g=to_float(item.get("quantidade_estimada_g")),
                     confianca=str(item.get("confianca", "baixa")),
-                    calorias_estimadas=safe_float(item.get("calorias_estimadas")),
+                    calorias_estimadas=to_float(item.get("calorias_estimadas")),
                     medida_caseira_sugerida=item.get("medida_caseira_sugerida")
-                )
-                alimentos_list.append(alimento_obj)
-            except Exception as e:
-                logger.warning(f"Falha ao processar item de alimento individual: {e}")
-                continue
+                ))
+            except Exception:
+                continue # Ignora apenas o alimento malformado
 
-        # 5. Construção do Resultado do Scan
+        # --- MONTAGEM DO RESULTADO ---
         resultado_final = ScanRapidoResultado(
-            modalidade=conteudo_ia.get("modalidade", "rapido"),
-            alimentos_extraidos=alimentos_list,
-            resumo_nutricional=resumo_nutricional_final,
-            alertas=conteudo_ia.get("alertas", []),
-            erro=conteudo_ia.get("erro", None),
+            modalidade=str(conteudo_ia.get("modalidade", "rapido")),
+            alimentos_extraidos=lista_alimentos,
+            resumo_nutricional=resumo_obj,
+            alertas=conteudo_ia.get("alertas") if isinstance(conteudo_ia.get("alertas"), list) else [],
+            erro=conteudo_ia.get("erro")
         )
 
-        # 6. Resposta Final
         return ScanRapidoResponse(
             sucesso=True,
-            erro=None,
-            bloqueada=False,
             status="concluido",
             modalidade="rapido",
             resultado=resultado_final,
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now().isoformat()
         )
 
-    except HTTPException as e:
-        raise e
     except Exception as e:
-        import traceback
-        error_msg = traceback.format_exc()
-        logger.error(f"ERRO CRÍTICO NO SCAN RÁPIDO: {error_msg}") 
+        logger.error(f"ERRO NO ENDPOINT: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro interno ao processar os dados nutricionais."
+            detail=f"Erro ao processar dados: {str(e)}"
         )
-
+    
 # ----------------------
 # Endpoint: salvar scan editado
 # ----------------------
