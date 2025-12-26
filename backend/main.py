@@ -1,7 +1,7 @@
-# main.py - VERSÃO CORRIGIDA (CORS & DEPLOY)
+# main.py - VERSÃO DE EMERGÊNCIA (CORS LIBERADO)
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
+# Removido TrustedHostMiddleware temporariamente para evitar bloqueios de rede
 from fastapi.responses import JSONResponse
 import time
 import os
@@ -45,62 +45,28 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# ✅ CONFIGURAÇÃO CORS CORRIGIDA
-def get_cors_origins():
-    """Retorna origens permitidas baseado no ambiente"""
-    origins = [
-        "https://gen-lang-client-0450724380.web.app",
-        "https://gen-lang-client-0450724380.firebaseapp.com",
-        "https://www.nutri.api.br",
-        "https://nutri.api.br",
-        "http://localhost:3000",      # Liberado por padrão para facilitar o seu dev
-        "http://127.0.0.1:3000",
-    ]
-    
-    # Adiciona origens extras se estiver em desenvolvimento
-    if os.getenv('APP_ENV') != 'production':
-        origins.extend([
-            "http://localhost:5173",
-            "http://localhost:8000",
-        ])
-    
-    return origins
-
+# ✅ CONFIGURAÇÃO CORS - LIBERADA PARA TESTE DE PRODUÇÃO
+# Usar ["*"] garante que nutri.api.br e localhost funcionem simultaneamente
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=get_cors_origins(),
+    allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["*"], # Permite todos os métodos para evitar erros de pre-flight
-    allow_headers=["*"], # Permite todos os headers
+    allow_methods=["*"],
+    allow_headers=["*"],
     expose_headers=["*"]
 )
-
-# ✅ MIDDLEWARE DE HOSTS CONFIÁVEIS (Apenas Produção)
-if os.getenv('APP_ENV') == 'production':
-    app.add_middleware(
-        TrustedHostMiddleware,
-        allowed_hosts=[
-            "nutri.api.br",
-            "www.nutri.api.br",
-            "nutriscan-backend-925272362555.southamerica-east1.run.app", # Importante incluir o host do Cloud Run
-        ]
-    )
 
 # ✅ MIDDLEWARE DE SEGURANÇA E LOGGING
 @app.middleware("http")
 async def security_and_logging_middleware(request: Request, call_next):
     start_time = time.time()
-    
     try:
         response = await call_next(request)
-        
-        # Headers de segurança
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         
         process_time = time.time() - start_time
         response.headers["X-Process-Time"] = str(process_time)
-        
         return response
     except Exception as e:
         logger.error(f"❌ Erro no middleware: {str(e)}")
@@ -123,15 +89,9 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 async def general_exception_handler(request: Request, exc: Exception):
     logger.error(f"❌ Erro não tratado: {str(exc)}", exc_info=True)
     message = "Erro interno do servidor" if os.getenv('APP_ENV') == 'production' else str(exc)
-    
     return JSONResponse(
         status_code=500,
-        content={
-            "error": True,
-            "message": message,
-            "status_code": 500,
-            "path": request.url.path
-        }
+        content={"error": True, "message": message, "status_code": 500, "path": request.url.path}
     )
 
 # ✅ INCLUDE ROUTERS
