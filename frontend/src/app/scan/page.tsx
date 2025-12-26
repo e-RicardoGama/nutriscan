@@ -624,7 +624,7 @@ useEffect(() => {
       const alimentosParaSalvar = scanResult.resultado.alimentos_extraidos.map(alimento => ({
         nome: alimento.nome,
         quantidade_estimada_g: alimento.quantidade_estimada_g,
-        categoria_nutricional: alimento.categoria,
+        categoria_nutricional: alimento.categoria || "Outros",  // ✅ CORRIGIDO
         confianca: alimento.confianca,
         calorias_estimadas: alimento.calorias_estimadas,
         medida_caseira_sugerida: alimento.medida_caseira_sugerida,
