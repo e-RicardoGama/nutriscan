@@ -1,47 +1,36 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  
-  // ========================================
-  // ESLint
-  // ========================================
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // ========================================
-  // Otimização de imagens
-  // ========================================
+
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**',
-      }
-    ]
+      },
+    ],
+    unoptimized: process.env.NODE_ENV === 'production', // Apenas em produção
   },
-  // ========================================
-  // Configuração para exportação estática
-  // ========================================
-  output: 'export', // Habilita a exportação estática
-  distDir: 'out', // Define o diretório de saída para 'out'
-  images: { unoptimized: true },
-  
-  // ========================================
-  // Variáveis de ambiente públicas
-  // ========================================
+
+  // ✅ Configuração condicional
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
+  distDir: process.env.NODE_ENV === 'production' ? 'out' : '.next',
+
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://nutriscan-backend-925272362555.southamerica-east1.run.app'
+    NEXT_PUBLIC_API_URL:
+      process.env.NEXT_PUBLIC_API_URL ||
+      'https://nutriscan-backend-925272362555.southamerica-east1.run.app',
   },
-  // ========================================
-  // Configurações de build
-  // ========================================
+
   typescript: {
     ignoreBuildErrors: false,
   },
-  // ========================================
-  // Experimental
-  // ========================================
+
   experimental: {
     optimizePackageImports: ['lucide-react'],
-  }
-}
-module.exports = nextConfig
+  },
+};
+
+module.exports = nextConfig;

@@ -3,7 +3,6 @@ from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from app.database import Base
-from app.models.alimentos import Alimento  # 🔹 NOVO: Import para relacionamento
 import enum
 from datetime import datetime, timezone
 
@@ -22,14 +21,22 @@ class RefeicaoSalva(Base):
     imagem_url = Column(String(512), nullable=True)  # Guarda a URL pública do GCS
     analysis_result_json = Column(Text, nullable=True)
 
-    created_at = Column(DateTime(timezone=True),
-                       default=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"))
-    updated_at = Column(DateTime(timezone=True),
-                       default=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"),
-                       onupdate=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"))
+    created_at = Column(
+        DateTime(timezone=True),
+        default=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)")
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)"),
+        onupdate=text("TIMEZONE('America/Sao_Paulo', CURRENT_TIMESTAMP)")
+    )
 
     # Relacionamentos
-    alimentos = relationship("AlimentoSalvo", back_populates="refeicao", cascade="all, delete-orphan")
+    alimentos = relationship(
+        "AlimentoSalvo",
+        back_populates="refeicao",
+        cascade="all, delete-orphan"
+    )
     owner = relationship("Usuario", back_populates="refeicoes_salvas")
 
 class AlimentoSalvo(Base):
@@ -38,7 +45,7 @@ class AlimentoSalvo(Base):
     id = Column(Integer, primary_key=True, index=True)
     refeicao_id = Column(Integer, ForeignKey("refeicoes_salvas.id"), nullable=False)
 
-    # 🔹 NOVO: Vínculo com a tabela alimentos (TACO + IA)
+    # 🔹 Vínculo com a tabela alimentos (TACO + IA)
     alimento_id = Column(Integer, ForeignKey("alimentos.id"), nullable=True, index=True)
 
     nome = Column(String(255), nullable=False)
@@ -50,5 +57,7 @@ class AlimentoSalvo(Base):
 
     # Relacionamentos
     refeicao = relationship("RefeicaoSalva", back_populates="alimentos")
-    # 🔹 NOVO: Acesso aos dados nutricionais completos (kcal, macros, micros)
-    alimento_detalhes = relationship("Alimento", back_populates="alimentos_salvos")
+
+    # 🔹 CORREÇÃO: Relacionamento correto com Alimento
+    # O back_populates deve corresponder ao nome no modelo Alimento
+    alimento = relationship("Alimento", back_populates="alimentos_salvos")

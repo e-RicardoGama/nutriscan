@@ -18,19 +18,19 @@ logger = logging.getLogger(__name__)
 # Configuração da API Key
 try:
     # app/vision.py
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+    api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
-        logger.error("ERRO: Nenhuma API KEY encontrada (GEMINI_API_KEY ou GOOGLE_API_KEY)")
+        logger.error("API KEY NÃO ENCONTRADA NO AMBIENTE!")
         gemini_model = None
     else:
         try:
             genai.configure(api_key=api_key)
-            # CORREÇÃO: Usando o modelo 1.5 Flash que é o correto e rápido
+            # Forçamos o nome exato sem prefixos extras
             gemini_model = genai.GenerativeModel('gemini-1.5-flash')
-            logger.info("Modelo Gemini 1.5 Flash configurado com sucesso.")
+            logger.info("Gemini configurado com sucesso via Variável de Ambiente.")
         except Exception as e:
-            logger.error(f"Erro ao configurar a API do Gemini: {e}")
+            logger.error(f"Erro ao configurar Gemini: {e}")
             gemini_model = None
 
 except Exception as e:
