@@ -450,7 +450,7 @@ useEffect(() => {
     }
 
     // Reseta input
-    event.target.value = null;
+    event.target.value = "";
   };
 
   const handleClearScreen = () => {
