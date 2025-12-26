@@ -49,8 +49,13 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # Usar ["*"] garante que nutri.api.br e localhost funcionem simultaneamente
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_origins=["https://www.nutri.api.br"], 
+    # Se quiser liberar Geral, use apenas: allow_origins=["*"],
+    # Se quiser ser específico (mais seguro), use a lista abaixo:
+    allow_origins=[
+        "https://www.nutri.api.br",
+        "http://localhost:3000", # Útil para seus testes locais
+        "http://localhost:5173"  # Caso use Vite
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
