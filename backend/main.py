@@ -49,7 +49,8 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # Usar ["*"] garante que nutri.api.br e localhost funcionem simultaneamente
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
+    allow_origins=["https://www.nutri.api.br"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
